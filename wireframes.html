@@ -15,6 +15,14 @@
   .legend{display:flex;gap:8px;margin:0 0 20px;font-size:12px;color:#4a5a62;align-items:center}
   h2{font-size:16px;margin:28px 0 12px;padding-top:12px;border-top:1px solid #c5d3d9}
   .grid{display:flex;flex-wrap:wrap;gap:28px}
+  nav{position:sticky;top:0;z-index:5;display:flex;gap:6px;flex-wrap:wrap;background:var(--bg);padding:8px 0;margin-bottom:4px}
+  nav a{background:var(--white);color:var(--ink);text-decoration:none;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600}
+  section{scroll-margin-top:56px}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  .side{min-width:0} .side+.side{border-left:2px dashed #b9c7cd;padding-left:32px}
+  .sidehead{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4a5a62;margin:0 0 12px}
+  .empty{color:#8a9aa2;font-style:italic;margin:0}
+  @media (max-width:700px){ .compare{grid-template-columns:1fr} .side+.side{border-left:0;padding-left:0;border-top:2px dashed #b9c7cd;padding-top:20px} }
   .col{width:300px;max-width:100%}
   .cap{font-weight:600;margin:0 0 2px;display:flex;justify-content:space-between;gap:8px;align-items:center}
   .file{font:11px ui-monospace,monospace;color:#6b7c84;margin:0 0 6px}
@@ -158,10 +166,16 @@ function phone(s){
     ${s.why?`<p class="why">${s.why}</p>`:""}${s.ref?`<p class="ref">ref: ${s.ref}</p>`:""}
   </div>`;
 }
+const slug = a => a.toLowerCase().replace(/[^a-z]+/g,"-");
 function renderAll(){
-  document.getElementById("out").innerHTML = AREAS.map(a=>{
-    const list = SCREENS.filter(s=>s.area===a); if(!list.length) return "";
-    return `<h2>${a}</h2><div class="grid">${list.map(phone).join("")}</div>`;
+  const used = AREAS.filter(a=>SCREENS.some(s=>s.area===a));
+  document.getElementById("nav").innerHTML = used.map(a=>`<a href="#${slug(a)}">${a}</a>`).join("");
+  document.getElementById("out").innerHTML = used.map(a=>{
+    const cur = SCREENS.filter(s=>s.area===a && s.status==="current");
+    const idea = SCREENS.filter(s=>s.area===a && s.status==="idea");
+    const side = (label, list) => `<div class="side"><p class="sidehead">${label}</p>
+      <div class="grid">${list.length ? list.map(phone).join("") : `<p class="empty">nothing yet</p>`}</div></div>`;
+    return `<section id="${slug(a)}"><h2>${a}</h2><div class="compare">${side("Current", cur)}${side("Proposed", idea)}</div></section>`;
   }).join("");
 }
 </script>
@@ -170,6 +184,7 @@ function renderAll(){
 <h1>Wireframe library</h1>
 <p class="intro">Structure only, no styling decisions. One file per screen in <code>screens/&lt;area&gt;/</code>. To add a screen: create the file and add one &lt;script&gt; line at the bottom of this page.</p>
 <div class="legend"><span class="badge current">current</span> exists in the app <span class="badge idea">idea</span> proposal, not built</div>
+<nav id="nav"></nav>
 <div id="out"></div>
 
 <!-- ====== SCREENS: one line per file ====== -->
