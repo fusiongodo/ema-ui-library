@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App Wireframes</title>
+<style>
+  :root{
+    --bg:#DCE6EA; --ink:#2B2B2B; --muted:#7A7A7A; --line:#E2E2E2; --white:#FFFFFF; --accent:#5C9B7A;
+    --lilac:#E4DDF4; --sage:#DCE8D6; --butter:#F3EFC8; --sky:#D6E6EE; --peach:#F5DED3; --grey:#EEEEEE;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font:14px/1.35 -apple-system,system-ui,sans-serif;color:var(--ink);padding:24px 16px}
+  h1{font-size:20px;margin:0 0 4px} .intro{color:#4a5a62;margin:0 0 8px;max-width:760px}
+  .legend{display:flex;gap:8px;margin:0 0 20px;font-size:12px;color:#4a5a62;align-items:center}
+  h2{font-size:16px;margin:28px 0 12px;padding-top:12px;border-top:1px solid #c5d3d9}
+  .grid{display:flex;flex-wrap:wrap;gap:28px}
+  .col{width:300px;max-width:100%}
+  .cap{font-weight:600;margin:0 0 2px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+  .file{font:11px ui-monospace,monospace;color:#6b7c84;margin:0 0 6px}
+  .badge{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .badge.current{background:#cfe3d6;color:#2e5a40} .badge.idea{background:#efe2c4;color:#6b5320}
+  .why{color:#4a5a62;font-size:12.5px;margin:8px 4px 0} .ref{color:#6b7c84;font-size:11.5px;margin:4px 4px 0}
+  .phone{background:#F7F7F5;border-radius:36px;padding:14px 12px 10px;box-shadow:0 8px 30px rgba(0,0,0,.10);display:flex;flex-direction:column;gap:10px;min-height:600px}
+  .phone.sheet{background:#EEF4F7;border-radius:28px 28px 36px 36px;border-top:10px solid #b9c7cd}
+  .head{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 0}
+  .head b{font-size:20px} .circle{min-width:30px;height:30px;padding:0 8px;border-radius:15px;background:var(--white);display:grid;place-items:center;font-size:12.5px;color:var(--muted)}
+  .shead{display:grid;grid-template-columns:60px 1fr 60px;align-items:center;text-align:center;padding:2px 2px 0}
+  .shead .side{color:var(--muted);font-size:13px} .shead .side:first-child{text-align:left} .shead .side:last-child{text-align:right}
+  .shead b{font-size:14px;display:block} .shead .n{font-size:11.5px;color:var(--muted)}
+  .big{padding:2px 4px 0} .big b{font-size:19px;display:block} .big .n{color:var(--muted);font-size:12.5px}
+  .tile{border-radius:18px;padding:10px 12px;display:flex;flex-direction:column;justify-content:space-between}
+  .tile .top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+  .tile .l{font-weight:600;font-size:13px} .tile .n{color:var(--muted);font-size:11.5px;white-space:pre-line}
+  .tile .r{color:var(--accent);font-size:12px;font-weight:600}
+  .row{display:flex;gap:8px} .row>*{flex:1;min-width:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .bar{height:7px;border-radius:4px;background:rgba(0,0,0,.08);margin-top:6px}
+  .bar i{display:block;height:100%;border-radius:4px;background:rgba(0,0,0,.28)}
+  .sec{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 0;font-weight:600}
+  .sec span{font-weight:400;color:var(--muted);font-size:12px}
+  .sec .act{font-weight:600;color:var(--ink);background:var(--white);border-radius:999px;padding:3px 10px;font-size:12px}
+  .fold{background:var(--white);border-radius:16px;padding:9px 12px}
+  .fold .ft{display:flex;justify-content:space-between;align-items:center;gap:6px}
+  .fold .ft .t{font-weight:600} .fold .ft .m{color:var(--muted);font-size:12px;flex:1;text-align:right}
+  .pill{font-size:11.5px;padding:3px 9px;border-radius:999px;background:var(--grey);color:#555;white-space:nowrap}
+  .item{display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid var(--line);font-size:12.5px}
+  .fold .item:first-of-type{margin-top:6px}
+  .strike{text-decoration:line-through;color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:var(--white);border-radius:999px;padding:5px 10px;font-size:12px}
+  .pills{display:flex;flex-wrap:wrap;gap:6px}
+  .pills span{border:1px solid var(--line);background:var(--white);border-radius:999px;padding:5px 11px;font-size:12px}
+  .pills span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .spark{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid rgba(0,0,0,.06);font-size:12.5px}
+  .spark:first-of-type{border-top:0} .spark .nm{width:70px} .spark .ln{flex:1;height:14px;border-radius:7px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 6px,transparent 6px 10px)}
+  .spark .v{width:28px;text-align:right;font-weight:600}
+  .heat{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:6px}
+  .heat i{aspect-ratio:1;border-radius:4px;background:var(--grey)}
+  .heat i.a{background:#BFD8B8}.heat i.b{background:#E8CFA8}.heat i.c{background:#E9B8A8}
+  .draft{border:1.5px dashed #9AA;border-radius:14px;padding:9px 12px;background:rgba(255,255,255,.6);font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
+  .mic{width:86px;height:86px;border-radius:50%;background:var(--white);margin:6px auto;display:grid;place-items:center;font-size:30px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .spacer{flex:1}
+  .segrow{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 0}
+  .seg{display:flex;background:var(--grey);border-radius:10px;padding:3px}
+  .seg span{padding:4px 16px;border-radius:8px;font-size:12px;color:var(--muted)} .seg span.on{background:var(--white);color:var(--ink);font-weight:600}
+  .link{color:var(--accent);font-size:13px;font-weight:600}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11.5px;color:var(--muted)}
+  .week div{padding:4px 0;border-radius:10px} .week div.on{background:var(--grey);color:var(--ink);font-weight:600}
+  .week b{display:block;font-size:14px;color:var(--ink);font-weight:500} .week i{display:block;width:5px;height:5px;border-radius:50%;margin:3px auto 0;background:#cfcfcf} .week i.d{background:var(--accent)}
+  .tl{display:flex;flex-direction:column}
+  .tlr{display:grid;grid-template-columns:62px 18px 1fr 12px;align-items:start;font-size:13px;min-height:42px}
+  .tlr .s{color:var(--muted);font-size:12px;padding-top:1px} .tlr .dot{width:10px;height:10px;border:1.5px solid #999;border-radius:50%;margin:3px auto 0;background:#F7F7F5;position:relative;z-index:1}
+  .tlr .rail{position:relative} .tlr .rail:after{content:"";position:absolute;left:50%;top:14px;bottom:-4px;border-left:1.5px solid #ddd}
+  .tlr:last-child .rail:after{display:none}
+  .tlr .n{color:var(--muted);font-size:11.5px} .tlr .c{color:var(--muted)}
+  .list{background:var(--white);border-radius:16px;padding:0 12px}
+  .list .item:first-child{border-top:0} .list .item{padding:9px 0} .list .item .r{color:var(--muted)} .list .item .r.acc{color:var(--accent);font-weight:600}
+  .field .lb{font-size:12px;color:var(--muted);margin:0 4px 4px} .field .box{background:var(--white);border-radius:14px;padding:10px 12px;display:flex;justify-content:space-between;color:#aaa;font-size:13px}
+  .field .box.tall{min-height:60px}
+  .btn{border-radius:999px;padding:11px;text-align:center;font-weight:600;font-size:13px;background:var(--ink);color:#fff} .btn.light{background:var(--white);color:var(--ink)}
+  .toggle{display:flex;justify-content:space-between;align-items:center;padding:2px 4px;font-size:13px}
+  .toggle i{width:38px;height:22px;border-radius:11px;background:#ddd;position:relative} .toggle i:after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff}
+  .toggle i.on{background:var(--accent)} .toggle i.on:after{left:18px}
+  .stepper{display:flex;justify-content:space-between;align-items:center;background:var(--white);border-radius:14px;padding:8px 12px;font-size:13px}
+  .stepper span.v{display:flex;gap:10px;align-items:center} .stepper span.v i{font-style:normal;background:var(--grey);border-radius:8px;padding:0 8px}
+  .trend .dots{height:34px;margin:6px 0 4px;background:radial-gradient(circle,#bbb 2.5px,transparent 3px) 0 60%/14% 100% repeat-x}
+  .trend .days{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+  .wg{background:var(--white);border-radius:16px;padding:8px 10px;font-size:12px}
+  .wg .wr{display:grid;grid-template-columns:96px repeat(7,1fr);align-items:center;padding:5px 0;border-top:1px solid var(--line);text-align:center}
+  .wg .wr:first-child{border-top:0;color:var(--muted);font-size:11px} .wg .wr span:first-child{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wg .x{color:var(--muted);text-decoration:line-through} .wg .p{color:var(--accent);font-weight:700} .wg .f{color:#ccc}
+  .note{font-size:11.5px;color:var(--muted);padding:0 4px} .note.danger{color:#b65a4a}
+  .tabs{display:flex;justify-content:space-around;align-items:center;background:var(--white);border-radius:24px;padding:8px 4px;font-size:10.5px;color:var(--muted)}
+  .tabs .on{color:var(--ink);font-weight:700}
+  .tabs .fab{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:17px;margin-top:-22px}
+</style>
+<script>
+/* ====== RENDERER — screens live in screens/<area>/<name>.js ====== */
+const SCREENS = [];
+const AREAS = ["Today","Check-ins","Protocols","Voice"];
+const TABSETS = {
+  current: ["Home","Check-ins","Plans","Insights"],
+  idea:    ["Today","Check-ins","🎙","Protocols","Insights"],
+};
+const tone = t => `var(--${t||"grey"})`;
+const esc = s => String(s ?? "");
+function r(x){
+  switch(x.t){
+    case "head":  return `<div class="head"><b>${x.l}</b>${x.r?`<div class="circle">${x.r}</div>`:""}</div>`;
+    case "shead": return `<div class="shead"><span class="side">${x.left||""}</span><div><b>${x.l}</b>${x.n?`<span class="n">${x.n}</span>`:""}</div><span class="side">${x.right||""}</span></div>`;
+    case "big":   return `<div class="big"><b>${x.l}</b>${x.n?`<span class="n">${x.n}</span>`:""}</div>`;
+    case "row":   return `<div class="row">${x.items.map(r).join("")}</div>`;
+    case "grid2": return `<div class="grid2">${x.items.map(r).join("")}</div>`;
+    case "tile": {
+      let inner = `<div><div class="top"><span class="l">${x.l}</span>${x.r?`<span class="r">${x.r}</span>`:""}</div>${x.n?`<div class="n">${x.n}</div>`:""}</div>`;
+      if(x.bar!==undefined) inner += `<div class="bar"><i style="width:${x.bar}%"></i></div>`;
+      if(x.seg) inner += `<div class="row" style="margin-top:8px"><span class="pill" style="background:#fff;border:1px solid var(--line);text-align:center">${x.seg[0]}</span><span class="pill" style="text-align:center">${x.seg[1]}</span></div>`;
+      if(x.chips) inner += `<div class="chips" style="margin-top:8px">${x.chips.map(c=>`<span class="chip" style="background:${x.tone==="white"?"var(--grey)":"var(--white)"}">${c}</span>`).join("")}</div>`;
+      if(x.foot) inner += `<div class="n" style="margin-top:8px">${x.foot}</div>`;
+      if(x.spark) inner += `<div style="margin-top:6px">${x.spark.map(s=>`<div class="spark"><span class="nm">${s[0]}</span><span class="ln"></span><span class="v">${s[1]}</span></div>`).join("")}</div>`;
+      if(x.heat) inner += `<div class="heat">${Array.from({length:30},(_,i)=>`<i class="${i<22?(i%7==3?'b':i==12?'c':'a'):''}"></i>`).join("")}</div>`;
+      return `<div class="tile" style="background:${tone(x.tone)};${x.h?`min-height:${x.h}px`:""}">${inner}</div>`;
+    }
+    case "trend": return `<div class="tile trend" style="background:var(--white)"><span class="l">${x.l}</span><span class="n">— today</span><div class="dots"></div><div class="days">${"WTFSSMT".split("").map(d=>`<span>${d}</span>`).join("")}</div></div>`;
+    case "sec":   return `<div class="sec">${x.l}${x.act?`<span class="act">${x.act}</span>`:`<span>${x.r||""}</span>`}</div>`;
+    case "fold":  return `<div class="fold"><div class="ft"><span class="t">${x.open?"⌄":"›"} ${x.l}</span><span class="m">${x.m||""}</span>${x.a?`<span class="pill">${x.a}</span>`:""}</div>${(x.open||[]).map(i=>`<div class="item"><span class="${i[2]?"strike":""}">${i[0]}</span><span class="${i[2]?"strike":""}">${i[1]}</span></div>`).join("")}</div>`;
+    case "chips": return `<div class="chips">${x.items.map(c=>`<span class="chip">${c}</span>`).join("")}</div>`;
+    case "pills": return `<div class="pills">${x.items.map(c=>`<span class="${(x.on||[]).includes(c)?"on":""}">${c}</span>`).join("")}</div>`;
+    case "draft": return `<div class="draft"><span>${x.l}</span><span class="pill">${x.a}</span></div>`;
+    case "mic":   return `<div class="mic">🎙</div>`;
+    case "spacer":return `<div class="spacer"></div>`;
+    case "seg":   return `<div class="segrow"><div class="seg">${x.items.map(i=>`<span class="${i===x.on?"on":""}">${i}</span>`).join("")}</div><span class="link">${x.r||""}</span></div>`;
+    case "week": {
+      const d="MTWTFSS".split(""); const dots=(x.dots||"").padEnd(7,"·");
+      return `<div class="week">${d.map((l,i)=>`<div class="${i===x.on?"on":""}">${l}<b>${x.start+i}</b><i class="${dots[i]==="o"?"d":""}"></i></div>`).join("")}</div>`;
+    }
+    case "tl":    return `<div class="tl">${x.rows.map(o=>`<div class="tlr"><span class="s">${o[0]}</span><span class="rail"><div class="dot"></div></span><span>${o[1]}${o[2]?`<div class="n">${o[2]}</div>`:""}</span><span class="c">${o[3]?"›":""}</span></div>`).join("")}</div>`;
+    case "list":  return `<div class="list">${x.rows.map(o=>`<div class="item"><span class="${o[2]==="strike"?"strike":""}">${o[0]}</span><span class="r ${o[2]==="acc"?"acc":""}">${o[1]||""}</span></div>`).join("")}</div>`;
+    case "field": return `<div class="field">${x.l?`<div class="lb">${x.l}</div>`:""}<div class="box ${x.tall?"tall":""}"><span>${x.v||""}</span><span>${x.suffix||""}</span></div></div>`;
+    case "btn":   return `<div class="btn ${x.light?"light":""}">${x.l}</div>`;
+    case "toggle":return `<div class="toggle"><span>${x.l}</span><i class="${x.on?"on":""}"></i></div>`;
+    case "stepper":return `<div class="stepper"><span>${x.l}</span><span class="v"><i>–</i>${x.v}<i>+</i></span></div>`;
+    case "note":  return `<div class="note ${x.danger?"danger":""}">${x.l}</div>`;
+    case "weekgrid": {
+      const cell = c => c==="●"?`<span>●</span>`:c==="○"?`<span class="x">○</span>`:c==="+"?`<span class="p">+</span>`:c==="-"?`<span class="f">·</span>`:`<span class="f"> </span>`;
+      return `<div class="wg"><div class="wr"><span></span>${"MTWTFSS".split("").map(d=>`<span>${d}</span>`).join("")}</div>${x.rows.map(o=>`<div class="wr"><span>${o[0]}</span>${o[1].split("").map(cell).join("")}</div>`).join("")}</div>`;
+    }
+  }
+  return "";
+}
+const tabbar = (set,on) => `<div class="tabs">${TABSETS[set].map(t=>t==="🎙"?`<div class="fab">🎙</div>`:`<span class="${t===on?"on":""}">${t}</span>`).join("")}</div>`;
+function phone(s){
+  return `<div class="col">
+    <p class="cap"><span>${s.title}</span><span class="badge ${s.status}">${s.status}</span></p>
+    <p class="file">${s.id}</p>
+    <div class="phone ${s.sheet?"sheet":""}">${s.w.map(r).join("")}${s.tabs?`<div class="spacer"></div>${tabbar(s.tabs,s.tab)}`:""}</div>
+    ${s.why?`<p class="why">${s.why}</p>`:""}${s.ref?`<p class="ref">ref: ${s.ref}</p>`:""}
+  </div>`;
+}
+function renderAll(){
+  document.getElementById("out").innerHTML = AREAS.map(a=>{
+    const list = SCREENS.filter(s=>s.area===a); if(!list.length) return "";
+    return `<h2>${a}</h2><div class="grid">${list.map(phone).join("")}</div>`;
+  }).join("");
+}
+</script>
+</head>
+<body>
+<h1>Wireframe library</h1>
+<p class="intro">Structure only, no styling decisions. One file per screen in <code>screens/&lt;area&gt;/</code>. To add a screen: create the file and add one &lt;script&gt; line at the bottom of this page.</p>
+<div class="legend"><span class="badge current">current</span> exists in the app <span class="badge idea">idea</span> proposal, not built</div>
+<div id="out"></div>
+
+<!-- ====== SCREENS: one line per file ====== -->
+<script src="screens/today/home.js"></script>
+<script src="screens/checkins/overview.js"></script>
+<script src="screens/checkins/config.js"></script>
+<script src="screens/checkins/games.js"></script>
+<script src="screens/protocols/day.js"></script>
+<script src="screens/protocols/week.js"></script>
+<script src="screens/protocols/plans-list.js"></script>
+<script src="screens/protocols/plan-detail.js"></script>
+<script src="screens/protocols/plan-editor.js"></script>
+<script src="screens/protocols/today-folds.js"></script>
+<script src="screens/protocols/today-folds-empty.js"></script>
+<script src="screens/protocols/add-1-name.js"></script>
+<script src="screens/protocols/add-2-dose.js"></script>
+<script src="screens/protocols/add-3-schedule.js"></script>
+<script src="screens/voice/voice.js"></script>
+
+<script>renderAll();</script>
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App Wireframes</title>
+<style>
+  :root{
+    --bg:#DCE6EA; --ink:#2B2B2B; --muted:#7A7A7A; --line:#E2E2E2; --white:#FFFFFF; --accent:#5C9B7A;
+    --lilac:#E4DDF4; --sage:#DCE8D6; --butter:#F3EFC8; --sky:#D6E6EE; --peach:#F5DED3; --grey:#EEEEEE;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font:14px/1.35 -apple-system,system-ui,sans-serif;color:var(--ink);padding:24px 16px}
+  h1{font-size:20px;margin:0 0 4px} .intro{color:#4a5a62;margin:0 0 8px;max-width:760px}
+  .legend{display:flex;gap:8px;margin:0 0 20px;font-size:12px;color:#4a5a62;align-items:center}
+  h2{font-size:16px;margin:28px 0 12px;padding-top:12px;border-top:1px solid #c5d3d9}
+  .grid{display:flex;flex-wrap:wrap;gap:28px}
+  .col{width:300px;max-width:100%}
+  .cap{font-weight:600;margin:0 0 2px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+  .file{font:11px ui-monospace,monospace;color:#6b7c84;margin:0 0 6px}
+  .badge{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .badge.current{background:#cfe3d6;color:#2e5a40} .badge.idea{background:#efe2c4;color:#6b5320}
+  .why{color:#4a5a62;font-size:12.5px;margin:8px 4px 0} .ref{color:#6b7c84;font-size:11.5px;margin:4px 4px 0}
+  .phone{background:#F7F7F5;border-radius:36px;padding:14px 12px 10px;box-shadow:0 8px 30px rgba(0,0,0,.10);display:flex;flex-direction:column;gap:10px;min-height:600px}
+  .phone.sheet{background:#EEF4F7;border-radius:28px 28px 36px 36px;border-top:10px solid #b9c7cd}
+  .head{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 0}
+  .head b{font-size:20px} .circle{min-width:30px;height:30px;padding:0 8px;border-radius:15px;background:var(--white);display:grid;place-items:center;font-size:12.5px;color:var(--muted)}
+  .shead{display:grid;grid-template-columns:60px 1fr 60px;align-items:center;text-align:center;padding:2px 2px 0}
+  .shead .side{color:var(--muted);font-size:13px} .shead .side:first-child{text-align:left} .shead .side:last-child{text-align:right}
+  .shead b{font-size:14px;display:block} .shead .n{font-size:11.5px;color:var(--muted)}
+  .big{padding:2px 4px 0} .big b{font-size:19px;display:block} .big .n{color:var(--muted);font-size:12.5px}
+  .tile{border-radius:18px;padding:10px 12px;display:flex;flex-direction:column;justify-content:space-between}
+  .tile .top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+  .tile .l{font-weight:600;font-size:13px} .tile .n{color:var(--muted);font-size:11.5px;white-space:pre-line}
+  .tile .r{color:var(--accent);font-size:12px;font-weight:600}
+  .row{display:flex;gap:8px} .row>*{flex:1;min-width:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .bar{height:7px;border-radius:4px;background:rgba(0,0,0,.08);margin-top:6px}
+  .bar i{display:block;height:100%;border-radius:4px;background:rgba(0,0,0,.28)}
+  .sec{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 0;font-weight:600}
+  .sec span{font-weight:400;color:var(--muted);font-size:12px}
+  .sec .act{font-weight:600;color:var(--ink);background:var(--white);border-radius:999px;padding:3px 10px;font-size:12px}
+  .fold{background:var(--white);border-radius:16px;padding:9px 12px}
+  .fold .ft{display:flex;justify-content:space-between;align-items:center;gap:6px}
+  .fold .ft .t{font-weight:600} .fold .ft .m{color:var(--muted);font-size:12px;flex:1;text-align:right}
+  .pill{font-size:11.5px;padding:3px 9px;border-radius:999px;background:var(--grey);color:#555;white-space:nowrap}
+  .item{display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid var(--line);font-size:12.5px}
+  .fold .item:first-of-type{margin-top:6px}
+  .strike{text-decoration:line-through;color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{background:var(--white);border-radius:999px;padding:5px 10px;font-size:12px}
+  .pills{display:flex;flex-wrap:wrap;gap:6px}
+  .pills span{border:1px solid var(--line);background:var(--white);border-radius:999px;padding:5px 11px;font-size:12px}
+  .pills span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .spark{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid rgba(0,0,0,.06);font-size:12.5px}
+  .spark:first-of-type{border-top:0} .spark .nm{width:70px} .spark .ln{flex:1;height:14px;border-radius:7px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.12) 0 6px,transparent 6px 10px)}
+  .spark .v{width:28px;text-align:right;font-weight:600}
+  .heat{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:6px}
+  .heat i{aspect-ratio:1;border-radius:4px;background:var(--grey)}
+  .heat i.a{background:#BFD8B8}.heat i.b{background:#E8CFA8}.heat i.c{background:#E9B8A8}
+  .draft{border:1.5px dashed #9AA;border-radius:14px;padding:9px 12px;background:rgba(255,255,255,.6);font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
+  .mic{width:86px;height:86px;border-radius:50%;background:var(--white);margin:6px auto;display:grid;place-items:center;font-size:30px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .spacer{flex:1}
+  .segrow{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 0}
+  .seg{display:flex;background:var(--grey);border-radius:10px;padding:3px}
+  .seg span{padding:4px 16px;border-radius:8px;font-size:12px;color:var(--muted)} .seg span.on{background:var(--white);color:var(--ink);font-weight:600}
+  .link{color:var(--accent);font-size:13px;font-weight:600}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11.5px;color:var(--muted)}
+  .week div{padding:4px 0;border-radius:10px} .week div.on{background:var(--grey);color:var(--ink);font-weight:600}
+  .week b{display:block;font-size:14px;color:var(--ink);font-weight:500} .week i{display:block;width:5px;height:5px;border-radius:50%;margin:3px auto 0;background:#cfcfcf} .week i.d{background:var(--accent)}
+  .tl{display:flex;flex-direction:column}
+  .tlr{display:grid;grid-template-columns:62px 18px 1fr 12px;align-items:start;font-size:13px;min-height:42px}
+  .tlr .s{color:var(--muted);font-size:12px;padding-top:1px} .tlr .dot{width:10px;height:10px;border:1.5px solid #999;border-radius:50%;margin:3px auto 0;background:#F7F7F5;position:relative;z-index:1}
+  .tlr .rail{position:relative} .tlr .rail:after{content:"";position:absolute;left:50%;top:14px;bottom:-4px;border-left:1.5px solid #ddd}
+  .tlr:last-child .rail:after{display:none}
+  .tlr .n{color:var(--muted);font-size:11.5px} .tlr .c{color:var(--muted)}
+  .list{background:var(--white);border-radius:16px;padding:0 12px}
+  .list .item:first-child{border-top:0} .list .item{padding:9px 0} .list .item .r{color:var(--muted)} .list .item .r.acc{color:var(--accent);font-weight:600}
+  .field .lb{font-size:12px;color:var(--muted);margin:0 4px 4px} .field .box{background:var(--white);border-radius:14px;padding:10px 12px;display:flex;justify-content:space-between;color:#aaa;font-size:13px}
+  .field .box.tall{min-height:60px}
+  .btn{border-radius:999px;padding:11px;text-align:center;font-weight:600;font-size:13px;background:var(--ink);color:#fff} .btn.light{background:var(--white);color:var(--ink)}
+  .toggle{display:flex;justify-content:space-between;align-items:center;padding:2px 4px;font-size:13px}
+  .toggle i{width:38px;height:22px;border-radius:11px;background:#ddd;position:relative} .toggle i:after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff}
+  .toggle i.on{background:var(--accent)} .toggle i.on:after{left:18px}
+  .stepper{display:flex;justify-content:space-between;align-items:center;background:var(--white);border-radius:14px;padding:8px 12px;font-size:13px}
+  .stepper span.v{display:flex;gap:10px;align-items:center} .stepper span.v i{font-style:normal;background:var(--grey);border-radius:8px;padding:0 8px}
+  .trend .dots{height:34px;margin:6px 0 4px;background:radial-gradient(circle,#bbb 2.5px,transparent 3px) 0 60%/14% 100% repeat-x}
+  .trend .days{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}
+  .wg{background:var(--white);border-radius:16px;padding:8px 10px;font-size:12px}
+  .wg .wr{display:grid;grid-template-columns:96px repeat(7,1fr);align-items:center;padding:5px 0;border-top:1px solid var(--line);text-align:center}
+  .wg .wr:first-child{border-top:0;color:var(--muted);font-size:11px} .wg .wr span:first-child{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wg .x{color:var(--muted);text-decoration:line-through} .wg .p{color:var(--accent);font-weight:700} .wg .f{color:#ccc}
+  .note{font-size:11.5px;color:var(--muted);padding:0 4px} .note.danger{color:#b65a4a}
+  .tabs{display:flex;justify-content:space-around;align-items:center;background:var(--white);border-radius:24px;padding:8px 4px;font-size:10.5px;color:var(--muted)}
+  .tabs .on{color:var(--ink);font-weight:700}
+  .tabs .fab{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:17px;margin-top:-22px}
+</style>
+<script>
+/* ====== RENDERER — screens live in screens/<area>/<name>.js ====== */
+const SCREENS = [];
+const AREAS = ["Today","Check-ins","Protocols","Voice"];
+const TABSETS = {
+  current: ["Home","Check-ins","Plans","Insights"],
+  idea:    ["Today","Check-ins","🎙","Protocols","Insights"],
+};
+const tone = t => `var(--${t||"grey"})`;
+const esc = s => String(s ?? "");
+function r(x){
+  switch(x.t){
+    case "head":  return `<div class="head"><b>${x.l}</b>${x.r?`<div class="circle">${x.r}</div>`:""}</div>`;
+    case "shead": return `<div class="shead"><span class="side">${x.left||""}</span><div><b>${x.l}</b>${x.n?`<span class="n">${x.n}</span>`:""}</div><span class="side">${x.right||""}</span></div>`;
+    case "big":   return `<div class="big"><b>${x.l}</b>${x.n?`<span class="n">${x.n}</span>`:""}</div>`;
+    case "row":   return `<div class="row">${x.items.map(r).join("")}</div>`;
+    case "grid2": return `<div class="grid2">${x.items.map(r).join("")}</div>`;
+    case "tile": {
+      let inner = `<div><div class="top"><span class="l">${x.l}</span>${x.r?`<span class="r">${x.r}</span>`:""}</div>${x.n?`<div class="n">${x.n}</div>`:""}</div>`;
+      if(x.bar!==undefined) inner += `<div class="bar"><i style="width:${x.bar}%"></i></div>`;
+      if(x.seg) inner += `<div class="row" style="margin-top:8px"><span class="pill" style="background:#fff;border:1px solid var(--line);text-align:center">${x.seg[0]}</span><span class="pill" style="text-align:center">${x.seg[1]}</span></div>`;
+      if(x.chips) inner += `<div class="chips" style="margin-top:8px">${x.chips.map(c=>`<span class="chip" style="background:${x.tone==="white"?"var(--grey)":"var(--white)"}">${c}</span>`).join("")}</div>`;
+      if(x.foot) inner += `<div class="n" style="margin-top:8px">${x.foot}</div>`;
+      if(x.spark) inner += `<div style="margin-top:6px">${x.spark.map(s=>`<div class="spark"><span class="nm">${s[0]}</span><span class="ln"></span><span class="v">${s[1]}</span></div>`).join("")}</div>`;
+      if(x.heat) inner += `<div class="heat">${Array.from({length:30},(_,i)=>`<i class="${i<22?(i%7==3?'b':i==12?'c':'a'):''}"></i>`).join("")}</div>`;
+      return `<div class="tile" style="background:${tone(x.tone)};${x.h?`min-height:${x.h}px`:""}">${inner}</div>`;
+    }
+    case "trend": return `<div class="tile trend" style="background:var(--white)"><span class="l">${x.l}</span><span class="n">— today</span><div class="dots"></div><div class="days">${"WTFSSMT".split("").map(d=>`<span>${d}</span>`).join("")}</div></div>`;
+    case "sec":   return `<div class="sec">${x.l}${x.act?`<span class="act">${x.act}</span>`:`<span>${x.r||""}</span>`}</div>`;
+    case "fold":  return `<div class="fold"><div class="ft"><span class="t">${x.open?"⌄":"›"} ${x.l}</span><span class="m">${x.m||""}</span>${x.a?`<span class="pill">${x.a}</span>`:""}</div>${(x.open||[]).map(i=>`<div class="item"><span class="${i[2]?"strike":""}">${i[0]}</span><span class="${i[2]?"strike":""}">${i[1]}</span></div>`).join("")}</div>`;
+    case "chips": return `<div class="chips">${x.items.map(c=>`<span class="chip">${c}</span>`).join("")}</div>`;
+    case "pills": return `<div class="pills">${x.items.map(c=>`<span class="${(x.on||[]).includes(c)?"on":""}">${c}</span>`).join("")}</div>`;
+    case "draft": return `<div class="draft"><span>${x.l}</span><span class="pill">${x.a}</span></div>`;
+    case "mic":   return `<div class="mic">🎙</div>`;
+    case "spacer":return `<div class="spacer"></div>`;
+    case "seg":   return `<div class="segrow"><div class="seg">${x.items.map(i=>`<span class="${i===x.on?"on":""}">${i}</span>`).join("")}</div><span class="link">${x.r||""}</span></div>`;
+    case "week": {
+      const d="MTWTFSS".split(""); const dots=(x.dots||"").padEnd(7,"·");
+      return `<div class="week">${d.map((l,i)=>`<div class="${i===x.on?"on":""}">${l}<b>${x.start+i}</b><i class="${dots[i]==="o"?"d":""}"></i></div>`).join("")}</div>`;
+    }
+    case "tl":    return `<div class="tl">${x.rows.map(o=>`<div class="tlr"><span class="s">${o[0]}</span><span class="rail"><div class="dot"></div></span><span>${o[1]}${o[2]?`<div class="n">${o[2]}</div>`:""}</span><span class="c">${o[3]?"›":""}</span></div>`).join("")}</div>`;
+    case "list":  return `<div class="list">${x.rows.map(o=>`<div class="item"><span class="${o[2]==="strike"?"strike":""}">${o[0]}</span><span class="r ${o[2]==="acc"?"acc":""}">${o[1]||""}</span></div>`).join("")}</div>`;
+    case "field": return `<div class="field">${x.l?`<div class="lb">${x.l}</div>`:""}<div class="box ${x.tall?"tall":""}"><span>${x.v||""}</span><span>${x.suffix||""}</span></div></div>`;
+    case "btn":   return `<div class="btn ${x.light?"light":""}">${x.l}</div>`;
+    case "toggle":return `<div class="toggle"><span>${x.l}</span><i class="${x.on?"on":""}"></i></div>`;
+    case "stepper":return `<div class="stepper"><span>${x.l}</span><span class="v"><i>–</i>${x.v}<i>+</i></span></div>`;
+    case "note":  return `<div class="note ${x.danger?"danger":""}">${x.l}</div>`;
+    case "weekgrid": {
+      const cell = c => c==="●"?`<span>●</span>`:c==="○"?`<span class="x">○</span>`:c==="+"?`<span class="p">+</span>`:c==="-"?`<span class="f">·</span>`:`<span class="f"> </span>`;
+      return `<div class="wg"><div class="wr"><span></span>${"MTWTFSS".split("").map(d=>`<span>${d}</span>`).join("")}</div>${x.rows.map(o=>`<div class="wr"><span>${o[0]}</span>${o[1].split("").map(cell).join("")}</div>`).join("")}</div>`;
+    }
+  }
+  return "";
+}
+const tabbar = (set,on) => `<div class="tabs">${TABSETS[set].map(t=>t==="🎙"?`<div class="fab">🎙</div>`:`<span class="${t===on?"on":""}">${t}</span>`).join("")}</div>`;
+function phone(s){
+  return `<div class="col">
+    <p class="cap"><span>${s.title}</span><span class="badge ${s.status}">${s.status}</span></p>
+    <p class="file">${s.id}</p>
+    <div class="phone ${s.sheet?"sheet":""}">${s.w.map(r).join("")}${s.tabs?`<div class="spacer"></div>${tabbar(s.tabs,s.tab)}`:""}</div>
+    ${s.why?`<p class="why">${s.why}</p>`:""}${s.ref?`<p class="ref">ref: ${s.ref}</p>`:""}
+  </div>`;
+}
+function renderAll(){
+  document.getElementById("out").innerHTML = AREAS.map(a=>{
+    const list = SCREENS.filter(s=>s.area===a); if(!list.length) return "";
+    return `<h2>${a}</h2><div class="grid">${list.map(phone).join("")}</div>`;
+  }).join("");
+}
+</script>
+</head>
+<body>
+<h1>Wireframe library</h1>
+<p class="intro">Structure only, no styling decisions. One file per screen in <code>screens/&lt;area&gt;/</code>. To add a screen: create the file and add one &lt;script&gt; line at the bottom of this page.</p>
+<div class="legend"><span class="badge current">current</span> exists in the app <span class="badge idea">idea</span> proposal, not built</div>
+<div id="out"></div>
+
+<!-- ====== SCREENS: one line per file ====== -->
+<script>
+SCREENS.push({ id:"today/home", area:"Today", status:"idea", title:"Today · widget home",
+  tabs:"idea", tab:"Today",
+  why:"Everything that needs you today. Each widget links into its tab. Undecided.",
+  w:[
+    {t:"head", l:"Tue, 3 Nov", r:"🔔"},
+    {t:"row", items:[
+      {t:"tile", tone:"sky",    h:70, l:"2 / 5", n:"Check-ins"},
+      {t:"tile", tone:"sage",   h:70, l:"As planned", n:"Protocols"},
+      {t:"tile", tone:"butter", h:70, l:"14:20", n:"Next check-in"}]},
+    {t:"tile", tone:"lilac", h:96, l:"Check-in now", n:"Fatigue · Brain fog · Pain · Voice note", bar:0},
+    {t:"tile", tone:"white", l:"Scores · 7 days", spark:[["Fatigue","6"],["Brain fog","4"],["Pain","3"]]},
+    {t:"row", items:[
+      {t:"tile", tone:"peach", h:80, l:"Game of the day", n:"Dual n-back · 3 min"},
+      {t:"tile", tone:"sage",  h:80, l:"MOTS-C", n:"day 4 of 14", bar:28}]},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"checkins/overview", area:"Check-ins", status:"current", title:"Check-ins overview",
+  tabs:"current", tab:"Check-ins",
+  why:"Config summary on top, one trend tile per score. Good bones.",
+  w:[
+    {t:"head", l:"Check-ins"},
+    {t:"tile", tone:"white", l:"YOUR CHECK-IN", r:"Customize ›",
+      chips:["Fatigue / energy","Overall wellbeing","Pain","Thirst","Brain fog"],
+      foot:"🕘 3× a day · 9:00, 13:00, 18:00   ·   1 of 5"},
+    {t:"toggle", l:"Show protocol", on:false},
+    {t:"sec", l:"Trends"},
+    {t:"grid2", items:[
+      {t:"trend", l:"Fatigue / energy"},{t:"trend", l:"Overall wellbeing"},
+      {t:"trend", l:"Pain"},{t:"trend", l:"Thirst"}]},
+    {t:"note", l:"good ━━━━ bad"},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"checkins/config", area:"Check-ins", status:"current", title:"Check-in configuration",
+  sheet:true,
+  why:"Reconstructed (no screenshot yet). Send one and I'll correct it.",
+  w:[
+    {t:"shead", left:"‹", l:"Customize", right:"Done"},
+    {t:"sec", l:"Scores"},
+    {t:"list", rows:[["Fatigue / energy","≡"],["Overall wellbeing","≡"],["Pain","≡"],["Thirst","≡"],["Brain fog","≡"],["+ Add score","","acc"]]},
+    {t:"sec", l:"Schedule"},
+    {t:"stepper", l:"Check-ins a day", v:"3"},
+    {t:"pills", items:["Fixed times","Random in windows"], on:["Fixed times"]},
+    {t:"list", rows:[["1","9:00"],["2","13:00"],["3","18:00"]]},
+    {t:"toggle", l:"Voice note", on:true},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"checkins/games", area:"Check-ins", status:"idea", title:"Check-ins + benchmarks",
+  tabs:"idea", tab:"Check-ins",
+  why:"Symptoms and cognitive benchmarks together: both are measurements of you.",
+  w:[
+    {t:"head", l:"Check-ins", r:"⚙︎"},
+    {t:"tile", tone:"lilac", h:90, l:"Next: 14:20", n:"or check in now", bar:40},
+    {t:"tile", tone:"white", l:"Today", spark:[["08:12","5"],["10:47","6"],["—",""]]},
+    {t:"sec", l:"Benchmarks", r:"1 per day"},
+    {t:"row", items:[
+      {t:"tile", tone:"peach",  h:78, l:"Dual n-back", n:"today ✓"},
+      {t:"tile", tone:"butter", h:78, l:"Word game", n:"open"}]},
+    {t:"row", items:[
+      {t:"tile", tone:"sky",  h:78, l:"Arithmetic", n:"open"},
+      {t:"tile", tone:"sage", h:78, l:"Reaction", n:"open"}]},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/day", area:"Protocols", status:"current", title:"Protocols · Day",
+  tabs:"current", tab:"Plans",
+  why:"Today's plans on one timeline rail. Clean, technical, Whoop-like. Worth keeping.",
+  w:[
+    {t:"seg", items:["Day","Week"], on:"Day", r:"Manage plans"},
+    {t:"week", start:2, on:2, dots:"oo"},
+    {t:"big", l:"Wednesday, 4 Nov", n:"0 of 5 plans done"},
+    {t:"tl", rows:[
+      ["Morning","Morning Supplements","19 of 19",1],
+      ["Morning","MOTS-C","1.5 mg · day 5 of 14"],
+      ["Morning","Naltrexon","3 mg"],
+      ["Morning","GLP-1","2 of 2",1],
+      ["Evening","Daridorexat","25 mg"]]},
+    {t:"sec", l:"As needed"},
+    {t:"chips", items:["+ Epitalon","+ Rapamycin","+ Selank","+ Other"]},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/week", area:"Protocols", status:"current", title:"Protocols · Week",
+  tabs:"current", tab:"Plans",
+  why:"Rows = plans, columns = days. ● taken, struck ○ skipped, + extra. Reconstructed from the spec, correct me if it differs.",
+  w:[
+    {t:"seg", items:["Day","Week"], on:"Week", r:"Manage plans"},
+    {t:"big", l:"2 – 8 Nov", n:"2 deviations this week"},
+    {t:"weekgrid", rows:[
+      ["Morning Suppl.","●●●----"],
+      ["MOTS-C","●○●----"],
+      ["Naltrexon","●●●----"],
+      ["GLP-1","● ●----"],
+      ["Daridorexat","●●●----"],
+      ["Epitalon","+  +---"]]},
+    {t:"note", l:"Tap a day column to open it in Day view."},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/plans-list", area:"Protocols", status:"current", title:"Plans list",
+  tabs:"current", tab:"Plans",
+  why:"Reached via 'Manage plans'. Three lines per card, mostly repeated defaults.",
+  w:[
+    {t:"head", l:"Plans", r:"+"},
+    {t:"tile", tone:"white", l:"MOTS-C", r:"›", n:"Daily · Morning\n1 entry · day 4 of 14"},
+    {t:"tile", tone:"white", l:"GLP-1", r:"›", n:"Mon, Wed, Fri · Morning\n2 entries"},
+    {t:"tile", tone:"white", l:"Daridorexat", r:"›", n:"Daily · Evening\n1 entry"},
+    {t:"tile", tone:"white", l:"Naltrexon", r:"›", n:"Daily · Morning\n1 entry"},
+    {t:"sec", l:"As needed", act:"+"},
+    {t:"list", rows:[["Epitalon","asked each time · mg"],["Rapamycin","asked each time · mg"],["Selank","asked each time · mcg"]]},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/plan-detail", area:"Protocols", status:"current", title:"Plan detail",
+  tabs:"current", tab:"Plans",
+  why:"Read view of one plan. Long entry list, no actions besides Edit.",
+  w:[
+    {t:"shead", left:"‹ Plans", l:"", right:"Edit"},
+    {t:"big", l:"Morning Supplements", n:"Daily · Morning · since 3 Nov"},
+    {t:"sec", l:"Entries"},
+    {t:"list", rows:[["Taurine","500 mg"],["NAC","500 mg"],["Q10","300 mg"],["Premium Multi","1"],["DHA + EPA","600 mg"],["Curcumin","150 mg"],["Lithium Orotate","5 mg"],["… 12 more",""]]},
+    {t:"sec", l:"Note"},
+    {t:"sec", l:"History", r:"only with 2+ versions"},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/plan-editor", area:"Protocols", status:"current", title:"Plan editor",
+  sheet:true,
+  why:"Full configuration form. Will mostly be replaced by the add flow + voice, but stays as the precise fallback.",
+  w:[
+    {t:"shead", left:"Cancel", l:"Edit plan", right:"Save"},
+    {t:"field", l:"Name", v:"Morning Supplements"},
+    {t:"list", rows:[["Mode","Ongoing"],["Start","3 Nov"]]},
+    {t:"sec", l:"Rhythm"},
+    {t:"pills", items:["Daily","Weekdays","Every N days"], on:["Daily"]},
+    {t:"list", rows:[["Default time","Morning"]]},
+    {t:"sec", l:"Entries"},
+    {t:"list", rows:[["Taurine","500 mg  🕘"],["NAC","500 mg  🕘"],["Naltrexon","1 mg  Noon","acc"],["+ Name",""]]},
+    {t:"field", l:"Note", v:"Take with breakfast", tall:true},
+    {t:"note", l:"End plan", danger:true},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/today-folds", area:"Protocols", status:"idea", title:"Protocols · Today (folds)",
+  tabs:"idea", tab:"Protocols",
+  why:"Merges Day view + Plans list. A slot counts as done; 'Different?' opens it for skip / dose change. '+ Add' opens the add sheet over this view.",
+  ref:"refs/juno-folds.png",
+  w:[
+    {t:"tile", tone:"sage", l:"Today · all as planned", n:"0 deviations · 21 intakes", bar:100},
+    {t:"sec", l:"Your protocols", act:"+ Add"},
+    {t:"fold", l:"☀︎ Morning", m:"18 · as planned", a:"Different?"},
+    {t:"fold", l:"◐ Noon", m:"2", a:"Different?", open:[["Naltrexon","1 mg"],["Taurine","500 mg",1]]},
+    {t:"fold", l:"☾ Evening", m:"1 · as planned", a:"Different?"},
+    {t:"sec", l:"As needed", r:"tap = taken now"},
+    {t:"chips", items:["Epitalon · 2d","Selank · today","Rapamycin · 9d"]},
+    {t:"tile", tone:"white", l:"Consistency · 30 days", heat:true},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/today-folds-empty", area:"Protocols", status:"idea", title:"Protocols · first run",
+  tabs:"idea", tab:"Protocols",
+  why:"Empty state. Setup widget with suggestion chips; disappears once the first protocol exists.",
+  ref:"refs/juno-setup-widget.png",
+  w:[
+    {t:"tile", tone:"lilac", h:150, l:"Set up your protocols", n:"Type, tap a suggestion, or just say it",
+      chips:["+ Naltrexon","+ Magnesium","+ HBOT session","🎙 Say it"]},
+    {t:"sec", l:"Your protocols", act:"+ Add"},
+    {t:"fold", l:"☀︎ Morning", m:"empty"},
+    {t:"fold", l:"◐ Noon", m:"empty"},
+    {t:"fold", l:"☾ Evening", m:"empty"},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/add-1-name", area:"Protocols", status:"idea", title:"Add · 1 What",
+  sheet:true,
+  why:"Sheet over the Today view, no navigation away. One question per step.",
+  ref:"refs/juno-add-med-1.png",
+  w:[
+    {t:"shead", left:"", l:"Add protocol", n:"1 of 3", right:"×"},
+    {t:"big", l:"What do you take?"},
+    {t:"field", v:"e.g. Naltrexon, HBOT, Magnesium"},
+    {t:"sec", l:"Recent", r:""},
+    {t:"chips", items:["Taurine","NAC","Selank","🎙 Say it"]},
+    {t:"spacer"},
+    {t:"btn", l:"Continue"},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/add-2-dose", area:"Protocols", status:"idea", title:"Add · 2 Dose",
+  sheet:true,
+  why:"Dose is optional (Skip). Unit remembered per item.",
+  ref:"refs/juno-add-med-dose.png",
+  w:[
+    {t:"shead", left:"‹", l:"Naltrexon", n:"2 of 3", right:"×"},
+    {t:"big", l:"Dose"},
+    {t:"field", v:"3", suffix:"mg"},
+    {t:"pills", items:["mg","mcg","g","mL","IU","units"], on:["mg"]},
+    {t:"spacer"},
+    {t:"btn", l:"Continue"},
+    {t:"btn", l:"Skip", light:true},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"protocols/add-3-schedule", area:"Protocols", status:"idea", title:"Add · 3 When",
+  sheet:true,
+  why:"Several time slots = several entries in one plan (Naltrexon morning + noon). Button names the target fold.",
+  ref:"refs/juno-add-med-schedule.png",
+  w:[
+    {t:"shead", left:"‹", l:"Naltrexon · 3 mg", n:"3 of 3", right:"×"},
+    {t:"big", l:"When?"},
+    {t:"list", rows:[["Rhythm","Every day ›"]]},
+    {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"]},
+    {t:"list", rows:[["Start","Today"],["End","None"]]},
+    {t:"field", l:"Note (optional)", v:"Take with food …"},
+    {t:"spacer"},
+    {t:"btn", l:"Add to Morning"},
+  ]});
+</script>
+<script>
+SCREENS.push({ id:"voice/voice", area:"Voice", status:"idea", title:"Voice (center tab)",
+  why:"Speak; the app shows what it understood as drafts to confirm. Nothing is saved without ✓.",
+  w:[
+    {t:"shead", left:"", l:"Talk to me", right:"×"},
+    {t:"spacer"},
+    {t:"mic"},
+    {t:"tile", tone:"sky", l:"“Skipped Epitalon, took half the Naltrexon, foggy since noon”", n:"transcript"},
+    {t:"draft", l:"Epitalon · skipped", a:"✓ ✕"},
+    {t:"draft", l:"Naltrexon 1 mg instead of 2 mg", a:"✓ ✕"},
+    {t:"draft", l:"Check-in · brain fog 6", a:"✓ ✕"},
+    {t:"chips", items:["Confirm all","Edit"]},
+    {t:"spacer"},
+  ]});
+</script>
+
+<script>renderAll();</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+SCREENS.push({ id:"protocols/plan-editor", area:"Protocols", status:"current", title:"Plan editor",
+  sheet:true,
+  why:"Full configuration form. Will mostly be replaced by the add flow + voice, but stays as the precise fallback.",
+  w:[
+    {t:"shead", left:"Cancel", l:"Edit plan", right:"Save"},
+    {t:"field", l:"Name", v:"Morning Supplements"},
+    {t:"list", rows:[["Mode","Ongoing"],["Start","3 Nov"]]},
+    {t:"sec", l:"Rhythm"},
+    {t:"pills", items:["Daily","Weekdays","Every N days"], on:["Daily"]},
+    {t:"list", rows:[["Default time","Morning"]]},
+    {t:"sec", l:"Entries"},
+    {t:"list", rows:[["Taurine","500 mg  🕘"],["NAC","500 mg  🕘"],["Naltrexon","1 mg  Noon","acc"],["+ Name",""]]},
+    {t:"field", l:"Note", v:"Take with breakfast", tall:true},
+    {t:"note", l:"End plan", danger:true},
+  ]});
