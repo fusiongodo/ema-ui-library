@@ -1,6 +1,31 @@
 # Backlog
 
-Ideas that are not being built yet. Newest first.
+## Where we are (17 Nov 2026)
+
+**Clickable in the prototype**
+- Today, Check-ins with the slider sheet, Protocols (today, all, detail with intake calendar)
+- Add flow ending in the review card
+- Voice: listening layer with draft cards, guided mode, mic inside forms
+- Insights: patterns, evidence screen, Ask with pinned answers
+- Looks: Cozy (one colour per area), Sky, Dusk, Meadow, Wire; intro
+
+**Decided**
+- Principles 8 (one tinted card) and 9 (colour = place)
+- Voice: speak first, conversation only when needed; one agent, global and local door; result is always the review of the manual flow; unsure values are saved with an `inferred` flag
+- Frame of the app: Log → Understand → Together (see below)
+
+**Open, by size**
+- Small gaps in the prototype: targets for "Start a trial", pickers for Rhythm / Start / End, several doses per day in the calendar, the other Ask questions, placeholder links that open the Naltrexon page, Skip / Pause in the check-in
+- Larger concepts, not designed yet: the trial flow, Apple Health and activity, sending a voice message to the app, time of day in Cozy, shared data
+- Look and feel: intro (storyboards in progress, favourite so far: Hands), the real companion illustration, Meadow background, ambient sound
+- The real app: nothing is built in Swift yet; the prototype lives on branch `claude/clickable-prototype`, not merged, not pushed
+
+**Suggested order**
+1. Pick an intro from the storyboards and animate it.
+2. Design the trial flow as a clickable prototype; it is the largest missing piece of the frame.
+3. Port a first slice to the Swift app (Today and the check-in sheet in the Cozy look) to feel it on the phone.
+
+Below: ideas that are not being built yet. Newest first.
 
 ## Decisions on voice (Alex, 17 Nov 2026)
 - Opening one draft card and saving it returns to the remaining drafts, not to the page.
