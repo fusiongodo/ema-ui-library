@@ -14,7 +14,7 @@ SCREENS.push({ id:"insights/home-pinned", area:"Insights", status:"idea", title:
     {t:"linemarks", from:"2026-09-14", q:"Did the dose change help?", n:"averages before / since 1 mg",
       series:[
         ["Fatigue",   "677666788888677764455565565657554555544655655755456"],
-        ["Brain fog", "564444443445554343322343235542443566667776564553444"]],
+        ["Brain fog", "564444443445554343322343235542444566656654544443434"]],
       marks:[["2026-10-12","1 mg"]], avg:["2026-10-12"]},
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,

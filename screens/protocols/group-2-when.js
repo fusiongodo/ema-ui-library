@@ -12,10 +12,10 @@ SCREENS.push({ id:"protocols/group-2-when", area:"Protocols", status:"idea", tit
     {t:"review", title:"New group", icon:"stack", rows:[
       ["Items", "6 items", "", "protocols/group-1-list"],
       ["When", {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"]}],
-      ["Rhythm", "Every day", "default"],
+      ["Rhythm", "Every day", "default", "protocols/pick-rhythm"],
       ["Name", "Morning supplements"],
-      ["Start", "Today", "default"],
-      ["End", "None", "default"]]},
+      ["Start", "Today", "default", "protocols/pick-start"],
+      ["End", "No end", "default", "protocols/pick-end"]]},
     {t:"spacer"},
     {t:"btn", l:"Add to Morning", go:"protocols/today-folds"},
   ]});

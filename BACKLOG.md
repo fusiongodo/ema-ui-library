@@ -6,8 +6,10 @@
 - Today, Check-ins with the slider sheet, Protocols (today, all, detail with intake calendar)
 - Add flow ending in the review card
 - Voice: listening layer with draft cards, guided mode, mic inside forms
-- Insights: patterns, evidence screen, Ask with pinned answers
-- Looks: Cozy (one colour per area), Sky, Dusk, Meadow, Wire; intro
+- Insights: patterns, evidence screen, Ask (three questions) with pinned answers
+- Personal trial: setup, running, weekly guess, early stop, result, and the helper's fill plan (flows `trial`, `trial-helper`)
+- Protocol detail: several doses per day in the calendar, pickers for rhythm / start / end, Magnesium with "Test this"
+- Looks: Cozy (one colour per area), Sky, Dusk, Meadow, Wire; intro (Hands)
 
 **Decided**
 - Principles 8 (one tinted card) and 9 (colour = place)
@@ -15,16 +17,18 @@
 - Frame of the app: Log → Understand → Together (see below)
 
 **Open, by size**
-- Small gaps in the prototype: targets for "Start a trial", pickers for Rhythm / Start / End, several doses per day in the calendar, the other Ask questions, placeholder links that open the Naltrexon page, Skip / Pause in the check-in
-- Larger concepts, not designed yet: the trial flow, Apple Health and activity, sending a voice message to the app, time of day in Cozy, shared data
+- Small gaps in the prototype: Skip / Pause for today exist in the Swift app's check-in but not in the prototype's sheet (would be one quiet line, both closing the sheet); items without a detail screen are not tappable
+- Trial, questions that showed up when it was drawn: "strong" can never appear with 8 weeks (4 pairs give at best about 1 in 8), so the hint / likely / strong labels need defining per trial length; the weekly guess only works if the person knows A is the substance; how the person's own Magnesium is paused during the trial and who buys capsules and filler; the prototype jumps from week 3 to the result
+- Larger concepts, not designed yet: Apple Health and activity, sending a voice message to the app, time of day in Cozy, shared data
 - Look and feel: intro (Hands is animated and in the prototype as a stopgap; a real animation with a story comes later, see below), the real companion illustration, Meadow background, ambient sound
 - The real app: nothing is built in Swift yet; the prototype lives on branch `claude/clickable-prototype`, not merged, not pushed
 
 **Suggested order**
 1. ~~Pick an intro from the storyboards and animate it.~~ Done: Hands.
-2. Design the trial flow as a clickable prototype; it is the largest missing piece of the frame. (in progress)
-3. Close the small gaps in the prototype. (in progress)
+2. ~~Design the trial flow as a clickable prototype.~~ Done.
+3. ~~Close the small gaps in the prototype.~~ Done, except Skip / Pause.
 4. Port a first slice to the Swift app (Today and the check-in sheet in the Cozy look) to feel it on the phone.
+5. Design Apple Health and activity in the prototype (feeds Patterns without logging effort).
 
 Below: ideas that are not being built yet. Newest first.
 

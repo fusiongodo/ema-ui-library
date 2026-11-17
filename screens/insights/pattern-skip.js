@@ -1,5 +1,6 @@
 /* Evidence for the first pattern. DEMO NUMBERS for presentations: chosen to show a clear effect, they no longer match the
-   calendar / score series on protocols/item-naltrexon (which has 4 skips). Within the Insights screens everything agrees:
+   score series on protocols/item-naltrexon (its calendar has the same six skipped noon doses). Within the Insights
+   screens everything agrees (insights/ask-skip uses the same days and values):
    Skipped Thu 17 Sep, Thu 24 Sep, Sat 3 Oct, Sat 10 Oct, Sun 25 Oct, Sat 31 Oct (6). Fatigue on the next day:
    Fri 18 Sep 8 · Fri 25 Sep 7 · Sun 4 Oct 7 · Sun 11 Oct 8 · Mon 26 Oct 8 · Sun 1 Nov 7 → 45 / 6 = 7.50.
    The other 45 days (string below) → 266 / 45 = 5.91. Difference +1.59 → "+1.6".
@@ -11,7 +12,7 @@ SCREENS.push({ id:"insights/pattern-skip", area:"Insights", status:"idea", title
     "<b>Sentence as title:</b> under it the confidence word with one line of what it means: hint = seen a few times, could be chance · likely = holds over weeks · strong = holds and is large.",
     "<b>Comparison:</b> one dot per day, both rows on the same 0–10 scale; the bar is the average. Tap one of the six days for its date and value.",
     "<b>Honest about direction:</b> skips may happen more often on bad days, so the screen says 'goes along with'.",
-    "<b>Two quiet actions:</b> Details unfolds n, both averages, the difference and the method in one sentence; Run a trial leads to a personal placebo-controlled test (not built yet).",
+    "<b>Two quiet actions:</b> Details unfolds n, both averages, the difference and the method in one sentence; Run a trial leads to a personal placebo-controlled test (trials/intro).",
     "<b>Reached from</b> the Insights tab and from the Patterns section on the protocol's detail screen."
   ],
   w:[
@@ -23,7 +24,7 @@ SCREENS.push({ id:"insights/pattern-skip", area:"Insights", status:"idea", title
     {t:"sec", l:"The days", r:"fatigue next day"},
     {t:"list", rows:[["Skipped Sat 31 Oct","7"],["Skipped Sun 25 Oct","8"],["Skipped Sat 10 Oct","8"],["Skipped Sat 3 Oct","7"],["Skipped Thu 24 Sep","7"],["Skipped Thu 17 Sep","8"]]},
     {t:"note", l:"This goes along with skipping, it may not be caused by it. You might skip more often on bad days."},
-    {t:"more", l:"Details", act:"Run a trial",
+    {t:"more", l:"Details", act:"Run a trial", goAct:"trials/intro",
       rows:[["Days after a skip","6"],["Other days","45"],["Average after a skip","7.5"],["Average on other days","5.9"],["Difference","+1.6"]],
       n:"Method: fatigue on the day after each skipped dose, compared with all other days of the last 8 weeks. Shuffling the days at random gives a gap this large about once in 30 times."},
   ]});

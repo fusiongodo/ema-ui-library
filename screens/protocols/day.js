@@ -10,7 +10,7 @@ SCREENS.push({ id:"protocols/day", area:"Protocols", status:"current", title:"Pr
       ["Morning","MOTS-C","1.5 mg · day 5 of 14"],
       ["Morning","Naltrexon","3 mg"],
       ["Morning","GLP-1","2 of 2",1],
-      ["Evening","Daridorexat","25 mg"]]},
+      ["Evening","Daridorexat","25 mg"]], go:["protocols/plan-detail"]},
     {t:"sec", l:"As needed"},
     {t:"chips", items:["+ Epitalon","+ Rapamycin","+ Selank","+ Other"]},
   ]});

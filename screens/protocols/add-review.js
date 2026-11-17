@@ -5,7 +5,7 @@ SCREENS.push({ id:"protocols/add-review", area:"Protocols", status:"idea", title
   concept:[
     "<b>Same number of taps as before:</b> What → Dose → Review → Add. The review replaces the old 'When?' step, it does not add one.",
     "<b>One card, both ways:</b> the manual steps and the voice agent end in this card. The agent only skips the steps in between; nothing is saved before 'Add' (PRINCIPLES 5).",
-    "<b>Defaults stay quiet:</b> every day, from today, no end. Tapping one of them opens its picker (not drawn yet).",
+    "<b>Defaults stay quiet:</b> every day, from today, no end. Tapping one of them opens its picker, a half-height sheet (protocols/pick-rhythm, pick-start, pick-end); a choice goes back to the card.",
     "<b>The button names the target fold</b> (Add to Morning) and follows the pills: with Noon added it reads 'Add to Morning + Noon'."
   ],
   w:[
@@ -14,9 +14,9 @@ SCREENS.push({ id:"protocols/add-review", area:"Protocols", status:"idea", title
       ["What", "Naltrexon", "", "protocols/add-1-name"],
       ["Dose", "3 mg", "", "protocols/add-2-dose"],
       ["When", {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"], multi:true}],
-      ["Rhythm", "Every day", "default"],
-      ["Start", "Today", "default"],
-      ["End", "None", "default"]]},
+      ["Rhythm", "Every day", "default", "protocols/pick-rhythm"],
+      ["Start", "Today", "default", "protocols/pick-start"],
+      ["End", "No end", "default", "protocols/pick-end"]]},
     {t:"spacer"},
     {t:"btn", l:"Add to Morning", slots:true, go:"protocols/today-folds"},
   ]});

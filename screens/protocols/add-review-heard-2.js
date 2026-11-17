@@ -11,9 +11,9 @@ SCREENS.push({ id:"protocols/add-review-heard-2", area:"Protocols", status:"idea
       ["What", "Naltrexon", "heard", "protocols/add-1-name", "naltrexone"],
       ["Dose", "3 mg", "heard", "protocols/add-2-dose", "three milligrams"],
       ["When", {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"], multi:true}, "heard", null, "in the morning"],
-      ["Rhythm", "Every day", "heard", null, "every day"],
-      ["Start", "Today", "default"],
-      ["End", "None", "default"]]},
+      ["Rhythm", "Every day", "heard", "protocols/pick-rhythm", "every day"],
+      ["Start", "Today", "default", "protocols/pick-start"],
+      ["End", "No end", "default", "protocols/pick-end"]]},
     {t:"spacer"},
     {t:"btn", l:"Add to Morning", slots:true, go:"protocols/today-folds"},
   ]});

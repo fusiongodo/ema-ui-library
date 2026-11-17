@@ -6,7 +6,7 @@ SCREENS.push({ id:"protocols/today-folds-empty", area:"Protocols", status:"idea"
     {t:"head", l:"Protocols"},
     {t:"tile", tone:"lilac", h:150, l:"Set up your protocols", n:"Type, tap a suggestion, or just say it",
       chips:["+ Naltrexon","+ Magnesium","+ HBOT session","🎙 Say it"],
-      go:["protocols/add-2-dose","protocols/add-2-dose","protocols/add-2-dose","protocols/add-review-heard"]},
+      go:["protocols/add-2-dose",null,null,"protocols/add-listen"]},
     {t:"sec", l:"Your protocols", act:"+ Add", go:"protocols/add-0-choose"},
     {t:"fold", l:"☀︎ Morning", m:"empty"},
     {t:"fold", l:"◐ Noon", m:"empty"},

@@ -1,25 +1,37 @@
-/* Sample data, all from one week grid (Mon 14 Sep … today Tue 3 Nov 2026, 51 days): 0.5 mg until 11 Oct, 1 mg from
-   Mon 12 Oct; skipped 24 Sep, 10 Oct, 25 Oct, 31 Oct (4); 30 Oct 0.5 mg instead of 1 mg; today 12:10 → 47 of 51 days.
-   The chart marks 12 Oct. Score series as on item-rapamycin; their last 7 days are Today's curves. */
-SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", title:"Protocol · Naltrexon (daily)",
+/* Sample data, all from one week grid (Mon 14 Sep … today Tue 3 Nov 2026, 51 days), three doses a day (morning, noon,
+   evening): 0.5 mg each until 11 Oct, 1 mg from Mon 12 Oct. Noon skipped on Thu 17 Sep, Thu 24 Sep, Sat 3 Oct, Sat 10 Oct,
+   Sun 25 Oct, Sat 31 Oct (6, the same days as insights/pattern-skip); Fri 30 Oct evening 0.5 mg instead of 1 mg; today
+   morning and noon (12:10) taken, evening still to come → 146 of 152 doses so far. Saturdays: noon missed 3 of 7 (the line
+   under the calendar is counted from the grid). The chart marks 12 Oct. Score series as on item-rapamycin; their last
+   7 days are Today's curves. */
+SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", title:"Protocol · Naltrexon (3 times a day)",
   tabs:"idea", tab:"Protocols",
-  why:"A daily protocol over time. Today is already taken, so nothing wants the user here: the status card stays white (PRINCIPLES 8); before noon it would be the tinted 'Not yet today · Take now'. The dose change three weeks ago is visible in the dot size and marked in the chart.",
+  why:"A protocol taken several times a day, over time. Today's noon dose is already taken, so nothing wants the user here: the status card stays white (PRINCIPLES 8); when a dose is due it would be the tinted 'Noon · Take now'. Each day's dot is split into morning, noon and evening, so a missed dose shows as a hollow part of the dot. The dose change three weeks ago is visible in the dot size and marked in the chart.",
   concept:[
-    "<b>Calendar:</b> filled dot = taken (smaller = lower dose: 0.5 mg before 12 Oct), ring = planned but skipped. Tap a day: date and dose below.",
-    "<b>Numbers:</b> days taken, days skipped, the dose since the last version.",
-    "<b>Patterns:</b> what the app found around this protocol's events (skips, dose changes), one sentence each, the same card as on the Insights tab. Tap opens the evidence (insights/pattern-skip). Demo numbers, as on the Insights tab (not from this calendar): fatigue on the 6 days after a skip averaged 7.5, on the other 45 days 5.9.",
+    "<b>Calendar:</b> one dot per day, split into its three doses (morning · noon · evening, left to right). All taken = a full dot; a skipped dose = a hollow segment; smaller = lower dose (0.5 mg before 12 Oct). Tap a day: every dose in one line ('Sat 31 Oct · morning ✓ · noon skipped · evening ✓').",
+    "<b>One line under it</b> names a gap that repeats on the same weekday ('Noon dose missed on 3 of 7 Saturdays'), counted from the calendar; it only appears from three misses on.",
+    "<b>Numbers:</b> doses taken, doses skipped, the dose since the last version.",
+    "<b>Patterns:</b> what the app found around this protocol's events (skips, dose changes), one sentence each, the same card as on the Insights tab. Tap opens the evidence (insights/pattern-skip). The six skipped noon doses are the same days there; the fatigue numbers on it (7.5 vs. 5.9) are demo numbers, not from the score series below.",
     "<b>With your scores:</b> one line at 12 Oct, 'dose changed'. Side by side only, no claim.",
     "<b>History</b> shows deviations in colour and a version line (PRINCIPLES 6): the change applied from 12 Oct, earlier days keep 0.5 mg."
   ],
   w:[
     {t:"shead", left:"‹", l:"", right:"", goLeft:"back"},
-    {t:"big", l:"Naltrexon", n:"1 mg · daily · noon"},
-    {t:"tile", tone:"white", l:"Taken today · 12:10", n:"1 mg · as planned"},
+    {t:"big", l:"Naltrexon", n:"1 mg · morning, noon, evening"},
+    {t:"tile", tone:"white", l:"Taken today · 12:10", n:"Morning and noon · evening next"},
     {t:"sec", l:"Last 8 weeks"},
-    {t:"cal", from:"2026-09-14",
-      key:{x:["1 mg",1], h:["0.5 mg",.5], d:["0.5 mg instead of 1 mg",.5,false]},
-      weeks:["hhhhhhh", "hhhohhh", "hhhhhhh", "hhhhhoh", "xxxxxxx", "xxxxxxo", "xxxxdox", "xx"]},
-    {t:"stats", items:[["47 of 51","days taken"],["4","skipped"],["1 mg","since 12 Oct"]]},
+    {t:"cal", from:"2026-09-14", doses:["morning","noon","evening"], gap:true,
+      key:{x:["1 mg",1], h:["0.5 mg",.5], d:["0.5 mg",.5,false]},
+      weeks:[
+        "hhh hhh hhh hoh hhh hhh hhh",
+        "hhh hhh hhh hoh hhh hhh hhh",
+        "hhh hhh hhh hhh hhh hoh hhh",
+        "hhh hhh hhh hhh hhh hoh hhh",
+        "xxx xxx xxx xxx xxx xxx xxx",
+        "xxx xxx xxx xxx xxx xxx xox",
+        "xxx xxx xxx xxx xxd xox xxx",
+        "xxx xx-"]},
+    {t:"stats", items:[["146 of 152","doses taken"],["6","noon doses skipped"],["1 mg","since 12 Oct"]]},
     {t:"sec", l:"Patterns"},
     {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue was 1.6 higher the next day.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
     {t:"sec", l:"With your scores"},
@@ -31,7 +43,7 @@ SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", t
         ["Wellbeing", "667665555563344444546655453354566755567465655465766"]],
       marks:[["2026-10-12","dose changed"]]},
     {t:"sec", l:"History"},
-    {t:"list", rows:[["Today · 12:10","1 mg"],["Mon 2 Nov","1 mg"],["Sun 1 Nov","1 mg"],["Sat 31 Oct","skipped","acc"],["Fri 30 Oct","0.5 mg instead of 1 mg","acc"],["Thu 29 Oct","1 mg"]]},
+    {t:"list", rows:[["Today","2 of 3 · 1 mg"],["Mon 2 Nov","3 × 1 mg"],["Sun 1 Nov","3 × 1 mg"],["Sat 31 Oct · noon","skipped","acc"],["Fri 30 Oct · evening","0.5 mg instead of 1 mg","acc"],["Thu 29 Oct","3 × 1 mg"]]},
     {t:"note", l:"from 12 Oct: 1 mg (was 0.5 mg)"},
     {t:"list", rows:[["Edit","›"]], go:"protocols/plan-editor"},
     {t:"note", l:"End protocol", danger:true},

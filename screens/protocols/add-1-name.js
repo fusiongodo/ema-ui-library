@@ -7,7 +7,7 @@ SCREENS.push({ id:"protocols/add-1-name", area:"Protocols", status:"idea", title
     {t:"big", l:"What do you take?"},
     {t:"field", v:"e.g. Naltrexon, HBOT, Magnesium"},
     {t:"sec", l:"Recent", r:""},
-    {t:"chips", items:["Taurine","NAC","Selank","🎙 Say it"], go:["protocols/add-2-dose","protocols/add-2-dose","protocols/add-2-dose","protocols/add-listen"]},
+    {t:"chips", items:["Taurine","NAC","Selank","🎙 Say it"], go:[null,null,null,"protocols/add-listen"]},
     {t:"spacer"},
     {t:"btn", l:"Continue", go:"protocols/add-2-dose"},
   ]});

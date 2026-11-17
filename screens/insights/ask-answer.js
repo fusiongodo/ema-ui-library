@@ -1,7 +1,8 @@
 /* Answer to "Did the dose change help?". Built analysis: before / after a change (Naltrexon 0.5 → 1 mg on 12 Oct).
    Fatigue 6.21 (14 Sep–11 Oct, 28 days) → 5.13 (12 Oct–3 Nov, 23 days): 1.1 lower.
-   Brain fog 3.82 → 4.91: 1.1 higher. DEMO NUMBERS: the fatigue series is lowered after 12 Oct for a clearer effect and
-   no longer matches protocols/item-naltrexon; brain fog is as there. Same series on insights/home-pinned. */
+   Brain fog 3.82 → 4.43 (sum 102 / 23 days): 0.6 higher. DEMO NUMBERS: the fatigue series is lowered after 12 Oct for a
+   clearer effect, the brain fog series after 12 Oct is calmed so the two differences do not read alike; neither matches
+   protocols/item-naltrexon any more. Same series on insights/home-pinned and insights/ask-weeks. */
 SCREENS.push({ id:"insights/ask-answer", area:"Insights", status:"idea", title:"Ask · one answer",
   sheet:true,
   why:"Opened from a question chip under Ask. The question on top, the answer as one chart card with one sentence, then 'Pin to Insights'. The answer is honest when it is mixed: fatigue went down, brain fog went up.",
@@ -17,9 +18,9 @@ SCREENS.push({ id:"insights/ask-answer", area:"Insights", status:"idea", title:"
     {t:"linemarks", from:"2026-09-14", n:"last 8 weeks",
       series:[
         ["Fatigue",   "677666788888677764455565565657554555544655655755456"],
-        ["Brain fog", "564444443445554343322343235542443566667776564553444"]],
+        ["Brain fog", "564444443445554343322343235542444566656654544443434"]],
       marks:[["2026-10-12","1 mg"]], avg:["2026-10-12"],
-      say:"Since 1 mg your fatigue is 1.1 lower, but your brain fog is 1.1 higher."},
+      say:"Since 1 mg your fatigue is 1.1 lower, but your brain fog is 0.6 higher."},
     {t:"note", l:"Analysis: before vs. since a change, from your check-ins. It shows what goes along with the change, not its cause."},
     {t:"btn", l:"Pin to Insights", go:"insights/home-pinned"},
   ]});

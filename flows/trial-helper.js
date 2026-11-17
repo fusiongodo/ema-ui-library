@@ -1,0 +1,2 @@
+FLOWS.push({ id:"trial-helper", title:"Personal trial · helper", status:"idea", start:"trials/helper-welcome",
+  note:"Another person on another phone: Sam opens the link (or scans the QR code) from the trial setup. Neutral look, no tab bar. Welcome with the one rule (never tell which week is which) → the fill plan: eight numbered boxes, Magnesium or placebo per week, ticked off one by one → done: hand over the boxes, the plan locks." });

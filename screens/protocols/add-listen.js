@@ -16,5 +16,5 @@ SCREENS.push({ id:"protocols/add-listen", area:"Protocols", status:"idea", title
       ["When", {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"], multi:true}, "heard"],
       ["Rhythm", "How often?", "empty"],
       ["Start", "Today", "default"],
-      ["End", "None", "default"]]},
+      ["End", "No end", "default"]]},
   ]});
