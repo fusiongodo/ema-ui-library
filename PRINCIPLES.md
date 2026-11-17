@@ -10,3 +10,4 @@ The yardstick for every screen. If a design breaks one of these, it's wrong, how
 6. **History is versioned, never overwritten.** Edits apply from today; past days keep their version.
 7. **Calm over busy.** One primary action per screen. Readable text never shrinks.
 8. **Color is a signal, not decoration.** Tiles are white. At most one tinted tile per screen: the one thing that wants something from the user right now ("Check in now", "Set up your protocols"). Deviations get a mark, not a fill.
+9. **Color = place.** Every area has exactly one color. Everything that belongs to an area or leads there wears it, on whatever screen it sits: "Check in now" is the Check-ins color on Today too. A sheet wears the color of its own area, not of the screen below.

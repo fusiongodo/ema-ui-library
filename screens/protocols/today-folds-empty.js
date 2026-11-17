@@ -3,6 +3,8 @@ SCREENS.push({ id:"protocols/today-folds-empty", area:"Protocols", status:"idea"
   why:"Empty state. Setup widget with suggestion chips; disappears once the first protocol exists.",
   ref:"refs/juno-setup-widget.png",
   w:[
+    {t:"head", l:"Protocols"},
+    {t:"seg", items:["Today","All"], on:"Today", go:[null,"protocols/all"]},
     {t:"tile", tone:"lilac", h:150, l:"Set up your protocols", n:"Type, tap a suggestion, or just say it",
       chips:["+ Naltrexon","+ Magnesium","+ HBOT session","🎙 Say it"],
       go:["protocols/add-2-dose","protocols/add-2-dose","protocols/add-2-dose","voice/voice"]},

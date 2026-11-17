@@ -3,41 +3,47 @@
    titles / primary buttons / active tab, very light variant for icon tiles), big white cards with very round corners,
    Fredoka for titles and numbers, Nunito for text, round cartoon icons (lib/cozy.js), a small companion (lib/buddy.js).
    Play sets on the phone frame data-theme="cozy", class .soft (so the shared soft rules of lib/themes.css apply) and
-   data-world = today | checkins | protocols | insights | voice (from the screen below; sheets inherit it). Every painted
-   layer carries its own data-world too, so a layer that fades out keeps its colours while the page colour blends over.
+   data-world = today | checkins | protocols | insights | voice (from the base screen: the page ground and the dim).
+   Every painted layer carries its own data-world too: a sheet its own area's world (the check-in sheet is mint over
+   Today as well), a fading layer keeps its colours while the page colour blends over. PRINCIPLES 9, colour = place:
+   lib/cozy.js also gives every link into another area that area's world (the "Check-ins" tile on Today is mint).
    Nothing here reaches Wire, Sky, Dusk, Meadow, Library or Flows: every rule starts at .frame[data-theme="cozy"].
    PRINCIPLES 8 still holds: cards are white, the one tinted card (primary action / empty state) is the dark world colour.
    Motion: transform/opacity only; prefers-reduced-motion switches it all off (end of file). Text contrast ≥ 4.5:1. */
 
 /* ---------- colour worlds ---------- */
-.frame[data-theme="cozy"][data-world="today"],.frame[data-theme="cozy"] .layer[data-world="today"]{   /* warm apricot / sun */
+.frame[data-theme="cozy"][data-world="today"],.frame[data-theme="cozy"] [data-world="today"]{   /* warm apricot / sun */
   --cz-bg:#FFD49B; --cz-bg-rgb:255 212 155; --cz-mid:#FFBE78; --cz-sheet:#FFEBD2; --cz-sheet-rgb:255 235 210;
   --cz-light:#FFF2DF; --cz-tabbar:#FFF7EC; --cz-dark:#8A3F0A; --cz-dark-rgb:138 63 10;
   --cz-title:#8A3F0A; --cz-sub:#76502F; --ink:#3D2615; --muted:#76502F;
 }
-.frame[data-theme="cozy"][data-world="checkins"],.frame[data-theme="cozy"] .layer[data-world="checkins"]{   /* fresh mint / sage */
+.frame[data-theme="cozy"][data-world="checkins"],.frame[data-theme="cozy"] [data-world="checkins"]{   /* fresh mint / sage */
   --cz-bg:#BDE5CC; --cz-bg-rgb:189 229 204; --cz-mid:#9FD6B6; --cz-sheet:#DFF3E7; --cz-sheet-rgb:223 243 231;
   --cz-light:#E6F6EC; --cz-tabbar:#F1FAF4; --cz-dark:#1B5C40; --cz-dark-rgb:27 92 64;
   --cz-title:#1B5C40; --cz-sub:#3D5E4E; --ink:#1E3328; --muted:#3D5E4E;
 }
-.frame[data-theme="cozy"][data-world="protocols"],.frame[data-theme="cozy"] .layer[data-world="protocols"]{   /* periwinkle */
+.frame[data-theme="cozy"][data-world="protocols"],.frame[data-theme="cozy"] [data-world="protocols"]{   /* periwinkle */
   --cz-bg:#C5CBF7; --cz-bg-rgb:197 203 247; --cz-mid:#A9B1F0; --cz-sheet:#E3E6FC; --cz-sheet-rgb:227 230 252;
   --cz-light:#ECEEFE; --cz-tabbar:#F4F5FF; --cz-dark:#383D9C; --cz-dark-rgb:56 61 156;
   --cz-title:#383D9C; --cz-sub:#474C7C; --ink:#23264A; --muted:#474C7C;
 }
-.frame[data-theme="cozy"][data-world="insights"],.frame[data-theme="cozy"] .layer[data-world="insights"]{   /* lilac rosé (benchmarks, insights) */
+.frame[data-theme="cozy"][data-world="insights"],.frame[data-theme="cozy"] [data-world="insights"]{   /* lilac rosé (benchmarks, insights) */
   --cz-bg:#EDC8E2; --cz-bg-rgb:237 200 226; --cz-mid:#E0AACF; --cz-sheet:#F7E4F1; --cz-sheet-rgb:247 228 241;
   --cz-light:#FBEEF7; --cz-tabbar:#FDF5FA; --cz-dark:#782C66; --cz-dark-rgb:120 44 102;
   --cz-title:#782C66; --cz-sub:#674060; --ink:#3A1F35; --muted:#674060;
 }
-.frame[data-theme="cozy"][data-world="voice"],.frame[data-theme="cozy"] .layer[data-world="voice"]{   /* deep calm teal: light text on the page */
+.frame[data-theme="cozy"][data-world="voice"],.frame[data-theme="cozy"] [data-world="voice"]{   /* deep calm teal: light text on the page */
   --cz-bg:#2F6B6A; --cz-bg-rgb:47 107 106; --cz-mid:#5B9693; --cz-sheet:#E1EFED; --cz-sheet-rgb:225 239 237;
   --cz-light:#E3F1EF; --cz-tabbar:#EEF7F5; --cz-dark:#123C3D; --cz-dark-rgb:18 60 61;
   --cz-title:#F3FBF9; --cz-sub:#D2E9E5; --ink:#17302F; --muted:#46625F;
 }
 
-/* ---------- theme variables (on the frame and on each layer, so every layer resolves its own world) ---------- */
-.frame[data-theme="cozy"],.frame[data-theme="cozy"] .layer{
+/* nested Voice (the mic, "Say it", a voice-note row on another page): the mid teal is the accent, the page's near-black teal stays on the Voice page */
+.frame[data-theme="cozy"] .layer [data-world="voice"]{--cz-dark:#2F6B6A; --cz-dark-rgb:47 107 106; --cz-light:#E3F1EF}
+
+/* ---------- theme variables (on the frame, on each layer and on every element that carries its own world,
+   so each resolves its own colours: a link into Check-ins is mint on any page, PRINCIPLES 9) ---------- */
+.frame[data-theme="cozy"],.frame[data-theme="cozy"] .layer,.frame[data-theme="cozy"] [data-world]{
   --round:"Fredoka",ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
   --cz-text:"Nunito",ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
   --rad:28px; --pad:20px;
@@ -208,6 +214,51 @@
 .frame[data-theme="cozy"] .stage .cv-m{stroke:var(--cz-dark);opacity:.22}
 .frame[data-theme="cozy"] .stage .cv-p{width:12px;height:12px;margin:-6px 0 0 -6px;background:var(--cz-dark);box-shadow:0 0 0 2.5px #fff,0 0 0 6px rgb(var(--cz-bg-rgb) / .8)}
 
+/* ---------- Today · All switch: a segment without a side link spans the width ---------- */
+.frame[data-theme="cozy"] .stage .segrow:has(> .link:empty) .seg{flex:1}
+.frame[data-theme="cozy"] .stage .segrow:has(> .link:empty) .seg span{flex:1;justify-content:center}
+.frame[data-theme="cozy"] .stage .segrow:has(> .link:empty) .link{display:none}
+.frame[data-theme="cozy"] .stage .seg span{font-weight:700}
+.frame[data-theme="cozy"] .stage .seg span.on{color:var(--cz-dark);box-shadow:var(--th-shadow-s)}
+
+/* ---------- protocol history: list, intake calendar, three numbers, score chart (Protocols world; scores mint) ---------- */
+.frame[data-theme="cozy"] .stage :is(.plr b,.stats b,.lm-h b,.cal-say.on){font-family:var(--round);font-weight:600}
+.frame[data-theme="cozy"] .stage .plr .n{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .plr .c{color:var(--muted);font-weight:700}
+.frame[data-theme="cozy"] .stage .pk .plr b{font-weight:500}
+.frame[data-theme="cozy"] .stage .fold .item[data-go]{justify-content:flex-start}                 /* a fold row that opens its protocol */
+.frame[data-theme="cozy"] .stage .fold .item[data-go] > span:last-child{margin-left:auto}
+.frame[data-theme="cozy"] .stage .fold .item[data-go]:after{content:"›";flex:none;width:16px;text-align:center;color:var(--muted);font-weight:700}
+.frame[data-theme="cozy"] .stage .ps i{background:rgb(var(--cz-dark-rgb) / .2)}
+.frame[data-theme="cozy"] .stage .ps i:is(.x,.h){background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .ps i.o{background:none;box-shadow:inset 0 0 0 1.5px rgb(var(--cz-dark-rgb) / .55)}
+.frame[data-theme="cozy"] .stage .cal :is(.ch,.cm){font-weight:700;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .cal .t > i{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cal .o > i{box-shadow:inset 0 0 0 2.5px rgb(var(--cz-dark-rgb) / .5)}
+.frame[data-theme="cozy"] .stage .cal .n > i{background:rgb(var(--cz-dark-rgb) / .2)}
+.frame[data-theme="cozy"] .stage .cal .now:after{box-shadow:0 0 0 2.5px var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cal .sel:before{background:var(--cz-light);box-shadow:0 0 0 2px var(--cz-mid)}
+.frame[data-theme="cozy"] .stage .cal-say{font-weight:600}
+.frame[data-theme="cozy"] .stage .cal-say.on{color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cal-leg{font-weight:600}
+.frame[data-theme="cozy"] .stage .cal-leg .t{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cal-leg .o{box-shadow:inset 0 0 0 1.8px rgb(var(--cz-dark-rgb) / .5)}
+.frame[data-theme="cozy"] .stage .cal-leg .n{background:rgb(var(--cz-dark-rgb) / .25)}
+.frame[data-theme="cozy"] .stage .stats b{color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .stats span{font-weight:600}
+.frame[data-theme="cozy"] .stage .lm-h{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage :is(.lm-y,.lm-x){font-weight:700;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .lm-g{stroke:var(--cz-dark);opacity:.2}
+.frame[data-theme="cozy"] .stage .lm-m{stroke:rgb(var(--cz-dark-rgb) / .38);stroke-width:2}
+.frame[data-theme="cozy"] .stage .lm-m.lb{stroke:var(--cz-dark);stroke-dasharray:4 4}
+.frame[data-theme="cozy"] .stage .lm-md{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .lm-ml{color:var(--cz-dark);font-weight:700}
+.frame[data-theme="cozy"] .stage .lm-l{stroke:var(--cz-dark);stroke-width:2.6}
+.frame[data-theme="cozy"] .stage .lm-p{width:12px;height:12px;margin:-6px 0 0 -6px;background:var(--cz-dark);box-shadow:0 0 0 2.5px #fff,0 0 0 6px rgb(var(--cz-bg-rgb) / .8)}
+/* the calendar's dots appear once, softly staggered row by row */
+@keyframes cz-dot{from{opacity:0;transform:scale(.3)}}
+.frame[data-theme="cozy"] .stage .cal .cr > span > i{animation:cz-dot .5s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:calc(160ms + var(--i,0) * 12ms)}
+
 /* ---------- tab bar: a floating pill in the very light world colour, icon over label ---------- */
 .frame[data-theme="cozy"] .stage .tabs{height:66px;padding:0 7px;border-radius:33px;color:var(--muted);font-size:11.5px;font-weight:700}
 .frame[data-theme="cozy"] .stage .tabs:before{border-radius:33px;background:var(--cz-tabbar);box-shadow:0 2px 4px rgb(var(--cz-dark-rgb) / .06),0 16px 34px -14px rgb(var(--cz-dark-rgb) / .45)}
@@ -216,7 +267,7 @@
 .frame[data-theme="cozy"] .stage .tabs > span.on{background:rgb(var(--cz-bg-rgb) / .75);color:var(--cz-dark);font-weight:800}
 .frame[data-theme="cozy"] .stage .tabs .cz-ti{display:block;width:25px;height:25px;font-style:normal}
 .frame[data-theme="cozy"] .stage .tabs .cz-ti svg{display:block;width:100%;height:100%}
-.frame[data-theme="cozy"] .stage .tabs .fab{align-self:center;width:54px;height:54px;margin:0 3px;background:var(--cz-dark);color:#fff;box-shadow:0 8px 18px -8px rgb(var(--cz-dark-rgb) / .8)}
+.frame[data-theme="cozy"] .stage .tabs .fab{align-self:center;width:54px;height:54px;margin:0 3px;background:#2F6B6A;color:#fff;box-shadow:0 8px 18px -8px rgb(47 107 106 / .8)}   /* the mic leads to Voice: Voice teal on every page */
 .frame[data-theme="cozy"] .stage .tabs .fab .cz-g{width:27px;height:27px;color:#fff;vertical-align:0}
 
 /* ---------- save confirmation: a few small sparks fly up from the button (lib/cozy.js) ---------- */
