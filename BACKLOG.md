@@ -17,15 +17,27 @@
 **Open, by size**
 - Small gaps in the prototype: targets for "Start a trial", pickers for Rhythm / Start / End, several doses per day in the calendar, the other Ask questions, placeholder links that open the Naltrexon page, Skip / Pause in the check-in
 - Larger concepts, not designed yet: the trial flow, Apple Health and activity, sending a voice message to the app, time of day in Cozy, shared data
-- Look and feel: intro (storyboards in progress, favourite so far: Hands), the real companion illustration, Meadow background, ambient sound
+- Look and feel: intro (Hands is animated and in the prototype as a stopgap; a real animation with a story comes later, see below), the real companion illustration, Meadow background, ambient sound
 - The real app: nothing is built in Swift yet; the prototype lives on branch `claude/clickable-prototype`, not merged, not pushed
 
 **Suggested order**
-1. Pick an intro from the storyboards and animate it.
-2. Design the trial flow as a clickable prototype; it is the largest missing piece of the frame.
-3. Port a first slice to the Swift app (Today and the check-in sheet in the Cozy look) to feel it on the phone.
+1. ~~Pick an intro from the storyboards and animate it.~~ Done: Hands.
+2. Design the trial flow as a clickable prototype; it is the largest missing piece of the frame. (in progress)
+3. Close the small gaps in the prototype. (in progress)
+4. Port a first slice to the Swift app (Today and the check-in sheet in the Cozy look) to feel it on the phone.
 
 Below: ideas that are not being built yet. Newest first.
+
+## Intro: a real animation with a story
+**Alex, 17 Nov 2026:** the seven storyboards are nice but none shows what he wants to say: everyone contributes their part of the data to the whole, and together that changes something and brings light into the dark. No literal cloud. The animated Hands intro is "a bit annoying" and stays only until this is done. He wants to think about the story himself first.
+
+Picture ideas to start from:
+- A blurry picture gets sharp: every contribution is one pixel.
+- A dark room and many lamps: each lights one patch, only together they show what is in the room. Closest to "sharing data" plus "light into the dark"; could be combined with the hands (each hand puts down a light).
+- A mosaic: everyone lays one stone, the motif shows from afar.
+- Points become a line: single measurements say nothing, many show a curve.
+
+Making it: Claude has no image or video model; the storyboards are hand-written SVG. External services are an option (he is open to it). Video from a start and end frame: Kling about $0.07–0.14 per second, Veo 3.1 Fast about $0.10–0.12, Veo 3.1 Standard $0.40 (prices read 17 Nov 2026); an experiment of 20–30 clips is roughly $10–30. Generated video garbles text, so the wordmark is always laid over in code.
 
 ## Decisions on voice (Alex, 17 Nov 2026)
 - Opening one draft card and saving it returns to the remaining drafts, not to the page.
