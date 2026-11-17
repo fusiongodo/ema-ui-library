@@ -2,7 +2,7 @@ SCREENS.push({ id:"protocols/plan-editor", area:"Protocols", status:"current", t
   sheet:true,
   why:"Full configuration form. Will mostly be replaced by the add flow + voice, but stays as the precise fallback.",
   w:[
-    {t:"shead", left:"Cancel", l:"Edit plan", right:"Save"},
+    {t:"shead", left:"Cancel", l:"Edit plan", right:"Save", goLeft:"back", goRight:"close"},
     {t:"field", l:"Name", v:"Morning Supplements"},
     {t:"list", rows:[["Mode","Ongoing"],["Start","3 Nov"]]},
     {t:"sec", l:"Rhythm"},

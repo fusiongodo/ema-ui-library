@@ -1,0 +1,282 @@
+/* ====== THEMES (Play only) ======
+   Play (lib/play.js) sets on the phone frame: data-theme = wire | sky | dusk | meadow, data-tod = morning | noon |
+   evening | night and, for every theme except wire, class .soft. Library and Flows never get them, so they stay
+   grey wireframes; "wire" is the plain prototype, untouched by this file.
+   A theme is a set of variables on the frame. The widgets take their colours from :root variables (--white, --grey,
+   --ink, --muted, --line, --accent, --lilac …), also in inline tile/chip backgrounds, so redefining them here
+   recolours everything; the shared .soft rules below cover the hard-coded wireframe colours.
+   Atmosphere comes from the ambient layer (.amb: sky, light, clouds / aurora / blobs), depth and type, not from
+   coloured tiles: still at most one tinted tile per screen (PRINCIPLES 8).
+   Motion: transform/opacity only, slow, never blocking; prefers-reduced-motion switches it all off (end of file). */
+
+.amb{display:none}
+.halo{display:none}
+
+/* ---------- shared by sky, dusk, meadow ---------- */
+.frame.soft{
+  --round:ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
+  --rad:24px;
+  background:var(--th-bottom);
+}
+.frame.soft .amb{display:block;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--th-sky)}
+.frame.soft .amb:before,.frame.soft .amb:after{content:"";position:absolute;inset:0;pointer-events:none}
+.frame.soft .amb:before{background:var(--th-light,none)}                 /* sun / moon / glow, static */
+.frame.soft .amb i{position:absolute;display:block;will-change:transform;backface-visibility:hidden}
+.frame.soft .status{color:var(--ink)}
+
+.frame.soft .stage .phone{background:transparent;color:var(--ink)}
+.frame.soft .stage .phone.sheet{background:var(--th-sheet);box-shadow:0 -12px 40px rgba(0,0,0,.10)}
+.frame.soft .stage .phone.sheet:before{background:var(--th-track)}
+.frame.soft .stage .dim{background:var(--th-dim)}
+/* under an open sheet the screen steps back, so the glass shows sky, not a second layer of text */
+.frame.soft .stage > .phone:not(.sheet){transition:opacity .25s ease}
+.frame.soft .stage:has(> .dim.on) > .phone:not(.sheet){opacity:var(--th-under,.12)}
+
+/* type: rounded for titles and numbers, system for running text */
+.frame.soft .stage :is(.head b,.big b,.shead b,.sec,.tile .l,.fold .ft .t,.choice b,.btn,.slider .st .l,.slider .v b,.spark .v,.week b,.dl .num,.stepper .v,.tlr > span:nth-child(3)){font-family:var(--round)}
+.frame.soft .stage :is(.head b,.big b){letter-spacing:-.01em}
+.frame.soft .stage .head .n{color:var(--muted)}
+
+/* cards: soft, generously rounded, depth from shadow / translucency instead of lines */
+.frame.soft .stage :is(.tile,.fold,.list,.slider,.dl,.wg,.stepper,.choice > div){box-shadow:var(--th-shadow)}
+.frame.soft .stage :is(.slider:has(+ .slider),.slider + .slider){box-shadow:var(--th-shadow-flat)}   /* grouped card: no shadow seams */
+.frame.soft .stage :is(.field .box,.stepper){border-radius:18px}
+.frame.soft .stage :is(.item,.spark,.wg .wr,.dl .dr){border-top-color:var(--line)}
+.frame.soft .stage .slider + .slider:before{background:var(--line)}
+.frame.soft .stage .tile .r,.frame.soft .stage .link,.frame.soft .stage .list .item .r.acc{color:var(--accent)}
+.frame.soft .stage .strike{color:var(--muted)}
+
+/* the one tinted tile */
+.frame.soft .stage .tile.tint{color:var(--th-tint-ink);box-shadow:var(--th-tint-shadow)}
+.frame.soft .stage .tile.tint .n{color:var(--th-tint-muted)}
+.frame.soft .stage .tile.tint .chip{background:var(--th-card-solid)!important;color:var(--ink)}   /* beats the inline var(--white) */
+.frame.soft .stage .tile.cta .ca{background:var(--th-ca);color:var(--th-ca-ink)}
+
+/* controls */
+.frame.soft .stage .btn,.frame.soft .stage .pills span.on{background:var(--th-btn);color:var(--th-btn-ink)}
+.frame.soft .stage .btn.light{background:var(--white);color:var(--ink);box-shadow:var(--th-shadow-s)}
+.frame.soft .stage .pills span{border-color:transparent;box-shadow:var(--th-shadow-s)}
+.frame.soft .stage .chip,.frame.soft .stage .sec .act{box-shadow:var(--th-shadow-s)}
+.frame.soft .stage .sec .act{color:var(--ink)}
+.frame.soft .stage .pill{background:var(--grey);color:var(--ink)}
+.frame.soft .stage .seg{background:var(--grey)} .frame.soft .stage .seg span{color:var(--muted)}
+.frame.soft .stage .seg span.on{background:var(--th-card-solid);color:var(--ink)}
+.frame.soft .stage .circle,.frame.soft .stage .shead .side.g{background:var(--white);color:var(--ink);box-shadow:var(--th-shadow-s)}
+.frame.soft .stage .mic{background:var(--white);box-shadow:var(--th-shadow)}
+.frame.soft .stage .toggle i{background:var(--th-track)} .frame.soft .stage .toggle i:after{background:var(--th-knob)}
+.frame.soft .stage .toggle i.on{background:var(--accent)}
+.frame.soft .stage .choice div.on{box-shadow:inset 0 0 0 2px var(--ink),var(--th-shadow)}
+.frame.soft .stage .field .box{color:var(--muted)}
+.frame.soft .stage .draft{border-color:var(--muted);background:var(--white)}
+.frame.soft .stage .note.danger{color:var(--th-danger)}
+.frame.soft .stage .stepper span.v i{background:var(--grey)}
+
+/* slider: face drawn by :after, a soft glow (:before) appears while it is dragged */
+.frame.soft .stage .slider .rail{background:var(--th-track)}
+.frame.soft .stage .slider .fill{background:var(--th-fill0)}
+.frame.soft .stage .slider.moved .fill{background:var(--th-mark)}
+.frame.soft .stage .slider .last{background:var(--muted)}
+.frame.soft .stage .slider .knob{background:none;box-shadow:none}
+.frame.soft .stage .slider .knob:after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--th-knob);box-shadow:0 1px 2px rgba(0,0,0,.14),0 4px 12px rgba(0,0,0,.16)}
+.frame.soft .stage .slider .knob:before{content:"";position:absolute;inset:-22px;border-radius:50%;background:radial-gradient(closest-side,var(--th-glow),transparent);opacity:0;transform:scale(.4);transition:opacity .35s ease,transform .35s ease}
+.frame.soft .stage .slider.drag .knob:before{opacity:1;transform:none}
+.frame.soft .stage .slider .tr:focus-visible .knob:after{box-shadow:0 0 0 3px var(--accent),0 4px 12px rgba(0,0,0,.16)}
+
+/* bars, curves, small charts */
+.frame.soft .stage .bar{background:var(--th-track)} .frame.soft .stage .bar i{background:var(--th-bar)}   /* progress is "as planned": calm, not a mark */
+.frame.soft .stage .spark .ln:not(.cv){background:repeating-linear-gradient(90deg,var(--th-track) 0 6px,transparent 6px 10px)}
+.frame.soft .stage .cv-l{stroke:var(--th-curve);stroke-width:2}
+.frame.soft .stage .cv-m{stroke:var(--th-curve);opacity:.22}
+.frame.soft .stage .cv-p{background:var(--th-dot);box-shadow:0 0 0 3px var(--th-card-solid)}
+.frame.soft .stage .heat i{background:var(--th-track)}
+.frame.soft .stage .heat i.a{background:var(--hm-a)} .frame.soft .stage .heat i.b{background:var(--hm-b)} .frame.soft .stage .heat i.c{background:var(--hm-c)}
+.frame.soft .stage .trend .dots{background:radial-gradient(circle,var(--muted) 2.5px,transparent 3px) 0 60%/14% 100% repeat-x;opacity:.55}
+.frame.soft .stage .tlr .dot{background:var(--th-card-solid);border-color:var(--muted)}
+.frame.soft .stage .tlr .rail:after{border-left-color:var(--th-track)}
+.frame.soft .stage .week div.on{background:var(--white);box-shadow:var(--th-shadow-s)}
+.frame.soft .stage .week i{background:var(--th-track)} .frame.soft .stage .week i.d{background:var(--accent)}
+.frame.soft .stage .wg .f{color:var(--muted);opacity:.5}
+.frame.soft .stage .dl .u{background:var(--grey)} .frame.soft .stage .dl .u.sugg{background:none;border-color:var(--muted)}
+.frame.soft .stage .dl .dr.flag{background:var(--th-flag)} .frame.soft .stage .dl .hint{color:var(--th-flag-ink)}
+.frame.soft .stage .dl .in{color:var(--muted)}
+
+/* pinned bottom: tab bar and sheet buttons fade into the theme's own ground */
+.frame.soft .stage .tabs{color:var(--muted)} .frame.soft .stage .tabs .on{color:var(--ink)}
+.frame.soft .stage .tabs:before{background:var(--th-tabbar);box-shadow:var(--th-shadow)}
+.frame.soft .stage .tabs:after{background:linear-gradient(rgb(var(--th-bottom-rgb) / 0),rgb(var(--th-bottom-rgb)) 14px)}
+.frame.soft .stage .tabs .fab{background:var(--th-fab);color:var(--th-btn-ink)}
+.frame.soft .stage .foot{background:linear-gradient(rgb(var(--th-bottom-rgb) / 0),rgb(var(--th-bottom-rgb)) 12px)}
+.frame.soft .stage .sheet .foot{background:linear-gradient(rgb(var(--th-sheet-rgb) / 0),rgb(var(--th-sheet-rgb) / var(--th-foot-a,1)) 14px)}
+
+/* save confirmation: one ring of light (play.js adds and removes it) */
+.frame.soft .halo{display:block;position:absolute;z-index:5;width:620px;height:620px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgb(var(--halo) / .28) 0%,rgb(var(--halo) / 0) 52%,rgb(var(--halo) / .55) 84%,rgb(var(--halo) / 0) 100%)}
+
+@keyframes th-drift-a{from{transform:translate3d(-60px,0,0)}to{transform:translate3d(80px,10px,0)}}
+@keyframes th-drift-b{from{transform:translate3d(70px,0,0)}to{transform:translate3d(-70px,-12px,0)}}
+@keyframes th-breathe{from{transform:scale(1)}to{transform:scale(1.04)}}
+@keyframes th-twinkle{from{opacity:.55}to{opacity:1}}
+@keyframes th-aurora-a{from{transform:translate3d(-30px,0,0) scale(1);opacity:.75}to{transform:translate3d(50px,30px,0) scale(1.08);opacity:1}}
+@keyframes th-aurora-b{from{transform:translate3d(30px,0,0) scale(1.06);opacity:1}to{transform:translate3d(-40px,-24px,0) scale(1);opacity:.7}}
+/* while a sheet is open the background holds still (less work for the sheet's blur) */
+.frame.soft:has(.dim.on) .amb *,.frame.soft:has(.dim.on) .amb:after{animation-play-state:paused}
+
+/* ================= SKY: the sky is the day plan (morning / noon / evening / night like the protocol folds) ================= */
+.frame[data-theme="sky"]{
+  --ink:#1c3346; --muted:#34495c; --line:rgba(28,51,70,.09); --accent:#184b79;
+  --white:rgba(255,255,255,.6); --th-card-solid:#f3f8fc; --grey:rgba(28,51,70,.07);
+  --th-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 30px -10px rgba(36,70,110,.22);
+  --th-shadow-flat:inset 0 1px 0 rgba(255,255,255,.4);
+  --th-shadow-s:0 4px 14px -6px rgba(36,70,110,.25);
+  --th-tint:linear-gradient(140deg,#ffeab0 0%,#ffd98e 100%); --th-tint-ink:#2a2a14; --th-tint-muted:#5a4f2c;
+  --th-tint-shadow:0 0 0 1px rgba(255,255,255,.35) inset,0 14px 34px -12px rgba(214,150,40,.45);
+  --th-ca:#1c3346; --th-ca-ink:#fff4d4;
+  --th-btn:#1c3346; --th-btn-ink:#f6f9fc; --th-fab:#1c3346;
+  --th-track:rgba(28,51,70,.12); --th-fill0:rgba(28,51,70,.22); --th-mark:#1c3346; --th-knob:#fff;
+  --th-glow:rgba(255,214,120,.75); --halo:255 225 150;
+  --th-curve:#1f4a6e; --th-dot:#e3a21a; --th-bar:rgba(28,51,70,.42);
+  --th-sheet:rgba(236,243,249,.72); --th-sheet-rgb:236 243 249; --th-foot-a:.94;
+  --th-tabbar:rgba(255,255,255,.62); --th-dim:rgba(28,48,80,.16);
+  --th-flag:rgba(255,214,120,.35); --th-flag-ink:#6b4c0c; --th-danger:#a5432f;
+  --hm-a:rgba(29,86,137,.30); --hm-b:#f2c463; --hm-c:#e79c8f;
+  --lilac:var(--th-tint); --sage:var(--th-tint); --butter:var(--th-tint); --sky:var(--th-tint); --peach:var(--th-tint);
+  --cloud:255 255 255; --ca1:.78; --ca2:.36;
+}
+.frame[data-theme="sky"][data-tod="morning"]{
+  --th-sky:linear-gradient(180deg,#f7d6c2 0%,#f4dfd3 28%,#dbe7f0 62%,#c3dcef 100%);
+  --th-light:radial-gradient(70% 38% at 8% 0%,rgba(255,214,176,.95),rgba(255,214,176,0));
+  --th-bottom:#c3dcef; --th-bottom-rgb:195 220 239;
+  --cloud:255 246 238; --ca1:.8;
+}
+.frame[data-theme="sky"][data-tod="noon"]{
+  --th-sky:linear-gradient(180deg,#96c8ee 0%,#b0d5f2 38%,#d6eaf8 100%);
+  --th-light:radial-gradient(46% 26% at 86% 0%,rgba(255,255,236,.9),rgba(255,255,236,0));
+  --th-bottom:#d6eaf8; --th-bottom-rgb:214 234 248;
+}
+.frame[data-theme="sky"][data-tod="evening"]{
+  --ink:#1d2c40; --muted:#34465a;
+  --th-sky:linear-gradient(180deg,#b8acdc 0%,#cdb5da 34%,#e8bccb 70%,#f4ccbf 100%);
+  --th-light:radial-gradient(80% 30% at 50% 104%,rgba(255,196,160,.7),rgba(255,196,160,0));
+  --th-bottom:#f4ccbf; --th-bottom-rgb:244 204 191;
+  --th-sheet:rgba(246,238,244,.74); --th-sheet-rgb:246 238 244; --th-card-solid:#f8f1f5;
+  --th-tint:linear-gradient(140deg,#ffe3a6 0%,#ffcf92 100%);
+  --th-dim:rgba(60,40,80,.16);
+  --cloud:255 236 242; --ca1:.62; --ca2:.28;
+}
+.frame[data-theme="sky"][data-tod="night"]{
+  --ink:#e9ecf8; --muted:#b3bbdc; --line:rgba(233,236,248,.10); --accent:#b9c7ff;
+  --white:rgba(255,255,255,.09); --th-card-solid:#262b55; --grey:rgba(233,236,248,.10);
+  --th-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 10px 30px -12px rgba(0,0,10,.5);
+  --th-shadow-flat:inset 0 1px 0 rgba(255,255,255,.05);
+  --th-shadow-s:0 4px 14px -6px rgba(0,0,10,.5);
+  --th-tint:linear-gradient(140deg,#eef0fb 0%,#d6dcf2 100%); --th-tint-ink:#161c40; --th-tint-muted:#434b74;
+  --th-tint-shadow:0 0 34px -6px rgba(214,222,255,.28);
+  --th-ca:#1b2150; --th-ca-ink:#eef0fb;
+  --th-btn:#e6e9f8; --th-btn-ink:#161c40; --th-fab:#e6e9f8;
+  --th-track:rgba(233,236,248,.16); --th-fill0:rgba(233,236,248,.3); --th-mark:#e6e9f8; --th-knob:#eef0fb;
+  --th-glow:rgba(214,222,255,.5); --halo:220 228 255;
+  --th-curve:#d5dbf6; --th-dot:#f4f1de; --th-bar:rgba(233,236,248,.5); --th-under:0;
+  --th-sky:linear-gradient(180deg,#0e1330 0%,#181e46 52%,#272a5c 100%);
+  --th-light:radial-gradient(circle at 72% 10%,rgba(246,246,255,.82) 0 9px,rgba(226,232,255,.32) 12px,rgba(200,210,255,.12) 32px,rgba(200,210,255,0) 110px);
+  --th-bottom:#272a5c; --th-bottom-rgb:39 42 92;
+  --th-sheet:rgba(26,31,68,.78); --th-sheet-rgb:26 31 68; --th-tabbar:rgba(40,46,92,.72); --th-dim:rgba(0,0,12,.4);
+  --th-flag:rgba(240,200,120,.16); --th-flag-ink:#f0d39b; --th-danger:#f0a593;
+  --hm-a:rgba(185,199,255,.38); --hm-b:#c9a45e; --hm-c:#b9706a;
+  --cloud:150 162 230; --ca1:.13; --ca2:.05;
+}
+/* sky: glass on the tab bar and the sheets (blur only where content or the screen lies underneath) */
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .frame[data-theme="sky"] .stage .phone.sheet,
+  .frame[data-theme="sky"] .stage .tabs:before{-webkit-backdrop-filter:blur(26px) saturate(1.4);backdrop-filter:blur(26px) saturate(1.4)}
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .frame[data-theme="sky"] .stage .phone.sheet{background:rgb(var(--th-sheet-rgb))}
+  .frame[data-theme="sky"] .stage .tabs:before{background:var(--th-card-solid)}
+}
+/* clouds: soft radial lumps, no images, drifting slowly (cycles 80–120 s) */
+.frame[data-theme="sky"] .amb i{
+  background:
+    radial-gradient(closest-side,rgb(var(--cloud) / var(--ca1)),rgb(var(--cloud) / var(--ca2)) 50%,rgb(var(--cloud) / 0)) 0% 70%/58% 78% no-repeat,
+    radial-gradient(closest-side,rgb(var(--cloud) / var(--ca1)),rgb(var(--cloud) / var(--ca2)) 50%,rgb(var(--cloud) / 0)) 45% 20%/52% 100% no-repeat,
+    radial-gradient(closest-side,rgb(var(--cloud) / var(--ca1)),rgb(var(--cloud) / var(--ca2)) 50%,rgb(var(--cloud) / 0)) 100% 75%/55% 74% no-repeat}
+.frame[data-theme="sky"] .amb i:nth-child(1){top:58px;left:-70px;width:330px;height:130px;animation:th-drift-a 44s ease-in-out infinite alternate}
+.frame[data-theme="sky"] .amb i:nth-child(2){top:330px;right:-120px;width:380px;height:150px;animation:th-drift-b 58s ease-in-out infinite alternate}
+.frame[data-theme="sky"] .amb i:nth-child(3){top:600px;left:-40px;width:280px;height:110px;animation:th-drift-a 60s ease-in-out -20s infinite alternate-reverse}
+.frame[data-theme="sky"][data-tod="night"] .amb:after{   /* a few calm stars, only where no card sits */
+  background:
+    radial-gradient(circle at 30% 3.5%,rgba(255,255,255,.85) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 44% 6.5%,rgba(255,255,255,.6) 0 .8px,transparent 1.5px),
+    radial-gradient(circle at 57% 2.6%,rgba(255,255,255,.75) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 63% 15%,rgba(255,255,255,.55) 0 .8px,transparent 1.5px),
+    radial-gradient(circle at 81% 4%,rgba(255,255,255,.6) 0 .8px,transparent 1.5px),
+    radial-gradient(circle at 93% 23%,rgba(255,255,255,.5) 0 .8px,transparent 1.5px);
+  animation:th-twinkle 9s ease-in-out infinite alternate}
+
+/* ================= DUSK: low stimulus, for light-sensitive and exhausted days ================= */
+.frame[data-theme="dusk"]{
+  --ink:#e4ded3; --muted:#9aa7a6; --line:rgba(228,222,211,.07); --accent:#c9a66e;
+  --white:#152327; --th-card-solid:#152327; --grey:#203137;
+  --th-shadow:0 10px 30px -14px rgba(0,0,0,.6); --th-shadow-flat:none; --th-shadow-s:0 4px 12px -6px rgba(0,0,0,.5);
+  --th-tint:linear-gradient(140deg,#3a2f1d 0%,#2b2518 100%); --th-tint-ink:#efe2c8; --th-tint-muted:#c3b393;
+  --th-tint-shadow:0 0 0 1px rgba(201,166,110,.14) inset,0 0 36px -10px rgba(201,166,110,.28);
+  --th-ca:#bf9a5f; --th-ca-ink:#1a150d;
+  --th-btn:#bf9a5f; --th-btn-ink:#1a150d; --th-fab:#24363c;
+  --th-track:rgba(228,222,211,.11); --th-fill0:rgba(228,222,211,.2); --th-mark:#d8cfbf; --th-knob:#d9d3c8;
+  --th-glow:rgba(201,166,110,.42); --halo:201 166 110;
+  --th-curve:#d6cbb6; --th-dot:#e6c88f; --th-bar:rgba(228,222,211,.4); --th-under:.08;
+  --th-sky:#0b1417; --th-bottom:#0b1417; --th-bottom-rgb:11 20 23;
+  --th-sheet:#101b1f; --th-sheet-rgb:16 27 31; --th-tabbar:#15242a; --th-dim:rgba(0,0,0,.5);
+  --th-flag:rgba(201,166,110,.13); --th-flag-ink:#d9b97f; --th-danger:#de9481;
+  --hm-a:#2c4744; --hm-b:#77603a; --hm-c:#6f413c;
+  --lilac:var(--th-tint); --sage:var(--th-tint); --butter:var(--th-tint); --sky:var(--th-tint); --peach:var(--th-tint);
+}
+.frame[data-theme="dusk"] .stage .phone.sheet:before{background:rgba(228,222,211,.2)}
+.frame[data-theme="dusk"] .handle{background:#24363c}
+/* numbers and curves glow faintly */
+.frame[data-theme="dusk"] .stage :is(.slider .v b,.spark .v,.tile.tint .l,.week b,.dl .num){text-shadow:0 0 14px rgba(230,205,160,.28)}
+.frame[data-theme="dusk"] .stage .cv-h{display:inline;fill:none;stroke:var(--th-curve);stroke-width:7;opacity:.1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.frame[data-theme="dusk"] .stage .cv-p{box-shadow:0 0 0 3px var(--th-card-solid),0 0 12px 2px rgba(230,200,143,.45)}
+/* aurora: two large soft fields, petrol and muted violet, barely moving (cycles 100–120 s) */
+.frame[data-theme="dusk"] .amb i:nth-child(1){top:-170px;left:-190px;width:640px;height:460px;background:radial-gradient(closest-side,rgba(28,104,108,.42),rgba(28,104,108,.14) 55%,rgba(28,104,108,0));animation:th-aurora-a 60s ease-in-out infinite alternate}
+.frame[data-theme="dusk"] .amb i:nth-child(2){top:330px;right:-230px;width:600px;height:500px;background:radial-gradient(closest-side,rgba(88,70,132,.34),rgba(88,70,132,.11) 55%,rgba(88,70,132,0));animation:th-aurora-b 50s ease-in-out infinite alternate}
+.frame[data-theme="dusk"] .amb i:nth-child(3){display:none}
+
+/* ================= MEADOW: organic, energy as something alive ================= */
+.frame[data-theme="meadow"]{
+  --ink:#2e342a; --muted:#525a4b; --line:rgba(46,52,42,.08); --accent:#4b6d44;
+  --white:#fcfaf5; --th-card-solid:#fcfaf5; --grey:#eeefe5;
+  --th-shadow:0 1px 2px rgba(60,68,48,.05),0 10px 28px -8px rgba(60,68,48,.14);
+  --th-shadow-flat:0 1px 2px rgba(60,68,48,.05);
+  --th-shadow-s:0 1px 2px rgba(60,68,48,.06),0 4px 12px -4px rgba(60,68,48,.12);
+  --th-tint:linear-gradient(140deg,#9e5538 0%,#8f4b31 100%); --th-tint-ink:#fff7ef; --th-tint-muted:#f8e7dc;
+  --th-tint-shadow:0 14px 30px -12px rgba(150,80,50,.45);
+  --th-ca:#fff4ea; --th-ca-ink:#8f4b31;
+  --th-btn:#38432f; --th-btn-ink:#f8f5ee; --th-fab:#38432f;
+  --th-track:rgba(46,52,42,.1); --th-fill0:rgba(46,52,42,.2); --th-mark:#38432f; --th-knob:#fff;
+  --th-glow:rgba(140,170,120,.6); --halo:150 180 125;
+  --th-curve:#46553f; --th-dot:#46553f; --th-bar:#9cb092; --th-under:.3;
+  --th-sky:linear-gradient(172deg,#dbe4d4 0%,#e4e7d8 42%,#eee5d2 100%);
+  --th-bottom:#eee5d2; --th-bottom-rgb:238 229 210;
+  --th-sheet:#f3efe5; --th-sheet-rgb:243 239 229; --th-tabbar:#fcfaf5; --th-dim:rgba(48,56,40,.22);
+  --th-flag:#f6e6cc; --th-flag-ink:#7a5420; --th-danger:#a4482f;
+  --hm-a:#b9cbb0; --hm-b:#e3c48f; --hm-c:#dca592;
+  --lilac:var(--th-tint); --sage:var(--th-tint); --butter:var(--th-tint); --sky:var(--th-tint); --peach:var(--th-tint);
+}
+/* two organic blobs: the outer box drifts (cycle ~110 s), the shape breathes (1 → 1.04, ~9 s) */
+.frame[data-theme="meadow"] .amb i:before{content:"";position:absolute;inset:0;animation:th-breathe 4.5s ease-in-out infinite alternate;will-change:transform}
+.frame[data-theme="meadow"] .amb i:nth-child(1){top:-90px;right:-130px;width:380px;height:340px;animation:th-drift-b 55s ease-in-out infinite alternate}
+.frame[data-theme="meadow"] .amb i:nth-child(1):before{border-radius:58% 42% 55% 45% / 52% 60% 40% 48%;background:radial-gradient(120% 100% at 30% 30%,#d3dfcb,#cfdcc6)}
+.frame[data-theme="meadow"] .amb i:nth-child(2){top:470px;left:-150px;width:340px;height:320px;animation:th-drift-a 60s ease-in-out infinite alternate}
+.frame[data-theme="meadow"] .amb i:nth-child(2):before{border-radius:44% 56% 38% 62% / 55% 45% 55% 45%;background:radial-gradient(120% 100% at 70% 30%,#ecdcc4,#e6d2b6);animation-delay:-2.2s}
+.frame[data-theme="meadow"] .amb i:nth-child(3){display:none}
+/* Today: a small breathing form inside the primary tile */
+.frame[data-theme="meadow"] .stage .tile.cta{position:relative;overflow:hidden}
+.frame[data-theme="meadow"] .stage .tile.cta > *{position:relative}
+.frame[data-theme="meadow"] .stage .tile.cta:before{content:"";position:absolute;right:-18px;top:50%;width:112px;height:104px;margin-top:-52px;border-radius:58% 42% 55% 45% / 52% 60% 40% 48%;background:rgba(255,232,214,.17);animation:th-breathe 4.5s ease-in-out infinite alternate}
+
+/* ---------- reduced motion: everything holds still ---------- */
+@media (prefers-reduced-motion:reduce){
+  .frame.soft .amb *,.frame.soft .amb *:before,.frame.soft .amb:after,.frame.soft .stage .tile.cta:before{animation:none!important}
+  .frame.soft .stage .slider .knob:before,.frame.soft .stage > .phone:not(.sheet){transition:none}
+  .frame.soft .halo{display:none}
+}

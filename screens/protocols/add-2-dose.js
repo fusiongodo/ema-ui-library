@@ -3,11 +3,11 @@ SCREENS.push({ id:"protocols/add-2-dose", area:"Protocols", status:"idea", title
   why:"Dose is optional (Skip). Unit remembered per item.",
   ref:"refs/juno-add-med-dose.png",
   w:[
-    {t:"shead", left:"‹", l:"Naltrexon", n:"2 of 3", right:"×"},
+    {t:"shead", left:"‹", l:"Naltrexon", n:"2 of 3", right:"×", goLeft:"back", goRight:"close"},
     {t:"big", l:"Dose"},
     {t:"field", v:"3", suffix:"mg"},
     {t:"pills", items:["mg","mcg","g","mL","IU","units"], on:["mg"]},
     {t:"spacer"},
-    {t:"btn", l:"Continue"},
-    {t:"btn", l:"Skip", light:true},
+    {t:"btn", l:"Continue", go:"protocols/add-3-schedule"},
+    {t:"btn", l:"Skip", light:true, go:"protocols/add-3-schedule"},
   ]});

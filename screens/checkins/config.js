@@ -2,7 +2,7 @@ SCREENS.push({ id:"checkins/config", area:"Check-ins", status:"current", title:"
   sheet:true,
   why:"Reconstructed (no screenshot yet). Send one and I'll correct it.",
   w:[
-    {t:"shead", left:"‹", l:"Customize", right:"Done"},
+    {t:"shead", left:"‹", l:"Customize", right:"Done", goLeft:"back", goRight:"close"},
     {t:"sec", l:"Scores"},
     {t:"list", rows:[["Fatigue / energy","≡"],["Overall wellbeing","≡"],["Pain","≡"],["Thirst","≡"],["Brain fog","≡"],["+ Add score","","acc"]]},
     {t:"sec", l:"Schedule"},

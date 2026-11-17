@@ -1,0 +1,90 @@
+/* ====== SPLASH: the MEjority intro (Play only, lib/splash.js) ======
+   Drawn inside the phone frame, above stage, status bar and home indicator; removed from the DOM when it ends.
+   Own colours and type, independent of the Play theme. One 3.5 s timeline:
+     0–0.8 s   sky fades in, clouds rise into place (small ones drift slowly)
+     0.8 s     the ME plaque springs in, a small sun rises behind it
+     1.6 s     the plaque glides left, "jority" appears letter by letter beside it → "MEjority"
+     2.8–3.5 s clouds part, the wordmark lifts, the whole intro fades into the app
+   Motion is transform/opacity only. .still = prefers-reduced-motion: the finished wordmark, no motion.
+   .pre = measuring pass before the timeline starts (no animations). */
+.splash{
+  --sp-ink:#1d3d8f;
+  position:absolute;inset:0;z-index:40;overflow:hidden;contain:strict;
+  background:#e9f3ff;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+  font-family:ui-rounded,"SF Pro Rounded","Fredoka","Nunito",-apple-system,system-ui,sans-serif;
+  color:var(--sp-ink);line-height:1;letter-spacing:0;text-align:left;font-style:normal;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  animation:sp-root 3.5s linear both;
+}
+.splash *{box-sizing:border-box}
+.splash i,.splash b{font-style:normal}
+
+/* sky: strong friendly blue at the top, lighter towards the horizon, warm apricot and rosé at the bottom */
+.splash .sp-sky{position:absolute;inset:0;
+  background:linear-gradient(180deg,#2f7ae6 0%,#4690f0 18%,#6eaef7 36%,#9ccbfd 51%,#c4e0ff 60%,#eaf2ff 66%,#fff0e3 71%,#ffdcc6 79%,#ffcbc3 88%,#fcbcc4 100%);
+  animation:sp-in .8s ease-out both}
+/* a soft warm glow on the horizon, flat and wide */
+.splash .sp-sky:after{content:"";position:absolute;left:-20%;right:-20%;top:62%;height:30%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,236,214,.75),rgba(255,236,214,0))}
+
+/* ----- clouds: wrapper = rise in / part on exit, svg = slow drift ----- */
+.splash .sp-c{position:absolute;display:block;will-change:transform;
+  animation:sp-cloud 3.5s both;animation-delay:var(--d,0s)}
+.splash .sp-c svg{display:block;width:100%;height:auto;overflow:visible;animation:sp-drift 3.5s linear both}
+/* small ones, higher up */
+.splash .s1{top:13%;left:5%;width:31%;--in:16px;--ex:-30px;--ey:-260px;--dr:16px;--d:.05s}
+.splash .s2{top:24%;right:6%;width:22%;--in:16px;--ex:30px;--ey:-300px;--dr:-12px;--d:.12s}
+.splash .s3{top:57%;right:-5%;width:26%;--in:16px;--ex:60px;--ey:-200px;--dr:-10px;--d:.18s;opacity:.95}
+/* big ones on the bottom edge: a warm back row and a white front row */
+.splash .b1{left:-30%;bottom:6%;width:92%;--in:40px;--ex:-55%;--ey:12%;--dr:8px}
+.splash .b2{right:-34%;bottom:3%;width:98%;--in:40px;--ex:55%;--ey:12%;--dr:-8px;--d:.06s}
+.splash .b3{left:-40%;bottom:-11%;width:104%;--in:60px;--ex:-62%;--ey:26%;--dr:6px;--d:.04s}
+.splash .b4{right:-44%;bottom:-14%;width:108%;--in:60px;--ex:62%;--ey:26%;--dr:-6px;--d:.1s}
+.splash .b5{left:12%;bottom:-15%;width:86%;--in:70px;--ex:0px;--ey:70%;--dr:4px;--d:.08s}
+
+/* ----- wordmark: ME plaque + "jority", centred a bit above the middle ----- */
+.splash .sp-pos{position:absolute;left:0;right:0;top:0;bottom:12%;display:flex;align-items:center;justify-content:center}
+.splash .sp-word{display:flex;align-items:baseline;font-size:56px;font-weight:800;white-space:nowrap;animation:sp-lift 3.5s both}
+.splash .sp-mark{position:relative;z-index:1;display:block;animation:sp-slide 3.5s both}
+.splash .sp-plaque{position:relative;display:block;padding:.24em .25em .2em;border-radius:.44em;background:#fff;
+  font-weight:800;letter-spacing:-.015em;color:var(--sp-ink);
+  box-shadow:0 .09em 0 #c4d6f6,0 .3em .7em rgba(20,50,120,.22);
+  animation:sp-pop .75s .8s both}
+/* small sun rising behind the plaque's top left corner, with a few short rays */
+.splash .sp-sun{position:absolute;z-index:-1;left:-.2em;top:-.32em;width:.76em;height:.76em;border-radius:50%;
+  background:#ffc640;box-shadow:inset -.06em -.07em 0 #ffb02e;
+  animation:sp-sun .8s 1.05s cubic-bezier(.3,1.35,.5,1) both}
+.splash .sp-rays{position:absolute;left:50%;top:50%;width:1.5em;height:1.5em;margin:-.75em 0 0 -.75em;overflow:visible;
+  animation:sp-rays .7s 1.4s cubic-bezier(.3,1.4,.5,1) both}
+.splash .sp-rest{display:block;margin-left:.045em;color:var(--sp-ink)}
+.splash .sp-rest i{display:inline-block;animation:sp-letter .6s cubic-bezier(.25,1.35,.5,1) both}
+.splash .sp-rest i:nth-child(1){animation-delay:1.72s}
+.splash .sp-rest i:nth-child(2){animation-delay:1.79s}
+.splash .sp-rest i:nth-child(3){animation-delay:1.86s}
+.splash .sp-rest i:nth-child(4){animation-delay:1.93s}
+.splash .sp-rest i:nth-child(5){animation-delay:2s}
+.splash .sp-rest i:nth-child(6){animation-delay:2.07s}
+
+/* measuring pass and reduced motion: the finished wordmark, nothing moves */
+.splash.pre,.splash.pre *,.splash.still,.splash.still *{animation:none!important}
+
+@keyframes sp-root{0%,82%{opacity:1;animation-timing-function:cubic-bezier(.45,0,.7,1)}100%{opacity:0}}
+@keyframes sp-in{from{opacity:0}to{opacity:1}}
+@keyframes sp-cloud{
+  0%{transform:translate3d(0,var(--in,30px),0);opacity:0;animation-timing-function:cubic-bezier(.2,.75,.25,1)}
+  26%{transform:translate3d(0,0,0);opacity:1}
+  80%{transform:translate3d(0,0,0);opacity:1;animation-timing-function:cubic-bezier(.5,0,.75,.55)}
+  100%{transform:translate3d(var(--ex,0px),var(--ey,0px),0);opacity:1}}
+@keyframes sp-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(var(--dr,0px),0,0)}}
+@keyframes sp-pop{
+  0%{transform:scale(.3);opacity:0;animation-timing-function:cubic-bezier(.25,.8,.35,1)}
+  45%{transform:scale(1.08);opacity:1;animation-timing-function:ease-in-out}
+  72%{transform:scale(.975);animation-timing-function:ease-in-out}
+  100%{transform:scale(1)}}
+@keyframes sp-sun{from{transform:translate3d(.1em,.5em,0) scale(.45);opacity:0}to{transform:none;opacity:1}}
+@keyframes sp-rays{from{transform:rotate(30deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes sp-slide{
+  0%,46%{transform:translate3d(var(--dx,0px),0,0);animation-timing-function:cubic-bezier(.6,0,.25,1)}
+  67%,100%{transform:translate3d(0,0,0)}}
+@keyframes sp-letter{from{transform:translate3d(-.2em,.1em,0) scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes sp-lift{0%,80%{transform:translate3d(0,0,0);animation-timing-function:cubic-bezier(.45,0,.75,.6)}100%{transform:translate3d(0,-22px,0)}}

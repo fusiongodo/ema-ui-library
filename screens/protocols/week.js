@@ -2,7 +2,7 @@ SCREENS.push({ id:"protocols/week", area:"Protocols", status:"current", title:"P
   tabs:"current", tab:"Plans",
   why:"Rows = plans, columns = days. ● taken, struck ○ skipped, + extra. Reconstructed from the spec, correct me if it differs.",
   w:[
-    {t:"seg", items:["Day","Week"], on:"Week", r:"Manage plans"},
+    {t:"seg", items:["Day","Week"], on:"Week", r:"Manage plans", go:["protocols/day",null], goRight:"protocols/plans-list"},
     {t:"big", l:"2 – 8 Nov", n:"2 deviations this week"},
     {t:"weekgrid", rows:[
       ["Morning Suppl.","●●●----"],
@@ -10,6 +10,6 @@ SCREENS.push({ id:"protocols/week", area:"Protocols", status:"current", title:"P
       ["Naltrexon","●●●----"],
       ["GLP-1","● ●----"],
       ["Daridorexat","●●●----"],
-      ["Epitalon","+  +---"]]},
+      ["Epitalon","+  +---"]], go:"protocols/day"},
     {t:"note", l:"Tap a day column to open it in Day view."},
   ]});

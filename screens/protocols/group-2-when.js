@@ -7,12 +7,12 @@ SCREENS.push({ id:"protocols/group-2-when", area:"Protocols", status:"idea", tit
     "Adding to an existing group later: '+' on the group row in its fold reopens step 1 with the current list."
   ],
   w:[
-    {t:"shead", left:"‹", l:"6 items", n:"2 of 2", right:"×"},
+    {t:"shead", left:"‹", l:"6 items", n:"2 of 2", right:"×", goLeft:"back", goRight:"close"},
     {t:"big", l:"When?"},
     {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"]},
     {t:"list", rows:[["Rhythm","Every day ›"]]},
     {t:"field", l:"Name", v:"Morning supplements"},
     {t:"list", rows:[["Start","Today"],["End","None"]]},
     {t:"spacer"},
-    {t:"btn", l:"Add to Morning"},
+    {t:"btn", l:"Add to Morning", go:"protocols/today-folds"},
   ]});

@@ -3,11 +3,11 @@ SCREENS.push({ id:"protocols/add-1-name", area:"Protocols", status:"idea", title
   why:"Sheet over the Today view, no navigation away. One question per step.",
   ref:"refs/juno-add-med-1.png",
   w:[
-    {t:"shead", left:"", l:"Add protocol", n:"1 of 3", right:"×"},
+    {t:"shead", left:"", l:"Add protocol", n:"1 of 3", right:"×", goRight:"close"},
     {t:"big", l:"What do you take?"},
     {t:"field", v:"e.g. Naltrexon, HBOT, Magnesium"},
     {t:"sec", l:"Recent", r:""},
-    {t:"chips", items:["Taurine","NAC","Selank","🎙 Say it"]},
+    {t:"chips", items:["Taurine","NAC","Selank","🎙 Say it"], go:["protocols/add-2-dose","protocols/add-2-dose","protocols/add-2-dose","voice/voice"]},
     {t:"spacer"},
-    {t:"btn", l:"Continue"},
+    {t:"btn", l:"Continue", go:"protocols/add-2-dose"},
   ]});

@@ -5,7 +5,7 @@ SCREENS.push({ id:"checkins/overview", area:"Check-ins", status:"current", title
     {t:"head", l:"Check-ins"},
     {t:"tile", tone:"white", l:"YOUR CHECK-IN", r:"Customize ›",
       chips:["Fatigue / energy","Overall wellbeing","Pain","Thirst","Brain fog"],
-      foot:"🕘 3× a day · 9:00, 13:00, 18:00   ·   1 of 5"},
+      foot:"🕘 3× a day · 9:00, 13:00, 18:00   ·   1 of 5", go:"checkins/config"},
     {t:"toggle", l:"Show protocol", on:false},
     {t:"sec", l:"Trends"},
     {t:"grid2", items:[

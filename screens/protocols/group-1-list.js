@@ -10,7 +10,7 @@ SCREENS.push({ id:"protocols/group-1-list", area:"Protocols", status:"idea", tit
     "<b>Editing:</b> tap a row to change the dose, swipe to delete."
   ],
   w:[
-    {t:"shead", left:"‹", l:"New group", n:"1 of 2", right:"×"},
+    {t:"shead", left:"‹", l:"New group", n:"1 of 2", right:"×", goLeft:"back", goRight:"close"},
     {t:"sec", l:"Your list", act:"🎙 Dictate"},
     {t:"doselist", rows:[
       ["Taurine","500","mg"],
@@ -22,5 +22,5 @@ SCREENS.push({ id:"protocols/group-1-list", area:"Protocols", status:"idea", tit
       ["input","Lithium Orotate 5 ⏎"]]},
     {t:"note", l:"Dashed unit = suggested. Tap any unit to cycle."},
     {t:"spacer"},
-    {t:"btn", l:"Continue · 6 items"},
+    {t:"btn", l:"Continue · 6 items", go:"protocols/group-2-when"},
   ]});

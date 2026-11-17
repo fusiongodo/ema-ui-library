@@ -1,0 +1,267 @@
+/* ====== COZY (Play only, the default theme) ======
+   A friendly, soft "cozy game" look: every main area has its own colour world (flat pastel page, dark variant for
+   titles / primary buttons / active tab, very light variant for icon tiles), big white cards with very round corners,
+   Fredoka for titles and numbers, Nunito for text, round cartoon icons (lib/cozy.js), a small companion (lib/buddy.js).
+   Play sets on the phone frame data-theme="cozy", class .soft (so the shared soft rules of lib/themes.css apply) and
+   data-world = today | checkins | protocols | insights | voice (from the screen below; sheets inherit it). Every painted
+   layer carries its own data-world too, so a layer that fades out keeps its colours while the page colour blends over.
+   Nothing here reaches Wire, Sky, Dusk, Meadow, Library or Flows: every rule starts at .frame[data-theme="cozy"].
+   PRINCIPLES 8 still holds: cards are white, the one tinted card (primary action / empty state) is the dark world colour.
+   Motion: transform/opacity only; prefers-reduced-motion switches it all off (end of file). Text contrast ≥ 4.5:1. */
+
+/* ---------- colour worlds ---------- */
+.frame[data-theme="cozy"][data-world="today"],.frame[data-theme="cozy"] .layer[data-world="today"]{   /* warm apricot / sun */
+  --cz-bg:#FFD49B; --cz-bg-rgb:255 212 155; --cz-mid:#FFBE78; --cz-sheet:#FFEBD2; --cz-sheet-rgb:255 235 210;
+  --cz-light:#FFF2DF; --cz-tabbar:#FFF7EC; --cz-dark:#8A3F0A; --cz-dark-rgb:138 63 10;
+  --cz-title:#8A3F0A; --cz-sub:#76502F; --ink:#3D2615; --muted:#76502F;
+}
+.frame[data-theme="cozy"][data-world="checkins"],.frame[data-theme="cozy"] .layer[data-world="checkins"]{   /* fresh mint / sage */
+  --cz-bg:#BDE5CC; --cz-bg-rgb:189 229 204; --cz-mid:#9FD6B6; --cz-sheet:#DFF3E7; --cz-sheet-rgb:223 243 231;
+  --cz-light:#E6F6EC; --cz-tabbar:#F1FAF4; --cz-dark:#1B5C40; --cz-dark-rgb:27 92 64;
+  --cz-title:#1B5C40; --cz-sub:#3D5E4E; --ink:#1E3328; --muted:#3D5E4E;
+}
+.frame[data-theme="cozy"][data-world="protocols"],.frame[data-theme="cozy"] .layer[data-world="protocols"]{   /* periwinkle */
+  --cz-bg:#C5CBF7; --cz-bg-rgb:197 203 247; --cz-mid:#A9B1F0; --cz-sheet:#E3E6FC; --cz-sheet-rgb:227 230 252;
+  --cz-light:#ECEEFE; --cz-tabbar:#F4F5FF; --cz-dark:#383D9C; --cz-dark-rgb:56 61 156;
+  --cz-title:#383D9C; --cz-sub:#474C7C; --ink:#23264A; --muted:#474C7C;
+}
+.frame[data-theme="cozy"][data-world="insights"],.frame[data-theme="cozy"] .layer[data-world="insights"]{   /* lilac rosé (benchmarks, insights) */
+  --cz-bg:#EDC8E2; --cz-bg-rgb:237 200 226; --cz-mid:#E0AACF; --cz-sheet:#F7E4F1; --cz-sheet-rgb:247 228 241;
+  --cz-light:#FBEEF7; --cz-tabbar:#FDF5FA; --cz-dark:#782C66; --cz-dark-rgb:120 44 102;
+  --cz-title:#782C66; --cz-sub:#674060; --ink:#3A1F35; --muted:#674060;
+}
+.frame[data-theme="cozy"][data-world="voice"],.frame[data-theme="cozy"] .layer[data-world="voice"]{   /* deep calm teal: light text on the page */
+  --cz-bg:#2F6B6A; --cz-bg-rgb:47 107 106; --cz-mid:#5B9693; --cz-sheet:#E1EFED; --cz-sheet-rgb:225 239 237;
+  --cz-light:#E3F1EF; --cz-tabbar:#EEF7F5; --cz-dark:#123C3D; --cz-dark-rgb:18 60 61;
+  --cz-title:#F3FBF9; --cz-sub:#D2E9E5; --ink:#17302F; --muted:#46625F;
+}
+
+/* ---------- theme variables (on the frame and on each layer, so every layer resolves its own world) ---------- */
+.frame[data-theme="cozy"],.frame[data-theme="cozy"] .layer{
+  --round:"Fredoka",ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
+  --cz-text:"Nunito",ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;
+  --rad:28px; --pad:20px;
+  --white:#fff; --th-card-solid:#fff; --grey:var(--cz-light); --line:rgb(var(--cz-dark-rgb) / .10); --accent:var(--cz-dark);
+  --th-shadow:0 1px 2px rgb(var(--cz-dark-rgb) / .05),0 14px 30px -14px rgb(var(--cz-dark-rgb) / .32);
+  --th-shadow-flat:0 1px 2px rgb(var(--cz-dark-rgb) / .05);
+  --th-shadow-s:0 1px 2px rgb(var(--cz-dark-rgb) / .06),0 6px 14px -6px rgb(var(--cz-dark-rgb) / .30);
+  --th-tint:var(--cz-dark); --th-tint-ink:#fff; --th-tint-muted:rgba(255,255,255,.88);
+  --th-tint-shadow:0 18px 34px -16px rgb(var(--cz-dark-rgb) / .6);
+  --th-ca:#fff; --th-ca-ink:var(--cz-dark);
+  --th-btn:var(--cz-dark); --th-btn-ink:#fff; --th-fab:var(--cz-dark);
+  --th-track:rgb(var(--cz-dark-rgb) / .12); --th-fill0:rgb(var(--cz-dark-rgb) / .26); --th-mark:var(--cz-dark); --th-knob:#fff;
+  --th-glow:rgb(var(--cz-bg-rgb) / .95);
+  --th-curve:var(--cz-dark); --th-dot:var(--cz-dark); --th-bar:var(--cz-mid);
+  --th-sheet:var(--cz-sheet); --th-sheet-rgb:var(--cz-sheet-rgb); --th-foot-a:1;
+  --th-tabbar:var(--cz-tabbar); --th-dim:rgb(var(--cz-dark-rgb) / .24); --th-under:.5;
+  --th-sky:var(--cz-bg); --th-bottom:var(--cz-bg); --th-bottom-rgb:var(--cz-bg-rgb);
+  --th-flag:#FFF0D2; --th-flag-ink:#744A0C; --th-danger:#A63D2A;
+  --hm-a:var(--cz-mid); --hm-b:#F4C66F; --hm-c:#EBA49B;
+  --lilac:var(--th-tint); --sage:var(--th-tint); --butter:var(--th-tint); --sky:var(--th-tint); --peach:var(--th-tint);
+  /* companion (lib/buddy.js) */
+  --bd-blanket:var(--cz-light); --bd-hem:var(--cz-mid); --bd-z:var(--cz-title); --bd-mug:#D9876A;
+}
+
+/* ---------- ground: one flat colour per world, blends over ~400 ms on a tab change ---------- */
+.frame[data-theme="cozy"]{background:var(--cz-bg);transition:background-color .4s ease}
+.frame[data-theme="cozy"] .amb{background:var(--cz-bg);transition:background-color .4s ease}
+.frame[data-theme="cozy"] .amb:before,.frame[data-theme="cozy"] .amb i{display:none}
+.frame[data-theme="cozy"] .status{color:var(--cz-title)}
+.frame[data-theme="cozy"] .stage .phone.sheet{border-radius:30px 30px 0 0;box-shadow:0 -10px 34px rgb(var(--cz-dark-rgb) / .16)}
+.frame[data-theme="cozy"] .stage .phone.sheet:before{background:rgb(var(--cz-dark-rgb) / .22)}
+
+/* ---------- type ---------- */
+.frame[data-theme="cozy"] .stage{font-family:var(--cz-text);-webkit-font-smoothing:antialiased}
+.frame[data-theme="cozy"] .stage .phone{font-weight:500}
+.frame[data-theme="cozy"] .stage :is(.head b,.big b,.shead b,.sec,.tile .l,.fold .ft .t,.choice b,.btn,.slider .st .l,.slider .v b,.spark .v,.week b,.dl .num,.stepper .v,.tlr > span:nth-child(3),.ca){font-family:var(--round)}
+.frame[data-theme="cozy"] .stage :is(.tile .l,.fold .ft .t,.choice b,.slider .st .l,.btn,.big b,.shead b,.sec){font-weight:600}
+.frame[data-theme="cozy"] .stage :is(.big b){color:var(--cz-title)}
+.frame[data-theme="cozy"] .stage .sec{color:var(--cz-title);font-size:20px;padding-left:6px}
+.frame[data-theme="cozy"] .stage .sec > span:not(.act){color:var(--cz-sub);font-family:var(--cz-text);font-weight:600}
+.frame[data-theme="cozy"] .stage > .phone:not(.sheet) :is(.note,.mic + .note){color:var(--cz-sub)}
+.frame[data-theme="cozy"] .stage .note{font-weight:600}
+
+/* ---------- page head: title centred in the dark world colour, small status line, round buttons ---------- */
+.frame[data-theme="cozy"] .stage .head.cz-head{display:grid;grid-template-columns:var(--tap) minmax(0,1fr) var(--tap);align-items:center;column-gap:8px;margin:2px 0 4px}
+.frame[data-theme="cozy"] .stage .cz-head .hl{grid-column:2;align-items:center;text-align:center}
+.frame[data-theme="cozy"] .stage .cz-head .hl b{font-size:30px;font-weight:600;color:var(--cz-title);letter-spacing:0}
+.frame[data-theme="cozy"] .stage .cz-head .hl .n{font-size:var(--t-sub);font-weight:600;color:var(--cz-sub);margin-top:1px}
+.frame[data-theme="cozy"] .stage .cz-head > .circle{grid-column:3;justify-self:end}
+.frame[data-theme="cozy"] .stage .cz-hs{display:block;width:var(--tap)}
+.frame[data-theme="cozy"] .stage .circle,.frame[data-theme="cozy"] .stage .shead .side.g{width:var(--tap);min-width:var(--tap);padding:0;border-radius:50%;background:#fff;color:var(--cz-dark);box-shadow:var(--th-shadow-s)}
+.frame[data-theme="cozy"] .stage .circle.cz-primary{background:var(--cz-dark);color:#fff;box-shadow:0 8px 18px -8px rgb(var(--cz-dark-rgb) / .7)}
+.frame[data-theme="cozy"] .stage :is(.circle,.side.g) .cz-g{width:24px;height:24px;margin:0;color:inherit}
+.frame[data-theme="cozy"] .stage .shead .side.g{font-size:28px;font-weight:600}
+/* sheet / sub-page head */
+.frame[data-theme="cozy"] .stage .shead b{color:var(--cz-title);font-size:19px}
+.frame[data-theme="cozy"] .stage .shead .n{color:var(--cz-sub);font-weight:600}
+.frame[data-theme="cozy"] .stage .shead .side:not(.g){color:var(--cz-title);font-weight:700}
+.frame[data-theme="cozy"] .stage > .phone:not(.sheet) > .shead b{font-size:24px}
+/* Today: the companion next to the greeting, two small clouds behind it */
+.frame[data-theme="cozy"] .stage .cz-head.cz-hero{grid-template-columns:104px minmax(0,1fr) var(--tap);column-gap:14px;position:relative;margin:6px 0 6px;padding:0}
+.frame[data-theme="cozy"] .stage .cz-hero .hl{align-items:flex-start;text-align:left;position:relative;z-index:1}
+.frame[data-theme="cozy"] .stage .cz-hero .hl b{font-size:29px;line-height:1.08}
+.frame[data-theme="cozy"] .stage .cz-hero .hl .n{margin-top:4px}
+.frame[data-theme="cozy"] .stage .cz-hero > .circle{align-self:start;position:relative;z-index:1}
+.frame[data-theme="cozy"] .stage .cz-hero .cz-buddy{grid-column:1;grid-row:1;position:relative;z-index:1;width:104px;height:104px;border-radius:50%;background:var(--cz-mid);overflow:hidden;
+  box-shadow:inset 0 -6px 0 rgb(var(--cz-dark-rgb) / .06)}
+.frame[data-theme="cozy"] .stage .cz-hero .cz-buddy .bd{position:absolute;left:-2px;right:-2px;bottom:-2px}
+.frame[data-theme="cozy"] .stage .cz-hero .cz-buddy .bd[data-state="sleep"]{left:0;right:-4px;top:16px;bottom:auto}
+.frame[data-theme="cozy"] .stage .cz-cloud{position:absolute;z-index:0;pointer-events:none;opacity:.9}
+.frame[data-theme="cozy"] .stage .cz-cloud svg{display:block;width:100%;height:auto}
+.frame[data-theme="cozy"] .stage .cz-cloud.c1{width:58px;left:84px;top:-12px}
+.frame[data-theme="cozy"] .stage .cz-cloud.c2{width:44px;right:-6px;top:66px;opacity:.8}
+
+/* ---------- companion slot (lib/buddy.js) ---------- */
+.frame[data-theme="cozy"] .stage .cz-buddy{display:block;flex:none}
+.frame[data-theme="cozy"] .stage .bd{display:block}
+.frame[data-theme="cozy"] .stage .bd svg,.frame[data-theme="cozy"] .stage .bd img{display:block;width:100%;height:auto}
+/* empty state: the companion rests in the tinted card, top right */
+.frame[data-theme="cozy"] .stage .tile.cz-empty{position:relative;overflow:hidden}
+.frame[data-theme="cozy"] .stage .tile.cz-empty .cz-buddy{position:absolute;right:4px;top:-8px;width:110px;--bd-z:#fff}
+.frame[data-theme="cozy"] .stage .tile.cz-empty > div:first-of-type{padding-right:96px}
+.frame[data-theme="cozy"] .stage .tile.cz-empty .chips{margin-top:14px!important}
+
+/* ---------- cards: opaque white, very round, generous padding, very soft shadow ---------- */
+.frame[data-theme="cozy"] .stage .tile{padding:var(--pad)}
+.frame[data-theme="cozy"] .stage .row:has(> :nth-child(2)) .tile{padding:18px 16px}
+.frame[data-theme="cozy"] .stage .tile .top{gap:12px;justify-content:flex-start}
+.frame[data-theme="cozy"] .stage .tile .top .l{flex:1;min-width:0}
+.frame[data-theme="cozy"] .stage .tile .l{font-size:18px;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .tile .n{font-weight:600}
+.frame[data-theme="cozy"] .stage .tile.tint .l{color:var(--th-tint-ink)}
+.frame[data-theme="cozy"] .stage .tile.cta .ca{width:48px;height:48px;font-size:22px;font-weight:600}
+.frame[data-theme="cozy"] .stage :is(.field .box,.stepper){border-radius:20px;box-shadow:var(--th-shadow-s)}
+.frame[data-theme="cozy"] .stage .field .lb{font-weight:700;color:var(--cz-sub)}
+.frame[data-theme="cozy"] .stage .layer.sheet .field .lb{color:var(--muted)}
+.frame[data-theme="cozy"] .stage .list .item .r{font-weight:600}
+.frame[data-theme="cozy"] .stage .choice > div{padding:20px 18px}
+.frame[data-theme="cozy"] .stage .choice div.on{box-shadow:inset 0 0 0 3px var(--cz-dark),var(--th-shadow)}
+
+/* icon tile: a squircle in the light world colour */
+.frame[data-theme="cozy"] .stage .cz-ic{flex:none;display:inline-grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--cz-light);color:var(--cz-dark);font-style:normal}
+.frame[data-theme="cozy"] .stage .cz-ic svg{width:25px;height:25px;display:block}
+.frame[data-theme="cozy"] .stage .cz-ic-b{display:grid;margin-bottom:12px}
+.frame[data-theme="cozy"] .stage .tile.tint .cz-ic{background:rgba(255,255,255,.16);color:#fff}
+.frame[data-theme="cozy"] .stage .choice .cz-ic-b{width:52px;height:52px;border-radius:17px;margin-bottom:14px}
+.frame[data-theme="cozy"] .stage .choice .cz-ic-b svg{width:30px;height:30px}
+/* inline icon (replaces an emoji glyph in running text) */
+.frame[data-theme="cozy"] .stage .cz-g{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;font-style:normal;color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cz-g svg{display:block;width:100%;height:100%}
+.frame[data-theme="cozy"] .stage :is(.btn,.pills span.on,.tile.tint) .cz-g{color:inherit}
+
+/* folds: the time-of-day icon as a small tile, the count under the name, chevron at the end (cozy.js moves the icon) */
+.frame[data-theme="cozy"] .stage .fold{padding:0 14px 0 12px}
+.frame[data-theme="cozy"] .stage .cz-fold .ft{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"ic t a cv" "ic m a cv";
+  align-content:center;align-items:center;column-gap:12px;row-gap:0;min-height:66px;padding:10px 0}
+.frame[data-theme="cozy"] .stage .cz-fold .ft > .cz-ic-f{grid-area:ic;width:42px;height:42px;border-radius:14px}
+.frame[data-theme="cozy"] .stage .cz-fold .ft > .cz-ic-f svg{width:25px;height:25px}
+.frame[data-theme="cozy"] .stage .cz-fold .ft .t{grid-area:t;line-height:1.2}
+.frame[data-theme="cozy"] .stage .cz-fold .ft .m{grid-area:m;text-align:left;font-weight:600;line-height:1.25}
+.frame[data-theme="cozy"] .stage .cz-fold .ft .m:empty{display:none}
+.frame[data-theme="cozy"] .stage .cz-fold .ft .pill{grid-area:a}
+.frame[data-theme="cozy"] .stage .cz-fold .ft .cv{grid-area:cv;width:16px;text-align:center;color:var(--muted);font-weight:700}
+.frame[data-theme="cozy"] .stage .cz-fold .item{margin-left:54px}
+.frame[data-theme="cozy"] .stage .cz-fold .item:first-of-type{border-top-color:transparent}
+.frame[data-theme="cozy"] .stage .pill{background:var(--cz-light);color:var(--cz-dark);font-weight:700}
+
+/* ---------- controls: plump and round, a short squish when pressed ---------- */
+.frame[data-theme="cozy"] .stage .btn{min-height:54px;font-size:18px;box-shadow:0 10px 20px -12px rgb(var(--cz-dark-rgb) / .8)}
+.frame[data-theme="cozy"] .stage .btn.light{background:#fff;color:var(--cz-dark);box-shadow:var(--th-shadow-s)}
+.frame[data-theme="cozy"] .stage .pills span{background:#fff;font-weight:600}
+.frame[data-theme="cozy"] .stage .pills span.on{background:var(--cz-dark);color:#fff}
+.frame[data-theme="cozy"] .stage .chip{font-weight:600}
+.frame[data-theme="cozy"] .stage .sec .act{background:#fff;color:var(--cz-dark);font-family:var(--cz-text);font-weight:700}
+.frame[data-theme="cozy"] .stage .cz-moved{display:none}
+.frame[data-theme="cozy"] .stage .seg{background:rgba(255,255,255,.5)}
+.frame[data-theme="cozy"] .stage .seg span{color:var(--ink)}
+.frame[data-theme="cozy"] .stage .toggle i.on{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .mic{background:#fff;color:var(--cz-dark);box-shadow:0 18px 34px -16px rgb(var(--cz-dark-rgb) / .6)}
+.frame[data-theme="cozy"] .stage .mic > .cz-g{width:44px;height:44px;vertical-align:0}
+.frame[data-theme="cozy"] .stage .draft{background:#fff;border:2px dashed rgb(var(--cz-dark-rgb) / .35);border-radius:22px;font-weight:600}
+.frame[data-theme="cozy"] .stage .draft .pill{background:var(--cz-light)}
+.frame[data-theme="cozy"] .stage .stepper span.v i{background:var(--cz-light);color:var(--cz-dark);font-weight:700}
+.frame[data-theme="cozy"] .stage .week div.on{background:#fff}
+
+.frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.toggle i,.draft,.field[data-go]){
+  transition:transform .42s cubic-bezier(.3,1.7,.45,1)}
+.frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.draft,.field[data-go]):active{
+  transform:scale(.96);transition-duration:.08s;transition-timing-function:ease-out}
+
+/* ---------- slider ---------- */
+.frame[data-theme="cozy"] .stage .slider{padding:14px var(--pad) 12px}
+.frame[data-theme="cozy"] .stage .slider .rail{height:8px;margin-top:-4px;border-radius:4px;background:var(--cz-light)}
+.frame[data-theme="cozy"] .stage .slider .fill{border-radius:4px;background:rgb(var(--cz-dark-rgb) / .22)}
+.frame[data-theme="cozy"] .stage .slider.moved .fill{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .slider .v b{font-weight:600}
+.frame[data-theme="cozy"] .stage .slider.moved .v b{color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .slider .knob:after{box-shadow:0 0 0 1px rgb(var(--cz-dark-rgb) / .08),0 4px 12px rgb(var(--cz-dark-rgb) / .28)}
+.frame[data-theme="cozy"] .stage .slider .ends{font-weight:600}
+
+/* ---------- score curves (Today): line in the dark world colour, soft area, today's point emphasised ---------- */
+.frame[data-theme="cozy"] .stage .spark{padding:6px 0;align-items:center}
+.frame[data-theme="cozy"] .stage .spark .nm{font-weight:600}
+.frame[data-theme="cozy"] .stage .spark .ln.cv{height:48px}
+.frame[data-theme="cozy"] .stage .spark .v{color:var(--cz-dark);font-weight:600;font-size:20px}
+.frame[data-theme="cozy"] .stage .cv-l{stroke:var(--cz-dark);stroke-width:2.6}
+.frame[data-theme="cozy"] .stage .cv svg{color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cv-m{stroke:var(--cz-dark);opacity:.22}
+.frame[data-theme="cozy"] .stage .cv-p{width:12px;height:12px;margin:-6px 0 0 -6px;background:var(--cz-dark);box-shadow:0 0 0 2.5px #fff,0 0 0 6px rgb(var(--cz-bg-rgb) / .8)}
+
+/* ---------- tab bar: a floating pill in the very light world colour, icon over label ---------- */
+.frame[data-theme="cozy"] .stage .tabs{height:66px;padding:0 7px;border-radius:33px;color:var(--muted);font-size:11.5px;font-weight:700}
+.frame[data-theme="cozy"] .stage .tabs:before{border-radius:33px;background:var(--cz-tabbar);box-shadow:0 2px 4px rgb(var(--cz-dark-rgb) / .06),0 16px 34px -14px rgb(var(--cz-dark-rgb) / .45)}
+.frame[data-theme="cozy"] .stage .tabs > span{margin:7px 1px;border-radius:24px;gap:2px}
+.frame[data-theme="cozy"] .stage .tabs > span:before{display:none}
+.frame[data-theme="cozy"] .stage .tabs > span.on{background:rgb(var(--cz-bg-rgb) / .75);color:var(--cz-dark);font-weight:800}
+.frame[data-theme="cozy"] .stage .tabs .cz-ti{display:block;width:25px;height:25px;font-style:normal}
+.frame[data-theme="cozy"] .stage .tabs .cz-ti svg{display:block;width:100%;height:100%}
+.frame[data-theme="cozy"] .stage .tabs .fab{align-self:center;width:54px;height:54px;margin:0 3px;background:var(--cz-dark);color:#fff;box-shadow:0 8px 18px -8px rgb(var(--cz-dark-rgb) / .8)}
+.frame[data-theme="cozy"] .stage .tabs .fab .cz-g{width:27px;height:27px;color:#fff;vertical-align:0}
+
+/* ---------- save confirmation: a few small sparks fly up from the button (lib/cozy.js) ---------- */
+.frame[data-theme="cozy"] .cz-spark{position:absolute;z-index:5;width:0;height:0;pointer-events:none}
+.frame[data-theme="cozy"] .cz-spark b{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--cz-mid)}
+.frame[data-theme="cozy"] .cz-spark b:nth-child(3n+2){background:#FFC640}
+.frame[data-theme="cozy"] .cz-spark b.st{width:17px;height:17px;border-radius:0;background:var(--cz-dark);
+  clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%)}
+
+/* ---------- quiet motion: one or two moving things per page ---------- */
+@keyframes cz-float-a{from{transform:translate3d(-4px,0,0)}to{transform:translate3d(8px,-2px,0)}}
+@keyframes cz-float-b{from{transform:translate3d(5px,0,0)}to{transform:translate3d(-7px,1px,0)}}
+@keyframes cz-beat{0%,58%,100%{transform:scale(1)}66%{transform:scale(1.1)}74%{transform:scale(1)}82%{transform:scale(1.06)}}
+@keyframes cz-wobble{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes cz-tilt{0%,62%,100%{transform:rotate(0)}70%{transform:rotate(-9deg)}80%{transform:rotate(6deg)}90%{transform:rotate(-2deg)}}
+@keyframes cz-ring{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.32);opacity:0}}
+@keyframes bd-breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.05)}}
+@keyframes bd-z{0%,55%{transform:translate(0,4px);opacity:0}70%{opacity:1}100%{transform:translate(3px,-7px);opacity:0}}
+@keyframes bd-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.12)}}
+@keyframes bd-steam{0%{transform:translateY(3px);opacity:0}35%{opacity:.9}100%{transform:translateY(-6px);opacity:0}}
+@keyframes bd-sway{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+
+.frame[data-theme="cozy"] .stage .cz-cloud.c1{animation:cz-float-a 11s ease-in-out infinite alternate}
+.frame[data-theme="cozy"] .stage .cz-cloud.c2{animation:cz-float-b 14s ease-in-out infinite alternate}
+.frame[data-theme="cozy"] .stage .cz-beat svg{animation:cz-beat 2.6s ease-in-out infinite;transform-origin:50% 55%}
+.frame[data-theme="cozy"] .stage .cz-wobble svg{animation:cz-wobble 3.2s ease-in-out infinite alternate;transform-origin:50% 60%}
+.frame[data-theme="cozy"] .stage .cz-tilt svg{animation:cz-tilt 5s ease-in-out infinite;transform-origin:50% 80%}
+.frame[data-theme="cozy"] .stage .mic.cz-ring{position:relative}
+.frame[data-theme="cozy"] .stage .mic.cz-ring:before{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid rgba(255,255,255,.7);animation:cz-ring 3.2s ease-out infinite}
+.frame[data-theme="cozy"] .stage .bd svg *{transform-box:fill-box}
+.frame[data-theme="cozy"] .stage .bd .bd-breathe{transform-origin:50% 100%;animation:bd-breathe 4.6s ease-in-out infinite}
+.frame[data-theme="cozy"] .stage .bd .bd-z{opacity:0;animation:bd-z 4.6s ease-out infinite}
+.frame[data-theme="cozy"] .stage .bd .bd-z2{animation-delay:.7s}
+.frame[data-theme="cozy"] .stage .bd .bd-eyes{transform-origin:50% 50%;animation:bd-blink 6s ease-in-out infinite}
+.frame[data-theme="cozy"] .stage .bd .bd-head{transform-origin:50% 100%;animation:bd-sway 7s ease-in-out infinite alternate}
+.frame[data-theme="cozy"] .stage .bd .bd-s1{animation:bd-steam 3.4s ease-out infinite}
+.frame[data-theme="cozy"] .stage .bd .bd-s2{animation:bd-steam 3.4s ease-out 1.5s infinite}
+/* while a sheet is open the page below holds still: nothing moves while the user fills something in */
+.frame[data-theme="cozy"]:has(.dim.on) .stage > .phone:not(.sheet) *{animation-play-state:paused!important}
+
+/* ---------- reduced motion: everything holds still ---------- */
+@media (prefers-reduced-motion:reduce){
+  .frame[data-theme="cozy"],.frame[data-theme="cozy"] .amb{transition:none}
+  .frame[data-theme="cozy"] .stage *,.frame[data-theme="cozy"] .stage *:before{animation:none!important;transition:none!important}
+  .frame[data-theme="cozy"] .stage .bd .bd-z{opacity:1}
+  .frame[data-theme="cozy"] .stage .bd .bd-z2{opacity:.7}
+  .frame[data-theme="cozy"] .cz-spark,.frame[data-theme="cozy"] .stage .mic.cz-ring:before{display:none}
+}
