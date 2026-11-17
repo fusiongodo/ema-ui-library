@@ -195,6 +195,36 @@ section{scroll-margin-top:56px}
 .lm-ml.r{transform:translateX(calc(-100% - 4px))}
 .lm-x{position:relative;height:13px;margin:3px 0 0 18px;font-size:9.5px;color:var(--muted)}
 .lm-x span{position:absolute;transform:translateX(-50%);white-space:nowrap} .lm-x .l{transform:none} .lm-x .r{transform:translateX(-100%)}
+/* review card (rv): label left, value right; heard = filled in by the agent (quote below), unsure = "?", empty = muted prompt.
+   compact (.cmp) = title + one summary line, the whole card is the link */
+.rv{background:var(--white);border-radius:16px;padding:2px 12px}
+.rv-h{display:flex;align-items:center;gap:8px;padding:8px 0 7px}
+.rv-t{display:flex;flex-direction:column;min-width:0;flex:1} .rv-t b{font-size:13px} .rv-t .n{font-size:11.5px;color:var(--muted)}
+.rv-h > .c,.rv-r > .c{color:var(--muted);text-align:center}
+.rv-r{display:grid;grid-template-columns:auto minmax(0,1fr) 10px;grid-template-areas:"l v c" "q q q";align-items:center;column-gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:12.5px}
+.rv-l{grid-area:l;color:var(--muted)} .rv-v{grid-area:v;text-align:right;font-weight:600} .rv-r > .c{grid-area:c}
+.rv-r.wide{grid-template-areas:"l l c" "v v v" "q q q"} .rv-r.wide > :not(.rv-l):not(.c):not(.rv-q){grid-area:v;margin-top:6px}
+.rv-q{grid-area:q;font-size:11px;color:var(--muted);font-style:italic;margin-top:2px}
+.rv-r.rv-default .rv-v,.rv-r.rv-empty .rv-v{color:var(--muted);font-weight:400}
+.rv-r.rv-empty .rv-v{font-style:italic}
+.rv-r.rv-heard{background:#F2F2F0;margin:0 -12px;padding-left:12px;padding-right:12px}
+.rv-qm{display:inline-grid;place-items:center;width:16px;height:16px;margin-left:5px;border-radius:50%;background:#FBF1DC;color:#8a6a20;font-style:normal;font-size:11px;font-weight:700;vertical-align:1px}
+.rv-r.rv-unsure .rv-q{font-style:normal;color:#8a6a20}
+.rv.cmp{padding:9px 12px} .rv.cmp .rv-h{padding:0}
+/* transcript line and companion slot (Cozy draws the figure, lib/buddy.js) */
+.say{padding:0 4px;font-size:14px;line-height:1.35}
+.say i{font-style:normal}
+.bud{display:flex;justify-content:center;align-items:center;gap:10px;padding:4px 0}
+.bud-f{flex:none;position:relative;display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--grey);overflow:hidden}
+.bud-f > i{font-style:normal;font-size:10.5px;color:var(--muted)}
+.bud.says{justify-content:flex-start} .bud.says .bud-f{width:56px;height:56px} .bud-l{font-size:15px;line-height:1.25}
+.chips.quiet{justify-content:space-between;align-items:center}
+.chips.quiet .chip:not([data-go]){background:none;color:var(--muted);padding-left:4px}
+.slider .hq{font-size:11px;color:var(--muted);font-style:italic} .slider .hq:after{content:" →";font-style:normal}
+.slider:not(.heard) .hq{display:none}
+/* half-height sheet (sheet:"half"): Library and Flows draw the dimmed page above it */
+.phone.sheet.half:not(.layer){position:relative;isolation:isolate;background:#cdd6da;border-top:0;padding-top:252px}
+.phone.sheet.half:not(.layer):before{content:"";position:absolute;z-index:-1;left:0;right:0;top:238px;bottom:0;background:#EEF4F7;border-top:8px solid #b9c7cd;border-radius:24px 24px 36px 36px}
 
 /* ====== VIEW SWITCHER ====== */
 header.top{display:flex;align-items:center;gap:12px;margin:-8px 0 16px}
@@ -416,6 +446,35 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .phone:has(> .foot){padding-bottom:0}
 .stage .foot{position:sticky;bottom:0;z-index:2;display:flex;flex-direction:column;gap:10px;margin:0 calc(-1 * var(--gut));padding:12px var(--gut) max(var(--gut), var(--home));background:linear-gradient(rgba(247,247,245,0),#F7F7F5 12px)}
 .stage .sheet .foot{background:linear-gradient(rgba(238,244,247,0),#EEF4F7 12px)}
+/* half-height sheet: the page stays visible (dimmed) above it; the content scrolls inside, buttons stay pinned */
+.stage .phone.sheet.half{top:auto;height:58%}
+/* review card, transcript, companion at iOS scale */
+.stage .rv{border-radius:var(--rad);padding:2px var(--pad)}
+.stage .rv-h{gap:12px;padding:14px 0 12px}
+.stage .rv-t b{font-size:var(--t-body);line-height:1.25} .stage .rv-t .n{font-size:var(--t-foot);margin-top:1px}
+.stage .rv-r{column-gap:12px;min-height:var(--row);padding:12px 0;font-size:var(--t-body)}
+.stage .rv-r > .c{width:16px} .stage .rv-l{font-size:var(--t-sub)}
+.stage .rv-q{font-size:var(--t-foot);margin-top:4px}
+.stage .rv-r.rv-heard{margin:0 calc(-1 * var(--pad));padding-left:var(--pad);padding-right:var(--pad)}
+.stage .rv-qm{width:22px;height:22px;font-size:var(--t-foot);margin-left:8px}
+.stage .rv.cmp{padding:14px var(--pad)} .stage .rv.cmp .rv-h{padding:0}
+.stage .say{font-size:19px;line-height:1.4;padding:0 4px}
+.stage .bud-f{width:120px;height:120px} .stage .bud.says{gap:14px} .stage .bud.says .bud-f{width:72px;height:72px}
+.stage .bud-l{font-size:22px;line-height:1.25}
+.stage .bud:not(.says) + .say{text-align:center}
+.stage .chips.quiet .chip{min-height:var(--tap)}
+.stage .slider .hq{font-size:var(--t-sub)}
+.stage .rv .pills{flex-wrap:nowrap;gap:6px} .stage .rv .pills span{flex:1 1 auto;justify-content:center;padding:0 8px}   /* slots in one line */
+/* live transcript: the words arrive one by one; drafts: the compact cards appear one after another */
+@keyframes say-in{from{opacity:0}}
+@keyframes rv-in{from{opacity:0;transform:translateY(10px)}}
+.stage .say.live i{animation:say-in .45s ease backwards;animation-delay:calc(var(--d,300ms) + var(--k) * 230ms)}
+.stage .say.live + .slider{animation:say-in .5s ease 2.4s backwards}   /* guided: the recognised value after the answer */
+.stage .rv.cmp{animation:rv-in .45s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:250ms}
+.stage .rv.cmp:nth-child(2 of .rv.cmp){animation-delay:650ms}
+.stage .rv.cmp:nth-child(3 of .rv.cmp){animation-delay:1050ms}
+.stage .rv.cmp:nth-child(4 of .rv.cmp){animation-delay:1450ms}
+@media (prefers-reduced-motion:reduce){ .stage .say.live i,.stage .say.live + .slider,.stage .rv.cmp{animation:none} }
 .pinfo{width:320px;max-width:100%}
 @media (min-width:961px){ .pinfo{max-height:calc(844px * var(--ps,1));overflow-y:auto} }
 .pinfo .why{margin:8px 0 0;font-size:13px}

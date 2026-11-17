@@ -1,2 +1,2 @@
 FLOWS.push({ id:"add-protocol", title:"Add protocol", status:"idea", start:"protocols/today-folds-empty",
-  note:"First run. '+ Add' opens one sheet: single vs. group, then 3 or 2 short steps, landing in the Today folds. Suggestion chips jump straight to the dose step; '🎙 Say it' and the mic open Voice." });
+  note:"First run. '+ Add' opens one sheet: single vs. group. One item: What → Dose → Review; a group: List → Review. Both end in the same review card (When set right in it, defaults muted, What / Dose / Items open their step again), landing in the Today folds. Suggestion chips jump straight to the dose step; '🎙 Say it' and the mic fill the review card directly (add-review-heard: heard rows marked, one '?')." });

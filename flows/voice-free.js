@@ -1,0 +1,2 @@
+FLOWS.push({ id:"voice-free", title:"Voice · just speak", status:"idea", start:"voice/listen",
+  note:"The mic in the tab bar opens a half-height listening layer over the current page. It listens at once (no greeting), shows what it understood as compact draft cards in the colour of their area; a card opens its full overview (the same as the manual way, filled in and marked 'heard'), 'Confirm all' saves and closes, back on the page. 'Ask me instead' switches to the guided questions. Nothing is saved without confirmation." });

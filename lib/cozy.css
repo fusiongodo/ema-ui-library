@@ -38,6 +38,12 @@
   --cz-title:#F3FBF9; --cz-sub:#D2E9E5; --ink:#17302F; --muted:#46625F;
 }
 
+.frame[data-theme="cozy"] [data-world="neutral"]{   /* belongs to no area (a note in the listening layer): warm grey */
+  --cz-bg:#E9E5DE; --cz-bg-rgb:233 229 222; --cz-mid:#D3CCC0; --cz-sheet:#F4F1EC; --cz-sheet-rgb:244 241 236;
+  --cz-light:#F1EEE8; --cz-tabbar:#F8F6F2; --cz-dark:#5B554B; --cz-dark-rgb:91 85 75;
+  --cz-title:#4A453D; --cz-sub:#6A6459; --ink:#2E2A24; --muted:#6A6459;
+}
+
 /* nested Voice (the mic, "Say it", a voice-note row on another page): the mid teal is the accent, the page's near-black teal stays on the Voice page */
 .frame[data-theme="cozy"] .layer [data-world="voice"]{--cz-dark:#2F6B6A; --cz-dark-rgb:47 107 106; --cz-light:#E3F1EF}
 
@@ -84,7 +90,7 @@
 .frame[data-theme="cozy"] .stage :is(.big b){color:var(--cz-title)}
 .frame[data-theme="cozy"] .stage .sec{color:var(--cz-title);font-size:20px;padding-left:6px}
 .frame[data-theme="cozy"] .stage .sec > span:not(.act){color:var(--cz-sub);font-family:var(--cz-text);font-weight:600}
-.frame[data-theme="cozy"] .stage > .phone:not(.sheet) :is(.note,.mic + .note){color:var(--cz-sub)}
+.frame[data-theme="cozy"] .stage > .phone:not(.sheet) :is(.note:not(.danger),.mic + .note){color:var(--cz-sub)}
 .frame[data-theme="cozy"] .stage .note{font-weight:600}
 
 /* ---------- page head: title centred in the dark world colour, small status line, round buttons ---------- */
@@ -189,9 +195,9 @@
 .frame[data-theme="cozy"] .stage .stepper span.v i{background:var(--cz-light);color:var(--cz-dark);font-weight:700}
 .frame[data-theme="cozy"] .stage .week div.on{background:#fff}
 
-.frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.toggle i,.draft,.field[data-go]){
+.frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.toggle i,.draft,.field[data-go],.rv.cmp[data-go]){
   transition:transform .42s cubic-bezier(.3,1.7,.45,1)}
-.frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.draft,.field[data-go]):active{
+.frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.draft,.field[data-go],.rv.cmp[data-go]):active{
   transform:scale(.96);transition-duration:.08s;transition-timing-function:ease-out}
 
 /* ---------- slider ---------- */
@@ -270,6 +276,65 @@
 .frame[data-theme="cozy"] .stage .tabs .fab{align-self:center;width:54px;height:54px;margin:0 3px;background:#2F6B6A;color:#fff;box-shadow:0 8px 18px -8px rgb(47 107 106 / .8)}   /* the mic leads to Voice: Voice teal on every page */
 .frame[data-theme="cozy"] .stage .tabs .fab .cz-g{width:27px;height:27px;color:#fff;vertical-align:0}
 
+/* ---------- review card: white, the icon tile of its area; heard rows a calm tint of that area, unsure amber ---------- */
+.frame[data-theme="cozy"] .stage .rv{padding:2px var(--pad) 6px}
+.frame[data-theme="cozy"] .stage .rv-h{padding:16px 0 10px}
+.frame[data-theme="cozy"] .stage .rv-t b{font-family:var(--round);font-weight:600;font-size:19px;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .rv-t .n{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv-r{border-top-color:var(--line)}
+.frame[data-theme="cozy"] .stage .rv-l{font-weight:700;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv-v{font-weight:700;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .rv-r > .c{color:var(--muted);font-weight:700}
+.frame[data-theme="cozy"] .stage .rv-r.rv-default .rv-v{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv-r.rv-empty .rv-v{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv-r:is(.rv-heard,.rv-unsure){margin:3px -10px;padding:12px 10px;border-radius:18px;border-top-color:transparent}
+.frame[data-theme="cozy"] .stage .rv-r:is(.rv-heard,.rv-unsure) + .rv-r{border-top-color:transparent}
+.frame[data-theme="cozy"] .stage .rv-r.rv-heard{background:var(--cz-light)}
+.frame[data-theme="cozy"] .stage .rv-r.rv-heard .rv-v{color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .rv-q{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv-q .cz-g{width:15px;height:15px;margin-right:5px;vertical-align:-2px;color:#2F6B6A}   /* heard: a small Voice-teal mic */
+.frame[data-theme="cozy"] .stage .rv-r.rv-unsure{background:var(--th-flag)}
+.frame[data-theme="cozy"] .stage .rv-r.rv-unsure .rv-q{color:var(--th-flag-ink)}
+.frame[data-theme="cozy"] .stage .rv-qm{background:#F4C66F;color:#5A3A08}
+.frame[data-theme="cozy"] .stage .rv-r:is(.rv-heard,.rv-unsure) .pills span:not(.on){background:#fff}
+.frame[data-theme="cozy"] .stage .rv .pills span{box-shadow:none;background:var(--cz-light);color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .rv .pills span.on{background:var(--cz-dark);color:#fff}
+.frame[data-theme="cozy"] .stage .rv-h > .cz-ic{width:40px;height:40px;border-radius:13px}
+.frame[data-theme="cozy"] .stage .rv-h > .cz-ic svg{width:23px;height:23px}
+/* compact (listening layer): a coloured edge and icon tile of its area, title + one line */
+.frame[data-theme="cozy"] .stage .rv.cmp{padding:14px 16px 14px 18px;border-radius:24px;box-shadow:inset 6px 0 0 var(--cz-mid),var(--th-shadow)}
+.frame[data-theme="cozy"] .stage .rv.cmp .rv-h{padding:0}
+.frame[data-theme="cozy"] .stage .rv.cmp .rv-t b{font-size:18px}
+.frame[data-theme="cozy"] .stage .rv.cmp .rv-t .n{font-size:var(--t-sub);color:var(--ink);font-weight:600;line-height:1.3;margin-top:2px}
+.frame[data-theme="cozy"] .stage .rv.cmp .rv-h > .c{color:var(--cz-dark);font-weight:700;font-size:20px}
+
+/* ---------- slider: a value filled in from what was heard, the words beside it ---------- */
+.frame[data-theme="cozy"] .stage .slider .hq{font-weight:600;color:var(--muted)}
+
+/* ---------- companion slot in a screen (bud: listening / speaking) ---------- */
+.frame[data-theme="cozy"] .stage .bud-f{background:var(--cz-mid);box-shadow:inset 0 -6px 0 rgb(var(--cz-dark-rgb) / .06)}
+.frame[data-theme="cozy"] .stage .bud-f .bd{position:absolute;left:-2px;right:-2px;bottom:-4px}
+.frame[data-theme="cozy"] .stage .bud.says .bud-f .bd{left:-16px;right:-16px;bottom:-12px}   /* small figure: closer to the face */
+.frame[data-theme="cozy"] .stage .bud-l{font-family:var(--round);font-weight:600;color:var(--cz-title)}
+
+/* half-height sheet (opaque in Cozy): the page above stays readable, only the dim steps it back */
+.frame[data-theme="cozy"] .stage:has(> .phone.sheet.half:not(.leaving)) > .phone:not(.sheet){opacity:.9}
+
+/* ---------- the listening layer: a half-height sheet in the Voice world (deep teal, light text) over the page ---------- */
+.frame[data-theme="cozy"] .stage .layer.sheet.half[data-world="voice"]{--th-sheet:var(--cz-bg);--th-sheet-rgb:var(--cz-bg-rgb);
+  background:var(--cz-bg);color:#F3FBF9;box-shadow:0 -14px 40px rgb(18 60 61 / .3)}
+.frame[data-theme="cozy"] .stage .layer.sheet.half[data-world="voice"]:before{background:rgba(255,255,255,.3)}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] :is(.rv,.slider,.tile,.list){color:var(--ink)}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .say{color:#F3FBF9;font-weight:600}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .note{color:#CFE5E1;text-align:center}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .bud-l{color:#F3FBF9}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .btn:not(.light){background:#fff;color:#123C3D;box-shadow:0 10px 22px -12px rgba(0,0,0,.45)}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .btn.light{background:rgba(255,255,255,.14);color:#fff;box-shadow:none}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .chips.quiet .chip{background:rgba(255,255,255,.14);color:#fff;box-shadow:none;font-weight:700}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .chips.quiet .chip:not([data-go]){background:none;color:#CFE5E1;padding-left:4px}
+.frame[data-theme="cozy"] .stage .chips.quiet .chip[data-go="close"]{width:var(--tap);justify-content:center;padding:0;border-radius:50%;font-size:22px}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .slider{box-shadow:0 12px 26px -14px rgba(0,0,0,.4)}
+
 /* ---------- save confirmation: a few small sparks fly up from the button (lib/cozy.js) ---------- */
 .frame[data-theme="cozy"] .cz-spark{position:absolute;z-index:5;width:0;height:0;pointer-events:none}
 .frame[data-theme="cozy"] .cz-spark b{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--cz-mid)}
@@ -289,6 +354,8 @@
 @keyframes bd-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.12)}}
 @keyframes bd-steam{0%{transform:translateY(3px);opacity:0}35%{opacity:.9}100%{transform:translateY(-6px);opacity:0}}
 @keyframes bd-sway{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+@keyframes bd-nod{0%,100%{transform:none}45%{transform:translateY(1.6px) rotate(1.6deg)}}
+@keyframes bd-talk{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
 
 .frame[data-theme="cozy"] .stage .cz-cloud.c1{animation:cz-float-a 11s ease-in-out infinite alternate}
 .frame[data-theme="cozy"] .stage .cz-cloud.c2{animation:cz-float-b 14s ease-in-out infinite alternate}
@@ -303,6 +370,8 @@
 .frame[data-theme="cozy"] .stage .bd .bd-z2{animation-delay:.7s}
 .frame[data-theme="cozy"] .stage .bd .bd-eyes{transform-origin:50% 50%;animation:bd-blink 6s ease-in-out infinite}
 .frame[data-theme="cozy"] .stage .bd .bd-head{transform-origin:50% 100%;animation:bd-sway 7s ease-in-out infinite alternate}
+.frame[data-theme="cozy"] .stage .bd .bd-nod{transform-origin:50% 100%;animation:bd-nod 3.2s ease-in-out infinite}
+.frame[data-theme="cozy"] .stage .bd .bd-talk{transform-origin:50% 40%;animation:bd-talk .42s ease-in-out 6 alternate both}   /* speaks the question, then rests */
 .frame[data-theme="cozy"] .stage .bd .bd-s1{animation:bd-steam 3.4s ease-out infinite}
 .frame[data-theme="cozy"] .stage .bd .bd-s2{animation:bd-steam 3.4s ease-out 1.5s infinite}
 /* while a sheet is open the page below holds still: nothing moves while the user fills something in */

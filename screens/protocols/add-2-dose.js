@@ -8,6 +8,6 @@ SCREENS.push({ id:"protocols/add-2-dose", area:"Protocols", status:"idea", title
     {t:"field", v:"3", suffix:"mg"},
     {t:"pills", items:["mg","mcg","g","mL","IU","units"], on:["mg"]},
     {t:"spacer"},
-    {t:"btn", l:"Continue", go:"protocols/add-3-schedule"},
-    {t:"btn", l:"Skip", light:true, go:"protocols/add-3-schedule"},
+    {t:"btn", l:"Continue", go:"protocols/add-review"},
+    {t:"btn", l:"Skip", light:true, go:"protocols/add-review"},
   ]});

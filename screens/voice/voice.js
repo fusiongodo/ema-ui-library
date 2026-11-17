@@ -1,5 +1,5 @@
-SCREENS.push({ id:"voice/voice", area:"Voice", status:"idea", title:"Voice (center tab)",
-  why:"Speak; the app shows what it understood as drafts to confirm. Nothing is saved without ✓.",
+SCREENS.push({ id:"voice/voice", area:"Voice", status:"idea", title:"Voice · earlier idea (full page)",
+  why:"Superseded by voice/listen (half-height listening layer over the page, drafts as review cards). Kept as the earlier idea. Speak; the app shows what it understood as drafts to confirm. Nothing is saved without ✓.",
   w:[
     {t:"shead", left:"", l:"Talk to me", right:"×", goRight:"back"},
     {t:"spacer"},
