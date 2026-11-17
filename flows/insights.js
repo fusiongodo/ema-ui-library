@@ -1,0 +1,2 @@
+FLOWS.push({ id:"insights", title:"Insights", status:"idea", start:"insights/home",
+  note:"The Understand step. Patterns found in your data (one sentence each) open their evidence: the days after a skip next to all other days, the single days, Details. Ask: a question chip opens one answer (a chart card and one sentence), 'Pin to Insights' puts it on the tab as a widget. Trials: placeholder, no target yet. The first pattern is also reached from the Naltrexon detail screen." });

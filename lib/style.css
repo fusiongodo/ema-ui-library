@@ -61,6 +61,7 @@ section{scroll-margin-top:56px}
 .heat i.a{background:#BFD8B8}.heat i.b{background:#E8CFA8}.heat i.c{background:#E9B8A8}
 .draft{border:1.5px dashed #9AA;border-radius:14px;padding:9px 12px;background:rgba(255,255,255,.6);font-size:12.5px;display:flex;justify-content:space-between;align-items:center}
 .mic{width:86px;height:86px;border-radius:50%;background:var(--white);margin:6px auto;display:grid;place-items:center;font-size:30px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.ico{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;font-style:normal} .ico svg{display:block;width:100%;height:100%}   /* the mic icon (render.js MIC) */
 .spacer{flex:1}
 .segrow{display:flex;justify-content:space-between;align-items:center;padding:2px 2px 0}
 .seg{display:flex;background:var(--grey);border-radius:10px;padding:3px}
@@ -124,6 +125,9 @@ section{scroll-margin-top:56px}
 .slider .ends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
 .slider.moved .v{color:var(--ink)} .slider.moved .v b{font-weight:700}
 .slider.moved .fill{background:var(--ink)} .slider.moved .last{display:block}
+/* an untouched slider steps back: its name and value slightly greyed too (≈ 4.7:1 on white); touched, both come forward */
+.slider .st .l,.slider .v{transition:color .25s ease}
+.slider:not(.moved) :is(.st .l,.v){color:#737373;color:color-mix(in srgb, var(--ink) 68%, #fff)}
 /* consecutive sliders form one grouped card (iOS inset-grouped list), divider inset by the padding */
 .slider{position:relative}
 .slider:has(+ .slider){border-bottom-left-radius:0;border-bottom-right-radius:0}
@@ -172,7 +176,7 @@ section{scroll-margin-top:56px}
 .cal-leg .t{width:calc(4px + 5px * var(--s,1));height:calc(4px + 5px * var(--s,1));background:#6f6f6f}
 .cal-leg .o{width:8px;height:8px;box-shadow:inset 0 0 0 1.2px #8f8f8f} .cal-leg .n{width:4px;height:4px;background:#d0d0d0}
 /* three numbers in one card (stats) */
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--white);border-radius:16px;padding:9px 0}
+.stats{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));background:var(--white);border-radius:16px;padding:9px 0}
 .stats div{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6px;border-left:1px solid var(--line)}
 .stats div:first-child{border-left:0} .stats b{font-size:15px} .stats span{font-size:11px;color:var(--muted);line-height:1.2}
 /* score line with marks (linemarks): chips pick the score, fixed 0–10 scale, thin marks on intake days */
@@ -195,6 +199,44 @@ section{scroll-margin-top:56px}
 .lm-ml.r{transform:translateX(calc(-100% - 4px))}
 .lm-x{position:relative;height:13px;margin:3px 0 0 18px;font-size:9.5px;color:var(--muted)}
 .lm-x span{position:absolute;transform:translateX(-50%);white-space:nowrap} .lm-x .l{transform:none} .lm-x .r{transform:translateX(-100%)}
+/* Insights: averages in the score chart (lm.av), a pinned question (lm-q), one sentence (lm-say) */
+.lm-av{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.lm.av .lm-l{opacity:.4}
+.lm-al{position:absolute;z-index:1;transform:translate(-50%,-135%);padding:1px 3px;border-radius:4px;background:var(--white);font-size:9.5px;font-weight:700;line-height:1.1;color:var(--ink)}
+.lm-q{font-weight:600;font-size:13px;margin-bottom:2px}
+.lm-say{margin:8px 0 0;font-size:12.5px;font-weight:600}
+/* pattern card (pa): area icon, one sentence, how often + a quiet confidence word; .big = the evidence screen's title */
+.pa{display:grid;grid-template-columns:auto minmax(0,1fr) 10px;align-items:center;gap:10px;background:var(--white);border-radius:16px;padding:10px 12px}
+.pa-ic{display:block;width:22px;height:22px;border-radius:7px;background:var(--grey);align-self:start}
+.pa-t{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pa-l{font-weight:600;font-size:12.5px;line-height:1.3}
+.pa-m{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:11px;color:var(--muted)}
+.pa-c{border:1px solid var(--line);border-radius:999px;padding:0 6px;font-size:10.5px}
+.pa .c{color:var(--muted);text-align:center}
+.pa.big{display:block;background:none;padding:2px 4px 0}
+.pa.big .pa-l{display:block;font-size:17px;line-height:1.25}
+.pa.big .pa-m{margin-top:6px}
+/* comparison (cpw): two groups of days on one 0–10 scale, a bar at each average, the difference big */
+.cpw{background:var(--white);border-radius:16px;padding:10px 12px}
+.cpw-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.cpw-t1{display:flex;flex-direction:column;min-width:0} .cpw-t1 b{font-size:13px} .cpw-t1 .n{font-size:11px;color:var(--muted)}
+.cpw-d{display:flex;flex-direction:column;align-items:flex-end;flex:none;line-height:1} .cpw-d b{font-size:24px} .cpw-d .n{font-size:10.5px;color:var(--muted);margin-top:2px}
+.cpw-p{display:block;width:100%;height:auto;overflow:visible}
+.cpw-rl{font-size:12px;font-weight:600;fill:var(--ink)} .cpw-rv{font-size:12px;font-weight:700;fill:var(--ink)}
+.cpw-x{font-size:11px;fill:var(--muted)}
+.cpw-ax,.cpw-t{stroke:var(--muted);stroke-width:1;opacity:.5}
+.cpw-a{fill:#5a5a5a} .cpw-b{fill:#c6c6c6} .cpw-hit{fill:transparent}
+.cpw-m{stroke:var(--ink);stroke-width:3.5;stroke-linecap:round}
+.cpw-g{stroke:var(--ink);stroke-width:1.2;stroke-dasharray:3 3;opacity:.4}
+.cpw-pt.sel .cpw-hit{fill:var(--grey)}
+.cpw-say{min-height:16px;margin-top:6px;text-align:center;font-size:11px;color:var(--muted)} .cpw-say.on{color:var(--ink);font-weight:600}
+/* Details (more): quiet actions in one line; the first unfolds the numbers (Play starts folded, Library shows them) */
+.more-a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 4px}
+.more-h,.more-x{font-size:12.5px;font-weight:600;color:var(--muted)}
+.more-h i{display:inline-block;font-style:normal;margin-left:5px;transition:transform .2s}
+.more-b{background:var(--white);border-radius:16px;padding:0 12px;margin-top:8px}
+.more-b .item:first-child{border-top:0} .more-b .item .r{font-weight:600}
+.more-n{margin:0;padding:8px 0 10px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
 /* review card (rv): label left, value right; heard = filled in by the agent (quote below), unsure = "?", empty = muted prompt.
    compact (.cmp) = title + one summary line, the whole card is the link */
 .rv{background:var(--white);border-radius:16px;padding:2px 12px}
@@ -211,6 +253,18 @@ section{scroll-margin-top:56px}
 .rv-qm{display:inline-grid;place-items:center;width:16px;height:16px;margin-left:5px;border-radius:50%;background:#FBF1DC;color:#8a6a20;font-style:normal;font-size:11px;font-weight:700;vertical-align:1px}
 .rv-r.rv-unsure .rv-q{font-style:normal;color:#8a6a20}
 .rv.cmp{padding:9px 12px} .rv.cmp .rv-h{padding:0}
+/* voice extras: clarity = a small sky sign right in the head (a tap in Play shows the line .rv-cn); ok = a confirmed draft,
+   drawn back with a tick; a mic in an open row (say it now); live rows (Play only); "Ask me instead" at the foot of the card */
+.rv-cl{flex:none;display:grid;place-items:center;width:24px;height:24px}
+.rv-cl svg{display:block;width:100%;height:100%;overflow:visible}
+.rv-cn{display:none;font-size:11px;color:var(--muted);padding:0 0 6px}
+.rv.cl-on .rv-cn{display:block}
+.rv-ok{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--grey);font-size:11px;font-weight:700}
+.rv.cmp.ok{background:rgba(255,255,255,.7);box-shadow:none}
+.rv-r.has-say{grid-template-columns:auto minmax(0,1fr) 10px auto;grid-template-areas:"l v c m" "q q q m"}
+.rv-say{grid-area:m;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--white);box-shadow:0 0 0 1px var(--line)}
+.rv-wait{display:none}
+.rv-ask{padding:7px 0;border-top:1px solid var(--line);text-align:center;font-size:12px;font-weight:600;color:var(--muted)}
 /* transcript line and companion slot (Cozy draws the figure, lib/buddy.js) */
 .say{padding:0 4px;font-size:14px;line-height:1.35}
 .say i{font-style:normal}
@@ -401,6 +455,31 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .lm-md{width:8px;height:8px;margin-left:-4px;top:-4px}
 .stage .lm-ml{font-size:var(--t-min);top:-8px}
 .stage .lm-x{height:18px;margin:6px 0 0 26px;font-size:var(--t-min)}
+.stage .lm-q{font-size:var(--t-body);margin-bottom:4px}
+.stage .lm-al{font-size:var(--t-min);padding:2px 6px;border-radius:7px}
+.stage .lm-say{margin-top:14px;font-size:var(--t-body);line-height:1.35}
+/* Insights: pattern card, comparison, Details */
+.stage .pa{grid-template-columns:auto minmax(0,1fr) 14px;gap:14px;min-height:var(--row);border-radius:var(--rad);padding:var(--pad)}
+.stage .pa-ic{width:42px;height:42px;border-radius:14px}
+.stage .pa-l{font-size:var(--t-body);line-height:1.3}
+.stage .pa-t{gap:6px}
+.stage .pa-m{font-size:var(--t-foot);gap:4px 8px}
+.stage .pa-c{font-size:var(--t-min);padding:1px 8px}
+.stage .pa .c{font-size:var(--t-body)}
+.stage .pa.big{padding:4px 4px 2px} .stage .pa.big .pa-l{font-size:24px;line-height:1.22} .stage .pa.big .pa-m{margin-top:10px;font-size:var(--t-sub)}
+.stage .cpw{border-radius:var(--rad);padding:var(--pad)}
+.stage .cpw-h{margin-bottom:16px} .stage .cpw-t1 b{font-size:var(--t-body)} .stage .cpw-t1 .n{font-size:var(--t-foot);margin-top:2px}
+.stage .cpw-d b{font-size:40px} .stage .cpw-d .n{font-size:var(--t-foot);margin-top:4px}
+.stage .cpw-rl,.stage .cpw-rv{font-size:14px} .stage .cpw-x{font-size:12px}
+.stage .cpw-say{min-height:22px;margin-top:10px;font-size:var(--t-sub)}
+.stage .cpw [data-d]{cursor:pointer}
+.stage .more-a{min-height:var(--tap)}
+.stage .more-h,.stage .more-x{display:inline-flex;align-items:center;min-height:var(--tap);font-size:var(--t-sub);cursor:pointer}
+.stage .more:not(.open) .more-b{display:none}
+.stage .more.open .more-h i{transform:rotate(180deg)}
+.stage .more-b{border-radius:var(--rad);padding:0 var(--pad);margin-top:4px}
+.stage .more-b .item{min-height:var(--row);padding:12px 0}
+.stage .more-n{font-size:var(--t-foot);line-height:1.4;padding:12px 0 16px}
 /* controls */
 .stage .chips,.stage .pills{gap:8px}
 .stage .chip,.stage .pills span{display:inline-flex;align-items:center;min-height:var(--chip);padding:0 14px;font-size:var(--t-sub)}
@@ -459,9 +538,9 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .rv-qm{width:22px;height:22px;font-size:var(--t-foot);margin-left:8px}
 .stage .rv.cmp{padding:14px var(--pad)} .stage .rv.cmp .rv-h{padding:0}
 .stage .say{font-size:19px;line-height:1.4;padding:0 4px}
-.stage .bud-f{width:120px;height:120px} .stage .bud.says{gap:14px} .stage .bud.says .bud-f{width:72px;height:72px}
+.stage .bud-f{width:164px;height:164px} .stage .bud.says{gap:14px} .stage .bud.says .bud-f{width:72px;height:72px}
 .stage .bud-l{font-size:22px;line-height:1.25}
-.stage .bud:not(.says) + .say{text-align:center}
+.stage .bud:not(.says) ~ .say{text-align:center}
 .stage .chips.quiet .chip{min-height:var(--tap)}
 .stage .slider .hq{font-size:var(--t-sub)}
 .stage .rv .pills{flex-wrap:nowrap;gap:6px} .stage .rv .pills span{flex:1 1 auto;justify-content:center;padding:0 8px}   /* slots in one line */
@@ -469,12 +548,33 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 @keyframes say-in{from{opacity:0}}
 @keyframes rv-in{from{opacity:0;transform:translateY(10px)}}
 .stage .say.live i{animation:say-in .45s ease backwards;animation-delay:calc(var(--d,300ms) + var(--k) * 230ms)}
-.stage .say.live + .slider{animation:say-in .5s ease 2.4s backwards}   /* guided: the recognised value after the answer */
+.stage .say.live + :is(.slider,.pills){animation:say-in .5s ease 2.4s backwards}   /* guided: the recognised value after the answer */
 .stage .rv.cmp{animation:rv-in .45s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:250ms}
 .stage .rv.cmp:nth-child(2 of .rv.cmp){animation-delay:650ms}
 .stage .rv.cmp:nth-child(3 of .rv.cmp){animation-delay:1050ms}
 .stage .rv.cmp:nth-child(4 of .rv.cmp){animation-delay:1450ms}
-@media (prefers-reduced-motion:reduce){ .stage .say.live i,.stage .say.live + .slider,.stage .rv.cmp{animation:none} }
+@media (prefers-reduced-motion:reduce){ .stage .say.live i,.stage .say.live + :is(.slider,.pills),.stage .rv.cmp{animation:none} }
+/* voice extras at iOS scale: the clarity sign has a 44 pt tap area; confirmed drafts do not re-enter when you return to them */
+.stage .rv-cl{width:var(--tap);height:var(--tap);margin:-10px -10px -10px -4px;padding:9px;cursor:pointer;border-radius:50%}
+.stage .rv-cn{font-size:var(--t-foot);padding:0 0 12px;margin-top:-4px}
+.stage .rv.cmp .rv-cn{padding:8px 0 0;margin:0}
+.stage .rv-ok{width:30px;height:30px;font-size:15px}
+.stage .rv-say{width:var(--tap);height:var(--tap);margin:-6px 0 -6px 2px} .stage .rv-say .ico{width:22px;height:22px}
+.stage .rv-ask{display:flex;align-items:center;justify-content:center;min-height:var(--tap);padding:0;font-size:var(--t-sub)}
+.stage .half .say:not(.live){font-size:var(--t-sub);line-height:1.4}   /* drafts: the transcript is context, the cards come first */
+.stage .half .stats{padding:20px 0} .stage .half .stats b{font-size:34px} .stage .half .stats span{margin-top:6px}   /* guided summary: the values large */
+.stage .ret .rv.cmp{animation:none}
+.stage .phone.sheet.under{z-index:2}   /* a full sheet below a half-height one: under the dim */
+/* live rows (review `live`): dots until the words are in, then value, quote and tint fill in */
+@keyframes rv-hear{from{background-color:transparent}}
+@keyframes rv-wait{to{opacity:0;visibility:hidden}}
+@keyframes rv-dot{0%,100%{opacity:.25}50%{opacity:1}}
+.stage .rv-wait{display:flex;grid-area:v;justify-self:end;align-items:center;gap:5px;color:var(--muted);animation:rv-wait .2s ease var(--at) forwards}
+.stage .rv-wait i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:rv-dot 1s ease-in-out infinite}
+.stage .rv-wait i:nth-child(2){animation-delay:.15s} .stage .rv-wait i:nth-child(3){animation-delay:.3s}
+.stage .rv-live{animation:rv-hear .5s ease var(--at) backwards}
+.stage .rv-live > :is(.rv-v,.rv-q,.pills){animation:say-in .45s ease var(--at) backwards}
+@media (prefers-reduced-motion:reduce){ .stage .rv-wait{display:none} .stage .rv-live,.stage .rv-live > *{animation:none} }
 .pinfo{width:320px;max-width:100%}
 @media (min-width:961px){ .pinfo{max-height:calc(844px * var(--ps,1));overflow-y:auto} }
 .pinfo .why{margin:8px 0 0;font-size:13px}

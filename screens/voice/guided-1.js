@@ -5,13 +5,13 @@ SCREENS.push({ id:"voice/guided-1", area:"Voice", status:"idea", title:"Guided �
   concept:[
     "<b>Conversation only when needed:</b> the default is to just speak (voice/listen); this mode is for days when a blank start is too much.",
     "<b>Eyes-closed mode:</b> the app reads every question and the summary aloud, so the whole check-in works without looking.",
-    "<b>Only the scores that matter today:</b> two questions, the rest stays on the last value.",
-    "<b>Prototype:</b> moves on by itself after the answer; a tap moves on at once. With reduced motion only the tap."
+    "<b>All five scores, one short question each</b> (Fatigue / energy, Overall wellbeing, Brain fog, Pain, Thirst): about half a minute in all, a short answer is enough ('about the same', 'not really').",
+    "<b>Prototype:</b> moves on by itself after the answer; a tap moves on at once. With reduced motion only the tap. A tap on the dimmed page above closes the layer."
   ],
   w:[
     {t:"bud", st:"speaking", l:"How is your energy right now?"},
-    {t:"say", l:"pretty low… like a seven", live:true, d:1300},
+    {t:"say", l:"Pretty wiped today.", live:true, d:1300},
     {t:"slider", l:"Fatigue / energy", v:6, set:7, min:0, max:10, lo:"0", hi:"10", better:"low"},
     {t:"spacer"},
-    {t:"chips", quiet:true, items:["1 of 2","×"], go:[null,"close"]},
+    {t:"chips", quiet:true, items:["1 of 5","×"], go:[null,"close"]},
   ]});

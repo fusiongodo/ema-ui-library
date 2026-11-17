@@ -261,6 +261,48 @@
 .frame[data-theme="cozy"] .stage .lm-ml{color:var(--cz-dark);font-weight:700}
 .frame[data-theme="cozy"] .stage .lm-l{stroke:var(--cz-dark);stroke-width:2.6}
 .frame[data-theme="cozy"] .stage .lm-p{width:12px;height:12px;margin:-6px 0 0 -6px;background:var(--cz-dark);box-shadow:0 0 0 2.5px #fff,0 0 0 6px rgb(var(--cz-bg-rgb) / .8)}
+
+/* ---------- Insights: pattern cards, the comparison, Details, averages in the score chart ----------
+   Cards white; a pattern's icon tile wears the world of its source (cozy.js), the comparison and averages are scores (mint). */
+.frame[data-theme="cozy"] .stage :is(.pa:not(.big),.cpw,.more-b){box-shadow:var(--th-shadow)}
+/* a quiet link card ("All protocols" at the end of the Protocols tab): icon tile, name with its line below, › at the end */
+.frame[data-theme="cozy"] .stage .tile.cz-link{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ic l r" "ic n r";column-gap:14px;align-items:center;padding:16px 18px}
+.frame[data-theme="cozy"] .stage .tile.cz-link > div,.frame[data-theme="cozy"] .stage .tile.cz-link .top{display:contents}
+.frame[data-theme="cozy"] .stage .tile.cz-link .cz-ic{grid-area:ic}
+.frame[data-theme="cozy"] .stage .tile.cz-link .l{grid-area:l;align-self:end}
+.frame[data-theme="cozy"] .stage .tile.cz-link .n{grid-area:n;align-self:start;margin:0}
+.frame[data-theme="cozy"] .stage .tile.cz-link .r{grid-area:r;color:var(--muted);font-weight:700;font-size:var(--t-body)}
+.frame[data-theme="cozy"] .stage .pa{padding:18px 16px 18px 18px}
+.frame[data-theme="cozy"] .stage .pa-l{font-weight:700;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .pa-m{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .pa-c{border:0;background:var(--cz-light);color:var(--cz-dark);font-weight:700;padding:2px 10px}
+.frame[data-theme="cozy"] .stage .pa .c{color:var(--muted);font-weight:700}
+.frame[data-theme="cozy"] .stage .pa.big .pa-l{font-family:var(--round);font-weight:600;font-size:25px;color:var(--cz-title)}
+.frame[data-theme="cozy"] .stage .pa.big .pa-m{color:var(--cz-sub)}
+.frame[data-theme="cozy"] .stage .pa.big .pa-c{background:#fff}
+.frame[data-theme="cozy"] .stage .cpw-t1 b{font-family:var(--round);font-weight:600;font-size:19px}
+.frame[data-theme="cozy"] .stage .cpw-t1 .n{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .cpw-d b{font-family:var(--round);font-weight:600;color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cpw-d .n{font-weight:700;color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cpw-rl{font-weight:700;fill:var(--ink)}
+.frame[data-theme="cozy"] .stage .cpw-rv{font-family:var(--round);font-weight:600;fill:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cpw-x{font-weight:700;fill:var(--muted)}
+.frame[data-theme="cozy"] .stage :is(.cpw-ax,.cpw-t){stroke:var(--cz-dark);opacity:.25}
+.frame[data-theme="cozy"] .stage .cpw-a{fill:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cpw-b{fill:var(--cz-mid)}
+.frame[data-theme="cozy"] .stage .cpw-m{stroke:var(--cz-dark);stroke-width:4}
+.frame[data-theme="cozy"] .stage .cpw-g{stroke:var(--cz-dark);opacity:.45}
+.frame[data-theme="cozy"] .stage .cpw-pt.sel .cpw-hit{fill:var(--cz-light);stroke:var(--cz-mid);stroke-width:2}
+.frame[data-theme="cozy"] .stage .cpw-say{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .cpw-say.on{font-family:var(--round);color:var(--ink)}
+.frame[data-theme="cozy"] .stage :is(.more-h,.more-x){font-weight:700;color:var(--cz-title)}
+.frame[data-theme="cozy"] .stage .more-b .item .r{font-family:var(--round);font-weight:600;color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .more-n{font-weight:600}
+.frame[data-theme="cozy"] .stage .lm.av .lm-l{stroke-width:2;opacity:.42}
+.frame[data-theme="cozy"] .stage .lm-av{stroke:var(--cz-dark);stroke-width:4}
+.frame[data-theme="cozy"] .stage .lm-al{font-family:var(--round);font-weight:600;color:var(--cz-dark);background:#fff;box-shadow:var(--th-shadow-s)}
+.frame[data-theme="cozy"] .stage .lm-q{font-family:var(--round);font-weight:600;font-size:19px;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .lm-say{font-weight:700;color:var(--ink)}
 /* the calendar's dots appear once, softly staggered row by row */
 @keyframes cz-dot{from{opacity:0;transform:scale(.3)}}
 .frame[data-theme="cozy"] .stage .cal .cr > span > i{animation:cz-dot .5s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:calc(160ms + var(--i,0) * 12ms)}
@@ -307,6 +349,17 @@
 .frame[data-theme="cozy"] .stage .rv.cmp .rv-t b{font-size:18px}
 .frame[data-theme="cozy"] .stage .rv.cmp .rv-t .n{font-size:var(--t-sub);color:var(--ink);font-weight:600;line-height:1.3;margin-top:2px}
 .frame[data-theme="cozy"] .stage .rv.cmp .rv-h > .c{color:var(--cz-dark);font-weight:700;font-size:20px}
+/* voice extras: the sky sign's line, a confirmed draft (drawn back, a tick in its area colour), the mic in an open row
+   (Voice teal, as everywhere), "Ask me instead" quiet at the foot of the card */
+.frame[data-theme="cozy"] .stage .rv-cn{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv.cmp.ok{background:rgba(255,255,255,.8);box-shadow:none}
+.frame[data-theme="cozy"] .stage .rv.cmp.ok .rv-t .n{color:var(--muted)}
+.frame[data-theme="cozy"] .stage .rv-ok{background:var(--cz-light);color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .rv-ok .cz-g{width:19px;height:19px;color:inherit;vertical-align:0}
+.frame[data-theme="cozy"] .stage .rv-say{background:#fff;color:#2F6B6A;box-shadow:var(--th-shadow-s)}
+.frame[data-theme="cozy"] .stage .rv-say .cz-g{color:inherit;vertical-align:0}
+.frame[data-theme="cozy"] .stage .rv-ask{color:var(--cz-dark);font-weight:700;border-top-color:var(--line)}
+.frame[data-theme="cozy"] .stage .half[data-world="voice"] .stats{color:var(--ink)}
 
 /* ---------- slider: a value filled in from what was heard, the words beside it ---------- */
 .frame[data-theme="cozy"] .stage .slider .hq{font-weight:600;color:var(--muted)}
@@ -332,7 +385,8 @@
 .frame[data-theme="cozy"] .stage .half[data-world="voice"] .btn.light{background:rgba(255,255,255,.14);color:#fff;box-shadow:none}
 .frame[data-theme="cozy"] .stage .half[data-world="voice"] .chips.quiet .chip{background:rgba(255,255,255,.14);color:#fff;box-shadow:none;font-weight:700}
 .frame[data-theme="cozy"] .stage .half[data-world="voice"] .chips.quiet .chip:not([data-go]){background:none;color:#CFE5E1;padding-left:4px}
-.frame[data-theme="cozy"] .stage .chips.quiet .chip[data-go="close"]{width:var(--tap);justify-content:center;padding:0;border-radius:50%;font-size:22px}
+.frame[data-theme="cozy"] .stage .chips.quiet .chip:is([data-go="close"],[data-go="back"]:last-child){width:var(--tap);justify-content:center;padding:0;border-radius:50%;font-size:22px}
+.frame[data-theme="cozy"] .stage .chips.quiet .chip:not([data-go]){background:none;box-shadow:none;color:var(--muted)}
 .frame[data-theme="cozy"] .stage .half[data-world="voice"] .slider{box-shadow:0 12px 26px -14px rgba(0,0,0,.4)}
 
 /* ---------- save confirmation: a few small sparks fly up from the button (lib/cozy.js) ---------- */

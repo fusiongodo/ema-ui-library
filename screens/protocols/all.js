@@ -1,6 +1,6 @@
-SCREENS.push({ id:"protocols/all", area:"Protocols", status:"idea", title:"Protocols · All",
+SCREENS.push({ id:"protocols/all", area:"Protocols", status:"idea", title:"Protocols · All protocols",
   tabs:"idea", tab:"Protocols", sub:"8 active · 1 ended",
-  why:"The collection behind the Today folds ('Today · All'). One row per protocol, a group is one row that unfolds. The dots on the right are the last 14 days, so a gap shows without opening anything. Tap a row for its history.",
+  why:"The collection behind the Today folds, opened from the quiet 'All protocols' card at the end of the Protocols tab; ‹ goes back to today. One row per protocol, a group is one row that unfolds. The dots on the right are the last 14 days, so a gap shows without opening anything. Tap a row for its history.",
   concept:[
     "<b>Rows say only what isn't default</b> (PRINCIPLES 3): dose and slot; 'daily' is not printed, a course shows its day ('day 4 of 14').",
     "<b>14-day strip:</b> filled = taken, ring = planned but skipped, small dot = not planned. Newest on the right (today).",
@@ -8,8 +8,7 @@ SCREENS.push({ id:"protocols/all", area:"Protocols", status:"idea", title:"Proto
     "<b>Placeholder links:</b> only Rapamycin and Naltrexon have their own detail screen; the other rows open the one of the same type (daily → Naltrexon, as needed → Rapamycin)."
   ],
   w:[
-    {t:"head", l:"Protocols"},
-    {t:"seg", items:["Today","All"], on:"All", go:["protocols/today-folds",null]},
+    {t:"shead", left:"‹", l:"All protocols", right:"", goLeft:"back"},
     {t:"sec", l:"Daily", act:"+ Add", go:"protocols/add-0-choose"},
     {t:"plist", rows:[
       ["Naltrexon", "1 mg · noon", "xxxxoxxxxhoxxx", "protocols/item-naltrexon"],

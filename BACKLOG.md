@@ -2,6 +2,24 @@
 
 Ideas that are not being built yet. Newest first.
 
+## Decisions on voice (Alex, 17 Nov 2026)
+- Opening one draft card and saving it returns to the remaining drafts, not to the page.
+- An unsure value may be saved without forcing the user, but the stored entry carries a flag (`inferred` / unconfirmed).
+- Uncertainty is shown visually, not as text or a hard progress bar. Direction: a small sky sign per entry (clear sun = all confirmed, sun behind a cloud = partly inferred, cloud = mostly guessed).
+- The guided mode asks all scores, not only the likely changes.
+- The prototype is also used for presentations; example texts should read well aloud.
+
+## Send a voice message to the app
+**Idea (Alex, 17 Nov 2026):** not always in the mood to open the app. Record a voice message anywhere (WhatsApp chat with yourself, Voice Memos, even one sent to a friend), then share it to MEjority; the app builds the entries from it and shows the usual draft cards. Technically a share target for audio. He calls it over-engineered but wants it as a user.
+
+## Apple Health data
+Show imported data (sleep, steps, heart rate variability and the like) in the UI in a realistic way. For the prototype this is a display question only; the import is the technical side.
+
+Feeds Patterns without any logging effort: steps above the personal usual → fatigue two days later (the overexertion crash), short sleep → brain fog next day, resting heart rate / HRV as early warning. Makes an exertion slider in the check-in optional.
+
+## The app follows the time of day
+Dark blue at night, lighter in the morning, more colour during the day (Alex, 17 Nov 2026). The Sky theme already does this; open how it combines with one colour per area in Cozy. Goes with: a loving companion that is always there, and soft background sound (see Ambient sound).
+
 ## How the app hangs together (frame, 17 Nov 2026)
 Three steps, one per area:
 1. **Log** – Check-ins, Protocols, and later activity ("did too much today").

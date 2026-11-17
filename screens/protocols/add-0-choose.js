@@ -4,7 +4,7 @@ SCREENS.push({ id:"protocols/add-0-choose", area:"Protocols", status:"idea", tit
   concept:[
     "<b>One item</b> → single flow: What → Dose → Review.",
     "<b>A group</b> → group flow: List → Review.",
-    "<b>Mic</b> works for both: the AI decides single vs. group from what was said and fills the matching review card directly (protocols/add-review-heard), no listening layer."
+    "<b>Mic</b> works for both: it listens right here (protocols/add-listen), the card builds up as you speak, and the AI decides single vs. group from what was said; then the filled-in review card (protocols/add-review-heard). No listening layer."
   ],
   w:[
     {t:"shead", left:"", l:"Add protocol", right:"×", goRight:"close"},
@@ -12,7 +12,7 @@ SCREENS.push({ id:"protocols/add-0-choose", area:"Protocols", status:"idea", tit
     {t:"choice", items:[["One item","Naltrexon, an HBOT session"],["A group","Morning supplements, a stack"]],
       go:["protocols/add-1-name","protocols/group-1-list"]},
     {t:"spacer"},
-    {t:"mic", go:"protocols/add-review-heard"},
+    {t:"mic", go:"protocols/add-listen"},
     {t:"note", l:"or just say it"},
     {t:"spacer"},
   ]});

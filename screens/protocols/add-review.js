@@ -6,7 +6,7 @@ SCREENS.push({ id:"protocols/add-review", area:"Protocols", status:"idea", title
     "<b>Same number of taps as before:</b> What → Dose → Review → Add. The review replaces the old 'When?' step, it does not add one.",
     "<b>One card, both ways:</b> the manual steps and the voice agent end in this card. The agent only skips the steps in between; nothing is saved before 'Add' (PRINCIPLES 5).",
     "<b>Defaults stay quiet:</b> every day, from today, no end. Tapping one of them opens its picker (not drawn yet).",
-    "<b>The button names the target fold</b> (Add to Morning); with two slots it would read 'Add to Morning + Noon'."
+    "<b>The button names the target fold</b> (Add to Morning) and follows the pills: with Noon added it reads 'Add to Morning + Noon'."
   ],
   w:[
     {t:"shead", left:"‹", l:"Add protocol", n:"3 of 3", right:"×", goLeft:"back", goRight:"close"},
@@ -18,5 +18,5 @@ SCREENS.push({ id:"protocols/add-review", area:"Protocols", status:"idea", title
       ["Start", "Today", "default"],
       ["End", "None", "default"]]},
     {t:"spacer"},
-    {t:"btn", l:"Add to Morning", go:"protocols/today-folds"},
+    {t:"btn", l:"Add to Morning", slots:true, go:"protocols/today-folds"},
   ]});

@@ -7,6 +7,7 @@ SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", t
   concept:[
     "<b>Calendar:</b> filled dot = taken (smaller = lower dose: 0.5 mg before 12 Oct), ring = planned but skipped. Tap a day: date and dose below.",
     "<b>Numbers:</b> days taken, days skipped, the dose since the last version.",
+    "<b>Patterns:</b> what the app found around this protocol's events (skips, dose changes), one sentence each, the same card as on the Insights tab. Tap opens the evidence (insights/pattern-skip). Demo numbers, as on the Insights tab (not from this calendar): fatigue on the 6 days after a skip averaged 7.5, on the other 45 days 5.9.",
     "<b>With your scores:</b> one line at 12 Oct, 'dose changed'. Side by side only, no claim.",
     "<b>History</b> shows deviations in colour and a version line (PRINCIPLES 6): the change applied from 12 Oct, earlier days keep 0.5 mg."
   ],
@@ -19,6 +20,8 @@ SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", t
       key:{x:["1 mg",1], h:["0.5 mg",.5], d:["0.5 mg instead of 1 mg",.5,false]},
       weeks:["hhhhhhh", "hhhohhh", "hhhhhhh", "hhhhhoh", "xxxxxxx", "xxxxxxo", "xxxxdox", "xx"]},
     {t:"stats", items:[["47 of 51","days taken"],["4","skipped"],["1 mg","since 12 Oct"]]},
+    {t:"sec", l:"Patterns"},
+    {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue was 1.6 higher the next day.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
     {t:"sec", l:"With your scores"},
     {t:"linemarks", from:"2026-09-14", n:"last 8 weeks",
       series:[

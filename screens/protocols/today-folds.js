@@ -1,10 +1,9 @@
 SCREENS.push({ id:"protocols/today-folds", area:"Protocols", status:"idea", title:"Protocols · Today (folds)",
   tabs:"idea", tab:"Protocols", sub:"All as planned · evening next",
-  why:"Merges Day view + Plans list. A slot counts as done; 'Different?' opens it for skip / dose change. '+ Add' opens the add sheet over this view. 'All' switches to the whole collection; a row in an open fold opens that protocol's history.",
+  why:"Merges Day view + Plans list. A slot counts as done; 'Different?' opens it for skip / dose change. '+ Add' opens the add sheet over this view. The tab is simply today: no Today · All switch. The whole collection sits behind the quiet 'All protocols' card at the very end; a row in an open fold opens that protocol's history.",
   ref:"refs/juno-folds.png",
   w:[
     {t:"head", l:"Protocols"},
-    {t:"seg", items:["Today","All"], on:"Today", go:[null,"protocols/all"]},
     {t:"tile", tone:"white", l:"Today · all as planned", n:"0 deviations · 21 intakes", bar:100},
     {t:"sec", l:"Your protocols", act:"+ Add", go:"protocols/add-0-choose"},
     {t:"fold", l:"☀︎ Morning", m:"18 · as planned", a:"Different?"},
@@ -14,4 +13,5 @@ SCREENS.push({ id:"protocols/today-folds", area:"Protocols", status:"idea", titl
     {t:"sec", l:"As needed", r:"tap = taken now"},
     {t:"chips", items:["Epitalon · 2d","Selank · today","Rapamycin · 9d"]},
     {t:"tile", tone:"white", l:"Consistency · 30 days", heat:true},
+    {t:"tile", tone:"white", l:"All protocols", r:"›", n:"8 active · 1 ended", go:"protocols/all"},
   ]});
