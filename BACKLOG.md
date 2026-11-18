@@ -69,11 +69,25 @@ Frame that follows from it (proposal, to discuss):
 
 *Blinding: teach the rule, not a recipe (Alex, 18 Nov 2026).* There are endlessly many ways to prepare (own capsules from powder, a small capsule inside a larger opaque one filled so it does not rattle, a placebo of equal size and weight, injections …). The app states what blinding requires (indistinguishable in look, size, weight, sound, taste; only the helper knows; units carry only a number) and offers example approaches in an optional guide. The guide is also the optional tutorial for a first trial and stays reachable from the Trials section.
 
+*Block duration is exact and excludes the washout (Alex, 18 Nov 2026).* "About 1 week" is out. A block of 1 week with a washout of 3 days means: washout days, then 7 counted days, after a switch again washout days, then 7 counted days. Hiding where blocks begin does not need varying lengths: the order is drawn at random and not simply alternating (two blocks of the same kind can follow each other), and the trial can open with lead-in days.
+
+*A running trial under Protocols (being built).* The study capsule appears on today's page and under All protocols with the number to take today, has its own detail screen (intake so far, what to do about a missed capsule) and links to the trial status in Insights.
+
 *Blind check once, at the end (18 Nov 2026).* A weekly "what do you think you took?" makes the person watch for an effect and can feed expectation; trials usually ask at the end. The prototype asks one question right before the reveal ("Could you tell when you were on Magnesium?"). A correct guess is not treated as failure: it can mean the blind slipped or that the substance did something noticeable. If the weekly data point is wanted later, it becomes a setting in the design step (at the end / weekly / never).
 
 *Needs a statistics check before anything real is built:* the "can reach 'likely' at most" line and the chance figure in Details assume a test that re-draws the blocks the way the app drew them (random boundaries, varying lengths).
 
 *Trial design step (built in the prototype, to react to).* Three values the person sets, nothing recommended: about how long one block lasts (1 day … 2 weeks, custom), days after each switch that are left out of the result (capsules are still taken), total length (2 / 4 / 8 / 12 weeks, custom). The helper step gets the physical story (what you need, what the helper does once, what you do) and a way to look at the helper's side. Further blinding variants (two labelled containers vs. numbered single units, injections, self-blinding) come later.
+
+## Protocols: physical therapies from a shared catalogue (Alex, 18 Nov 2026)
+Protocols should become uniform across kinds. Besides substances there are physical therapies (HBOT, IHHT, mats and the like), and each needs its own configuration fields (IHHT has other settings than HBOT). Idea: a catalogue of therapies maintained by the app's team, each entry defining its configuration items. If a therapy is missing, the user sends a request to the backend and the maintainers add it. Seed it by hand with the standard therapies, with or without evidence; people may enter whatever they use.
+Not for trials for now: physical therapies can hardly be blinded, so "What do you want to test?" stays with substances.
+
+## Trial: which scores (Alex, 18 Nov 2026, open)
+Two thoughts that pull apart. (a) Simply everything one tracks anyway: all check-ins, the weekly ones, whatever exists; not yet framed. (b) For the weeks of a trial, a small chosen subset gets special discipline, and the app motivates the person to log at least those consistently. Possible reconciliation (mine): everything tracked is evaluated; the selection in the setup is a focus set the person commits to and gets reminded of, and the composite is built from it.
+
+## Trial, helper side later: document the blinding (Alex, 18 Nov 2026)
+Optional: the helper takes a photo or a short video showing that real and placebo look alike and make no sound when shaken, or documents a small visible difference. Later, when data are read across users (meta level), an AI can look at this material to judge the quality of the blind and weight the trial accordingly.
 
 ## How scores and check-ins are structured (open, Alex, 18 Nov 2026)
 Not known yet; it will probably settle once the general outcome-measure model is chosen (a common standard such as PROMIS). What it has to hold:
@@ -106,6 +120,8 @@ Making it: Claude has no image or video model; the storyboards are hand-written 
 
 ## Send a voice message to the app
 **Idea (Alex, 17 Nov 2026):** not always in the mood to open the app. Record a voice message anywhere (WhatsApp chat with yourself, Voice Memos, even one sent to a friend), then share it to MEjority; the app builds the entries from it and shows the usual draft cards. Technically a share target for audio. He calls it over-engineered but wants it as a user.
+
+Addition (18 Nov 2026): the check-in should carry the time the message was recorded, not the time it was shared, if the timestamp survives sharing (to be checked for WhatsApp and Voice Memos). Some people keep a WhatsApp group with themselves for exactly this.
 
 ## Apple Health data
 Show imported data (sleep, steps, heart rate variability and the like) in the UI in a realistic way. For the prototype this is a display question only; the import is the technical side.
