@@ -171,8 +171,15 @@ Seeds:
 
 **Direction:** keep the calendar, split the day dot into one segment per planned dose (morning / noon / evening); a missed dose is a hollow segment. Tap shows "Thu 30 Oct · morning ✓ · noon skipped · evening ✓". One line under the calendar names a repeated gap: "Noon dose missed on 4 of 8 Thursdays."
 
+## Themes (Alex, 18 Nov 2026)
+- A sixth theme, "Studio", is being built from an inspiration he found (a calm consumer health app): neutral stage, grey cards, black pills for the main action, the area colour only in pastel icon tiles, soft dimensional icons, floating tab bar. Not a copy; principles only. Plan: several themes exist side by side, later the best parts are mixed into one look of our own.
+- Cozy: "not bad, but can be developed further".
+- A really beautiful sky as a background picture: he wants to pick reference graphics himself first.
+- Icons he is unsure about: the capsule on the pattern cards (being replaced by an Insights icon in the source area's colour) and the flask on the Trials tile (left as it is for now).
+- No visible scrollbar inside the phone in the prototype (being done).
+
 ## Meadow: background shapes
-Low priority (Alex, 17 Nov 2026). The moving discrete blobs in the Meadow background distract. Replace with very soft gradient fields that shift slowly. Keep the shape inside the "Check-in now" card; he likes how it frames the button.
+(Alex, 17 Nov 2026; being done 18 Nov.) The moving discrete blobs in the Meadow background distract. Replace with very soft gradient fields that shift slowly. Keep the shape inside the "Check-in now" card; he likes how it frames the button.
 
 ## Personal placebo-controlled trial (N-of-1)
 
