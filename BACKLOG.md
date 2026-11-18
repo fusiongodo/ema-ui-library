@@ -75,6 +75,12 @@ Frame that follows from it (proposal, to discuss):
 
 *Tone of the trial texts (Alex, 18 Nov 2026).* Relaxed everyday language that still uses the proper terms ("real" and "placebo", "blinded"); action titles on the intro ("A helper fills the capsules", "You log as usual").
 
+*Does a trial start with washout days? (open, 18 Nov 2026).* Alex sees no reason for a washout before the trial starts. The one argument for it: if the substance was taken in the days before the start and the first block is placebo, its effect still carries into the first days and blurs the comparison. If the substance is new to the person, or the first block is the real one, nothing needs washing out. Proposal: no setting; the app knows from Protocols whether the substance was taken right before the start and adds the washout only then.
+
+*Preparation steps on the helper's side (next larger piece, not built).* The helper's page is still thin: preparing step by step, stating the control substance (sugar, rice flour …), optional photo or video as proof of the blind (see below).
+
+*Magnesium is the trial item (Alex, 18 Nov 2026, being built).* "Magnesium · paused for the trial" next to a separate "Study capsule" confused him. Under Protocols, Magnesium itself is shown as the active item with a "Trial" mark and today's capsule number; wording for the thing one takes: "trial capsule".
+
 *A running trial under Protocols (being built).* The study capsule appears on today's page and under All protocols with the number to take today, has its own detail screen (intake so far, what to do about a missed capsule) and links to the trial status in Insights.
 
 *Blind check once, at the end (18 Nov 2026).* A weekly "what do you think you took?" makes the person watch for an effect and can feed expectation; trials usually ask at the end. The prototype asks one question right before the reveal ("Could you tell when you were on Magnesium?"). A correct guess is not treated as failure: it can mean the blind slipped or that the substance did something noticeable. If the weekly data point is wanted later, it becomes a setting in the design step (at the end / weekly / never).
@@ -128,6 +134,8 @@ Making it: Claude has no image or video model; the storyboards are hand-written 
 Addition (18 Nov 2026): the check-in should carry the time the message was recorded, not the time it was shared, if the timestamp survives sharing (to be checked for WhatsApp and Voice Memos). Some people keep a WhatsApp group with themselves for exactly this.
 
 ## Apple Health data
+Asked for again on 18 Nov 2026 as a backlog item of its own: connect the app with Apple Health. The Rapamycin evaluation in the prototype already shows three Health measures (sleep duration, recovery, steps) with their source.
+
 Show imported data (sleep, steps, heart rate variability and the like) in the UI in a realistic way. For the prototype this is a display question only; the import is the technical side.
 
 Feeds Patterns without any logging effort: steps above the personal usual → fatigue two days later (the overexertion crash), short sleep → brain fog next day, resting heart rate / HRV as early warning. Makes an exertion slider in the check-in optional.
