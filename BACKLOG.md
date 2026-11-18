@@ -32,6 +32,23 @@
 
 Below: ideas that are not being built yet. Newest first.
 
+## Review of Insights and the trial flow (Alex, 18 Nov 2026)
+**Being changed now**
+- Pattern cards say what happened in words, numbers only after a tap: "After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening." / "Since you increased Naltrexon from 0.5 to 1 mg, your fatigue has decreased by 18 %." / a third card that is an evaluation of one protocol ("Your Rapamycin evaluation": shorter and worse sleep, slightly worse recovery, but lower pain, lower brain fog, more steps).
+- Evidence screen: the chart card is liked; the plain list "The days" under it falls out of the quality of the app and goes.
+- Trial step 2: "What should it change?" is too suggestive. New: "Which scores do you want to track?", chosen from the check-in scores, one marked as main outcome. The app should keep to scientific standards wherever that is practicable.
+
+**To frame together before building (proposals, not decided)**
+
+*Trial length.* He wants 2 weeks as an option; the UI is liked but the method behind it is not right yet. Proposal: the length is a result, not a choice. Two things decide it:
+1. How fast the substance acts and wears off → length of one period. Within a day (e.g. caffeine, a painkiller): 1–2 days. Within a few days (most supplements): 1 week. Slower: 2 weeks or unsuitable.
+2. How sure the result should be → number of A/B pairs. The swap test has 2^pairs possible orders, so 3 pairs can at best show a hint (1 in 8), 4 pairs "likely" (1 in 16), 6 pairs "strong" (1 in 64).
+Total = 2 × pairs × period. So 2 weeks is fine for a fast-acting substance (seven pairs of single days) and impossible for a slow one. UI: ask "How quickly do you notice it?" first, then show the same length chips, each labelled with what it can show ("can show: hint / likely / strong"), impossible ones greyed. Days not counted at the start of a period scale with the speed.
+
+*Helper.* The idea is liked, but neither the user nor he understood the step when first seeing it. What is missing is the physical story before the question "who fills the capsules": what you need (empty opaque capsules, a filler, 8 small boxes), what the helper does once (about 20 minutes), what you do each week (take the next numbered box). Proposal: one illustrated "How it works in real life" step before the helper step, and a preview of what the helper will see. Also add a way without a helper, since many users are housebound: self-blinding with coded boxes (you fill both kinds yourself, seal them in identical boxes with a code sticker from the app, shuffle them; each week you scan the box and only the app knows which kind it was). This is the method of the self-blinding microdose study (Szigeti et al. 2021).
+
+*Rhythm of check-in scores.* Today every check-in asks every score (EMA style). Open: some scores belong in every check-in, some once a day, some every few days or weekly. Options: (a) one check-in that assembles itself from whatever is due, (b) the check-in holds only the several-times-a-day scores and a separate format holds the rest, (c) several kinds of check-in. Proposal: (a). Each score has a rhythm (every check-in / once a day at a chosen check-in / every n days / weekly); the check-in asks what is due and shows less often asked scores as a short extra block that can be postponed. One habit, one entry point, and the voice and trial flows keep working unchanged. Anything tracked is a check-in score; "add a score" in the trial setup creates one with a rhythm.
+
 ## Intro: a real animation with a story
 **Alex, 17 Nov 2026:** the seven storyboards are nice but none shows what he wants to say: everyone contributes their part of the data to the whole, and together that changes something and brings light into the dark. No literal cloud. The animated Hands intro is "a bit annoying" and stays only until this is done. He wants to think about the story himself first.
 
