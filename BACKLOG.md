@@ -75,7 +75,7 @@ Frame that follows from it (proposal, to discuss):
 
 *Tone of the trial texts (Alex, 18 Nov 2026).* Relaxed everyday language that still uses the proper terms ("real" and "placebo", "blinded"); action titles on the intro ("A helper fills the capsules", "You log as usual").
 
-*Does a trial start with washout days? (open, 18 Nov 2026).* Alex sees no reason for a washout before the trial starts. The one argument for it: if the substance was taken in the days before the start and the first block is placebo, its effect still carries into the first days and blurs the comparison. If the substance is new to the person, or the first block is the real one, nothing needs washing out. Proposal: no setting; the app knows from Protocols whether the substance was taken right before the start and adds the washout only then.
+*How a trial starts: decided (Alex, 18 Nov 2026).* The kind of the first block is drawn at random, real or placebo, whether or not the substance was taken before. The person must not be able to tell whether the trial opens with a washout. Consequence: nothing about the start is visible or configurable. If the substance was taken right before the start (the app knows this from Protocols) and placebo comes first, the app leaves the first washout days out of the comparison; otherwise it does not. The number of capsules and the length of the trial are the same in every case, so the length gives nothing away.
 
 *Preparation steps on the helper's side (next larger piece, not built).* The helper's page is still thin: preparing step by step, stating the control substance (sugar, rice flour …), optional photo or video as proof of the blind (see below).
 
