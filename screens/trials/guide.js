@@ -27,15 +27,16 @@ SCREENS.push({ id:"trials/guide-prepare", area:"Insights", status:"idea", title:
   concept:[
     "<b>Examples, said at the top:</b> the cards show ways people do it, not the way. The substance and the person decide.",
     "<b>Four cards, one picture and one or two sentences each:</b> own capsules with powder and a filler; a small capsule inside a larger opaque one, the gap filled so it does not rattle; a matching placebo of the same size and weight; numbered sachets for a drink.",
-    "<b>The rule closes it:</b> you can't tell them apart, only the helper knows, each carries only a number. Injections and other forms need their own setup, said in one line.",
+    "<b>The rule closes it,</b> by name only ('if the rule holds'): it stands in full on the first page and on the helper step. Injections and other forms need their own setup, said in the same line.",
+    "<b>Word budget:</b> every card at most two short sentences, about 20 words; the picture carries the rest.",
   ],
   w:[
     {t:"shead", left:"", l:"Ways to prepare", n:"examples", right:"×", goRight:"back"},
     {t:"big", l:"Many ways work", n:"A few examples. Pick what suits your substance, or your own way."},
-    {t:"explain", pic:"prep-fill", l:"Fill your own capsules", n:"Buy the substance as a powder and fill empty opaque capsules: some with it, some with a filler such as rice flour."},
-    {t:"explain", pic:"prep-nest", l:"A capsule inside a capsule", n:"Put the small capsule whole into a larger opaque one and fill the gap so it doesn't rattle. For placebo, the large one holds filler only."},
-    {t:"explain", pic:"prep-match", l:"A matching placebo", n:"A placebo capsule of the same size and weight, bought or made. Check that both also look and sound the same."},
-    {t:"explain", pic:"prep-sachet", l:"Sachets for a drink", n:"Numbered sachets with the powder or a filler that looks alike, stirred into a strong-tasting drink."},
-    {t:"note", l:"Any way is fine as long as the rule holds: you can't tell them apart, only the helper knows which is which, and each carries only a number. Injections and other forms need a setup of their own."},
+    {t:"explain", pic:"prep-fill", l:"Fill your own capsules", n:"Fill empty opaque capsules: some with the powdered substance, some with a filler such as rice flour."},
+    {t:"explain", pic:"prep-nest", l:"A capsule inside a capsule", n:"Put the small capsule into a larger opaque one, the gap filled so it doesn't rattle. For placebo: filler only."},
+    {t:"explain", pic:"prep-match", l:"A matching placebo", n:"A placebo of the same size and weight, bought or made. Check that both also look and sound the same."},
+    {t:"explain", pic:"prep-sachet", l:"Sachets for a drink", n:"Numbered sachets of powder or a matching filler, stirred into a strong-tasting drink."},
+    {t:"note", l:"Any way works if the rule holds. Injections and other forms need a setup of their own."},
     {t:"btn", l:"Done", go:"back"},
   ]});

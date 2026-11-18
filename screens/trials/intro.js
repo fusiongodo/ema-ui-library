@@ -30,11 +30,15 @@
    The id trials/intro is fixed: Insights home, the evidence screen (pattern-skip) and a protocol's detail screen link here. */
 const TRIAL_PLAN = [[1,3,"a"],[4,5,"b","w"],[6,12,"b"],[13,14,"b","w"],[15,21,"b"],[22,23,"a","w"],[24,30,"a"],[31,32,"b","w"],
   [33,39,"b"],[40,41,"a","w"],[42,48,"a"],[49,50,"b","w"],[51,57,"b"],[58,59,"a","w"],[60,63,"a"]];
+/* While the trial runs, Magnesium itself is the trial item under Protocols: one row, its name with a small calm "Trial"
+   badge (class trb in lib/style.css; data-world="insights" = the trial's world, Cozy draws it in that light tint) and the
+   number of today's trial capsule. Used on protocols/today-folds-trial, protocols/all-trial and protocols/item-capsule. */
+const TRIAL_BADGE = `<span class="trb" data-world="insights">Trial</span>`;
 /* How many units of each kind a plan holds ("27 with Magnesium, 36 placebo"), for the helper's welcome page and its preview. */
 const trialMix = p => { const n = k => p.filter(r=>r[2] === k).reduce((s, r)=>s + r[1] - r[0] + 1, 0); return `${n("a")} with Magnesium, ${n("b")} placebo`; };
 /* What blinding requires: the rule, not a method (trials/helper names the helper, trials/guide says "the helper"). */
 const trialRule = who => ({t:"tl", ic:["twins","key","hash"], rows:[
-  ["", "You can't tell them apart", "Same look, size and weight, the same sound when shaken, the same taste."],
+  ["", "You can't tell them apart", "Same look, size, weight and taste, the same sound when shaken."],
   ["", `Only ${who} knows which is which`, `The plan opens on ${who === "Sam" ? "Sam's" : "the helper's"} phone, never on yours.`],
   ["", "Each one carries only a number", "1 to 63, one a day. The number tells you nothing."]]});
 SCREENS.push({ id:"trials/intro", area:"Insights", status:"idea", title:"Trial · what it is",

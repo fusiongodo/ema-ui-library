@@ -8,7 +8,7 @@ SCREENS.push({ id:"trials/running", area:"Insights", status:"idea", title:"Trial
     "<b>Nothing asks for attention:</b> no tinted card, no question. A weekly 'what do you think you took?' would make the person watch for an effect and feed expectation, so the guess is asked once, at the end (trials/guess).",
     "<b>Prototype jump:</b> a tap on the progress card skips to day 63 (insights/home-result).",
     "<b>Progress by days:</b> day 19 of 63 and the day the result opens. No weeks of the design, no pairs: the person must not know where a block begins.",
-    "<b>Capsules, not effects:</b> the study capsule is a protocol item like any other (it sits in the Evening fold of Protocols, protocols/today-folds-trial); missed ones are logged, not hidden, and reported with the result. The grid's weeks are the calendar, nothing more. No chart compares days.",
+    "<b>Capsules, not effects:</b> Magnesium stays a protocol item like any other, marked 'Trial' and taken as numbered trial capsules (Evening fold of Protocols, protocols/today-folds-trial); missed ones are logged, not hidden, and reported with the result. The grid's weeks are the calendar, nothing more. No chart compares days.",
     "<b>Locked:</b> one calm line, no countdown drama.",
     "<b>Stop the trial</b> is quiet, at the end (trials/stop).",
   ],

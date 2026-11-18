@@ -293,6 +293,14 @@ section{scroll-margin-top:56px}
 .dsx{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px}
 .ds-k{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11px;color:var(--muted)} .ds-k span{display:flex;align-items:center;gap:5px} .ds-k i{width:8px}
 .ds-n{margin:0;font-size:12.5px}
+/* daystrip sum: the result over its arithmetic, taken in at a glance (trials/length) */
+.ds-sum{margin:0;display:flex;flex-direction:column;gap:1px} .ds-sum b{font-size:14px;font-family:var(--round,inherit);font-weight:700}
+.ds-sum span{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+/* trb: a small calm "Trial" badge after a protocol's name while a trial runs (protocols/today-folds-trial, all-trial,
+   item-capsule). It carries data-world="insights": Cozy draws it in the light tint of the trial's world (PRINCIPLES 9). */
+.trb{display:inline-block;margin-left:6px;padding:0 7px;border-radius:999px;font-size:10px;font-weight:700;line-height:16px;
+  vertical-align:middle;background:var(--grey);color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);font-family:var(--cz-text,inherit);letter-spacing:.01em}
+.item:has(.trb) > span{white-space:nowrap}   /* a fold row with the badge keeps name + badge and "capsule no. 19" on one line each */
 .fl-tot{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:5px solid var(--grey);font-size:12px;color:var(--muted)} .fl-tot b{color:var(--ink)}
 .fill.rg .fl-r{grid-template-columns:54px 1fr 22px} .fill.rg .fl-n{width:auto;padding:0 4px}
 /* tl with pictures (ic): a small tile instead of the dot, no label column */
@@ -418,6 +426,10 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 /* base screen: starts below the status bar, so scrolled content never runs under 9:41 / Menu */
 .stage .phone{position:absolute;inset:var(--sbar) 0 0 0;min-height:0;border-radius:0;box-shadow:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;z-index:1}
 .stage .phone.sheet{top:calc(var(--sbar) + 8px);border-top:0;border-radius:22px 22px 0 0;z-index:4;box-shadow:0 -6px 24px rgba(0,0,0,.12)}
+/* a real phone shows no scrollbar: hidden everywhere inside the phone (Play frame in every theme, sheets, Library
+   phones); wheel, trackpad and touch still scroll. The notes column and the page keep theirs. */
+.frame,.frame *,.phone,.phone *{scrollbar-width:none}
+.frame ::-webkit-scrollbar,.phone::-webkit-scrollbar,.phone ::-webkit-scrollbar{display:none;width:0;height:0}
 .stage .leaving{pointer-events:none}
 .stage .dim{position:absolute;inset:0;z-index:3;background:rgba(20,30,35,.38);opacity:0;pointer-events:none;transition:opacity .22s}
 .stage .dim.on{opacity:1;pointer-events:auto}
@@ -498,6 +510,8 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .xp:not(.has-l) .xp-t .n{font-size:var(--t-body);line-height:1.4}
 .stage .ds{border-radius:var(--rad);padding:14px var(--pad);gap:12px} .stage .ds-s{gap:10px} .stage .dsd{gap:2.5px}
 .stage .dsx{font-size:var(--t-min)} .stage .ds-k{font-size:var(--t-foot)} .stage .ds-k i{width:10px} .stage .ds-n{font-size:var(--t-sub);line-height:1.4}
+.stage .ds-sum{gap:2px} .stage .ds-sum b{font-size:var(--t-body)} .stage .ds-sum span{font-size:var(--t-sub)}
+.stage .trb{margin-left:8px;padding:0 9px;font-size:var(--t-min);line-height:21px}
 .stage .fl-tot{padding:12px 0;font-size:var(--t-foot);border-top-width:8px} .stage .fill.rg .fl-r{grid-template-columns:76px 1fr 30px} .stage .fill.rg .fl-n{width:auto;padding:0 6px}
 .stage .dl{border-radius:var(--rad);padding:0 var(--pad)}
 .stage .dl .dr{grid-template-columns:1fr auto 56px;gap:10px;min-height:var(--row);padding:10px 0;font-size:var(--t-body)}

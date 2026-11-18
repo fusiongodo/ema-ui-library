@@ -22,12 +22,12 @@
    Terms: Block duration, Washout period, Randomized each carry an (i) (screens/trials/terms.js). */
 SCREENS.push({ id:"trials/length", area:"Insights", status:"idea", title:"Trial · 3 How it runs",
   sheet:true,
-  why:"The design of the trial, set by the person: block duration, washout period, total duration. Nothing is preselected as a recommendation. The proper terms carry a small (i) that explains them with a picture. Under them a deliberately veiled strip of the days, the plain arithmetic of this design and one line on what it can show at most.",
+  why:"The design of the trial, set by the person: block duration, washout period, total duration. Nothing is preselected as a recommendation. The proper terms carry a small (i) that explains them with a picture. Under them a deliberately veiled strip of the days, the arithmetic of this design as a small sum and one line on what it can show at most.",
   concept:[
     "<b>Three values, all the person's:</b> block duration (1 day, 3 days, 1 week, 2 weeks, custom), washout period (none, 1, 2, 5 days, custom), total duration (2, 4, 8, 12 weeks, custom). The rows open a half-height picker, the total stays as chips.",
     "<b>Exact, no 'about':</b> a block of 1 week is 7 days, and all 7 are compared. Washout days are not part of a block; they come on top, before every block, switch or not. So one block takes 9 days here.",
-    "<b>Rounded up to whole blocks, said once:</b> 8 weeks are 56 days, 7 blocks of 9 days are 63. The heading of the total says '63 days', the sentence under the strip says why. Rounding up so the chosen duration is really covered.",
-    "<b>Proper terms, explained on demand:</b> an (i) in each row opens a half sheet with a small picture and one or two sentences (trials/term-block: a block of 7 compared days, the washout days before it marked as extra, the next block, and what you see instead; trials/term-washout: a switch, the earlier kind fading over the first days, those days marked as washout, on top of the block). The (i) is its own tap; the row still opens its picker.",
+    "<b>The arithmetic as a sum, taken in at a glance:</b> under the strip the result '8 weeks → 63 days', under it the formula '7 blocks × (2 washout + 7 days)', then one short line: the app draws the order and where blocks begin. The heading of the total keeps 'rounded up: 63 days'. Why it is rounded up (so the chosen duration is really covered) and that one kind gets 4 blocks and the other 3 are true but not needed here; the reveal shows them (trials/result).",
+    "<b>Proper terms, explained on demand:</b> an (i) in each row opens a half sheet with a small picture and one or two short sentences (trials/term-block: two blocks of 7 days, one of each kind, the washout days in front of each; trials/term-washout: a switch, the earlier kind fading over the first days, those days marked as washout, on top of the block). The (i) is its own tap; the row still opens its picker.",
     "<b>Where blocks begin is the app's secret, without varying them:</b> the person knows the block length, so if they knew where the first one begins, every boundary would be a moment to notice a change. So the app draws the order of the blocks (which kind gets the extra one too) and where the first one begins: the whole sequence shifted by a few days, one block split between the start and the end. The person only ever sees numbered capsules. The heading over the strip names it: Randomized (i).",
     "<b>The picture is veiled on purpose:</b> 63 dots, all alike, no line between blocks and no weekdays, so it cannot be read as the schedule.",
     "<b>Information, not a requirement:</b> with 7 blocks, 4 of one kind and 3 of the other, the app can draw 35 orders; at best the drawn one is the only one that puts every Magnesium block below every placebo block, 1 in 35, so a result can reach 'likely' at most. The line follows the design; it never says what to choose.",
@@ -41,8 +41,8 @@ SCREENS.push({ id:"trials/length", area:"Insights", status:"idea", title:"Trial 
     {t:"sec", l:"Total duration", r:"rounded up: 63 days"},
     {t:"pills", items:["2 weeks","4 weeks","8 weeks","12 weeks","Custom"], on:["8 weeks"], go:[null,null,null,null,"trials/pick-total"]},
     {t:"sec", l:"Randomized", info:"trials/term-randomized", r:"hidden from you"},
-    {t:"daystrip", veil:true, days:63,
-      l:"<b>8 weeks → 63 days, one capsule a day.</b> 7 blocks of 7 days, each with 2 washout days before it. That's rounded up to whole blocks, so the 8 weeks are fully covered. One kind gets 4 blocks, the other 3. The app draws the order and where the first block begins, so you won't know when one starts."},
+    {t:"daystrip", veil:true, days:63, sum:["8 weeks → 63 days", "7 blocks × (2 washout + 7 days)"],
+      l:"The app draws the order and where blocks begin."},
     {t:"note", l:"With 7 blocks a result can reach ‘likely’ at most."},
     {t:"btn", l:"Continue", go:"trials/helper"},
   ]});

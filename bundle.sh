@@ -11,7 +11,7 @@ OUT=.dist/ema-wireframes.html
   echo '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
   echo '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Nunito:wght@400..800&display=swap">'
   echo '<style>'
-  cat lib/style.css lib/themes.css lib/cozy.css lib/splash.css
+  cat lib/style.css lib/themes.css lib/cozy.css lib/studio.css lib/splash.css
   # phone gutters that respect safe areas (overrides the padding shorthand above)
   echo 'body{padding:0;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}'
   echo '</style>'

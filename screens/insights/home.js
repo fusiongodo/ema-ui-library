@@ -11,7 +11,7 @@
 const INSIGHTS_PATTERNS = [
   {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
   {t:"pattern", src:"protocols", l:"Since you increased Naltrexon from 0.5 to 1 mg, your fatigue has decreased by 18 %.", n:"Over 3 weeks", conf:"likely"},
-  {t:"pattern", src:"protocols", l:"Your Rapamycin evaluation", n:"6 things were different in the two days after", go:"insights/eval-rapamycin"},
+  {t:"pattern", src:"protocols", ic:"overview", l:"Your Rapamycin evaluation", n:"6 things were different in the two days after", go:"insights/eval-rapamycin"},
 ];
 const INSIGHTS_ASK = {t:"tile", tone:"white", l:"Ask about your data", n:"Tap a question or ask in your own words.",
   chips:["Did the dose change help?","What happens after I skip a dose?","How were my last two weeks?","Ask by voice"],
@@ -22,13 +22,13 @@ const INSIGHTS_TRIALS = {t:"tile", tone:"white", l:"Find out if something really
 const INSIGHTS_GUIDE = {t:"note", l:"New to trials? A two-minute guide ›", go:"trials/guide"};
 const INSIGHTS_CONCEPT = [
   "<b>Three steps, one per area:</b> log (Check-ins, Protocols), understand (this tab), later together. This tab has three parts: Patterns, Ask, Trials.",
-  "<b>Patterns</b> are found automatically from a small fixed set of events (skips, dose changes, start / stop of a course, as-needed intakes). One plain sentence each, at most three, a quiet word for how sure (hint · likely · strong) and the icon of the area it comes from. The card says what happened in words; the numbers come after a tap. Wording: 'goes along with', never 'causes'.",
+  "<b>Patterns</b> are found automatically from a small fixed set of events (skips, dose changes, start / stop of a course, as-needed intakes). One plain sentence each, at most three, a quiet word for how sure (hint · likely · strong) and an Insights icon of its own (a finding: a rising line with a spark; an evaluation: an overview) on a tile in the colour of the area it comes from. The card says what happened in words; the numbers come after a tap. Wording: 'goes along with', never 'causes'.",
   "<b>Evaluation:</b> for an as-needed protocol the app can also look at everything that was different after it (Rapamycin: six measures from check-ins and Apple Health). Its card names the evaluation, not one finding, and opens an overview (insights/eval-rapamycin).",
   "<b>Ask</b> is the agent. It picks from a fixed set of built analyses (before / after a change, days after an event, last weeks vs. earlier …); the language model only chooses the analysis and words the answer, the numbers come from the built functions. The answer is one chart card plus one sentence.",
   "<b>Pin to Insights</b> turns an answer into a widget on this page, so every user's Insights tab becomes their own (insights/home-pinned).",
   "<b>Trials:</b> a personal placebo-controlled test (N-of-1, see BACKLOG). Started here, from a pattern ('Run a trial' on the evidence screen) or from a protocol's detail screen; all open trials/intro (flow 'Personal trial'). A quiet line under the trial card opens the optional two-minute guide (trials/guide) in every state of the tab. While a trial runs, its card takes this place (insights/home-trial); when it is over, the result card (insights/home-result).",
   "<b>Placeholders:</b> the first and the third pattern and all three questions have their own screen; the second pattern has none yet. 'Ask by voice' opens the listening layer.",
-  "<b>Colour:</b> the page is the Insights world (lilac rosé); a pattern's icon tile wears the world of its source (Protocols periwinkle, PRINCIPLES 9). No tinted card here: nothing on this page wants something from the user right now (PRINCIPLES 8)."
+  "<b>Colour:</b> the page is the Insights world (lilac rosé); a pattern's icon is Insights' own, its tile wears the world of its source (Protocols periwinkle, PRINCIPLES 9), so a finding about a protocol no longer looks like a Protocols item but still says where it comes from. No tinted card here: nothing on this page wants something from the user right now (PRINCIPLES 8)."
 ];
 SCREENS.push({ id:"insights/home", area:"Insights", status:"idea", title:"Insights · patterns, ask, trials",
   tabs:"idea", tab:"Insights", sub:"3 patterns · 2 likely",

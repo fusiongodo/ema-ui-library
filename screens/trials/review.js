@@ -5,7 +5,7 @@ SCREENS.push({ id:"trials/review", area:"Insights", status:"idea", title:"Trial 
     "<b>Same card as Add protocol:</b> label left, value right; the steps you chose open again with a tap.",
     "<b>The design as the person set it,</b> in the proper terms: block duration (1 week, exactly 7 compared days), washout period (2 days before each block, on top of it), total duration (8 weeks, rounded up to whole blocks: 63 days). All three open step 3. Where the blocks fall is not on the card: the app keeps it hidden.",
     "<b>How the result is judged:</b> the scores tracked and the primary outcome as chosen in step 2 (here the composite score of all three).",
-    "<b>What changes in daily life:</b> one study capsule a day replaces Magnesium in the evening, number after number. Drawn muted (PRINCIPLES 2): it follows from the trial, nothing to choose.",
+    "<b>What changes in daily life:</b> Magnesium stays your evening item, taken as numbered trial capsules while the trial runs, one number after the other. Nothing is paused. Drawn muted (PRINCIPLES 2): it follows from the trial, nothing to choose.",
     "<b>Start on Monday:</b> Sam needs a few days to prepare the capsules. The start day says nothing about the blocks.",
   ],
   w:[
@@ -18,8 +18,8 @@ SCREENS.push({ id:"trials/review", area:"Insights", status:"idea", title:"Trial 
       ["Washout period", "2 days before each block", "", "trials/length"],
       ["Total duration", "63 days · 8 weeks rounded up", "", "trials/length"],
       ["Helper", "Sam has the fill plan", "", "trials/helper"],
-      ["Each evening", "Study capsule instead", "default"]]},
-    {t:"note", l:"Sam prepares 63 numbered capsules before Monday. You start with number 1 on Monday evening."},
+      ["Each evening", "Magnesium as numbered trial capsules", "default"]]},
+    {t:"note", l:"Sam prepares 63 numbered trial capsules before Monday. You take no. 1 on Monday evening."},
     {t:"spacer"},
     {t:"btn", l:"Start on Monday", go:"insights/home-trial"},
   ]});

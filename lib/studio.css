@@ -1,0 +1,457 @@
+/* ====== STUDIO (Play only) ======
+   A calm, neutral stage: an almost white page, light warm-grey cards without borders or shadows, very round corners,
+   lots of air, near-black pills for the main action. Colour = place (PRINCIPLES 9) moves into small pastel icon tiles:
+   every row or card with an icon shows it in the pastel of the area it belongs to; the page itself stays neutral.
+   The area colour also appears in the active tab, the fill of sliders / progress / data marks and as the pale tint
+   of the one tinted card (PRINCIPLES 8, with a black button inside). System sans (SF Pro / Inter), big bold titles.
+   Built as a skin on Cozy's decorator: Play sets data-theme="studio", class .soft (shared soft rules of lib/themes.css)
+   and calls Cozy.decorate() (lib/cozy.js: icons, page heads, data-world on every layer and on every link into another
+   area). None of lib/cozy.css applies (all of it starts at [data-theme="cozy"]); every rule here starts at
+   .frame[data-theme="studio"], so Cozy, Sky, Dusk, Meadow, Wire, Library and Flows stay untouched.
+   To change the look: the palette is the two blocks of variables below (areas, then stage); the rest only uses them.
+   Motion: only the soft themes' quiet transitions (rise, slider glow, ring of light); no squish, no floating things. */
+
+/* ---------- areas: one pastel per area (hues from Cozy) ----------
+   --st-tile / -hi / -lo  the icon tile (pastel, its highlight, its lower edge)
+   --st-ink               the area colour as text and line (active tab, small labels), ≥ 4.5:1 on white and on the card
+   --st-fill              sliders, progress, data marks (dots, curves)
+   --st-data              dense data marks (the intake calendar), a step softer than the fill
+   --st-tint              the pale tint of the one tinted card                                                         */
+.frame[data-theme="studio"][data-world="today"],.frame[data-theme="studio"] [data-world="today"]{          /* apricot */
+  --st-tile:#FFD3A1; --st-tile-hi:#FFEBD3; --st-tile-lo:#F8BC7E; --st-ink:#8A3F0A; --st-ink-rgb:138 63 10;
+  --st-fill:#EE9445; --st-fill-rgb:238 148 69; --st-tint:#FFF1E1; --st-data:#F6B57A;
+}
+.frame[data-theme="studio"][data-world="checkins"],.frame[data-theme="studio"] [data-world="checkins"]{    /* mint */
+  --st-tile:#B4E2C5; --st-tile-hi:#DAF3E3; --st-tile-lo:#8ECFA9; --st-ink:#1B5C40; --st-ink-rgb:27 92 64;
+  --st-fill:#3E9F6D; --st-fill-rgb:62 159 109; --st-tint:#E7F6EC; --st-data:#7FC49D;
+}
+.frame[data-theme="studio"][data-world="protocols"],.frame[data-theme="studio"] [data-world="protocols"]{  /* periwinkle */
+  --st-tile:#C4CAF7; --st-tile-hi:#E3E6FD; --st-tile-lo:#A3ABEF; --st-ink:#383D9C; --st-ink-rgb:56 61 156;
+  --st-fill:#6B73DD; --st-fill-rgb:107 115 221; --st-tint:#EDEFFE; --st-data:#959CEB;
+}
+.frame[data-theme="studio"][data-world="insights"],.frame[data-theme="studio"] [data-world="insights"]{    /* lilac rosé */
+  --st-tile:#EEC5E1; --st-tile-hi:#F9E3F2; --st-tile-lo:#DEA4CC; --st-ink:#782C66; --st-ink-rgb:120 44 102;
+  --st-fill:#BF639D; --st-fill-rgb:191 99 157; --st-tint:#FBEDF6; --st-data:#D896C0;
+}
+.frame[data-theme="studio"][data-world="voice"],.frame[data-theme="studio"] [data-world="voice"]{          /* teal */
+  --st-tile:#A9DAD3; --st-tile-hi:#D3EFEA; --st-tile-lo:#80C4BA; --st-ink:#1F5A59; --st-ink-rgb:31 90 89;
+  --st-fill:#2F7F7C; --st-fill-rgb:47 127 124; --st-tint:#E5F4F1; --st-data:#72B7AE;
+}
+.frame[data-theme="studio"][data-world="neutral"],.frame[data-theme="studio"] [data-world="neutral"]{      /* warm grey: belongs to no area (a note, the trial helper's pages) */
+  --st-tile:#E4DFD7; --st-tile-hi:#F2EFEA; --st-tile-lo:#CFC7BB; --st-ink:#4A453D; --st-ink-rgb:74 69 61;
+  --st-fill:#7A7368; --st-fill-rgb:122 115 104; --st-tint:#F4F2EE; --st-data:#B3AA9C;
+}
+/* a nested Voice link (the mic, "Say it") keeps the teal on any page */
+.frame[data-theme="studio"] .stage .mic{--st-tile:#A9DAD3; --st-tile-hi:#D3EFEA; --st-tile-lo:#80C4BA; --st-ink:#1F5A59; --st-ink-rgb:31 90 89}
+
+/* ---------- the stage: neutral ground, warm-grey cards, near-black ink (declared on the frame, each layer and every
+   element with its own world, so the per-area values resolve where they are used, as in Cozy) ---------- */
+.frame[data-theme="studio"],.frame[data-theme="studio"] .layer,.frame[data-theme="studio"] [data-world]{
+  --st-font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter","Segoe UI",system-ui,sans-serif;
+  --round:var(--st-font);
+  --st-page:#FCFCFB; --st-page-rgb:252 252 251;
+  --st-card:#F3F2EF; --st-card-2:#EAE9E5; --st-chip:#FFFFFF;
+  --st-black:#141416; --st-shadow-float:0 1px 3px rgba(20,20,22,.06),0 10px 30px -8px rgba(20,20,22,.16);
+  --rad:28px; --pad:20px;
+  --ink:#141416; --muted:#6B6B71; --line:rgba(20,20,22,.07); --accent:var(--st-ink);
+  --white:var(--st-card); --grey:var(--st-card); --th-card-solid:var(--st-card);
+  --th-shadow:none; --th-shadow-flat:none; --th-shadow-s:none;
+  --th-tint:var(--st-tint); --th-tint-ink:var(--ink); --th-tint-muted:var(--muted); --th-tint-shadow:none;
+  --th-ca:var(--st-black); --th-ca-ink:#fff;
+  --th-btn:var(--st-black); --th-btn-ink:#fff; --th-fab:#2F6B6A;
+  --th-track:rgba(20,20,22,.08); --th-fill0:rgb(var(--st-fill-rgb) / .35); --th-mark:var(--st-fill); --th-knob:#fff;
+  --th-glow:rgb(var(--st-fill-rgb) / .28); --halo:var(--st-fill-rgb);
+  --th-curve:var(--st-fill); --th-dot:var(--st-fill); --th-bar:var(--st-fill);
+  --th-sheet:#fff; --th-sheet-rgb:255 255 255; --th-foot-a:1;
+  --th-tabbar:#fff; --th-dim:rgba(18,18,20,.30); --th-under:1;
+  --th-sky:var(--st-page); --th-bottom:var(--st-page); --th-bottom-rgb:var(--st-page-rgb);
+  --th-flag:#FFF2D9; --th-flag-ink:#744A0C; --th-danger:#A63D2A;
+  --hm-a:rgb(var(--st-fill-rgb) / .45); --hm-b:#F4C66F; --hm-c:#EBA49B;
+  --lilac:var(--th-tint); --sage:var(--th-tint); --butter:var(--th-tint); --sky:var(--th-tint); --peach:var(--th-tint);
+  /* companion (lib/buddy.js) */
+  --bd-blanket:var(--st-tint); --bd-hem:var(--st-tile); --bd-z:var(--st-ink); --bd-mug:#D9876A;
+}
+.frame[data-theme="studio"]{background:var(--st-page)}
+.frame[data-theme="studio"] .amb{background:var(--st-page)}
+.frame[data-theme="studio"] .amb:before,.frame[data-theme="studio"] .amb i{display:none}
+.frame[data-theme="studio"] .status{color:var(--ink)}
+
+/* ---------- type: system sans, large bold titles, calm body ---------- */
+.frame[data-theme="studio"] .stage{font-family:var(--st-font);-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+.frame[data-theme="studio"] .stage .phone{color:var(--ink)}
+.frame[data-theme="studio"] .stage :is(.head b,.big b,.pa.big .pa-l){letter-spacing:-.022em}
+.frame[data-theme="studio"] .stage .big b{font-size:30px;font-weight:700;line-height:1.12}
+.frame[data-theme="studio"] .stage .big .n{color:var(--muted);line-height:1.35}
+.frame[data-theme="studio"] .stage .sec{font-size:22px;font-weight:700;letter-spacing:-.015em;color:var(--ink);padding:14px 4px 0}
+.frame[data-theme="studio"] .stage .sec > span:not(.act){color:var(--muted);font-weight:400;letter-spacing:0}
+.frame[data-theme="studio"] .stage .note{color:var(--muted)}
+.frame[data-theme="studio"] .stage .note.danger{color:var(--th-danger)}
+.frame[data-theme="studio"] .stage :is(.tile .l,.fold .ft .t,.choice b,.slider .st .l,.rv-t b,.pa-l,.cpw-t1 b,.df-h b,.df-t b,.xp-t b,.qr b,.plr b){font-weight:600}
+
+/* ---------- page head: the large title left, round buttons right (Cozy's head structure, laid out flat) ---------- */
+.frame[data-theme="studio"] .stage .head.cz-head{display:flex;align-items:center;gap:12px;margin:8px 0 6px;padding:0 2px}
+.frame[data-theme="studio"] .stage .cz-hs{display:none}
+.frame[data-theme="studio"] .stage .cz-head .hl{flex:1;min-width:0;align-items:flex-start;text-align:left}
+.frame[data-theme="studio"] .stage .cz-head .hl b{font-size:34px;font-weight:700;line-height:1.1;color:var(--ink)}
+.frame[data-theme="studio"] .stage .cz-head .hl .n{font-size:var(--t-sub);font-weight:400;color:var(--muted);margin-top:4px}
+.frame[data-theme="studio"] .stage .cz-head > .circle{flex:none;align-self:center}
+.frame[data-theme="studio"] .stage .circle,.frame[data-theme="studio"] .stage .shead .side.g{width:var(--tap);min-width:var(--tap);height:var(--tap);padding:0;border-radius:50%;background:var(--st-card);color:var(--ink);box-shadow:none}
+.frame[data-theme="studio"] .stage .circle.cz-primary{background:var(--st-black);color:#fff}
+.frame[data-theme="studio"] .stage :is(.circle,.side.g) .cz-g{width:22px;height:22px;margin:0;color:inherit}
+.frame[data-theme="studio"] .stage .shead .side.g{font-size:26px}
+/* sheet / sub-page head */
+.frame[data-theme="studio"] .stage .shead b{color:var(--ink);font-size:var(--t-body);font-weight:600}
+.frame[data-theme="studio"] .stage .shead .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .shead .side:not(.g){color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage > .phone:not(.sheet) > .shead b{font-size:22px;font-weight:700;letter-spacing:-.015em}
+/* Today: the companion in a pastel circle next to the greeting (Cozy's clouds stay out) */
+.frame[data-theme="studio"] .stage .cz-head.cz-hero{gap:14px;margin:10px 0 8px}
+.frame[data-theme="studio"] .stage .cz-hero .hl b{font-size:30px;line-height:1.08}
+.frame[data-theme="studio"] .stage .cz-hero > .circle{align-self:flex-start}
+.frame[data-theme="studio"] .stage .cz-cloud{display:none}
+.frame[data-theme="studio"] .stage .cz-hero .cz-buddy{position:relative;width:80px;height:80px;border-radius:50%;overflow:hidden;flex:none;
+  background:radial-gradient(120% 100% at 30% 15%,var(--st-tile-hi),var(--st-tile) 60%,var(--st-tile-lo));box-shadow:inset 0 1px 1px rgba(255,255,255,.7)}
+.frame[data-theme="studio"] .stage .cz-hero .cz-buddy .bd{position:absolute;left:-2px;right:-2px;bottom:-2px}
+.frame[data-theme="studio"] .stage .cz-hero .cz-buddy .bd[data-state="sleep"]{left:0;right:-4px;top:12px;bottom:auto}
+
+/* ---------- companion (lib/buddy.js): in a screen (bud), in an empty state ---------- */
+.frame[data-theme="studio"] .stage .cz-buddy{display:block;flex:none}
+.frame[data-theme="studio"] .stage .bd{display:block}
+.frame[data-theme="studio"] .stage .bd svg,.frame[data-theme="studio"] .stage .bd img{display:block;width:100%;height:auto}
+.frame[data-theme="studio"] .stage .tile.cz-empty{position:relative;overflow:hidden}
+.frame[data-theme="studio"] .stage .tile.cz-empty .cz-buddy{position:absolute;right:6px;top:-6px;width:104px}
+.frame[data-theme="studio"] .stage .tile.cz-empty > div:first-of-type{padding-right:92px}
+.frame[data-theme="studio"] .stage .tile.cz-empty .chips{margin-top:14px!important}
+.frame[data-theme="studio"] .stage .bud-f{background:radial-gradient(120% 100% at 30% 15%,var(--st-tile-hi),var(--st-tile) 60%,var(--st-tile-lo));box-shadow:inset 0 1px 1px rgba(255,255,255,.7)}
+.frame[data-theme="studio"] .stage .bud-f .bd{position:absolute;left:-2px;right:-2px;bottom:-4px}
+.frame[data-theme="studio"] .stage .bud.says .bud-f .bd{left:-16px;right:-16px;bottom:-12px}
+.frame[data-theme="studio"] .stage .bud-l{font-weight:600;color:var(--ink);letter-spacing:-.01em}
+
+/* ---------- cards: warm grey, no border, no shadow, very round ---------- */
+.frame[data-theme="studio"] .stage .tile:not(.tint){background:var(--st-card)!important}   /* beats the inline tone */
+.frame[data-theme="studio"] .stage .tile{padding:var(--pad);border-radius:28px}
+.frame[data-theme="studio"] .stage .row:has(> :nth-child(2)) .tile{padding:18px 16px}
+.frame[data-theme="studio"] .stage .tile .top{gap:12px;justify-content:flex-start}
+.frame[data-theme="studio"] .stage .tile .top .l{flex:1;min-width:0}
+.frame[data-theme="studio"] .stage .tile .l{color:var(--ink)}
+.frame[data-theme="studio"] .stage .tile .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .tile .r,.frame[data-theme="studio"] .stage .link{color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage :is(.tile,.pills,.rv,.fold,.list,.slider,.cal,.pl,.pa,.df,.cpw,.lm-card,.xp,.qr,.fill,.ds,.more-b,.stats,.dl,.wg) :is(.chip,.pills span:not(.on)){background:var(--st-chip)!important}
+/* the one tinted card (PRINCIPLES 8): the pale tint of its area, dark text, a black round button inside */
+.frame[data-theme="studio"] .stage .tile.tint{background:var(--st-tint)!important;color:var(--ink)}
+.frame[data-theme="studio"] .stage .tile.tint .l{color:var(--ink)}
+.frame[data-theme="studio"] .stage .tile.tint .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .tile.tint .cz-g{color:var(--st-ink)}
+.frame[data-theme="studio"] .stage .tile.cta .ca{width:48px;height:48px;font-size:21px;font-weight:600;background:var(--st-black);color:#fff}
+.frame[data-theme="studio"] .stage :is(.field .box,.stepper){border-radius:20px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .field .lb{font-weight:600;color:var(--muted)}
+.frame[data-theme="studio"] .stage .list{border-radius:24px}
+.frame[data-theme="studio"] .stage .list .item .r{color:var(--muted)}
+.frame[data-theme="studio"] .stage .list .item .il > .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .choice > div{padding:20px 18px;border-radius:24px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .choice div.on{box-shadow:inset 0 0 0 2.5px var(--st-black)}
+.frame[data-theme="studio"] .stage .choice span{color:var(--muted)}
+
+/* ---------- icon tile: a pastel rounded square in the colour of its area, a light, soft, dimensional icon ----------
+   The tile has a gentle top-left highlight and a soft lower edge; the icon's closed shapes (Cozy's soft fills) become
+   white bodies, its lines take the deep area colour, and the whole icon floats on a small soft shadow. */
+.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot){flex:none;display:inline-grid;place-items:center;width:44px;height:44px;border:0;border-radius:16px;font-style:normal;
+  background:radial-gradient(130% 110% at 28% 12%,var(--st-tile-hi) 0%,var(--st-tile) 52%,var(--st-tile-lo) 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.75),inset 0 -2px 4px rgb(var(--st-ink-rgb) / .08),0 1px 2px rgb(var(--st-ink-rgb) / .06);
+  color:rgb(var(--st-ink-rgb) / .62)}
+.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot) svg{width:26px;height:26px;display:block;overflow:visible;
+  filter:drop-shadow(0 1.8px 1.6px rgb(var(--st-ink-rgb) / .26))}
+.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot) svg :is([fill-opacity],rect){fill:#fff;fill-opacity:1}
+.frame[data-theme="studio"] .stage .cz-ic-b{display:grid;margin-bottom:14px}
+.frame[data-theme="studio"] .stage .choice .cz-ic-b{width:54px;height:54px;border-radius:18px;margin-bottom:14px}
+.frame[data-theme="studio"] .stage .choice .cz-ic-b svg{width:31px;height:31px}
+/* inline icon (replaces an emoji glyph in running text) */
+.frame[data-theme="studio"] .stage .cz-g{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;font-style:normal;color:var(--st-ink)}
+.frame[data-theme="studio"] .stage .cz-g svg{display:block;width:100%;height:100%}
+.frame[data-theme="studio"] .stage :is(.btn,.pills span.on,.chip) .cz-g{color:inherit}
+
+/* ---------- folds: icon tile at the start, count under the name, chevron at the end (cozy.js moves the parts) ---------- */
+.frame[data-theme="studio"] .stage .fold{padding:0 16px 0 14px;border-radius:24px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .cz-fold .ft{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"ic t a cv" "ic m a cv";
+  align-content:center;align-items:center;column-gap:14px;row-gap:1px;min-height:70px;padding:12px 0}
+.frame[data-theme="studio"] .stage .cz-fold .ft > .cz-ic-f{grid-area:ic}
+.frame[data-theme="studio"] .stage .cz-fold .ft .t{grid-area:t;line-height:1.2}
+.frame[data-theme="studio"] .stage .cz-fold .ft .m{grid-area:m;text-align:left;line-height:1.25;color:var(--muted)}
+.frame[data-theme="studio"] .stage .cz-fold .ft .m:empty{display:none}
+.frame[data-theme="studio"] .stage .cz-fold .ft .pill{grid-area:a}
+.frame[data-theme="studio"] .stage .cz-fold .ft .cv{grid-area:cv;width:16px;text-align:center;color:var(--muted);font-weight:600}
+.frame[data-theme="studio"] .stage .cz-fold .item{margin-left:58px}
+.frame[data-theme="studio"] .stage .cz-fold .item:first-of-type{border-top-color:transparent}
+.frame[data-theme="studio"] .stage .pill{background:var(--st-chip);color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage .fold .item[data-go]{justify-content:flex-start}
+.frame[data-theme="studio"] .stage .fold .item[data-go] > span:last-child{margin-left:auto}
+.frame[data-theme="studio"] .stage .fold .item[data-go]:after{content:"›";flex:none;width:16px;text-align:center;color:var(--muted);font-weight:600}
+
+/* ---------- controls: black pill for the main action, light-grey pills, white chips on grey ---------- */
+.frame[data-theme="studio"] .stage .btn{min-height:56px;border-radius:999px;font-size:var(--t-body);font-weight:600;background:var(--st-black);color:#fff;box-shadow:none}
+.frame[data-theme="studio"] .stage .btn.light{background:var(--st-card);color:var(--ink);box-shadow:none}
+.frame[data-theme="studio"] .stage .btn.off{filter:none;opacity:1;background:var(--st-card-2);color:#7A7A80}
+.frame[data-theme="studio"] .stage .pills span{background:var(--st-card);color:var(--ink);font-weight:500;box-shadow:none;border-color:transparent}
+.frame[data-theme="studio"] .stage .pills span.on{background:var(--st-black)!important;color:#fff}
+.frame[data-theme="studio"] .stage .chip{background:var(--st-card);color:var(--ink);font-weight:500;box-shadow:none}
+.frame[data-theme="studio"] .stage .chip .cz-g{margin-right:6px}
+.frame[data-theme="studio"] .stage .sec .act{background:var(--st-card);color:var(--ink);font-family:var(--st-font);font-weight:600;letter-spacing:0;box-shadow:none}
+.frame[data-theme="studio"] .stage .cz-moved{display:none}
+/* segmented control: a grey track, the selected segment white */
+.frame[data-theme="studio"] .stage .seg{background:#EEEDEA;border-radius:14px;padding:3px}
+.frame[data-theme="studio"] .stage .seg span{color:var(--muted);font-weight:500;border-radius:11px}
+.frame[data-theme="studio"] .stage .seg span.on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(20,20,22,.08),0 2px 8px -2px rgba(20,20,22,.10)}
+.frame[data-theme="studio"] .stage .segrow:has(> .link:empty) .seg{flex:1}
+.frame[data-theme="studio"] .stage .segrow:has(> .link:empty) .seg span{flex:1;justify-content:center}
+.frame[data-theme="studio"] .stage .segrow:has(> .link:empty) .link{display:none}
+.frame[data-theme="studio"] .stage .toggle i{background:#E3E2DE}
+.frame[data-theme="studio"] .stage .toggle i.on{background:var(--st-fill)}
+.frame[data-theme="studio"] .stage .stepper span.v i{background:var(--st-chip);color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage .draft{background:var(--st-card);border:1.5px dashed rgba(20,20,22,.18);border-radius:22px;font-weight:500}
+.frame[data-theme="studio"] .stage .draft .pill{background:var(--st-chip)}
+.frame[data-theme="studio"] .stage .week div.on{background:var(--st-card);box-shadow:none}
+.frame[data-theme="studio"] .stage .week i.d{background:var(--st-fill)}
+/* the mic of a form: a round teal tile, the same soft dimension as the icon tiles */
+.frame[data-theme="studio"] .stage .mic{color:var(--st-ink);
+  background:radial-gradient(130% 110% at 30% 14%,var(--st-tile-hi) 0%,var(--st-tile) 55%,var(--st-tile-lo) 100%);
+  box-shadow:inset 0 2px 2px rgba(255,255,255,.7),inset 0 -4px 8px rgb(var(--st-ink-rgb) / .10),0 12px 26px -14px rgb(var(--st-ink-rgb) / .55)}
+.frame[data-theme="studio"] .stage .mic > .cz-g{width:44px;height:44px;vertical-align:0;color:inherit;filter:drop-shadow(0 2px 1.5px rgb(var(--st-ink-rgb) / .25))}
+.frame[data-theme="studio"] .stage .mic > .cz-g [fill-opacity]{fill:#fff;fill-opacity:1}
+.frame[data-theme="studio"] .stage .rv ~ .mic > .cz-g{width:36px;height:36px}
+.frame[data-theme="studio"] .stage .mic + .note[data-go]{color:var(--ink);font-weight:600}
+
+/* ---------- slider: grouped grey card, the area colour in the fill ---------- */
+.frame[data-theme="studio"] .stage .slider{padding:16px var(--pad) 12px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .slider + .slider:before{background:rgba(20,20,22,.06)}
+.frame[data-theme="studio"] .stage .slider .st .l{font-weight:600}
+.frame[data-theme="studio"] .stage .slider .v b{font-weight:700;letter-spacing:-.02em}
+.frame[data-theme="studio"] .stage .slider .rail{height:6px;margin-top:-3px;border-radius:3px;background:#E2E1DD}
+.frame[data-theme="studio"] .stage .slider .fill{border-radius:3px;background:rgb(var(--st-fill-rgb) / .38)}
+.frame[data-theme="studio"] .stage .slider.moved .fill{background:var(--st-fill)}
+.frame[data-theme="studio"] .stage .slider .last{background:rgba(20,20,22,.35)}
+.frame[data-theme="studio"] .stage .slider .knob:after{box-shadow:0 0 0 .5px rgba(20,20,22,.06),0 3px 10px rgba(20,20,22,.16)}
+.frame[data-theme="studio"] .stage .slider .ends{color:var(--muted)}
+.frame[data-theme="studio"] .stage .slider .hq{color:var(--muted)}
+
+/* ---------- bars and score curves ---------- */
+.frame[data-theme="studio"] .stage .bar{height:8px;border-radius:4px;background:rgba(20,20,22,.07)}
+.frame[data-theme="studio"] .stage .bar i{background:var(--st-fill)}
+.frame[data-theme="studio"] .stage .spark{padding:7px 0;align-items:center;border-top-color:rgba(20,20,22,.06)}
+.frame[data-theme="studio"] .stage .spark .nm{color:var(--ink)}
+.frame[data-theme="studio"] .stage .spark .ln.cv{height:46px}
+.frame[data-theme="studio"] .stage .spark .v{color:var(--ink);font-weight:700;font-size:20px}
+.frame[data-theme="studio"] .stage .cv svg{color:var(--st-fill)}
+.frame[data-theme="studio"] .stage .cv-l{stroke:var(--st-fill);stroke-width:2.4}
+.frame[data-theme="studio"] .stage .cv-m{stroke:var(--ink);opacity:.14}
+.frame[data-theme="studio"] .stage .cv-p{width:11px;height:11px;margin:-5.5px 0 0 -5.5px;background:var(--st-fill);box-shadow:0 0 0 2.5px var(--st-card)}
+
+/* ---------- protocol history: list, intake calendar, numbers, score chart ---------- */
+.frame[data-theme="studio"] .stage .pl{border-radius:24px}
+.frame[data-theme="studio"] .stage .plr .n,.frame[data-theme="studio"] .stage .plr .c{color:var(--muted)}
+.frame[data-theme="studio"] .stage .pk .plr b{font-weight:500}
+.frame[data-theme="studio"] .stage .ps i{background:rgba(20,20,22,.16)}
+.frame[data-theme="studio"] .stage .ps i:is(.x,.h){background:var(--st-fill)}
+.frame[data-theme="studio"] .stage .ps i.o{background:none;box-shadow:inset 0 0 0 1.5px rgb(var(--st-ink-rgb) / .5)}
+.frame[data-theme="studio"] .stage .cal{border-radius:28px}
+.frame[data-theme="studio"] .stage .cal :is(.ch,.cm){color:var(--muted);font-weight:500}
+.frame[data-theme="studio"] .stage .cal .t > i{background:var(--st-data)}
+.frame[data-theme="studio"] .stage .cal .o > i{box-shadow:inset 0 0 0 2px rgb(var(--st-ink-rgb) / .45)}
+.frame[data-theme="studio"] .stage .cal .n > i{background:rgba(20,20,22,.16)}
+.frame[data-theme="studio"] .stage .cal .now:after{box-shadow:0 0 0 2px var(--ink)}
+.frame[data-theme="studio"] .stage .cal .sel:before{background:#fff}
+.frame[data-theme="studio"] .stage .cal :is(.cs > i,.cal-leg .sg){color:var(--st-data)}
+.frame[data-theme="studio"] .stage .cal .p > i{background:var(--st-data)}
+.frame[data-theme="studio"] .stage :is(.cal .cr .cg,.cal-leg i.cg){border-left-color:rgb(var(--st-ink-rgb) / .6)}
+.frame[data-theme="studio"] .stage .cal-say{color:var(--muted)}
+.frame[data-theme="studio"] .stage .cal-say.on{color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage .cal-leg{color:var(--muted)}
+.frame[data-theme="studio"] .stage .cal-leg .t{background:var(--st-data)}
+.frame[data-theme="studio"] .stage .cal-leg .o{box-shadow:inset 0 0 0 1.8px rgb(var(--st-ink-rgb) / .45)}
+.frame[data-theme="studio"] .stage .cal-leg .n{background:rgba(20,20,22,.2)}
+.frame[data-theme="studio"] .stage .cal-gap{font-weight:600;color:var(--ink);border-top-color:rgba(20,20,22,.07)}
+.frame[data-theme="studio"] .stage .stats{border-radius:24px}
+.frame[data-theme="studio"] .stage .stats div{border-left-color:rgba(20,20,22,.07)}
+.frame[data-theme="studio"] .stage .stats b{font-size:26px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.frame[data-theme="studio"] .stage .stats span{color:var(--muted)}
+.frame[data-theme="studio"] .stage .lm-card{border-radius:28px}
+.frame[data-theme="studio"] .stage .lm-h{color:var(--muted)}
+.frame[data-theme="studio"] .stage :is(.lm-y,.lm-x){color:var(--muted)}
+.frame[data-theme="studio"] .stage .lm-g{stroke:var(--ink);opacity:.12}
+.frame[data-theme="studio"] .stage .lm-m{stroke:rgba(20,20,22,.22);stroke-width:2}
+.frame[data-theme="studio"] .stage .lm-m.lb{stroke:var(--ink);stroke-opacity:.55;stroke-dasharray:4 4}
+.frame[data-theme="studio"] .stage .lm-md{background:rgba(20,20,22,.35)}
+.frame[data-theme="studio"] .stage .lm-ml{color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage .lm-l{stroke:var(--st-fill);stroke-width:2.4}
+.frame[data-theme="studio"] .stage .lm-p{width:11px;height:11px;margin:-5.5px 0 0 -5.5px;background:var(--st-fill);box-shadow:0 0 0 2.5px var(--st-card)}
+.frame[data-theme="studio"] .stage .lm.av .lm-l{stroke-width:2;opacity:.4}
+.frame[data-theme="studio"] .stage .lm-av{stroke:var(--st-fill);stroke-width:4}
+.frame[data-theme="studio"] .stage .lm-al{font-weight:700;color:var(--ink);background:#fff}
+.frame[data-theme="studio"] .stage .lm-q{font-weight:600;font-size:19px;color:var(--ink)}
+.frame[data-theme="studio"] .stage .lm-say{font-weight:600;color:var(--ink)}
+
+/* ---------- Insights: pattern cards, the comparison, Details ---------- */
+.frame[data-theme="studio"] .stage .pa{padding:18px 16px 18px 18px;border-radius:24px;background:var(--st-card);box-shadow:none}
+.frame[data-theme="studio"] .stage .pa-l{color:var(--ink);line-height:1.32}
+.frame[data-theme="studio"] .stage .pa-m{color:var(--muted)}
+.frame[data-theme="studio"] .stage .pa-c{border:0;background:var(--st-chip);color:var(--ink);font-weight:600;padding:2px 10px}
+.frame[data-theme="studio"] .stage .pa .c{color:var(--muted)}
+.frame[data-theme="studio"] .stage .pa.big{background:none;padding:6px 2px 2px}
+.frame[data-theme="studio"] .stage .pa.big .pa-l{font-weight:700;font-size:26px;line-height:1.18}
+.frame[data-theme="studio"] .stage .pa.big .pa-c{background:var(--st-card)}
+.frame[data-theme="studio"] .stage .tile.cz-link{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ic l r" "ic n r";column-gap:14px;align-items:center;padding:16px 18px;border-radius:24px}
+.frame[data-theme="studio"] .stage .tile.cz-link > div,.frame[data-theme="studio"] .stage .tile.cz-link .top{display:contents}
+.frame[data-theme="studio"] .stage .tile.cz-link .cz-ic{grid-area:ic}
+.frame[data-theme="studio"] .stage .tile.cz-link .l{grid-area:l;align-self:end}
+.frame[data-theme="studio"] .stage .tile.cz-link .n{grid-area:n;align-self:start;margin:0}
+.frame[data-theme="studio"] .stage .tile.cz-link .r{grid-area:r;color:var(--muted);font-size:var(--t-body)}
+.frame[data-theme="studio"] .stage .cpw{border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .cpw-t1 b{font-size:19px}
+.frame[data-theme="studio"] .stage .cpw-t1 .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .cpw-d b{font-weight:700;letter-spacing:-.03em;color:var(--ink)}
+.frame[data-theme="studio"] .stage .cpw-d .n{font-weight:500;color:var(--muted)}
+.frame[data-theme="studio"] .stage .cpw-rl{font-weight:600;fill:var(--ink)}
+.frame[data-theme="studio"] .stage .cpw-rv{font-weight:700;fill:var(--ink)}
+.frame[data-theme="studio"] .stage .cpw-x{fill:var(--muted)}
+.frame[data-theme="studio"] .stage :is(.cpw-ax,.cpw-t){stroke:var(--ink);opacity:.15}
+.frame[data-theme="studio"] .stage .cpw-a{fill:var(--st-fill)}
+.frame[data-theme="studio"] .stage .cpw-b{fill:var(--st-tile-lo)}
+.frame[data-theme="studio"] .stage .cpw-m{stroke:var(--st-ink);stroke-width:4}
+.frame[data-theme="studio"] .stage .cpw-g{stroke:var(--ink);opacity:.35}
+.frame[data-theme="studio"] .stage .cpw-pt.sel .cpw-hit{fill:#fff}
+.frame[data-theme="studio"] .stage .cpw-say{color:var(--muted)}
+.frame[data-theme="studio"] .stage .cpw-say.on{color:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage :is(.more-h,.more-x){font-weight:600;color:var(--ink)}
+.frame[data-theme="studio"] .stage .more-b{border-radius:24px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .more-b .item .r{font-weight:700;color:var(--ink)}
+.frame[data-theme="studio"] .stage .more-n{color:var(--muted)}
+/* evaluation (diffs): the strip in the page's area colour, black glyphs (filled = better, ring = worse),
+   a row's source dot in its own area (Check-in mint, Apple Health neutral; cozy.js sets the world) */
+.frame[data-theme="studio"] .stage .df{border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .df-h b{font-size:19px}
+.frame[data-theme="studio"] .stage .df-h .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .df-o{fill:rgb(var(--st-ink-rgb) / .2)}
+.frame[data-theme="studio"] .stage .df-w{stroke:var(--st-fill)}
+.frame[data-theme="studio"] .stage .df-e{stroke:var(--st-ink);stroke-width:1.8}
+.frame[data-theme="studio"] .stage .df-x{fill:var(--muted)}
+.frame[data-theme="studio"] .stage .df-k{color:var(--muted)}
+.frame[data-theme="studio"] .stage .df-ke{box-shadow:inset 0 0 0 2px var(--st-ink)}
+.frame[data-theme="studio"] .stage .df-k i.df-kw{background:var(--st-fill)}
+.frame[data-theme="studio"] .stage .df-gr{border-top-color:rgba(20,20,22,.07)}
+.frame[data-theme="studio"] .stage .df-gh{font-weight:600;font-size:var(--t-sub);color:var(--ink)}
+.frame[data-theme="studio"] .stage .df-g{background:var(--st-black);color:#fff}
+.frame[data-theme="studio"] .stage .df-g.wo{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--st-black)}
+.frame[data-theme="studio"] .stage .df-g.sm{background:#fff;color:var(--muted);box-shadow:inset 0 0 0 2px rgba(20,20,22,.18)}
+.frame[data-theme="studio"] .stage .df-t b{color:var(--ink)}
+.frame[data-theme="studio"] .stage .df-m{color:var(--muted)}
+.frame[data-theme="studio"] .stage .df-src:before{background:var(--st-fill);opacity:1}
+.frame[data-theme="studio"] .stage .df-v b{font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.frame[data-theme="studio"] .stage .df-v .n{color:var(--muted)}
+
+/* ---------- trial: QR card, the helper's fill plan, day strips, the rule with pictures ---------- */
+.frame[data-theme="studio"] .stage .qr{border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .qr path{fill:var(--st-black)}
+.frame[data-theme="studio"] .stage :is(.qr .n,.fl-t .n){color:var(--muted)}
+.frame[data-theme="studio"] .stage .fill{border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .fl-r:not(.pe):not(:first-child){border-top-color:var(--th-bottom)}
+.frame[data-theme="studio"] .stage .sheet .fl-r:not(.pe):not(:first-child){border-top-color:#fff}
+.frame[data-theme="studio"] .stage .fl-n{background:var(--st-chip);color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.frame[data-theme="studio"] .stage .fl-r[data-k="B"] .fl-t b{font-weight:500}
+.frame[data-theme="studio"] .stage .fl-c{box-shadow:inset 0 0 0 2px rgba(20,20,22,.22)}
+.frame[data-theme="studio"] .stage .fl-r.done .fl-c{background:var(--st-black);box-shadow:none}
+.frame[data-theme="studio"] .stage .fl-tot{border-top-color:var(--th-bottom);color:var(--muted)}
+.frame[data-theme="studio"] .stage .fl-tot b{color:var(--ink)}
+.frame[data-theme="studio"] .stage .ds{border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage :is(.dsd i.a,.ds-k i.a){background:var(--st-fill)}
+.frame[data-theme="studio"] .stage :is(.dsd i.b,.ds-k i.b){box-shadow:inset 0 0 0 2px var(--st-fill)}
+.frame[data-theme="studio"] .stage .dsd i.v{background:rgba(20,20,22,.14)}
+.frame[data-theme="studio"] .stage :is(.ds-k,.dsx){color:var(--muted)}
+.frame[data-theme="studio"] .stage .ds-n{color:var(--ink)}
+.frame[data-theme="studio"] .stage .tlr .dot{background:var(--th-bottom);border-color:rgba(20,20,22,.3)}
+.frame[data-theme="studio"] .stage .tlr .rail:after{border-left-color:rgba(20,20,22,.1)}
+.frame[data-theme="studio"] .stage .tlr :is(.n,.s){color:var(--muted)}
+/* info icon and explanation cards (trial terms, guide) */
+.frame[data-theme="studio"] .stage .inf{color:var(--muted)}
+.frame[data-theme="studio"] .stage .xp{border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .xp-p{color:var(--st-ink)}
+.frame[data-theme="studio"] .stage .xp .xb{fill:#fff}
+.frame[data-theme="studio"] .stage .xp .xt{fill:var(--muted);font-family:var(--st-font);font-weight:500}
+.frame[data-theme="studio"] .stage .xp .xt.k{fill:var(--ink);font-weight:600}
+.frame[data-theme="studio"] .stage .xp-t b{font-size:19px;color:var(--ink)}
+.frame[data-theme="studio"] .stage .xp:not(.has-l) .xp-t .n{color:var(--ink)}
+.frame[data-theme="studio"] .stage .xp.has-l .xp-t .n{color:var(--muted)}
+
+/* ---------- tab bar: a white pill floating above the edge; the active tab in a grey capsule in its area colour ---------- */
+.frame[data-theme="studio"] .stage .tabs{height:66px;padding:0 7px;border-radius:33px;color:var(--ink);font-size:11px;font-weight:500}
+.frame[data-theme="studio"] .stage .tabs:before{border-radius:33px;background:#fff;box-shadow:var(--st-shadow-float)}
+.frame[data-theme="studio"] .stage .tabs > span{margin:7px 1px;border-radius:26px;gap:3px}
+.frame[data-theme="studio"] .stage .tabs > span:before{display:none}
+.frame[data-theme="studio"] .stage .tabs > span.on{background:#F1F0ED;color:var(--st-ink);font-weight:600}
+.frame[data-theme="studio"] .stage .tabs .cz-ti{display:block;width:24px;height:24px;font-style:normal}
+.frame[data-theme="studio"] .stage .tabs .cz-ti svg{display:block;width:100%;height:100%}
+.frame[data-theme="studio"] .stage .tabs .fab{align-self:center;width:52px;height:52px;margin:0 4px;color:#fff;
+  background:radial-gradient(120% 120% at 30% 18%,#4E9792 0%,#2F6B6A 60%,#245756 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 8px 18px -8px rgb(47 107 106 / .75)}   /* the mic leads to Voice: teal on every page */
+.frame[data-theme="studio"] .stage .tabs .fab .cz-g{width:26px;height:26px;color:#fff;vertical-align:0}
+
+/* ---------- sheets: white, a large top radius, a small grabber ---------- */
+.frame[data-theme="studio"] .stage .phone.sheet{background:#fff;border-radius:32px 32px 0 0;box-shadow:0 -8px 40px rgba(20,20,22,.10)}
+.frame[data-theme="studio"] .stage .phone.sheet:before{background:#D6D5D1;width:36px;height:5px;margin-left:-18px}
+.frame[data-theme="studio"] .stage:has(> .phone.sheet.half:not(.leaving)) > .phone:not(.sheet){opacity:1}
+
+/* ---------- review card: grey, the icon tile of its area; heard rows lifted white, an assumed value a dashed suggestion ---------- */
+.frame[data-theme="studio"] .stage .rv{padding:2px var(--pad) 8px;border-radius:28px;background:var(--st-card)}
+.frame[data-theme="studio"] .stage .rv-h{padding:16px 0 10px}
+.frame[data-theme="studio"] .stage .rv-t b{font-size:19px;color:var(--ink);letter-spacing:-.01em}
+.frame[data-theme="studio"] .stage .rv-t .n{color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv-r{border-top-color:rgba(20,20,22,.07)}
+.frame[data-theme="studio"] .stage .rv-l{color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv-v{font-weight:600;color:var(--ink)}
+.frame[data-theme="studio"] .stage .rv-r > .c{color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv-r:is(.rv-default,.rv-empty) .rv-v{font-weight:400;color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv-r.rv-heard{margin:4px -10px;padding:12px 10px;border-radius:18px;border-top-color:transparent;background:#fff}
+.frame[data-theme="studio"] .stage .rv-r.rv-heard + .rv-r{border-top-color:transparent}
+.frame[data-theme="studio"] .stage .rv-q{color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv-q .cz-g{width:15px;height:15px;margin-right:5px;vertical-align:-2px;color:#2F7F7C}   /* heard: a small teal mic */
+.frame[data-theme="studio"] .stage .rv-r.rv-unsure .rv-v{font-weight:600;color:var(--muted);background:#fff;border:1.5px dashed rgba(20,20,22,.22)}
+.frame[data-theme="studio"] .stage .rv .pills span{background:#fff}
+.frame[data-theme="studio"] .stage .rv-h > .cz-ic{width:42px;height:42px;border-radius:15px}
+.frame[data-theme="studio"] .stage .rv-h > .cz-ic svg{width:24px;height:24px}
+/* compact (listening layer): title + one line, the icon tile carries the area */
+.frame[data-theme="studio"] .stage .rv.cmp{padding:14px 16px;border-radius:24px}
+.frame[data-theme="studio"] .stage .rv.cmp .rv-h{padding:0}
+.frame[data-theme="studio"] .stage .rv.cmp .rv-t b{font-size:var(--t-body)}
+.frame[data-theme="studio"] .stage .rv.cmp .rv-t .n{font-size:var(--t-sub);color:var(--muted);line-height:1.3;margin-top:2px}
+.frame[data-theme="studio"] .stage .rv.cmp .rv-h > .c{color:var(--muted);font-size:20px}
+.frame[data-theme="studio"] .stage .rv-cn{color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv.cmp.ok{background:transparent;box-shadow:inset 0 0 0 1.5px var(--st-card-2)}
+.frame[data-theme="studio"] .stage .rv.cmp.ok :is(.rv-t b,.rv-t .n){color:var(--muted)}
+.frame[data-theme="studio"] .stage .rv.cmp.ok .cz-ic{filter:saturate(.5);opacity:.75}
+.frame[data-theme="studio"] .stage .rv-ok{background:var(--st-black);color:#fff}
+.frame[data-theme="studio"] .stage .rv-ok .cz-g{width:18px;height:18px;color:inherit;vertical-align:0}
+.frame[data-theme="studio"] .stage .rv-ask{color:var(--ink);font-weight:600;border-top-color:rgba(20,20,22,.07)}
+
+/* ---------- the listening layer: a white half sheet, the companion on a teal tile, black button ---------- */
+.frame[data-theme="studio"] .stage .half[data-world="voice"] .say{color:var(--ink);font-weight:500}
+.frame[data-theme="studio"] .stage .half[data-world="voice"] .note{text-align:center}
+.frame[data-theme="studio"] .stage .chips.quiet .chip:is([data-go="close"],[data-go="back"]:last-child){width:var(--tap);justify-content:center;padding:0;border-radius:50%;font-size:22px}
+.frame[data-theme="studio"] .stage .chips.quiet .chip:not([data-go]){background:none!important;color:var(--muted);padding-left:4px}
+.frame[data-theme="studio"] .stage .half .stats{color:var(--ink)}
+
+/* ---------- companion figure: its own small life (breathing, blinking, nodding); the keyframes live in lib/cozy.css ---------- */
+.frame[data-theme="studio"] .stage .bd svg *{transform-box:fill-box}
+.frame[data-theme="studio"] .stage .bd .bd-breathe{transform-origin:50% 100%;animation:bd-breathe 4.6s ease-in-out infinite}
+.frame[data-theme="studio"] .stage .bd .bd-z{opacity:0;animation:bd-z 4.6s ease-out infinite}
+.frame[data-theme="studio"] .stage .bd .bd-z2{animation-delay:.7s}
+.frame[data-theme="studio"] .stage .bd .bd-eyes{transform-origin:50% 50%;animation:bd-blink 6s ease-in-out infinite}
+.frame[data-theme="studio"] .stage .bd .bd-head{transform-origin:50% 100%;animation:bd-sway 7s ease-in-out infinite alternate}
+.frame[data-theme="studio"] .stage .bd .bd-nod{transform-origin:50% 100%;animation:bd-nod 3.2s ease-in-out infinite}
+.frame[data-theme="studio"] .stage .bd .bd-talk{transform-origin:50% 40%;animation:bd-talk .42s ease-in-out 6 alternate both}
+.frame[data-theme="studio"] .stage .bd .bd-s1{animation:bd-steam 3.4s ease-out infinite}
+.frame[data-theme="studio"] .stage .bd .bd-s2{animation:bd-steam 3.4s ease-out 1.5s infinite}
+.frame[data-theme="studio"]:has(.dim.on) .stage > .phone:not(.sheet) *{animation-play-state:paused!important}
+
+@media (prefers-reduced-motion:reduce){
+  .frame[data-theme="studio"] .stage .bd *{animation:none!important}
+  .frame[data-theme="studio"] .stage .bd .bd-z{opacity:1}
+  .frame[data-theme="studio"] .stage .bd .bd-z2{opacity:.7}
+}
