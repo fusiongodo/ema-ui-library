@@ -14,7 +14,7 @@ SCREENS.push({ id:"trials/running", area:"Insights", status:"idea", title:"Trial
   ],
   w:[
     {t:"shead", left:"‹", l:"", right:"", goLeft:"back"},
-    {t:"big", l:"Magnesium trial", n:"Main outcome: Fatigue · also tracking Pain, Brain&nbsp;fog"},
+    {t:"big", l:"Magnesium trial", n:"Primary outcome: one symptom score from Fatigue, Pain and Brain&nbsp;fog"},
     {t:"tile", tone:"white", l:"Day 19 of 56", n:"Result on Mon 4 Jan", bar:33.9, go:"insights/home-result"},
     {t:"sec", l:"Capsules", r:"18 of 19"},
     {t:"weekgrid", rows:[["9 Nov","●●●●●●●"],["16 Nov","●●●○●●●"],["23 Nov","●●●●●"]]},

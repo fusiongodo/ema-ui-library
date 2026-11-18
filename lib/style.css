@@ -295,6 +295,21 @@ section{scroll-margin-top:56px}
 .tl.ic .tlr{grid-template-columns:34px 1fr 12px;column-gap:10px} .tl.ic .tlr .s{display:none}
 .tl.ic .tlr .dot{width:30px;height:30px;border:0;border-radius:10px;background:var(--grey);margin:0 auto;display:grid;place-items:center}
 .tl.ic .tlr .dot svg{width:20px;height:20px} .tl.ic .tlr .rail:after{top:32px}
+/* info icon (inf): a small (i) right after a term in a list / tl row or a section heading; opens the term's explanation sheet.
+   Its own tap target inside a tappable row; the invisible ::before makes the hit area 44 pt in Play */
+.inf{display:inline-grid;place-items:center;width:15px;height:15px;margin:0 0 0 5px;vertical-align:-2px;color:var(--muted);font-style:normal;position:relative;cursor:pointer}
+.inf svg{width:100%;height:100%;display:block} .inf:before{content:"";position:absolute;inset:-12px}
+.sec .sl{font-weight:inherit;display:inline-flex;align-items:center}
+.list .item .il{display:flex;flex-direction:column;align-items:flex-start;gap:1px} .list .item .il > .n{font-size:11px;color:var(--muted);font-weight:400}
+/* explain: a picture and one or two sentences in a white card (the info sheets, the trial guide) */
+.xp{background:var(--white);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.xp-p{display:block;width:100%;height:auto;color:#4f4f4f;overflow:visible}
+.xp-t{display:flex;flex-direction:column;gap:3px} .xp-t b{font-size:13px} .xp-t .n{font-size:12px;line-height:1.4}
+.xp:not(.has-l) .xp-t .n{color:var(--ink)} .xp.has-l .xp-t .n{color:var(--muted)}
+.xp .xa{fill:currentColor} .xp .xb{fill:var(--white);stroke:currentColor;stroke-width:2} .xp .xv{fill:currentColor;opacity:.2} .xp .xf{opacity:.3}
+.xp .xs{fill:currentColor;opacity:.13} .xp .xl{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round} .xp .xd{stroke-dasharray:3 4;opacity:.6}
+.xp .xw{fill:currentColor;fill-opacity:.07;stroke:currentColor;stroke-opacity:.5;stroke-width:1.5;stroke-dasharray:4 3}
+.xp .xt{font-size:12px;fill:var(--muted);font-weight:600} .xp .xt.k{fill:currentColor}
 /* review card (rv): label left, value right; heard = filled in by the agent (quote below), unsure = "?", empty = muted prompt.
    compact (.cmp) = title + one summary line, the whole card is the link */
 .rv{background:var(--white);border-radius:16px;padding:2px 12px}
@@ -473,6 +488,10 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .tlr .rail{align-self:stretch} .stage .tlr .dot{width:12px;height:12px;margin-top:5px} .stage .tlr .rail:after{top:17px}
 .stage .tl.ic .tlr{grid-template-columns:44px 1fr 16px;column-gap:12px;min-height:0;padding-bottom:14px} .stage .tl.ic .tlr:last-child{padding-bottom:0}
 .stage .tl.ic .tlr .dot{width:40px;height:40px;border-radius:14px;margin-top:0} .stage .tl.ic .tlr .dot svg{width:24px;height:24px} .stage .tl.ic .tlr .rail:after{top:44px;bottom:-2px}
+.stage .inf{width:21px;height:21px;margin-left:7px;vertical-align:-3px}
+.stage .list .item .il > .n{font-size:var(--t-foot);margin-top:2px;line-height:1.3}
+.stage .xp{border-radius:var(--rad);padding:var(--pad);gap:14px} .stage .xp-t{gap:5px} .stage .xp-t b{font-size:var(--t-body)} .stage .xp-t .n{font-size:var(--t-sub)}
+.stage .xp:not(.has-l) .xp-t .n{font-size:var(--t-body);line-height:1.4}
 .stage .ds{border-radius:var(--rad);padding:14px var(--pad);gap:12px} .stage .ds-s{gap:10px} .stage .dsd{gap:2.5px}
 .stage .dsx{font-size:var(--t-min)} .stage .ds-k{font-size:var(--t-foot)} .stage .ds-k i{width:10px} .stage .ds-n{font-size:var(--t-sub);line-height:1.4}
 .stage .fl-tot{padding:12px 0;font-size:var(--t-foot);border-top-width:8px} .stage .fill.rg .fl-r{grid-template-columns:76px 1fr 30px} .stage .fill.rg .fl-n{width:auto;padding:0 6px}

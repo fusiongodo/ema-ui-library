@@ -8,7 +8,7 @@ SCREENS.push({ id:"trials/helper-done", area:"Insights", status:"idea", title:"H
   w:[
     {t:"shead", left:"", l:"Trial helper", right:""},
     {t:"spacer"},
-    {t:"big", l:"Hand over the compartments.", n:"The plan is now locked. Thank you, Sam."},
+    {t:"big", l:"Hand over the capsules.", n:"The plan is now locked. Thank you, Sam."},
     {t:"note", l:"If Alex ever needs to know a day, the app can show it. You don't have to remember anything."},
     {t:"spacer"},
   ]});

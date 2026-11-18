@@ -15,4 +15,5 @@ SCREENS.push({ id:"insights/home-stopped", area:"Insights", status:"idea", title
     {t:"sec", l:"Trials"},
     {t:"tile", tone:"white", l:"Magnesium trial stopped", n:"After 19 days, too short for a result. Magnesium is back in your evening protocol.",
       chips:["Show the days","Start a trial"], go:["trials/order","trials/intro"]},
+    INSIGHTS_GUIDE,
   ]});

@@ -1,23 +1,24 @@
-/* Step 4 of the trial setup. The physical story comes first (what you need, what the helper does once, what you do then),
-   so the question who fills the capsules has something to stand on. `of` names the screen itself: × / "Back to your
-   setup" on the helper preview (trials/peek-*) return to where this step already stands in the stack. */
+/* Step 4 of the trial setup. What blinding requires comes first (the rule, trialRule in trials/intro), not one recipe: there
+   are endlessly many ways to prepare look-alike units, and the person picks one. "Ways to prepare" opens the optional guide
+   with examples (trials/guide-prepare). `of` names the screen itself: × / "Back to your setup" on the helper preview
+   (trials/peek-*) return to where this step already stands in the stack. */
 SCREENS.push({ id:"trials/helper", area:"Insights", status:"idea", title:"Trial · 4 Your helper",
   sheet:true, of:"trials/helper",
-  why:"Who fills the capsules, after three small pictures of what physically happens. By default the helper opens the fill plan on their own phone (a link or this QR code), so the plan never touches this phone. The same-phone way is a quiet switch behind a helper PIN. 'See what Sam will see' shows Sam's pages and comes back here.",
+  why:"Who prepares the capsules, after the three things blinding needs: you can't tell real and placebo apart, only the helper knows which is which, each one carries only a number. How they are made is the person's choice; 'Ways to prepare' shows examples. By default the helper opens the fill plan on their own phone (a link or this QR code), so the plan never touches this phone. The same-phone way is a quiet switch behind a helper PIN. 'See what Sam will see' shows Sam's pages and comes back here.",
   concept:[
-    "<b>The story before the question:</b> three points in the tone of the intro. What you need (your Magnesium, empty capsules you can't see into, rice flour as a filler, 56 numbered compartments, a pen); what Sam does once (fills them from a plan on Sam's phone, about 20 minutes); what you do then (one capsule a day, number after number, log as usual). Part of this step, not a step of its own, so the setup stays four steps.",
-    "<b>Same words as Sam's plan:</b> numbered compartments, one a day. The number tells nothing.",
+    "<b>The rule, not a recipe:</b> three short points in the tone of the intro, each with a small picture: indistinguishable to you (look, size, weight, sound when shaken, taste); only the helper knows; each unit carries only a number. 'Blinded' in the heading carries an (i) (trials/term-blinded).",
+    "<b>The method is the person's:</b> powder in own opaque capsules, a small capsule inside a larger one, a matching placebo, sachets … 'Ways to prepare ›' opens the optional guide (trials/guide-prepare): examples, clearly not requirements. Not a step one has to pass.",
+    "<b>Same words as Sam's plan:</b> numbered capsules, one a day. The number tells nothing.",
     "<b>Own phone by default:</b> the safest secret is one that is never on your device. Send a link or let the helper scan the code; it opens the fill plan once (flow 'Trial · helper').",
     "<b>See what Sam will see:</b> a quiet link under the code opens Sam's three pages as a preview (trials/peek-welcome → peek-plan → peek-done, drawn from the helper's own screens) and returns here. The preview shows the plan's form, not the real order.",
     "<b>Same phone, quietly:</b> for people without a helper with a smartphone. The plan then opens only with a helper PIN.",
   ],
   w:[
     {t:"shead", left:"‹", l:"Set up a trial", n:"4 of 4", right:"×", goLeft:"back", goRight:"close"},
-    {t:"big", l:"Who fills the capsules?", n:"Someone you trust, once, before the start."},
-    {t:"tl", ic:["capsule","box","pulse"], rows:[
-      ["", "What you need", "Your Magnesium, empty capsules you can't see into, rice flour as a filler, 56 numbered compartments, a pen."],
-      ["", "Sam fills them, once", "From a plan on Sam's phone. About 20 minutes."],
-      ["", "Then you take one a day", "Number after number, and log as usual. The number tells you nothing."]]},
+    {t:"big", l:"Who prepares the capsules?", n:"Someone you trust, once, before the start. How is up to you, as long as this holds:"},
+    {t:"sec", l:"Blinded", info:"trials/term-blinded"},
+    trialRule("Sam"),
+    {t:"note", l:"Ways to prepare ›", go:"trials/guide-prepare"},
     {t:"field", l:"Helper", v:"Sam"},
     {t:"qr", l:"Sam scans this", n:"Opens the fill plan on Sam's phone."},
     {t:"note", l:"See what Sam will see ›", go:"trials/peek-welcome"},
