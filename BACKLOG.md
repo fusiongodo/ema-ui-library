@@ -71,6 +71,10 @@ Frame that follows from it (proposal, to discuss):
 
 *Block duration is exact and excludes the washout (Alex, 18 Nov 2026).* "About 1 week" is out. A block of 1 week with a washout of 3 days means: washout days, then 7 counted days, after a switch again washout days, then 7 counted days. Hiding where blocks begin does not need varying lengths: the order is drawn at random and not simply alternating (two blocks of the same kind can follow each other), and the trial can open with lead-in days.
 
+*Rounding and phase (Alex, 18 Nov 2026).* One block takes washout + block duration (2 weeks + 3 days = 17 days). The total duration is rounded up to whole blocks so that at least the chosen duration is covered (12 weeks → 5 blocks = 85 days), and the screen says so. Since exact blocks would make boundaries predictable for someone who knows their settings, the app also draws where the first block begins (one block is split between start and end). Later, on the helper's side: the helper states what the control substance is (sugar, rice flour …).
+
+*Tone of the trial texts (Alex, 18 Nov 2026).* Relaxed everyday language that still uses the proper terms ("real" and "placebo", "blinded"); action titles on the intro ("A helper fills the capsules", "You log as usual").
+
 *A running trial under Protocols (being built).* The study capsule appears on today's page and under All protocols with the number to take today, has its own detail screen (intake so far, what to do about a missed capsule) and links to the trial status in Insights.
 
 *Blind check once, at the end (18 Nov 2026).* A weekly "what do you think you took?" makes the person watch for an effect and can feed expectation; trials usually ask at the end. The prototype asks one question right before the reveal ("Could you tell when you were on Magnesium?"). A correct guess is not treated as failure: it can mean the blind slipped or that the substance did something noticeable. If the weekly data point is wanted later, it becomes a setting in the design step (at the end / weekly / never).
