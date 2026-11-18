@@ -119,6 +119,20 @@ Picture ideas to start from:
 - A mosaic: everyone lays one stone, the motif shows from afar.
 - Points become a line: single measurements say nothing, many show a curve.
 
+**The story in his words (Alex, 18 Nov 2026):** millions of people with this illness collect data points every day, each alone; there are hardly any studies because the illness is underfunded. Here the data is collected for free, unified, and brought to one centre where the crossover evaluation is made. If something helps several people (ideally something that can be blinded, checked against placebo), the signal shows in the data; the statistics are published, so others find it too. Swarm intelligence; light into the dark; the Middle Ages are broken through and a kind of Enlightenment begins.
+
+**Scene proposal "One dot each" (Claude, 18 Nov 2026; not yet seen as pictures):** the hero is the dot, the same dot a person sets in the app every day.
+1. Dark. One dot lights up: one person, one day. Alone it says nothing.
+2. Pull back: dots everywhere in the dark, scattered, each alone, flickering.
+3. They set off: thin trails of light travel to one centre.
+4. In the centre the heap sorts itself: noise becomes two rows (real and placebo), and one row rises. A signal.
+5. The signal turns into light and runs back out along the trails to every dot; the dark ground becomes dawn.
+6. Wordmark over the bright sky.
+Spoken lines to try: "Every day, millions of us notice what helps." / "Alone, it's a guess." / "Together, it's a signal." / "MEjority."
+
+Alternatives for the picture world, same six beats: (a) night sky, loose stars are joined into a constellation that can be read, then day breaks; fits the Sky theme. (b) everyone carries a small flame to one place; together they become a beacon whose beam shows the way back to all; closest to "Middle Ages to Enlightenment". (c) Earth at night with lights, most literal for "millions everywhere".
+Cautions: historical props (torches, monks) turn into pathos quickly; stay abstract with dark and light. Show a signal, not a cure; the app itself says "likely" at most.
+
 Making it: Claude has no image or video model; the storyboards are hand-written SVG. External services are an option (he is open to it). Video from a start and end frame: Kling about $0.07–0.14 per second, Veo 3.1 Fast about $0.10–0.12, Veo 3.1 Standard $0.40 (prices read 17 Nov 2026); an experiment of 20–30 clips is roughly $10–30. Generated video garbles text, so the wordmark is always laid over in code.
 
 ## Decisions on voice (Alex, 17 Nov 2026)
