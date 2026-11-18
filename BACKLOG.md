@@ -184,7 +184,18 @@ Seeds:
 - Cozy: "not bad, but can be developed further".
 - A really beautiful sky as a background picture: he wants to pick reference graphics himself first.
 - Icons he is unsure about: the capsule on the pattern cards (being replaced by an Insights icon in the source area's colour) and the flask on the Trials tile (left as it is for now).
-- No visible scrollbar inside the phone in the prototype (being done).
+- No visible scrollbar inside the phone in the prototype (done).
+
+## Icons of our own: the Icon Lab (Alex, 18 Nov 2026)
+**How it works:** for each icon he sees the reference cut out of the inspiration next to three to five variants of our own, and approves one or rejects all. "Inspired, not copied": he wants to keep working on the variants himself. When every icon is approved, the set goes into Studio and the other themes. Everything is in `icon-lab/` (references, variants as modules and as single SVG files, generators, decisions); see `icon-lab/README.md`.
+
+**Round 1 (15 icons), decided:** tab-today B, tab-checkins D, tab-protocols A, tab-insights D; protocol-pill, sleep, pain, evaluation in clay (A); steps as a footprint (E); calendar soft flat (B). For tiles, clay is clearly his direction.
+
+**Open:**
+- New variants for protocol-injection, checkin-chat, log-scores and wellbeing (all five rejected, no reason given yet); guide is undecided.
+- The four chosen tab glyphs come from three different families; they need one pass to become a set.
+- Not drawn yet: empty-state illustration, the companion, control glyphs, trial flask, the finding and overview icons on pattern cards.
+- The references are another app's artwork: never ship them, remove them before the repository becomes public.
 
 ## Meadow: background shapes
 (Alex, 17 Nov 2026; being done 18 Nov.) The moving discrete blobs in the Meadow background distract. Replace with very soft gradient fields that shift slowly. Keep the shape inside the "Check-in now" card; he likes how it frames the button.
