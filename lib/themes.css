@@ -56,6 +56,7 @@
 /* controls */
 .frame.soft .stage .btn,.frame.soft .stage .pills span.on{background:var(--th-btn);color:var(--th-btn-ink)}
 .frame.soft .stage .btn.light{background:var(--white);color:var(--ink);box-shadow:var(--th-shadow-s)}
+.frame.soft .stage .btn.off{filter:grayscale(1);opacity:.42;box-shadow:none}   /* off: greyed out until nothing is open */
 .frame.soft .stage .pills span{border-color:transparent;box-shadow:var(--th-shadow-s)}
 .frame.soft .stage .chip,.frame.soft .stage .sec .act{box-shadow:var(--th-shadow-s)}
 .frame.soft .stage .sec .act{color:var(--ink)}

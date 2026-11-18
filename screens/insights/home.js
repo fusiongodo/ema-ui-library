@@ -16,7 +16,7 @@ const INSIGHTS_PATTERNS = [
 const INSIGHTS_ASK = {t:"tile", tone:"white", l:"Ask about your data", n:"Tap a question or ask in your own words.",
   chips:["Did the dose change help?","What happens after I skip a dose?","How were my last two weeks?","Ask by voice"],
   go:["insights/ask-answer","insights/ask-skip","insights/ask-weeks","voice/listen"]};
-const INSIGHTS_TRIALS = {t:"tile", tone:"white", l:"Find out if something really helps", n:"A blinded test with a helper, about 8 weeks.",
+const INSIGHTS_TRIALS = {t:"tile", tone:"white", l:"Find out if something really helps", n:"A blinded test against a placebo, with a helper.",
   chips:["Start a trial"], go:["trials/intro"]};
 const INSIGHTS_CONCEPT = [
   "<b>Three steps, one per area:</b> log (Check-ins, Protocols), understand (this tab), later together. This tab has three parts: Patterns, Ask, Trials.",

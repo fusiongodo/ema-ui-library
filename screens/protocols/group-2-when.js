@@ -1,6 +1,6 @@
 SCREENS.push({ id:"protocols/group-2-when", area:"Protocols", status:"idea", title:"Group · 2 Review",
   sheet:true,
-  why:"The group flow ends in the same review card as the single one: the list, When set in place, the name prefilled from the slot. Most people just tap Add.",
+  why:"The group flow ends in the same review card as the single one: the list, When as one value (a tap opens protocols/pick-when), the name prefilled from the slot. Most people just tap Add.",
   concept:[
     "Slot choice prefills the name (\"Morning supplements\"); editing it is optional.",
     "All items share rhythm and slot. An item with a different time is set later via its row (per-entry override), not here.",
@@ -11,7 +11,7 @@ SCREENS.push({ id:"protocols/group-2-when", area:"Protocols", status:"idea", tit
     {t:"shead", left:"‹", l:"Add protocol", n:"2 of 2", right:"×", goLeft:"back", goRight:"close"},
     {t:"review", title:"New group", icon:"stack", rows:[
       ["Items", "6 items", "", "protocols/group-1-list"],
-      ["When", {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"]}],
+      ["When", "Morning", "", "protocols/pick-when"],
       ["Rhythm", "Every day", "default", "protocols/pick-rhythm"],
       ["Name", "Morning supplements"],
       ["Start", "Today", "default", "protocols/pick-start"],

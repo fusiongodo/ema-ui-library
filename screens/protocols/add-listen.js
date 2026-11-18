@@ -13,7 +13,7 @@ SCREENS.push({ id:"protocols/add-listen", area:"Protocols", status:"idea", title
     {t:"review", title:"New protocol", live:[1000, 1500, 2200], rows:[
       ["What", "Naltrexon", "heard"],
       ["Dose", "3 mg", "heard"],
-      ["When", {t:"pills", items:["Morning","Noon","Evening","Night"], on:["Morning"], multi:true}, "heard"],
+      ["When", "Morning", "heard"],
       ["Rhythm", "How often?", "empty"],
       ["Start", "Today", "default"],
       ["End", "No end", "default"]]},

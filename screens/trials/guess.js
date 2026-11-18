@@ -1,16 +1,17 @@
-/* The prototype skips ahead here: any answer jumps to the end of week 8 (insights/home-result). */
-SCREENS.push({ id:"trials/guess", area:"Insights", status:"idea", title:"Trial · end-of-week guess",
+/* The blind check, once, at the end: a short step before the result is revealed (from insights/home-result).
+   Not weekly any more: asking every week "what do you think you took?" makes the person watch themselves for an effect,
+   which can feed expectation. Trials usually ask for the guess once, at the end. Demo answer: "No idea". */
+SCREENS.push({ id:"trials/guess", area:"Insights", status:"idea", title:"Trial · the guess before the result",
   sheet:"half",
-  why:"At the end of each week, one question with three answers. It only checks the blind: if most guesses are right, the result says so. In the prototype any answer skips ahead to the end of week 8.",
+  why:"The result is ready, but first one question: could you tell when you were on Magnesium? Three equal answers, any of them opens the result. A moment of suspense, not a questionnaire.",
   concept:[
-    "<b>Why ask:</b> if you can tell the weeks apart (taste, a side effect), the result could be expectation. Eight guesses show whether the secret held.",
-    "<b>'No idea' is a full answer,</b> not a dodge; it is what a good blind feels like.",
-    "<b>Prototype jump:</b> the answer leads five weeks ahead to the Insights tab with the result ready (insights/home-result).",
+    "<b>Once, at the end:</b> a weekly question would make the person watch for an effect while the trial runs. At the end it costs nothing and still shows whether the secret held.",
+    "<b>Before the reveal:</b> after seeing the result, nobody can guess honestly any more.",
+    "<b>Three equal answers,</b> none preselected or highlighted: 'Yes, most of the time', 'Sometimes', 'No idea'. 'No idea' is a full answer; it is what a good blind feels like.",
+    "<b>Not a test of the person:</b> being able to tell is not a failure; it may mean the substance did something noticeable. The result says which reading fits.",
   ],
   w:[
-    {t:"shead", left:"", l:"End of week 3", right:"×", goRight:"close"},
-    {t:"big", l:"A or B this week?", n:"What do you think you took?"},
-    {t:"choice", items:[["A","Magnesium"],["B","Placebo"]], go:"insights/home-result"},
-    {t:"note", l:"Only to check that the secret held. Your guess changes nothing."},
-    {t:"btn", l:"No idea", light:true, go:"insights/home-result"},
+    {t:"shead", left:"", l:"Before you see it", right:"×", goRight:"close"},
+    {t:"big", l:"Could you tell when you were on Magnesium?", n:"Your answer goes next to the result. It changes nothing."},
+    {t:"list", rows:[["Yes, most of the time",""],["Sometimes",""],["No idea",""]], go:"trials/result"},
   ]});

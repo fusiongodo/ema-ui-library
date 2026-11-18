@@ -81,6 +81,7 @@ section{scroll-margin-top:56px}
 .field .lb{font-size:12px;color:var(--muted);margin:0 4px 4px} .field .box{background:var(--white);border-radius:14px;padding:10px 12px;display:flex;justify-content:space-between;color:#aaa;font-size:13px}
 .field .box.tall{min-height:60px}
 .btn{border-radius:999px;padding:11px;text-align:center;font-weight:600;font-size:13px;background:var(--ink);color:#fff} .btn.light{background:var(--white);color:var(--ink)}
+.btn.off{background:var(--grey);color:var(--muted);box-shadow:none;pointer-events:none}   /* off: something is still open, not tappable */
 .toggle{display:flex;justify-content:space-between;align-items:center;padding:2px 4px;font-size:13px}
 .toggle i{width:38px;height:22px;border-radius:11px;background:#ddd;position:relative} .toggle i:after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff}
 .toggle i.on{background:var(--accent)} .toggle i.on:after{left:18px}
@@ -278,6 +279,22 @@ section{scroll-margin-top:56px}
 .fl-c{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #b5b5b5;justify-self:end;position:relative}
 .fl-r.done .fl-c{background:var(--ink);box-shadow:none} .fl-r.done .fl-c:after{content:"";position:absolute;left:7px;top:4px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
 .fl-r.done .fl-t{opacity:.55}
+/* trial daystrip: one dot per day, 28 to a line. Real = filled, placebo = ring, left out = faint, veiled = all alike */
+.ds{background:var(--white);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.ds-s{display:flex;flex-direction:column;gap:6px}
+.dsd{display:grid;grid-template-columns:repeat(28,1fr);gap:1.5px}
+.dsd i,.ds-k i{display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box}
+.dsd i.a,.ds-k i.a{background:var(--ink)} .dsd i.b,.ds-k i.b{box-shadow:inset 0 0 0 1.5px var(--ink)} .dsd i.f,.ds-k i.f{opacity:.22}
+.dsd i.v{background:#c9c9c9} .ds.veil .ds-s{position:relative}
+.dsx{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px}
+.ds-k{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11px;color:var(--muted)} .ds-k span{display:flex;align-items:center;gap:5px} .ds-k i{width:8px}
+.ds-n{margin:0;font-size:12.5px}
+.fl-tot{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:5px solid var(--grey);font-size:12px;color:var(--muted)} .fl-tot b{color:var(--ink)}
+.fill.rg .fl-r{grid-template-columns:54px 1fr 22px} .fill.rg .fl-n{width:auto;padding:0 4px}
+/* tl with pictures (ic): a small tile instead of the dot, no label column */
+.tl.ic .tlr{grid-template-columns:34px 1fr 12px;column-gap:10px} .tl.ic .tlr .s{display:none}
+.tl.ic .tlr .dot{width:30px;height:30px;border:0;border-radius:10px;background:var(--grey);margin:0 auto;display:grid;place-items:center}
+.tl.ic .tlr .dot svg{width:20px;height:20px} .tl.ic .tlr .rail:after{top:32px}
 /* review card (rv): label left, value right; heard = filled in by the agent (quote below), unsure = "?", empty = muted prompt.
    compact (.cmp) = title + one summary line, the whole card is the link */
 .rv{background:var(--white);border-radius:16px;padding:2px 12px}
@@ -291,19 +308,18 @@ section{scroll-margin-top:56px}
 .rv-r.rv-default .rv-v,.rv-r.rv-empty .rv-v{color:var(--muted);font-weight:400}
 .rv-r.rv-empty .rv-v{font-style:italic}
 .rv-r.rv-heard{background:#F2F2F0;margin:0 -12px;padding-left:12px;padding-right:12px}
-.rv-qm{display:inline-grid;place-items:center;width:16px;height:16px;margin-left:5px;border-radius:50%;background:#FBF1DC;color:#8a6a20;font-style:normal;font-size:11px;font-weight:700;vertical-align:1px}
-.rv-r.rv-unsure .rv-q{font-style:normal;color:#8a6a20}
+/* unsure = only assumed: the hint under the label, the assumption as a grey, dashed suggestion; a tap confirms it */
+.rv-r.rv-unsure{grid-template-areas:"l v c" "q v c"} .rv-r.rv-unsure .rv-l{align-self:end} .rv-r.rv-unsure .rv-q{align-self:start;font-style:normal}
+.rv-r.rv-unsure .rv-v{justify-self:end;padding:2px 10px;border:1.5px dashed var(--line);border-radius:999px;color:var(--muted);font-weight:600}
 .rv.cmp{padding:9px 12px} .rv.cmp .rv-h{padding:0}
 /* voice extras: clarity = a small sky sign right in the head (a tap in Play shows the line .rv-cn); ok = a confirmed draft,
-   drawn back with a tick; a mic in an open row (say it now); live rows (Play only); "Ask me instead" at the foot of the card */
+   drawn back with a tick; live rows (Play only); "Ask me instead" at the foot of the card */
 .rv-cl{flex:none;display:grid;place-items:center;width:24px;height:24px}
 .rv-cl svg{display:block;width:100%;height:100%;overflow:visible}
 .rv-cn{display:none;font-size:11px;color:var(--muted);padding:0 0 6px}
 .rv.cl-on .rv-cn{display:block}
 .rv-ok{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--grey);font-size:11px;font-weight:700}
 .rv.cmp.ok{background:rgba(255,255,255,.7);box-shadow:none}
-.rv-r.has-say{grid-template-columns:auto minmax(0,1fr) 10px auto;grid-template-areas:"l v c m" "q q q m"}
-.rv-say{grid-area:m;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--white);box-shadow:0 0 0 1px var(--line)}
 .rv-wait{display:none}
 .rv-ask{padding:7px 0;border-top:1px solid var(--line);text-align:center;font-size:12px;font-weight:600;color:var(--muted)}
 /* transcript line and companion slot (Cozy draws the figure, lib/buddy.js) */
@@ -455,6 +471,11 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .tlr{grid-template-columns:76px 22px 1fr 16px;font-size:var(--t-body);min-height:62px}
 .stage .tlr .s{font-size:var(--t-foot);padding-top:3px} .stage .tlr .n{font-size:var(--t-sub)}
 .stage .tlr .rail{align-self:stretch} .stage .tlr .dot{width:12px;height:12px;margin-top:5px} .stage .tlr .rail:after{top:17px}
+.stage .tl.ic .tlr{grid-template-columns:44px 1fr 16px;column-gap:12px;min-height:0;padding-bottom:14px} .stage .tl.ic .tlr:last-child{padding-bottom:0}
+.stage .tl.ic .tlr .dot{width:40px;height:40px;border-radius:14px;margin-top:0} .stage .tl.ic .tlr .dot svg{width:24px;height:24px} .stage .tl.ic .tlr .rail:after{top:44px;bottom:-2px}
+.stage .ds{border-radius:var(--rad);padding:14px var(--pad);gap:12px} .stage .ds-s{gap:10px} .stage .dsd{gap:2.5px}
+.stage .dsx{font-size:var(--t-min)} .stage .ds-k{font-size:var(--t-foot)} .stage .ds-k i{width:10px} .stage .ds-n{font-size:var(--t-sub);line-height:1.4}
+.stage .fl-tot{padding:12px 0;font-size:var(--t-foot);border-top-width:8px} .stage .fill.rg .fl-r{grid-template-columns:76px 1fr 30px} .stage .fill.rg .fl-n{width:auto;padding:0 6px}
 .stage .dl{border-radius:var(--rad);padding:0 var(--pad)}
 .stage .dl .dr{grid-template-columns:1fr auto 56px;gap:10px;min-height:var(--row);padding:10px 0;font-size:var(--t-body)}
 .stage .dl .u{font-size:var(--t-foot);padding:5px 0}
@@ -547,6 +568,8 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .chip,.stage .pills span{display:inline-flex;align-items:center;min-height:var(--chip);padding:0 14px;font-size:var(--t-sub)}
 .stage .draft{border-radius:16px;min-height:var(--row);padding:10px 14px 10px 16px;gap:12px;font-size:var(--t-sub)}
 .stage .mic{width:104px;height:104px;font-size:40px;margin:8px auto} .stage .mic + .note{text-align:center}
+.stage .mic + .note[data-go]{display:flex;align-items:center;justify-content:center;min-height:var(--tap);font-size:var(--t-sub);font-weight:600;color:var(--ink)}   /* a quiet text action under the mic ("Ask me instead") */
+.stage .rv ~ .mic{width:84px;height:84px;margin:6px auto 0}   /* under a review card: say the open part (a little smaller, the card comes first) */
 .stage .segrow{padding:0;min-height:var(--tap);gap:12px}
 .stage .seg{border-radius:12px;padding:2px}
 .stage .seg span{display:inline-flex;align-items:center;min-height:var(--chip);padding:0 22px;border-radius:10px;font-size:var(--t-sub)}
@@ -597,7 +620,7 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .rv-r > .c{width:16px} .stage .rv-l{font-size:var(--t-sub)}
 .stage .rv-q{font-size:var(--t-foot);margin-top:4px}
 .stage .rv-r.rv-heard{margin:0 calc(-1 * var(--pad));padding-left:var(--pad);padding-right:var(--pad)}
-.stage .rv-qm{width:22px;height:22px;font-size:var(--t-foot);margin-left:8px}
+.stage .rv-r.rv-unsure .rv-v{display:inline-flex;align-items:center;min-height:36px;padding:0 14px}
 .stage .rv.cmp{padding:14px var(--pad)} .stage .rv.cmp .rv-h{padding:0}
 .stage .say{font-size:19px;line-height:1.4;padding:0 4px}
 .stage .bud-f{width:164px;height:164px} .stage .bud.says{gap:14px} .stage .bud.says .bud-f{width:72px;height:72px}
@@ -621,7 +644,6 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .rv-cn{font-size:var(--t-foot);padding:0 0 12px;margin-top:-4px}
 .stage .rv.cmp .rv-cn{padding:8px 0 0;margin:0}
 .stage .rv-ok{width:30px;height:30px;font-size:15px}
-.stage .rv-say{width:var(--tap);height:var(--tap);margin:-6px 0 -6px 2px} .stage .rv-say .ico{width:22px;height:22px}
 .stage .rv-ask{display:flex;align-items:center;justify-content:center;min-height:var(--tap);padding:0;font-size:var(--t-sub)}
 .stage .half .say:not(.live){font-size:var(--t-sub);line-height:1.4}   /* drafts: the transcript is context, the cards come first */
 .stage .half .stats{padding:20px 0} .stage .half .stats b{font-size:34px} .stage .half .stats span{margin-top:6px}   /* guided summary: the values large */
