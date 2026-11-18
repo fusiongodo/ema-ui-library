@@ -3,11 +3,11 @@ SCREENS.push({ id:"trials/pick-block-custom", area:"Insights", status:"idea", ti
   sheet:"half", of:"trials/pick-block",
   why:"A custom block length: a number and a unit, nothing else. Done sets it and goes back to the step.",
   concept:[
-    "<b>Number and unit:</b> days or weeks. Still a rough length: the app varies each block around it.",
+    "<b>Number and unit:</b> days or weeks. Exact, like the listed values: every block has this many compared days, the washout comes on top.",
   ],
   w:[
-    {t:"shead", left:"", l:"Block duration", n:"about · custom", right:"×", goRight:"back"},
-    {t:"stepper", l:"About", v:10},
+    {t:"shead", left:"", l:"Block duration", n:"custom", right:"×", goRight:"back"},
+    {t:"stepper", l:"Length", v:10},
     {t:"seg", items:["days","weeks"], on:"days"},
     {t:"btn", l:"Done", go:"back"},
   ]});

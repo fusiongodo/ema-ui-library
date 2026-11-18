@@ -250,8 +250,9 @@
 .frame[data-theme="cozy"] .stage .cal-leg .t{background:var(--cz-dark)}
 .frame[data-theme="cozy"] .stage .cal-leg .o{box-shadow:inset 0 0 0 1.8px rgb(var(--cz-dark-rgb) / .5)}
 .frame[data-theme="cozy"] .stage .cal-leg .n{background:rgb(var(--cz-dark-rgb) / .25)}
-.frame[data-theme="cozy"] .stage .cal :is(.ds > i,.cal-leg .sg){color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .cal :is(.cs > i,.cal-leg .sg){color:var(--cz-dark)}
 .frame[data-theme="cozy"] .stage .cal .p > i{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage :is(.cal .cr .cg,.cal-leg i.cg){border-left-color:rgb(var(--cz-dark-rgb) / .55)}
 .frame[data-theme="cozy"] .stage .cal-gap{font-weight:700;border-top-color:rgb(var(--cz-dark-rgb) / .12)}
 .frame[data-theme="cozy"] .stage .stats b{color:var(--cz-dark)}
 .frame[data-theme="cozy"] .stage .stats span{font-weight:600}

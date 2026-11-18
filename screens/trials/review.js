@@ -3,23 +3,23 @@ SCREENS.push({ id:"trials/review", area:"Insights", status:"idea", title:"Trial 
   why:"The whole trial on one card before it starts, like the add flow's review. Each choice opens its step again. Nothing starts before 'Start on Monday'. Also reached from 'Run it again' on the result.",
   concept:[
     "<b>Same card as Add protocol:</b> label left, value right; the steps you chose open again with a tap.",
-    "<b>The design as the person set it,</b> in the proper terms: block duration (about 1 week), washout period (2 days after each switch), total duration (8 weeks · 56 days). All three open step 3. Where the blocks fall is not on the card: the app keeps it hidden.",
+    "<b>The design as the person set it,</b> in the proper terms: block duration (1 week, exactly 7 compared days), washout period (2 days before each block, on top of it), total duration (8 weeks, rounded up to whole blocks: 63 days). All three open step 3. Where the blocks fall is not on the card: the app keeps it hidden.",
     "<b>How the result is judged:</b> the scores tracked and the primary outcome as chosen in step 2 (here the composite score of all three).",
     "<b>What changes in daily life:</b> one study capsule a day replaces Magnesium in the evening, number after number. Drawn muted (PRINCIPLES 2): it follows from the trial, nothing to choose.",
     "<b>Start on Monday:</b> Sam needs a few days to prepare the capsules. The start day says nothing about the blocks.",
   ],
   w:[
     {t:"shead", left:"‹", l:"Set up a trial", n:"Check and start", right:"×", goLeft:"back", goRight:"close"},
-    {t:"review", title:"Personal trial", icon:"flask", n:"Starts Mon 9 Nov · ends Sun 3 Jan", rows:[
+    {t:"review", title:"Personal trial", icon:"flask", n:"Starts Mon 9 Nov · ends Sun 10 Jan", rows:[
       ["Test", "Magnesium 300 mg", "", "trials/what"],
       ["Scores", "Fatigue, Pain, Brain fog", "", "trials/measure"],
       ["Primary outcome", "Composite score", "", "trials/measure"],
-      ["Block duration", "About 1 week", "", "trials/length"],
-      ["Washout period", "2 days after each switch", "", "trials/length"],
-      ["Total duration", "8 weeks · 56 days", "", "trials/length"],
+      ["Block duration", "1 week", "", "trials/length"],
+      ["Washout period", "2 days before each block", "", "trials/length"],
+      ["Total duration", "63 days · 8 weeks rounded up", "", "trials/length"],
       ["Helper", "Sam has the fill plan", "", "trials/helper"],
       ["Each evening", "Study capsule instead", "default"]]},
-    {t:"note", l:"Sam prepares 56 numbered capsules before Monday. You start with number 1 on Monday evening."},
+    {t:"note", l:"Sam prepares 63 numbered capsules before Monday. You start with number 1 on Monday evening."},
     {t:"spacer"},
     {t:"btn", l:"Start on Monday", go:"insights/home-trial"},
   ]});

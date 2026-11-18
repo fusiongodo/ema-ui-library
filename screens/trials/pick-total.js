@@ -3,7 +3,7 @@ SCREENS.push({ id:"trials/pick-total", area:"Insights", status:"idea", title:"Tr
   sheet:"half",
   why:"A custom length for the whole trial: a number and a unit. Done sets it and goes back to the step, where the strip of days and the line on what the design can show follow.",
   concept:[
-    "<b>Any length:</b> the app fits the blocks into it and keeps real and placebo days balanced.",
+    "<b>Any length:</b> the app rounds it up to whole blocks (washout + block each), so the chosen length is fully covered; the design step shows the days that come out.",
   ],
   w:[
     {t:"shead", left:"", l:"Total duration", n:"custom", right:"×", goRight:"back"},
