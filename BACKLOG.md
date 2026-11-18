@@ -40,10 +40,20 @@ Below: ideas that are not being built yet. Newest first.
 
 **To frame together before building (proposals, not decided)**
 
-*Trial length.* He wants 2 weeks as an option; the UI is liked but the method behind it is not right yet. Proposal: the length is a result, not a choice. Two things decide it:
-1. How fast the substance acts and wears off → length of one period. Within a day (e.g. caffeine, a painkiller): 1–2 days. Within a few days (most supplements): 1 week. Slower: 2 weeks or unsuitable.
-2. How sure the result should be → number of A/B pairs. The swap test has 2^pairs possible orders, so 3 pairs can at best show a hint (1 in 8), 4 pairs "likely" (1 in 16), 6 pairs "strong" (1 in 64).
-Total = 2 × pairs × period. So 2 weeks is fine for a fast-acting substance (seven pairs of single days) and impossible for a slow one. UI: ask "How quickly do you notice it?" first, then show the same length chips, each labelled with what it can show ("can show: hint / likely / strong"), impossible ones greyed. Days not counted at the start of a period scale with the speed.
+*Trial design: the app gives structures, the user decides (Alex, 18 Nov 2026).* My first proposal (the app derives period length from how fast the substance acts) was rejected: that is the app steering the trial, one level too high. Half-life, build-up time and block length are the user's design decisions. The app only offers the building blocks underneath.
+
+His core sentence: **a trial is a protocol that is blinded and randomized in a structure that fits the substance. That is the only difference.** The same evaluations should exist for plain protocols (when a protocol starts, changes or stops).
+
+Frame that follows from it (proposal, to discuss):
+- *One evaluation, three levels of evidence.* The evaluation screen (like "Your Rapamycin evaluation") compares scores between two sets of time. Only the source of the two sets differs: observed (before / since a start or change, days after a dose), planned (open on / off phases), tested (blinded and randomized). The trial result is the same screen with the strongest badge.
+- *What the app must do, because a person cannot:* draw the order by chance, keep the key hidden until the end, and report honestly what the chosen design can show at most ("can show: hint / likely / strong" as information, never as a requirement).
+- *What the user decides, from a few structures:*
+  1. What carries a label. Either **two containers A and B** plus a schedule that says which one to take from when (simple; fits two vials; weakness he named: over time you notice which one helps, so the blind dissolves), or **numbered single units** taken in order (each capsule, each pre-drawn syringe, each day's or week's box has its own number; the number tells nothing).
+  2. How long the same kind runs in a row: every intake, every day, blocks of n days or weeks. Free choice, with a few presets as starting points.
+  3. How long overall, and optionally how many days at the start of a block are not counted.
+  4. Who holds the key: a helper who prepares from a fill plan, or yourself with coded stickers and shuffling.
+- The fill plan is then just the list "label → real or placebo" in whatever unit was chosen.
+- Open: does a trial live under Protocols (it is a protocol with two switches, "blinded" and "randomized") with only its result in Insights? Should "planned, not blinded" (open on / off phases) be offered as its own lighter option?
 
 *Helper.* The idea is liked, but neither the user nor he understood the step when first seeing it. What is missing is the physical story before the question "who fills the capsules": what you need (empty opaque capsules, a filler, 8 small boxes), what the helper does once (about 20 minutes), what you do each week (take the next numbered box). Proposal: one illustrated "How it works in real life" step before the helper step, and a preview of what the helper will see. Also add a way without a helper, since many users are housebound: self-blinding with coded boxes (you fill both kinds yourself, seal them in identical boxes with a code sticker from the app, shuffle them; each week you scan the box and only the app knows which kind it was). This is the method of the self-blinding microdose study (Szigeti et al. 2021).
 

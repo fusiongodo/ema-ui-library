@@ -10,7 +10,8 @@ SCREENS.push({ id:"trials/review", area:"Insights", status:"idea", title:"Trial 
     {t:"shead", left:"‹", l:"Set up a trial", n:"Check and start", right:"×", goLeft:"back", goRight:"close"},
     {t:"review", title:"Personal trial", icon:"flask", n:"Starts Mon 9 Nov · ends Sun 3 Jan", rows:[
       ["Test", "Magnesium 300 mg", "", "trials/what"],
-      ["Measure", "Fatigue", "", "trials/measure"],
+      ["Main outcome", "Fatigue", "", "trials/measure"],
+      ["Also tracking", "Pain, Brain fog", "", "trials/measure"],
       ["Length", "8 weeks · 4 pairs", "", "trials/length"],
       ["Helper", "Sam has the fill plan", "", "trials/helper"],
       ["Each evening", "Study capsule instead", "default"],

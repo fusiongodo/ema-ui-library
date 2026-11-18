@@ -11,7 +11,7 @@ SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", t
     "<b>Calendar:</b> one dot per day, split into its three doses (morning · noon · evening, left to right). All taken = a full dot; a skipped dose = a hollow segment; smaller = lower dose (0.5 mg before 12 Oct). Tap a day: every dose in one line ('Sat 31 Oct · morning ✓ · noon skipped · evening ✓').",
     "<b>One line under it</b> names a gap that repeats on the same weekday ('Noon dose missed on 3 of 7 Saturdays'), counted from the calendar; it only appears from three misses on.",
     "<b>Numbers:</b> doses taken, doses skipped, the dose since the last version.",
-    "<b>Patterns:</b> what the app found around this protocol's events (skips, dose changes), one sentence each, the same card as on the Insights tab. Tap opens the evidence (insights/pattern-skip). The six skipped noon doses are the same days there; the fatigue numbers on it (7.5 vs. 5.9) are demo numbers, not from the score series below.",
+    "<b>Patterns:</b> what the app found around this protocol's events (skips, dose changes), one sentence each, the same card as on the Insights tab. Tap opens the evidence (insights/pattern-skip). The six skipped noon doses are the same days there; its numbers (fatigue, pain and brain fog the same evening, e.g. fatigue 7.5 vs. 5.9) are demo numbers, not from the score series below.",
     "<b>With your scores:</b> one line at 12 Oct, 'dose changed'. Side by side only, no claim.",
     "<b>History</b> shows deviations in colour and a version line (PRINCIPLES 6): the change applied from 12 Oct, earlier days keep 0.5 mg."
   ],
@@ -33,7 +33,7 @@ SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", t
         "xxx xx-"]},
     {t:"stats", items:[["146 of 152","doses taken"],["6","noon doses skipped"],["1 mg","since 12 Oct"]]},
     {t:"sec", l:"Patterns"},
-    {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue was 1.6 higher the next day.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
+    {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},   // as insights/home (INSIGHTS_PATTERNS[0])
     {t:"sec", l:"With your scores"},
     {t:"linemarks", from:"2026-09-14", n:"last 8 weeks",
       series:[

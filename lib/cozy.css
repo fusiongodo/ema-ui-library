@@ -267,7 +267,7 @@
 
 /* ---------- Insights: pattern cards, the comparison, Details, averages in the score chart ----------
    Cards white; a pattern's icon tile wears the world of its source (cozy.js), the comparison and averages are scores (mint). */
-.frame[data-theme="cozy"] .stage :is(.pa:not(.big),.cpw,.more-b){box-shadow:var(--th-shadow)}
+.frame[data-theme="cozy"] .stage :is(.pa:not(.big),.cpw,.df,.more-b){box-shadow:var(--th-shadow)}
 /* a quiet link card ("All protocols" at the end of the Protocols tab): icon tile, name with its line below, › at the end */
 .frame[data-theme="cozy"] .stage .tile.cz-link{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"ic l r" "ic n r";column-gap:14px;align-items:center;padding:16px 18px}
 .frame[data-theme="cozy"] .stage .tile.cz-link > div,.frame[data-theme="cozy"] .stage .tile.cz-link .top{display:contents}
@@ -301,6 +301,23 @@
 .frame[data-theme="cozy"] .stage :is(.more-h,.more-x){font-weight:700;color:var(--cz-title)}
 .frame[data-theme="cozy"] .stage .more-b .item .r{font-family:var(--round);font-weight:600;color:var(--cz-dark)}
 .frame[data-theme="cozy"] .stage .more-n{font-weight:600}
+/* evaluation (diffs): the strip and the glyphs in the page's world; a row's source dot wears its own world (cozy.js:
+   Check-in mint, Apple Health neutral grey), PRINCIPLES 9 */
+.frame[data-theme="cozy"] .stage .df-h b{font-family:var(--round);font-weight:600;font-size:19px}
+.frame[data-theme="cozy"] .stage .df-h .n{font-weight:600;color:var(--muted)}
+.frame[data-theme="cozy"] .stage .df-o{fill:var(--cz-mid)} .frame[data-theme="cozy"] .stage .df-w{stroke:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .df-e{stroke:var(--cz-dark);stroke-width:1.8}
+.frame[data-theme="cozy"] .stage .df-x{font-weight:700;fill:var(--muted)}
+.frame[data-theme="cozy"] .stage .df-k{font-weight:600} .frame[data-theme="cozy"] .stage .df-ke{box-shadow:inset 0 0 0 2px var(--cz-dark)} .frame[data-theme="cozy"] .stage .df-kw{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .df-gr{border-top-color:rgb(var(--cz-dark-rgb) / .10)}
+.frame[data-theme="cozy"] .stage .df-gh{font-family:var(--round);font-weight:600;font-size:var(--t-sub);color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .df-g{background:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .df-g.wo{background:#fff;color:var(--cz-dark);box-shadow:inset 0 0 0 2.5px rgb(var(--cz-dark-rgb) / .38)}
+.frame[data-theme="cozy"] .stage .df-t b{font-weight:700;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .df-m{font-weight:600}
+.frame[data-theme="cozy"] .stage .df-src:before{background:var(--cz-dark);opacity:.75}
+.frame[data-theme="cozy"] .stage .df-v b{font-family:var(--round);font-weight:600;color:var(--ink)}
+.frame[data-theme="cozy"] .stage .df-v .n{font-weight:700;color:var(--muted)}
 /* trial: QR card and the helper's fill plan (the helper pages are world "neutral": warm grey) */
 .frame[data-theme="cozy"] .stage :is(.qr b,.fl-n,.fl-t b){font-family:var(--round);font-weight:600}
 .frame[data-theme="cozy"] .stage .qr path{fill:var(--ink)} .frame[data-theme="cozy"] .stage :is(.qr .n,.fl-t .n){font-weight:600}

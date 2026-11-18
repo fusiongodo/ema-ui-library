@@ -8,10 +8,7 @@ SCREENS.push({ id:"insights/home-pinned-skip", area:"Insights", status:"idea", t
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Pinned"},
     {t:"linemarks", from:"2026-09-14", q:"What happens after I skip a dose?", n:"marks = skipped",
-      series:[
-        ["Fatigue",   "778786755867746455657656647877646755676666883655776"],
-        ["Brain fog", "564444443445554343322343235542444566656654544443434"]],
-      marks:["2026-09-17","2026-09-24","2026-10-03","2026-10-10","2026-10-25","2026-10-31"]},
+      series:SKIP_SERIES, marks:SKIP_MARKS},
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
     {t:"sec", l:"Trials"},

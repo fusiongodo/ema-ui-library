@@ -239,6 +239,25 @@ section{scroll-margin-top:56px}
 .cpw-g{stroke:var(--ink);stroke-width:1.2;stroke-dasharray:3 3;opacity:.4}
 .cpw-pt.sel .cpw-hit{fill:var(--grey)}
 .cpw-say{min-height:16px;margin-top:6px;text-align:center;font-size:11px;color:var(--muted)} .cpw-say.on{color:var(--ink);font-weight:600}
+/* evaluation (diffs): what was different around one kind of event; a dot strip of the days, then better / worse rows.
+   Better = filled circle, worse = ring (shape, not only colour); each row names its source and the quiet word */
+.df{background:var(--white);border-radius:16px;padding:10px 12px}
+.df-h{display:flex;flex-direction:column;margin-bottom:6px} .df-h b{font-size:13px} .df-h .n{font-size:11px;color:var(--muted)}
+.df-s{display:block;width:100%;height:auto;overflow:visible}
+.df-o{fill:#c6c6c6} .df-w{stroke:#5a5a5a;stroke-width:7;stroke-linecap:round} .df-e{fill:none;stroke:#5a5a5a;stroke-width:1.6}
+.df-x{font-size:10px;fill:var(--muted)}
+.df-k{display:flex;justify-content:center;gap:12px;margin-top:2px;font-size:10.5px;color:var(--muted)} .df-k span{display:inline-flex;align-items:center;gap:5px}
+.df-k i{display:inline-block;width:8px;height:8px;border-radius:50%} .df-ke{box-shadow:inset 0 0 0 1.5px #5a5a5a} .df-k i.df-kw{width:14px;border-radius:4px;background:#5a5a5a}
+.df-gr{border-top:1px solid var(--line);margin-top:8px;padding-top:6px}
+.df-gh{font-size:11px;font-weight:600;color:var(--muted);padding:2px 0}
+.df-r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:6px 0}
+.df-g{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#5a5a5a;color:#fff}
+.df-g.wo{background:none;color:#5a5a5a;box-shadow:inset 0 0 0 1.6px #5a5a5a}
+.df-g svg{width:64%;height:64%;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.df-t{display:flex;flex-direction:column;gap:2px;min-width:0} .df-t b{font-size:12.5px;font-weight:600}
+.df-m{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:11px;color:var(--muted)}
+.df-src{display:inline-flex;align-items:center;gap:5px} .df-src:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.55}
+.df-v{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;text-align:right} .df-v b{font-size:15px} .df-v .n{font-size:10.5px;color:var(--muted);margin-top:2px}
 /* Details (more): quiet actions in one line; the first unfolds the numbers (Play starts folded, Library shows them) */
 .more-a{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 4px}
 .more-h,.more-x{font-size:12.5px;font-weight:600;color:var(--muted)}
@@ -501,6 +520,15 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .cpw-rl,.stage .cpw-rv{font-size:14px} .stage .cpw-x{font-size:12px}
 .stage .cpw-say{min-height:22px;margin-top:10px;font-size:var(--t-sub)}
 .stage .cpw [data-d]{cursor:pointer}
+.stage .df{border-radius:var(--rad);padding:var(--pad)}
+.stage .df-h{margin-bottom:12px} .stage .df-h b{font-size:var(--t-body)} .stage .df-h .n{font-size:var(--t-foot);margin-top:2px}
+.stage .df-x{font-size:12px} .stage .df-k{gap:18px;margin-top:6px;font-size:var(--t-foot)} .stage .df-k span{gap:7px} .stage .df-k i{width:9px;height:9px} .stage .df-k i.df-kw{width:16px}
+.stage .df-gr{margin-top:14px;padding-top:12px} .stage .df-gh{font-size:var(--t-foot);padding:0 0 2px}
+.stage .df-r{gap:14px;min-height:var(--row);padding:9px 0}
+.stage .df-g{width:40px;height:40px}
+.stage .df-t{gap:4px} .stage .df-t b{font-size:var(--t-body)}
+.stage .df-m{gap:4px 10px;font-size:var(--t-foot)} .stage .df-m .pa-c{font-size:var(--t-min);padding:1px 8px}
+.stage .df-v b{font-size:22px} .stage .df-v .n{font-size:var(--t-foot);margin-top:3px}
 .stage .qr{border-radius:var(--rad);padding:20px var(--pad) 16px} .stage .qr svg{width:170px;max-width:none} .stage .qr b{font-size:var(--t-body)} .stage .qr .n{font-size:var(--t-foot)}
 .stage .fill{border-radius:var(--rad);padding:0 var(--pad)}
 .stage .fl-r{grid-template-columns:36px 1fr 30px;gap:12px;min-height:var(--row);padding:8px 0;font-size:var(--t-body);cursor:pointer}

@@ -1,5 +1,5 @@
 /* Personal placebo-controlled trial (N-of-1), see BACKLOG "Personal placebo-controlled trial".
-   Demo case on every trial screen: Magnesium 300 mg (evening, from protocols/all), primary outcome Fatigue,
+   Demo case on every trial screen: Magnesium 300 mg (evening, from protocols/all), main outcome Fatigue (also tracking Pain, Brain fog),
    8 weeks = 4 pairs of one-week periods, helper Sam. Prototype today is Tue 3 Nov 2026, so the trial starts Mon 9 Nov
    and ends Sun 3 Jan; the result opens Mon 4 Jan. Order drawn by the app (weeks 1–8): B A A B A B B A
    (A = Magnesium in weeks 2, 3, 5, 8; B = placebo in weeks 1, 4, 6, 7), one A and one B in every pair.

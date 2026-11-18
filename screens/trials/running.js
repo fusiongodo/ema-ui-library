@@ -11,7 +11,7 @@ SCREENS.push({ id:"trials/running", area:"Insights", status:"idea", title:"Trial
   ],
   w:[
     {t:"shead", left:"‹", l:"", right:"", goLeft:"back"},
-    {t:"big", l:"Magnesium trial", n:"Fatigue · 8 weeks · helper Sam"},
+    {t:"big", l:"Magnesium trial", n:"Main outcome: Fatigue · also tracking Pain, Brain&nbsp;fog"},
     {t:"tile", tone:"lilac", cta:true, l:"Week 3 is over", n:"One quick question: A or B?", go:"trials/guess"},
     {t:"tile", tone:"white", l:"Week 3 of 8", r:"Pair 2 of 4", n:"Result on Mon 4 Jan", bar:37.5},
     {t:"sec", l:"Capsules", r:"19 of 21"},
