@@ -18,11 +18,13 @@ The effect comes from the movement itself: acceleration, rest, kinetics. "Sehr a
 
 **5 · The centre answers everyone.** Like a fusion reaction, a stronger impulse bursts from the centre to all stars. Every ray starts at the origin at the same time and reaches its star at the same time. So a ray to a near star travels slowly and a ray to a far star travels fast: speed is proportional to distance. All stars are hit in the same instant.
 
-**6 · Charged, flat, up.** In the instant of the hit all stars react at once. The depth goes out of the picture; it reads as two-dimensional again. The charged stars jump up to the ceiling and gather for a moment along a line at the top.
+**6 · The switch to science.** In the instant of the hit all stars react at once. This must not look like "oh, it is flat again". It has to say clearly: now comes a different thing, a statistical evaluation, another model that belongs to science. A change of subject. Then every charged star, the whole cloud, rises to the ceiling and gathers along a line at the top: **everyone takes part in the study.**
+
+How Claude makes the switch readable (first draft, not yet judged): the hit freezes the rotation for a quarter of a second, a held breath. Then the view swings face-on and the depth collapses while a straight baseline with fine tick marks draws itself at the bottom and a thin line at the top: the organic cloud gives way to the straight lines of a chart. Only then do the stars shoot up to the top line. As each star leaves the line to fall, it takes one of two colours at random: the randomisation of the study.
 
 **7 · Rain.** From that line they fall, like rain, to the ground.
 
-**8 · Two bells.** Out of the ground grow two normal distributions, two peaks side by side.
+**8 · Two bells.** Out of the ground grow two normal distributions, two peaks side by side, quickly and with energy. "Sexy, and on the subject of science."
 
 **9 · From the bells to a structure (open).** Alex: two lines that separate, then a curve; it need not be a rising curve, any data structure will do. He does not yet know how to get there. Claude's suggestion, not yet judged: no extra structure; the outlines of the two bells are already curves of points, they join at their ends and round themselves into the circle.
 
