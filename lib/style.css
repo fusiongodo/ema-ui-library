@@ -306,6 +306,30 @@ section{scroll-margin-top:56px}
 .item:has(.trb) > span{white-space:nowrap}   /* a fold row with the badge keeps name + badge and "capsule no. 19" on one line each */
 .fl-tot{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:5px solid var(--grey);font-size:12px;color:var(--muted)} .fl-tot b{color:var(--ink)}
 .fill.rg .fl-r{grid-template-columns:54px 1fr 22px} .fill.rg .fl-n{width:auto;padding:0 4px}
+/* trial helper, organizer way: one week of a pill organizer (organizer), a short checklist (checks), a photo placeholder
+   (photo). M = the warm trial colour, P = a cool grey-blue; both fixed, with white letters, so they read on light and dark
+   cards alike. Ticks: ink circle, the tick in the card colour (--th-card-solid), so they invert with dark themes. */
+.org{background:var(--white);border-radius:16px;padding:10px 10px 9px;display:flex;flex-direction:column;gap:8px}
+.og-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.og-c{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0 7px;border-radius:10px;background:var(--grey);box-shadow:inset 0 0 0 1px var(--line);min-width:0}
+.og-d{font-size:10.5px;font-weight:600;color:var(--muted)}
+.og-p{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font-style:normal;font-size:11px;font-weight:700;color:#fff;background:#8C9DB3;flex:none}
+.og-p[data-k="a"]{background:#D9822B}
+.og-t{display:block;width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--muted);opacity:.7;position:relative}
+.og-c.done .og-t,.ck-r.done .ck-c{background:var(--ink);box-shadow:none;opacity:1}
+.og-c.done .og-t:after,.ck-r.done .ck-c:after{content:"";position:absolute;left:5.5px;top:2.5px;width:3.5px;height:7.5px;border:solid var(--th-card-solid,#fff);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.og-k{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px} .og-k span{display:flex;align-items:center;gap:6px} .og-k .og-p{width:16px;height:16px;font-size:9px}
+.og-n{font-size:11.5px;color:var(--muted);font-weight:600}
+.checks{background:var(--white);border-radius:16px;padding:0 12px}
+.ck-r{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)} .ck-r:first-child{border-top:0}
+.ck-c{display:block;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--muted);opacity:.7;position:relative}
+.ck-r.done .ck-c:after{left:7px;top:4px;width:4px;height:8px}
+.ck-t{display:flex;flex-direction:column;min-width:0;font-size:12.5px} .ck-t .n{font-size:11px;color:var(--muted)}
+.photo{display:flex;flex-direction:column;gap:6px}
+.ph-f{aspect-ratio:4/3;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:var(--white);box-shadow:inset 0 0 0 1.5px var(--line);color:var(--muted);font-size:12px;font-weight:600;text-align:center;padding:12px}
+.ph-f svg{width:40px;height:40px} .photo.taken .ph-f{padding:0;box-shadow:none} .photo.taken .ph-f svg{width:100%;height:100%}
+.ph-l{font-size:11.5px;color:var(--muted);font-weight:600;text-align:center}
 /* tl with pictures (ic): a small tile instead of the dot, no label column */
 .tl.ic .tlr{grid-template-columns:34px 1fr 12px;column-gap:10px} .tl.ic .tlr .s{display:none}
 .tl.ic .tlr .dot{width:30px;height:30px;border:0;border-radius:10px;background:var(--grey);margin:0 auto;display:grid;place-items:center}
@@ -597,6 +621,15 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .fl-r:not(.pe):not(:first-child){border-top-width:8px}
 .stage .fl-n{width:36px;height:36px;border-radius:12px;font-size:var(--t-body);font-weight:700} .stage .fl-t .n{font-size:var(--t-foot);margin-top:1px}
 .stage .fl-c{width:28px;height:28px;box-shadow:inset 0 0 0 2px #a8a8a8} .stage .fl-r.done .fl-c:after{left:10px;top:6px;width:6px;height:11px;border-width:0 2.5px 2.5px 0}
+.stage :is(.org,.checks){border-radius:var(--rad)} .stage .org{padding:14px 12px 12px;gap:12px} .stage .og-row{gap:5px}
+.stage .og-c{cursor:pointer;padding:9px 0 10px;gap:8px;border-radius:12px} .stage .og-d{font-size:var(--t-foot)}
+.stage .og-p{width:30px;height:30px;font-size:14px} .stage .og-t{width:22px;height:22px}
+.stage .og-c.done .og-t:after{left:8px;top:4px;width:5px;height:10px;border-width:0 2.5px 2.5px 0}
+.stage .og-k,.stage .og-n{font-size:var(--t-foot)} .stage .og-k .og-p{width:20px;height:20px;font-size:11px}
+.stage .checks{padding:0 var(--pad)} .stage .ck-r{grid-template-columns:28px 1fr;gap:12px;min-height:var(--row);cursor:pointer}
+.stage .ck-c{width:28px;height:28px} .stage .ck-r.done .ck-c:after{left:10px;top:6px;width:6px;height:11px;border-width:0 2.5px 2.5px 0}
+.stage .ck-t{font-size:var(--t-body)} .stage .ck-t .n{font-size:var(--t-foot);margin-top:1px}
+.stage .ph-f{border-radius:var(--rad);font-size:var(--t-body)} .stage .ph-f svg{width:52px;height:52px} .stage .ph-l{font-size:var(--t-foot)}
 .stage .more-a{min-height:var(--tap)}
 .stage .more-h,.stage .more-x{display:inline-flex;align-items:center;min-height:var(--tap);font-size:var(--t-sub);cursor:pointer}
 .stage .more:not(.open) .more-b{display:none}

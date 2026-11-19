@@ -327,6 +327,9 @@
 .frame[data-theme="cozy"] .stage .fl-c{box-shadow:inset 0 0 0 2.5px rgb(var(--cz-dark-rgb) / .35)}
 .frame[data-theme="cozy"] .stage .fl-r.done .fl-c{background:var(--cz-dark);box-shadow:none}
 .frame[data-theme="cozy"] .stage .fl-r:not(.pe):not(:first-child){border-top-color:var(--cz-light)}
+.frame[data-theme="cozy"] .stage :is(.og-d,.og-n,.ck-t b,.ph-l){font-family:var(--round);font-weight:600}   /* trial helper: organizer, checklist, photo */
+.frame[data-theme="cozy"] .stage .og-c{background:var(--cz-light);box-shadow:none}
+.frame[data-theme="cozy"] .stage :is(.og-c.done .og-t,.ck-r.done .ck-c){background:var(--cz-dark)}
 .frame[data-theme="cozy"] .stage :is(.dsd i.a,.ds-k i.a){background:var(--cz-dark)} .frame[data-theme="cozy"] .stage :is(.dsd i.b,.ds-k i.b){box-shadow:inset 0 0 0 2px var(--cz-dark)}
 .frame[data-theme="cozy"] .stage .dsd i.v{background:rgb(var(--cz-dark-rgb) / .16)}
 .frame[data-theme="cozy"] .stage :is(.ds-k,.dsx){font-weight:600} .frame[data-theme="cozy"] .stage .ds-n b{font-family:var(--round);font-weight:600}

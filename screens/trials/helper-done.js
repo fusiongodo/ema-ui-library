@@ -1,14 +1,17 @@
-SCREENS.push({ id:"trials/helper-done", area:"Insights", status:"idea", title:"Helper · 3 Done",
+/* Helper · 6: the end of a fill. With the organizer the plan closes again until the next week is due. */
+SCREENS.push({ id:"trials/helper-done", area:"Insights", status:"idea", title:"Helper · 6 Done",
   world:"neutral",
-  why:"The end of the helper's part. The plan is now locked on this phone too, so nothing is left to give away by accident.",
+  why:"The end of the helper's part for this week. The plan closes on this phone and opens again only when the next week is due, so nothing is left to give away by accident.",
   concept:[
-    "<b>Locked for the helper too:</b> once handed over, the plan cannot be reopened. The plan lives only in the app, sealed until the end.",
-    "<b>Emergency:</b> if Alex has to know (a side effect), Alex's app can reveal what the current number held; Sam does not need to remember anything.",
+    "<b>Closed in between:</b> with the organizer the plan stays closed between fills and opens again, one week only, when the next week is due (a reminder before each Monday).",
+    "<b>Locked for good at the end:</b> after week 9 the plan locks for the helper too; with numbered bags it locks right after the one session. It lives only in the app, sealed until the result.",
+    "<b>Emergency:</b> if Alex has to know (a side effect), Alex's app can reveal what a day held; Sam does not need to remember anything.",
   ],
   w:[
     {t:"shead", left:"", l:"Trial helper", right:""},
     {t:"spacer"},
-    {t:"big", l:"Hand over the capsules.", n:"The plan is now locked. Thank you, Sam."},
-    {t:"note", l:"If Alex ever needs to know a day, the app can show it. You don't have to remember anything."},
+    {t:"big", l:"Hand over the organizer.", n:"Week 1 is ready. Thank you, Sam."},
+    {t:"list", rows:[["Next fill","Sun 15 Nov · week 2 of 9"]]},
+    {t:"note", l:"We'll remind you. If Alex ever needs to know a day, the app can show it. You don't have to remember anything."},
     {t:"spacer"},
   ]});

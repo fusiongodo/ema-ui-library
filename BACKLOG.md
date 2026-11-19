@@ -77,7 +77,13 @@ Frame that follows from it (proposal, to discuss):
 
 *How a trial starts: decided (Alex, 18 Nov 2026).* The kind of the first block is drawn at random, real or placebo, whether or not the substance was taken before. The person must not be able to tell whether the trial opens with a washout. Consequence: nothing about the start is visible or configurable. If the substance was taken right before the start (the app knows this from Protocols) and placebo comes first, the app leaves the first washout days out of the comparison; otherwise it does not. The number of capsules and the length of the trial are the same in every case, so the length gives nothing away.
 
-*Preparation steps on the helper's side (next larger piece, not built).* The helper's page is still thin: preparing step by step, stating the control substance (sugar, rice flour …), optional photo or video as proof of the blind (see below).
+*Preparation steps on the helper's side (first version built 19 Nov 2026, concept only, waiting for Alex's review).* His input: the helper prepares the blinded samples; tablets are hard to mask, opaque capsules can work; and for labelling "the helper could simply take the person's supplement organizer and sort placebo or active into it as the app says: Monday this, Tuesday that". Built on Sam's side: three choices before filling (form, placebo filling = the control substance, where they go), the fill plan as **Alex's pill organizer, one week at a time**, with numbered bags as the second way, a look-alike check (look, weight, sound, smell), an optional photo that stays sealed until the result, done with the next fill date. On Alex's side the result gets "How it was prepared".
+Open after this pass:
+- The rule on Alex's side still says "each one carries only a number"; with the organizer nothing carries anything. The third point needs new words ("nothing on it says which is which").
+- Alex's daily screens still say "capsule no. 19"; with the organizer it would be "today's capsule".
+- With the organizer the helper comes back every week and the plan stays with the helper for the whole trial: more chances to slip than one session with numbered bags. Whether the organizer should be the default is his call.
+- Several organizers filled at once, and a reminder for the helper, are named but not drawn.
+- The form picker is longer than its half sheet; "Examples with pictures" needs scrolling.
 
 *Magnesium is the trial item (Alex, 18 Nov 2026, being built).* "Magnesium · paused for the trial" next to a separate "Study capsule" confused him. Under Protocols, Magnesium itself is shown as the active item with a "Trial" mark and today's capsule number; wording for the thing one takes: "trial capsule".
 

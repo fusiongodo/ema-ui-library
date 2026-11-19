@@ -360,6 +360,9 @@
 .frame[data-theme="studio"] .stage .fl-r.done .fl-c{background:var(--st-black);box-shadow:none}
 .frame[data-theme="studio"] .stage .fl-tot{border-top-color:var(--th-bottom);color:var(--muted)}
 .frame[data-theme="studio"] .stage .fl-tot b{color:var(--ink)}
+.frame[data-theme="studio"] .stage :is(.org,.checks){border-radius:28px;background:var(--st-card)}   /* trial helper: organizer, checklist */
+.frame[data-theme="studio"] .stage .og-c{background:var(--st-chip);box-shadow:none}
+.frame[data-theme="studio"] .stage .ph-f{border-radius:28px;background:var(--st-card);box-shadow:none}
 .frame[data-theme="studio"] .stage .ds{border-radius:28px;background:var(--st-card)}
 .frame[data-theme="studio"] .stage :is(.dsd i.a,.ds-k i.a){background:var(--st-fill)}
 .frame[data-theme="studio"] .stage :is(.dsd i.b,.ds-k i.b){box-shadow:inset 0 0 0 2px var(--st-fill)}

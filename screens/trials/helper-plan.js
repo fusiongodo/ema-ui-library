@@ -1,17 +1,20 @@
-/* The drawn plan (TRIAL_PLAN, trials/intro) as runs of numbered capsules. Drawn with the first two runs ticked off. */
-SCREENS.push({ id:"trials/helper-plan", area:"Insights", status:"idea", title:"Helper · 2 Fill plan",
+/* Helper · 3, the organizer way: Alex's pill organizer, filled week by week. Only the current week is shown; its seven days
+   come from TRIAL_PLAN (week 1 = days 1–7, Mon 9 – Sun 15 Nov: Mon–Wed Magnesium, Thu–Sun placebo). Washout days carry
+   the kind of their block and are not marked. Drawn with Mon–Wed already filled. The numbered way: trials/helper-plan-numbered. */
+SCREENS.push({ id:"trials/helper-plan", area:"Insights", status:"idea", title:"Helper · 3 Fill plan (organizer)",
   world:"neutral",
-  why:"63 numbered capsules, one per day, shown as runs that are easy to prepare: '1–3 Magnesium 300 mg', '4–21 Placebo' … (seven runs). Tick a run off when it is done; the totals below (27 Magnesium / 36 Placebo) are a last check.",
+  why:"The plan as an organizer: seven compartments, each says Magnesium or placebo for that day. Sam fills them and ticks them off. Only this week is shown; the next opens when it is due.",
   concept:[
-    "<b>Number = day:</b> Alex takes number 1 on day 1, and so on; the number is the only thing written on a capsule (or on the bag or box that holds it).",
-    "<b>Runs, not 63 rows:</b> the app drew the order of the blocks and where the first begins; a run is everything of one kind in a row (a block with its washout days before it, or two such of one kind), because which days are compared means nothing to Sam. Runs: 1–3 M · 4–21 P · 22–30 M · 31–39 P · 40–48 M · 49–57 P · 58–63 M.",
-    "<b>Totals as they fall:</b> 7 blocks of 9 capsules (2 washout + 7), 3 Magnesium and 4 placebo, so 27 Magnesium and 36 placebo.",
-    "<b>Check-off:</b> tap a run when it is done (Play: visual only). Two are already done.",
-    "<b>The app drew the plan,</b> not Sam: people randomise badly.",
+    "<b>Day by day, as the app drew it:</b> the order comes from the app, not from Sam. Washout days are not marked: for Sam every day is simply one or the other.",
+    "<b>Only one week at a time:</b> less to give away, less to get wrong.",
+    "<b>Weekly visit:</b> the app reminds Sam before each Monday. With more organizers, several weeks could be filled at once (not drawn).",
+    "<b>Numbered instead:</b> the other way is still there (trials/helper-plan-numbered).",
   ],
   w:[
-    {t:"shead", left:"‹", l:"Fill plan", n:"for Alex · Magnesium", right:"", goLeft:"back"},
-    {t:"fill", ranges:TRIAL_PLAN, a:"Magnesium 300 mg", b:"Placebo", unit:"capsules", done:2},
-    {t:"note", l:"Placebo: a capsule that looks, weighs and tastes like the real one. Write only the number on each."},
-    {t:"btn", l:"All 63 ready", go:"trials/helper-done"},
+    {t:"shead", left:"‹", l:"Week 1 of 9", n:"Mon 9 – Sun 15 Nov", right:"", goLeft:"back"},
+    {t:"big", l:"Fill Alex's organizer", n:"One capsule per day. Tap a day when it is in."},
+    {t:"organizer", plan:TRIAL_PLAN, week:1, a:"Magnesium 300 mg", b:"Placebo (rice flour)", done:3},
+    {t:"note", l:"Alex takes one each evening. Both kinds must look the same lying side by side."},
+    {t:"list", rows:[["Next fill","Sun 15 Nov · week 2"],["After that","7 more weeks"]]},
+    {t:"btn", l:"Week 1 is filled", go:"trials/helper-check"},
   ]});
