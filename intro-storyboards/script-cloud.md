@@ -100,3 +100,18 @@ Times are seconds in the 18-second draft (`cloud/index.html`). Overall: "richtig
 - Everything from the rain on is unchanged, 1.2 s later. The draft is 19.2 s long now.
 
 **Round 2 is built and published (19 Nov 2026), not judged yet.** Measured: on screen the near stars move left without a change of direction from 4.6 s to the switch; in the switch no star's speed changes by more than 3 % of its peak between two frames. Also in it: after the hit the stars are a little larger and shrink back while they fall; an old error is fixed that turned the heaps into white blobs in Chrome, so the rain and the heaps look calmer than in round 1. Known: the flash when a star leaves the top line is the only near-white left. He has not commented on anything from the rain on.
+
+## Feedback, round 2 (Alex, 19 Nov 2026, late)
+
+Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, heaps form, stop, curve drawn over the heaps, stop, ring. **"Die einzelnen kinetischen Elemente sollten überlappen."** In detail:
+- After the broadcast (all reached, all glow, still turning) the rotation stops before the move upward has begun, then they accelerate upward. A break. The rotation may only come to rest after the move up is under way.
+- At about 12.1 all are at the top, then all fall. Around 14.4 the heaps are done, and only then is the curve drawn over them. The bell curve should form, very pale, **while** the stars fall, and be finished when the last star has fallen. Two steps become one.
+
+### What Claude changes for round 3 (Claude's decisions, to be judged)
+- The rise begins right after the glow (10.45) and takes longer; the rotation keeps its full speed until 11.0 and only comes to rest at 12.4, when the last stars reach the line. The stars spiral upward.
+- No standing line: a star falls shortly after it arrives at the top, so the first fall while the last still rise.
+- The bell outlines grow out of the baseline, pale at first, during the fall, and are complete with the last landing.
+- No "silence" before the ring: the first stars leave for the ring as the last ones land, and the ring already starts to turn while it fills.
+- The draft gets shorter: about 17.6 s.
+
+**Round 3 is built and published (19 Nov 2026), not judged yet.** 17.6 s. Measured: between the hit and the line the stars are never slower than while rotating (no rest); 507 stars are still rising when the first one falls; 31 are still falling when the first leaves for the ring; at most 266 of 600 sit on the top line at once; the bell outlines are at a third of their strength when half the stars have landed. Known: around 12.0 the top line still shows as a bright, near-white strip, because the stars sit side by side there; from the ring on nothing was changed except that it starts earlier and turns while it fills.
