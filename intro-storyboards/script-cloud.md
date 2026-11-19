@@ -215,3 +215,16 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - The ring starts at 9.0 instead of 9.2. Highlight, wordmark and the end keep their times.
 
 **Round 10 is built and published (19 Nov 2026), not judged yet.** 13.42 s. Camera identical at every moment; star positions identical to round 9 until 8.95; broadcast, rise and rain untouched. At most 14 packages in flight at once (at 4.75). Ring: 553 of 600 stars under way when the last star lands (9.83); last arrival 11.52; overtaking on the ring down to 15 stars at the tail of the thread (3.6°). Known: between 4.6 and 5.2 the white area around the centre is about twice that of round 9, because comet heads and rays now converge there the whole time (the centre itself is capped: brightness at most 1.19, size 104); a fix is known (fade each comet over the last quarter of its way), not applied. The eight old givers therefore no longer give in their old order.
+
+## Feedback, round 10 (Alex, 19 Nov 2026, night)
+
+"Richtig geil, ich bin stoked." One halt is left:
+- **The broadcast should not hit all stars at the same moment**, and **a star that has been hit should start to rise at once.** Today the rays reach the stars, nothing happens for a moment, then all go up: "Das sind zwei Schritte hintereinander. Es soll fließen."
+
+### What Claude changes for round 11 (Claude's decisions, to be judged)
+- The packages arrive between 6.2 and 7.2 s instead of 6.26 to 6.69, the upper stars first, with a little scatter.
+- Each star lights up and starts its rise at its own arrival. Before, a star hit at 6.3 could wait until 7.3.
+- Each star reaches the top line at the same moment as before, so its rise takes 1.27 to 1.54 s instead of 1.1, and rain, ring and end stay exactly as they were.
+- The camera's collapse into the flat picture starts with the first rise (6.2) and ends as before (8.2).
+
+**Round 11 is built and published (19 Nov 2026), not judged yet.** 13.42 s. Identical to round 10 up to 5.0 and from 8.45 on. No star starts before it is hit; each visibly leaves its orbit 0.04 to 0.07 s after its arrival. Signals leave the centre from 5.50 to 6.40. Between 5.8 and 8.2 at least 257 stars are in motion or have a signal on the way. Known: the first and last tenth of a second of the arrivals are thin (18 and 10 stars instead of about 70); the centre has dimmed to its small size by 6.5 while it still sends until 6.4.
