@@ -46,7 +46,7 @@ body{overflow-x:hidden}
       <button class="btn icon" id="play" aria-label="Abspielen">
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path id="playIcon" fill="currentColor" d="M2 1l9 5-9 5z"/></svg>
       </button>
-      <input type="range" id="scrub" min="0" max="19.2" step="0.01" value="0" aria-label="Zeit">
+      <input type="range" id="scrub" min="0" max="15" step="0.01" value="0" aria-label="Zeit">
       <span class="time" id="time">0.0 s</span>
     </div>
     <div class="row2">
@@ -61,7 +61,7 @@ body{overflow-x:hidden}
 (function(){
 'use strict';
 // ---------------------------------------------------------------- constants
-var T_END = 19.2;
+var T_END = 15;   // recomputed from R0 below
 var N = 600;
 var R = 10;
 var ASPECT = 390 / 844;
@@ -77,8 +77,8 @@ var COL_WARM = hex('#FFD27A'), COL_CHARGED = hex('#FFF1C9'),
 var BG = hex('#0B1120');
 
 var STEPS = [
-  [0.0,'Ein Stern'],[1.5,'Mehr und mehr'],[3.5,'Eine Wolke im Raum'],[7.0,'Einige geben'],
-  [8.8,'Das Zentrum antwortet'],[10.2,'Alle leuchten']
+  [0.0,'Ein Stern'],[1.5,'Mehr und mehr'],[3.5,'Eine Wolke im Raum'],[4.4,'Einige geben'],
+  [6.2,'Das Zentrum antwortet'],[7.5,'Alle leuchten']
 ];  // the later steps are appended once the rain / ring times are known (see T_FALL0, R0)
 
 function hex(h){ var n = parseInt(h.slice(1),16); return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]; }
@@ -119,25 +119,13 @@ for (var i = 0; i < N; i++){
   });
 }
 
-// orbit angle = integral of the spin rate; rate: 0 -> 1 (smootherstep 4.0..7.5), 1 -> 0 (smootherstep 11.0..12.7,
-// while the stars already rise: they spiral upward, the last turn dies as the last stars reach the line).
-// SPIN_DIR: the cloud's own turn matches the apparent turn from the camera moving right (checked numerically).
-var SPIN_DIR = -1, SPIN_T1 = 11.0, SPIN_T2 = 12.7;
-// Spin-up starts at SP0 (visible turning from ~3.8) and reaches rate 1 at SP1 = 8.0. Its shape ss(x^q) is chosen so
-// that the angle for t >= 8.0 equals the earlier version exactly (up(t) = t - 5.75): t < SP0 (opening) and everything
-// from the giving on keep their star positions. q is solved once: mean rate over the ramp = (SP1 - 5.75) / (SP1 - SP0).
-var SP0 = 2.8, SP1 = 8.0;
-function rampI(x, q){ // integral of ss(u^q) over u in 0..x
-  return 6*Math.pow(x,5*q+1)/(5*q+1) - 15*Math.pow(x,4*q+1)/(4*q+1) + 10*Math.pow(x,3*q+1)/(3*q+1);
-}
-var SPIN_Q = (function(){
-  var target = (SP1 - 5.75) / (SP1 - SP0), lo = 0.2, hi = 5;
-  for (var it = 0; it < 80; it++){ var m = (lo + hi) / 2; if (rampI(1, m) > target) lo = m; else hi = m; }
-  return (lo + hi) / 2;
-})();
+// orbit angle = integral of the spin rate; rate: 0 -> 1 (smootherstep 2.8..5.6: the turn is complete before the
+// giving), 1 -> 0 (smootherstep 8.4..10.1, while the stars already rise: they spiral upward, the last turn dies as
+// the last stars reach the line). SPIN_DIR: the cloud's own turn matches the apparent turn from the camera moving right.
+var SPIN_DIR = -1, SPIN_T1 = 8.4, SPIN_T2 = 10.1, SP0 = 2.8, SP1 = 5.6;
 function spinA(t){
-  var up = t <= SP0 ? 0 : t < SP1 ? (SP1 - SP0) * rampI((t - SP0) / (SP1 - SP0), SPIN_Q) : (SP1 - 5.75) + (t - SP1);
-  var D = SPIN_T2 - SPIN_T1;
+  var U = SP1 - SP0, D = SPIN_T2 - SPIN_T1;
+  var up = t <= SP0 ? 0 : t < SP1 ? U * ssI((t - SP0) / U) : U / 2 + (t - SP1);
   var dn = t <= SPIN_T1 ? 0 : t < SPIN_T2 ? D * ssI((t - SPIN_T1) / D) : D / 2 + (t - SPIN_T2);
   return SPIN_DIR * (up - dn);
 }
@@ -158,15 +146,15 @@ function cloudPos(i, A, dz, out){
 // ---------------------------------------------------------------- camera
 // W(t): one eased curve in log space, 0.6 .. 6.0
 function camW(t){ return W0 * Math.pow(W_END / W0, eIO(seg(t, 0.6, 6.0))); }
-// the switch: one smootherstep over 10.45..12.0 for angles, fov and depth
-var SW_T1 = 10.45, SW_T2 = 12.0;
+// the switch: one smootherstep over 7.85..9.4 for angles, fov and depth
+var SW_T1 = 7.85, SW_T2 = 9.4;
 function swU(t){ return ss(seg(t, SW_T1, SW_T2)); }
 function camFov(t){
   if (t < SW_T1) return 8 + 34 * eIO(seg(t, 2.8, 5.3));
   return 42 - 36 * swU(t);
 }
 function camAngles(t){
-  var d = ss(seg(t, 2.6, 7.0)), b = swU(t);
+  var d = ss(seg(t, 2.6, 6.0)), b = swU(t);
   return [28 * DEG * d * (1-b), 8 * DEG * d * (1-b)];
 }
 function camDepth(t){ return t < SW_T1 ? depthS(t) : 1 - swU(t); }
@@ -186,12 +174,33 @@ for (i = 0; i < N; i++){ cloudPos(i, 0, 0, p0); S[i].dh = Math.hypot(p0[0]-hero0
 for (i = 1; i < N; i++){
   // first the hero's neighbours as the frame widens, then a wave running outward from the hero; all lit by 4.5
   var st = Math.min(camWinv(S[i].dh * 1.15), 2.5 + 1.4 * S[i].dh / dmax) + rand() * 0.12;
-  S[i].fade = Math.max(0.8, Math.min(4.0, st));
+  S[i].fade = Math.max(1.2, Math.min(4.0, st));   // the hero is alone a little longer
 }
 
 // ---------------------------------------------------------------- givers (step 4)
-var GIVE_GAP = 0.1375, GIVE_T0 = 7.0, SPARK_DUR = 0.7;
-var givers = [0];
+var GIVE_GAP = 0.1375, GIVE_T0 = 4.4, SPARK_DUR = 0.7;
+var givers = [0], givers0 = [0];
+var HERO_B = 1.15 * (function(){ var m = 0; for (var j = 1; j < N; j++) m = Math.max(m, S[j].bright); return m; })();
+// camera at time t (shared by render and the giver check)
+function setCam(t, cam){
+  var W = camW(t), fov = camFov(t), ang = camAngles(t);
+  var dist = W / (Math.tan(fov/2*DEG) * ASPECT);
+  camTarget(t, tmp);
+  cam.fov = fov; cam.updateProjectionMatrix();
+  cam.position.set(tmp[0] + dist*Math.sin(ang[0])*Math.cos(ang[1]),
+                   tmp[1] + dist*Math.sin(ang[1]),
+                   tmp[2] + dist*Math.cos(ang[0])*Math.cos(ang[1]));
+  cam.lookAt(tmp[0], tmp[1], tmp[2]);
+  cam.updateMatrixWorld(); cam.matrixWorldInverse.copy(cam.matrixWorld).invert();
+  return dist;
+}
+var chkCam = new THREE.PerspectiveCamera(8, ASPECT, 0.05, 5000), chkV = new THREE.Vector3();
+function onScreen(j, t, lim){   // live cloud position at t (stars orbit until the rise)
+  cloudPos(j, spinA(t), depthS(t), p0);
+  setCam(t, chkCam);
+  chkV.set(p0[0], p0[1], p0[2]).project(chkCam);
+  return chkV.z < 1 && Math.abs(chkV.x) <= lim && Math.abs(chkV.y) <= lim;
+}
 (function(){
   var sectors = [0,1,2,3,4,5,6,7];
   for (var a = 7; a > 0; a--){ var b = Math.floor(rand()*(a+1)), tt = sectors[a]; sectors[a] = sectors[b]; sectors[b] = tt; }
@@ -205,7 +214,15 @@ var givers = [0];
       ang = ((ang % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
       if (Math.floor(ang / (Math.PI/4)) === sec && (sec !== 0 || ang > 0.3)) cand.push(j);
     }
-    givers.push(cand[Math.floor(rand() * cand.length)]);
+    // same random draw as before; if that star is not lit or not inside the frame (5 % margin) at its give time,
+    // take the next candidate of the sector that is (deterministic)
+    var k0 = Math.floor(rand() * cand.length), tg = GIVE_T0 + givers.length * GIVE_GAP, pick = cand[k0];
+    givers0.push(pick);
+    for (var m = 0; m < cand.length; m++){
+      var jj = cand[(k0 + m) % cand.length];
+      if (S[jj].fade + 0.5 <= tg && onScreen(jj, tg, 0.9)){ pick = jj; break; }
+    }
+    givers.push(pick);
   });
 })();
 givers.forEach(function(g, k){ S[g].give = GIVE_T0 + k * GIVE_GAP; });
@@ -218,7 +235,7 @@ function sy(f){ return (0.5 - f) * H_W; }      // stage y (fraction from top) ->
 var Y_TOP = sy(0.14), Y_BASE = sy(0.78);
 var PITCH = 2 * W_END / 68;                     // dot diameter in world units
 var LEAVE_SPREAD = 0.5;   // short: with arrivals spread over 0.7 s, at most ~270 stars sit on the line at once
-var RISE_T0 = 10.45, RISE_STAG = 0.7, RISE_DUR = 1.1;
+var RISE_T0 = 7.85, RISE_STAG = 0.7, RISE_DUR = 1.1;
 function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the rise picks up sooner
 
 (function(){
@@ -267,7 +284,7 @@ var BELL_T1 = T_FALL0 + 0.5, BELL_T2 = T_LAND - 0.1;    // outlines grow out of 
 var R0 = T_LAND - 0.25;                                 // ring starts before the last star has landed
 var R1 = R0 + 1.0;                                      // ring rotation + breathing
 T_END = Math.ceil((R0 + 4.2) * 10 - 1e-9) / 10;
-STEPS.push([10.45,'Aufsteigen'], [Math.round(T_FALL0*10)/10,'Regen, zwei Glocken'],
+STEPS.push([RISE_T0,'Aufsteigen'], [Math.round(T_FALL0*10)/10,'Regen, zwei Glocken'],
            [Math.round(R0*10)/10,'Der Kreis'], [Math.round((R0+3.0)*10)/10,'MEjority']);
 
 // ring
@@ -297,8 +314,8 @@ function ringRot(t){
 // ray fades in at rayOn, the signal leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
 for (i = 0; i < N; i++){
   var sI = S[i];
-  sI.rayOn = 8.75 + 0.3 * (sI.r / R) + 0.2 * rand();
-  sI.dep = 9.3 + 0.3 * rand();
+  sI.rayOn = 6.15 + 0.3 * (sI.r / R) + 0.2 * rand();
+  sI.dep = 6.7 + 0.3 * rand();
   sI.arr = sI.dep + 0.75 + 0.15 * rand();
 }
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
@@ -352,8 +369,8 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(8, ASPECT, 0.05, 5000);
 
 var NG = givers.length;
-var NP = N + NG + 1 + N;            // stars, giver signals, centre glow, answer signals
-var I_MINI = N, I_GLOW = N + NG, I_HEAD = N + NG + 1;
+var NP = N + NG + 1 + N + 1;        // stars, giver signals, centre glow, answer signals, hero glow
+var I_MINI = N, I_GLOW = N + NG, I_HEAD = N + NG + 1, I_HALO = N + NG + 1 + N;
 var pPos = new Float32Array(NP*3), pSize = new Float32Array(NP), pBright = new Float32Array(NP),
     pCol = new Float32Array(NP*3), pSq = new Float32Array(NP);
 var pg = new THREE.BufferGeometry();
@@ -446,14 +463,7 @@ var cc = [0,0,0], cc2 = [0,0,0];
 
 function render(t){
   // camera
-  var W = camW(t), fov = camFov(t), ang = camAngles(t);
-  var dist = W / (Math.tan(fov/2*DEG) * ASPECT);
-  camTarget(t, tmp);
-  camera.fov = fov; camera.updateProjectionMatrix();
-  camera.position.set(tmp[0] + dist*Math.sin(ang[0])*Math.cos(ang[1]),
-                      tmp[1] + dist*Math.sin(ang[1]),
-                      tmp[2] + dist*Math.cos(ang[0])*Math.cos(ang[1]));
-  camera.lookAt(tmp[0], tmp[1], tmp[2]);
+  var dist = setCam(t, camera);
   pMat.uniforms.uRef.value = dist;
   pMat.uniforms.uDepth.value = camDepth(t);
 
@@ -467,9 +477,13 @@ function render(t){
     var b, size = s.size, sq = 0;
     // visibility (steps 1-2)
     if (i === 0){
-      var fl = 0.375 + 0.125 * (0.62*Math.sin(2*Math.PI*t/0.83) + 0.38*Math.sin(2*Math.PI*t/0.29 + 1.3));
-      var weak = fl * eOut(seg(t, 0, 0.6));
-      b = lerp(weak, s.bright * tw, eIO(seg(t, 1.5, 3.2)));
+      // the hero: fades in calmly (0..0.5), breathes +-8 % (1.6 s) instead of twinkling until 3.2, stays a little
+      // larger and brighter than the others until its own rise, then becomes one point among the others
+      var hA = eIO(seg(t, 1.5, 3.2)), hR = eIO(seg(t, s.rise, s.rise + RISE_DUR));
+      var breath = 1 + 0.08 * Math.sin(2*Math.PI*t/1.6);
+      var mod = lerp(breath, tw, eIO(seg(t, 3.2, 4.2)));
+      b = lerp(lerp(1.0, HERO_B, hA), s.bright, hR) * mod * eOut(seg(t, 0, 0.5));
+      size *= lerp(lerp(4.5, 1.5, hA), 1, hR);
     } else {
       b = s.bright * tw * eIO(seg(t, s.fade, s.fade + 0.5));
     }
@@ -512,8 +526,13 @@ function render(t){
         b *= 1 + 1.5 * hb; size *= 1 + 0.35 * hb;
       }
     }
-    if (i === 0) size *= lerp(1.8, 1, eIO(seg(t, 1.5, 3.2)));
     pSize[i] = size; pBright[i] = b; pSq[i] = sq; setCol(i, col);
+    if (i === 0){
+      // the hero's soft glow: a wide, faint warm point on the hero; breathes with it, fades with its extra during the rise
+      var hFade = 1 - eIO(seg(t, s.rise, s.rise + RISE_DUR));
+      pPos[I_HALO*3] = sp[0]; pPos[I_HALO*3+1] = sp[1]; pPos[I_HALO*3+2] = sp[2];
+      pSize[I_HALO] = 3.2 * size; pBright[I_HALO] = 0.10 * b * hFade; pSq[I_HALO] = 0; setCol(I_HALO, COL_WARM);
+    }
   }
 
   // a few give: a thin warm ray from each giver to the centre, a small signal travels down it (live star position)
@@ -536,22 +555,22 @@ function render(t){
   giveRays.visible = anyGive;
   gg.attributes.position.needsUpdate = true; gg.attributes.color.needsUpdate = true;
 
-  // centre glow: gradual brightening per arrival, a swell to a small climax (8.3..9.4, overlapping the last
-  // arrivals, whose pulses ride on top), dims while the light leaves (9.4..10.3), rests, fades out 10.45..11.2
+  // centre glow: gradual brightening per arrival, a swell to a small climax (5.7..6.8, overlapping the last
+  // arrivals, whose pulses ride on top), dims while the light leaves (6.8..7.7), rests, fades out 7.85..8.6
   var gb = 0, gp = 0;
   for (g = 0; g < NG; g++){
     var ta = S[givers[g]].give + SPARK_DUR;
     if (t >= ta){ gb += 0.1; gp += Math.exp(-(t - ta) / 0.14); }
   }
   var gsz = 44;
-  var sw = eIO(seg(t, 8.3, 9.4));
+  var sw = eIO(seg(t, 5.7, 6.8));
   gsz = lerp(gsz, 70, sw); gb = lerp(gb, 1.15, sw);
-  if (t >= 9.4){
-    var dm = eIO(seg(t, 9.4, 10.3));
+  if (t >= 6.8){
+    var dm = eIO(seg(t, 6.8, 7.7));
     gsz = lerp(70, 44, dm); gb = lerp(1.15, 0.3, dm);
   }
   gsz += 44 * 0.18 * gp; gb += 0.12 * gp;
-  gb *= 1 - eIO(seg(t, 10.45, 11.2));
+  gb *= 1 - eIO(seg(t, 7.85, 8.6));
   pPos[I_GLOW*3] = 0; pPos[I_GLOW*3+1] = 0; pPos[I_GLOW*3+2] = 0;
   pSize[I_GLOW] = gsz; pBright[I_GLOW] = gb; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
 
@@ -576,8 +595,8 @@ function render(t){
   rg.attributes.position.needsUpdate = true; rg.attributes.color.needsUpdate = true;
 
   // chart lines
-  var cp = eIO(seg(t, 10.7, 11.8));
-  chart.visible = t >= 10.7 && t < R0 + 0.6;
+  var cp = eIO(seg(t, 8.1, 9.2));
+  chart.visible = t >= 8.1 && t < R0 + 0.6;
   chart.material.opacity = 0.45 * (1 - seg(t, R0, R0 + 0.6));
   var half = 0.84 * cp;
   var L = [
@@ -680,7 +699,7 @@ function seek(t){
 }
 window.seek = seek;
 window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
-  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, T_END: T_END, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS };
+  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, T_END: T_END, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0 };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
 again.addEventListener('click', function(){ play(0); });

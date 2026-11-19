@@ -132,3 +132,16 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - From the rise on (10.45) nothing changes.
 
 **Round 4 is built and published (19 Nov 2026), not judged yet.** Depth opens from 2.8, the observer's move from 2.6, the rotation from 2.8; the rotation alone reaches about a quarter of its final speed on screen at 3.8 and half at 4.0. Rays to the stars fade in between 8.8 and 9.2, signals leave between 9.3 and 9.6 and arrive between 10.06 and 10.49; signals are invisible at the centre and brighten on the way out, so there is no white clump. From 8.0 on every star position is the same as in round 3. Known: between 4.2 and 5.0 the turn looks slower on screen for a moment because the pull-back makes the cloud smaller (the rotation itself keeps speeding up); the centre's bright core is at its widest around 9.6 to 9.7.
+
+## Feedback, round 4 (Alex, 19 Nov 2026, late)
+
+- **The first star is an individual.** It should shine a little brighter than the others, be alone at the start, be seen more strongly and have more presence. (This replaces "one faint, weak star" from the first script.)
+- The pull-back stays continuous and must not take longer than now (about 3.5 s as he feels it).
+- **The giving should start at 4.4 s** instead of 7.0, and everything up to the broadcast ends correspondingly earlier.
+
+### What Claude changes for round 5 (Claude's decisions, to be judged)
+- The first star: calm and clear instead of weak and flickering; larger at the start, and it stays a little larger and brighter than all others until it rises to the line. There it becomes one data point among the others (in the evaluation everyone counts the same). The first neighbours appear from 1.2 s instead of 0.8.
+- Everything from the giving on moves 2.6 s earlier, unchanged in itself: giving 4.4 to 6.2, centre climax to 6.8, broadcast arrives around 7.5 to 7.9, rise from 7.85. The first star is the first to give. The draft is 15.0 s long.
+- The rotation reaches its full speed by 5.6 and the observer's move ends at 6.0, so the turn is complete before the broadcast.
+
+**Round 5 is built and published (19 Nov 2026), not judged yet.** 15.0 s. The first star: calm, about 14 px across with a soft warm glow for the first two seconds, then a little larger and brighter than the rest until it rises. Giving 4.4 to 6.2, rays to all 6.2 to 6.6, signals arrive 7.46 to 7.89, rise from 7.85, rain from 9.0, ring from 10.8, wordmark from 13.8. Known: from about 3 s on the first star is only slightly distinct from the brightest stars near it.
