@@ -51,3 +51,29 @@ SVG is out. This is a particle system in space with a moving camera: every star 
 - Whether words are spoken or shown at all.
 - Length. Claude's guess: 14 to 16 seconds for the full version, a short one from step 8 on.
 - The tool.
+
+## Short version (Alex, 19 Nov 2026, evening)
+
+He now sees it more sharply, and much shorter: **5 to 7 seconds in all.** Same story, fewer beats, no pauses. This is the version to build next; the long sequence above stays as the source for details.
+
+In his words, in order:
+1. **One single star.**
+2. **Pull back: many stars.**
+3. **A dimension is added.** One sees a sphere, and it turns.
+4. **Single points go into the centre.**
+5. **One impulse goes out to all.** Every star lights up in the moment it is hit.
+6. **Suddenly two-dimensional.** All lit points go to a line at the top.
+7. **They fall down.**
+8. **Out of the ground jumps the distribution with its two peaks.**
+9. **A circling swirl with three points forms.**
+10. **Hands move over it and apart again, and there stands "MEjority".**
+
+What changed against the long version:
+- Length: 5 to 7 seconds instead of 18.
+- A sphere that turns, not a loose cloud. The surprise is the added dimension.
+- The step from the bells to a structure (old step 9, open) is answered: a swirl of three points.
+- The hands cover the swirl and open again; the wordmark is what they reveal.
+
+Timing, Claude's proposal for 6.5 seconds (not judged): star 0.5 · pull back 0.8 · sphere appears and turns 1.0 · points in, impulse out, all light up 1.0 · flat, line at the top 0.6 · fall 0.5 · two peaks jump up 0.7 · swirl of three 0.6 · hands and wordmark 0.8. At this speed every beat has to flow into the next; nothing stands still except the wordmark.
+
+Open: whether the two colours of the randomisation still fit in at this length (Claude: yes, as colour only, without an extra beat); what the three points of the swirl stand for (Claude's reading, not his: none needed, it is the sign that becomes the logo).

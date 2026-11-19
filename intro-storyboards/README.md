@@ -4,7 +4,7 @@ Quick access to everything about the intro animation for MEjority: what Alex lik
 
 ## Current direction: "The cloud"
 
-On 19 Nov 2026 Alex described his own picture: one faint star, pulling back to many, the flat picture gains depth and turns out to be a rotating cloud around one centre, a few stars send something in, the centre answers all at the same instant, the charged stars jump to a line at the top, fall like rain, two bell curves grow from the ground, the points become a turning circle, hands, "MEjority". The full sequence is in **`script-cloud.md`**. It builds on what he liked below.
+On 19 Nov 2026 Alex described his own picture: one faint star, pulling back to many, the flat picture gains depth and turns out to be a rotating cloud around one centre, a few stars send something in, the centre answers all at the same instant, the charged stars jump to a line at the top, fall like rain, two bell curves grow from the ground, the points become a turning circle, hands, "MEjority". The full sequence is in **`script-cloud.md`**. In the evening he tightened it: **5 to 7 seconds in all**, a turning sphere, at the end a swirl of three points that hands cover and reveal as the wordmark (section "Short version" there). That short version is the one to build. It builds on what he liked below.
 
 ## What Alex likes, in his order
 
