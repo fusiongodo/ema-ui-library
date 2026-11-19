@@ -228,3 +228,14 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - The camera's collapse into the flat picture starts with the first rise (6.2) and ends as before (8.2).
 
 **Round 11 is built and published (19 Nov 2026), not judged yet.** 13.42 s. Identical to round 10 up to 5.0 and from 8.45 on. No star starts before it is hit; each visibly leaves its orbit 0.04 to 0.07 s after its arrival. Signals leave the centre from 5.50 to 6.40. Between 5.8 and 8.2 at least 257 stars are in motion or have a signal on the way. Known: the first and last tenth of a second of the arrivals are thin (18 and 10 stars instead of about 70); the centre has dimmed to its small size by 6.5 while it still sends until 6.4.
+
+## Feedback, round 11 (Alex, 19 Nov 2026, night)
+
+"Das ist jetzt fast perfekt." The only problem left is order: the broadcast now sweeps through the cloud from the top through the middle to the bottom, and the stars rise in that order. **The broadcast timing should be truly random, and the stars should rise randomly as they are reached.**
+He also asked Claude to stop looking at pictures of the result for now and only write the briefs.
+
+### What Claude changes for round 12 (Claude's decisions, to be judged)
+- Every star gets a fixed random place, unrelated to where it is. In that order the broadcast reaches it (6.2 to 7.2 s, exactly 60 stars per tenth of a second) and in the same order it rises and reaches the line (7.75 to 8.45).
+- Nothing else. The set of line-arrival times is the same as before, so rain and ring keep their timing.
+
+**Round 12 is built and published (19 Nov 2026), not judged yet.** 13.42 s. Not looked at by Claude; numeric checks only. Arrival time against screen position at 6.2 s: correlation with height +0.005, with x +0.043, with distance from the centre +0.018. No star starts before it is hit; each leaves its orbit 0.03 to 0.06 s after. At most 264 stars on the top line at once (before: 269). Rain start and last landing moved by 0.02 s. Known: 70 signals (before 34) leave at exactly 5.50 and travel a little faster, because far stars can now be early; on the ring 9 stars at the tail still overtake by up to 2.7°.
