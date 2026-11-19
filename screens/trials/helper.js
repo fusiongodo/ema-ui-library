@@ -24,7 +24,7 @@ SCREENS.push({ id:"trials/helper", area:"Insights", status:"idea", title:"Trial 
     {t:"field", l:"Helper", v:"Sam"},
     {t:"qr", l:"Sam scans this", n:"Opens the fill plan on Sam's phone."},
     {t:"note", l:"See what Sam will see ›", go:"trials/peek-welcome"},
-    {t:"toggle", l:"Sam uses this phone instead", on:false},
+    {t:"toggle", l:"Sam uses this phone instead", on:false, go:"trials/helper-same"},
     {t:"note", l:"Then the plan opens only with a helper PIN."},
-    {t:"btn", l:"Send Sam the link", go:"trials/review"},
+    {t:"btn", l:"Send Sam the link", go:"trials/helper-sent"},
   ]});
