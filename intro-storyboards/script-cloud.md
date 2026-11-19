@@ -115,3 +115,5 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - The draft gets shorter: about 17.6 s.
 
 **Round 3 is built and published (19 Nov 2026), not judged yet.** 17.6 s. Measured: between the hit and the line the stars are never slower than while rotating (no rest); 507 stars are still rising when the first one falls; 31 are still falling when the first leaves for the ring; at most 266 of 600 sit on the top line at once; the bell outlines are at a third of their strength when half the stars have landed. Known: around 12.0 the top line still shows as a bright, near-white strip, because the stars sit side by side there; from the ring on nothing was changed except that it starts earlier and turns while it fills.
+
+**Verdict on round 3 (Alex, 19 Nov 2026): "YES!!!"** Round 3 is the reference for the final animation. What made the difference, and holds for the final version: the movements overlap, nothing comes to rest between two steps.

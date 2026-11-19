@@ -59,6 +59,7 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 - **18 to 19 Nov** · Story in Alex's words; sketches "One dot each" 1 and 2; six motion studies; his ranking written down (`intro-storyboards/README.md`).
 - **19 Nov** · His own sequence "The cloud" as a script; a first playable draft as particles in Three.js. Not judged yet.
 - **19 Nov** · The playable draft is judged: "pures Gold". Kept as the reference; the final version comes later in other tools. A short version (5 to 7 seconds) is written down.
+- **19 Nov** · Three rounds on the motion of "The cloud": one turning direction, thin rays and small signals, a gentle centre, all movements overlapping. His verdict on round 3: "YES!!!".
 - **19 Nov** · Decided: no SVG for the intro or the clay icons.
 
 ## Icons
