@@ -459,3 +459,11 @@
   .frame[data-theme="studio"] .stage .bd .bd-z{opacity:1}
   .frame[data-theme="studio"] .stage .bd .bd-z2{opacity:.7}
 }
+
+/* ---------- Apple Health against your usual: line in the area's fill, the mark (a ring) in its ink, cards as the others ---------- */
+.frame[data-theme="studio"] .stage .us{--us-line:var(--st-fill);--us-band:rgb(var(--st-fill-rgb) / .13);--us-mark:var(--st-ink);--us-gap:var(--st-card)}
+.frame[data-theme="studio"] .stage .us .us-v b{font-weight:700}
+.frame[data-theme="studio"] .stage .uc{--uc-ink:var(--st-ink);--uc-pale:rgb(var(--st-ink-rgb) / .2);--uc-band:rgb(var(--st-fill-rgb) / .12);border-radius:28px;background:var(--st-card);box-shadow:none}
+.frame[data-theme="studio"] .stage .br{background:var(--st-card);box-shadow:none;border-radius:24px}
+.frame[data-theme="studio"] .stage .br-ic{color:var(--st-ink)}
+.frame[data-theme="studio"] .stage .br-t b{font-weight:600}

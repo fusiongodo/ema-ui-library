@@ -20,7 +20,9 @@
    'likely' would need about 1 in 60, which 35 orders cannot give): fatigue and brain fog are lower in every Magnesium block,
    1 in 35 each → "hint"; pain (about 1 in 3) → no word.
    Capsules 59 of 63 = 94 % (18 of the first 19, 3 more missed later). The guess before the reveal (trials/guess):
-   "No idea" → the blind held. */
+   "No idea" → the blind held.
+   Apple Health (ticked in the setup): Sleep 7 h 20 vs. 7 h 05 → 15 min longer; Steps 2,480 vs. 2,540 → about the same; neither
+   clears the bar for a word. Tracker worn 57 of 63 days. */
 SCREENS.push({ id:"trials/result", area:"Insights", status:"idea", title:"Trial · result (after day 63)",
   tabs:"idea", tab:"Insights",
   why:"Unblinded after day 63. The composite leads, in one sentence with its size; directly under it all three scores as equals, each with its difference; then the two kinds of blocks side by side for the composite (one dot per block), how sure, and the honest limit. Then the reveal: where the real blocks actually were, washout days faint. Below: did you take the capsules, could you tell (the guess asked just before). Numbers and method behind Details.",
@@ -32,6 +34,7 @@ SCREENS.push({ id:"trials/result", area:"Insights", status:"idea", title:"Trial 
     "<b>The reveal:</b> only now the strip of all 63 days shows where the app put the real blocks: faint on the 2 washout days before every block, and the Magnesium block split between days 1–3 and 60–63, the drawn start. During the trial this was hidden on purpose.",
     "<b>Honest about the design:</b> with 7 blocks 'likely' is as far as it can go (1 in 35 orders at best); a smaller effect could still be there. 'No difference' would not mean 'no effect'.",
     "<b>How it was prepared ›</b> opens the helper's record, sealed until now (trials/result-prep): who, which form, what the placebo was, the look-alike check, the photo.",
+    "<b>Health measures chosen before the start</b> stand as their own card under the scores, with how many days the tracker was worn.",
     "<b>Checks before conclusions:</b> capsules taken (94 %) and the guess asked once, just before the reveal ('No idea': the blind held).",
     "<b>Telling is not failing:</b> had the person said 'Yes, most of the time', the card would not call the trial broken: being able to tell can mean the blind slipped, or that Magnesium did something noticeable. Details say both readings in one sentence.",
     "<b>Wording:</b> 'was lower on Magnesium days', never 'works' or 'causes'. One person, not general evidence.",
@@ -45,6 +48,10 @@ SCREENS.push({ id:"trials/result", area:"Insights", status:"idea", title:"Trial 
         ["Fatigue","1.2","lower","down","checkins","hint"],
         ["Brain fog","0.5","lower","down","checkins","hint"],
         ["Pain","0.1","about the same","same","checkins",""]]}]},
+    {t:"diffs", l:"From Apple Health", n:"chosen before the start · on Magnesium days vs. placebo days",
+      groups:[{rows:[
+        ["Sleep","15 min","longer","up","health",""],
+        ["Steps","60","about the same","same","health",""]]}]},
     {t:"compare", l:"Symptom score", n:"primary outcome · one dot per block", tap:"Tap a block",
       a:{l:"Magnesium blocks", v:[4.3,3.8,4.2], d:["Days 1–3 + 60–63","Days 24–30","Days 42–48"]},
       b:{l:"Placebo blocks", v:[4.9,4.4,4.8,4.7], d:["Days 6–12","Days 15–21","Days 33–39","Days 51–57"]}},
@@ -52,7 +59,7 @@ SCREENS.push({ id:"trials/result", area:"Insights", status:"idea", title:"Trial 
     {t:"sec", l:"Where the blocks were", r:"now revealed"},
     {t:"daystrip", plan:TRIAL_PLAN, key:["Magnesium","Placebo","washout"],
       l:"The app placed them; you took number after number without knowing."},
-    {t:"list", rows:[["Capsules taken","94 %"],["Could you tell?","No idea"]]},
+    {t:"list", rows:[["Capsules taken","94 %"],["Could you tell?","No idea"],["Tracker worn","57 of 63 days"]]},
     {t:"note", l:"You could not tell which days were Magnesium: the blind held."},
     {t:"note", l:"How it was prepared ›", go:"trials/result-prep"},
     {t:"more", l:"Details", act:"Run it again", goAct:"trials/review",

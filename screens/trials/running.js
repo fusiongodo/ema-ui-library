@@ -9,6 +9,7 @@ SCREENS.push({ id:"trials/running", area:"Insights", status:"idea", title:"Trial
     "<b>Prototype jump:</b> a tap on the progress card skips to day 63 (insights/home-result).",
     "<b>Progress by days:</b> day 19 of 63 and the day the result opens. No weeks of the design, no pairs: the person must not know where a block begins.",
     "<b>Capsules, not effects:</b> Magnesium stays a protocol item like any other, marked 'Trial' and taken as numbered trial capsules (Evening fold of Protocols, protocols/today-folds-trial); missed ones are logged, not hidden, and reported with the result. The grid's weeks are the calendar, nothing more. No chart compares days.",
+    "<b>Also counted:</b> check-ins and the days the tracker was worn. Safe to see: neither says anything about real or placebo.",
     "<b>Locked:</b> one calm line, no countdown drama.",
     "<b>Stop the trial</b> is quiet, at the end (trials/stop).",
   ],
@@ -19,6 +20,9 @@ SCREENS.push({ id:"trials/running", area:"Insights", status:"idea", title:"Trial
     {t:"sec", l:"Capsules", r:"18 of 19"},
     {t:"weekgrid", rows:[["9 Nov","●●●●●●●"],["16 Nov","●●●○●●●"],["23 Nov","●●●●●"]]},
     {t:"note", l:"Taken from your Evening protocol ›", go:"protocols/today-folds-trial"},
+    {t:"sec", l:"Also counted"},
+    {t:"list", rows:[["Check-ins","17 of 19"],["Steps, Sleep · tracker worn","16 of 19 days"]]},
+    {t:"note", l:"Not worn on 3 days. Those days count as no data for steps and sleep."},
     {t:"tile", tone:"white", l:"Locked until the end", n:"Which days were Magnesium, and every comparison, stay hidden until 11 Jan. Take the next number and log as usual."},
     {t:"note", l:"Stop the trial", danger:true, go:"trials/stop"},
   ]});

@@ -93,6 +93,10 @@
 .frame.soft .stage .heat i{background:var(--th-track)}
 .frame.soft .stage .heat i.a{background:var(--hm-a)} .frame.soft .stage .heat i.b{background:var(--hm-b)} .frame.soft .stage .heat i.c{background:var(--hm-c)}
 .frame.soft .stage .trend .dots{background:radial-gradient(circle,var(--muted) 2.5px,transparent 3px) 0 60%/14% 100% repeat-x;opacity:.55}
+/* Apple Health against your usual: line in the curve colour, the band a soft strip, the mark (a ring) in the theme's mark */
+.frame.soft .stage .us{--us-line:var(--th-curve);--us-band:var(--grey);--us-mark:var(--th-mark);--us-gap:var(--th-card-solid)}
+.frame.soft .stage .uc{--uc-ink:var(--th-mark);--uc-pale:var(--th-fill0);--uc-band:var(--grey);box-shadow:var(--th-shadow)}
+.frame.soft .stage .br{box-shadow:var(--th-shadow-s)}   /* lighter than a card */
 .frame.soft .stage .tlr .dot{background:var(--th-card-solid);border-color:var(--muted)}
 .frame.soft .stage .tlr .rail:after{border-left-color:var(--th-track)}
 .frame.soft .stage .week div.on{background:var(--white);box-shadow:var(--th-shadow-s)}

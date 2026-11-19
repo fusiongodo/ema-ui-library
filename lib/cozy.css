@@ -485,3 +485,15 @@
   .frame[data-theme="cozy"] .stage .bd .bd-z2{opacity:.7}
   .frame[data-theme="cozy"] .cz-spark,.frame[data-theme="cozy"] .stage .mic.cz-ring:before{display:none}
 }
+
+/* ---------- Apple Health against your usual (usual tile, usualchart, Today's brief): the line, the band and the mark
+   (a ring = a deviation) in the page's world; the brief's icon in the world it leads to (cozy.js) ---------- */
+.frame[data-theme="cozy"] .stage .us{--us-line:var(--cz-dark);--us-band:rgb(var(--cz-bg-rgb) / .5);--us-mark:var(--cz-dark);--us-gap:#fff}
+.frame[data-theme="cozy"] .stage .us .us-v b{font-family:var(--round);font-weight:600;color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .us.none .us-v b{color:var(--muted)}
+.frame[data-theme="cozy"] .stage .us .us-v .n,.frame[data-theme="cozy"] .stage .us-w{font-weight:600}
+.frame[data-theme="cozy"] .stage .us.dev .us-w{font-weight:700;color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .uc{--uc-ink:var(--cz-dark);--uc-pale:rgb(var(--cz-dark-rgb) / .2);--uc-band:rgb(var(--cz-bg-rgb) / .45)}
+.frame[data-theme="cozy"] .stage :is(.uc-y,.uc-x,.uc-u){font-weight:700}
+.frame[data-theme="cozy"] .stage .br-ic{color:var(--cz-dark)}
+.frame[data-theme="cozy"] .stage .br-t b{font-weight:700;color:var(--ink)} .frame[data-theme="cozy"] .stage .br-t .n{font-weight:600}

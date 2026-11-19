@@ -193,6 +193,9 @@ Feeds Patterns without any logging effort: steps above the personal usual → fa
 
 **Privacy.** Only ticked measures are read; everything stays on the phone until the "Together" step exists, and then only with explicit consent.
 
+### Drawn (19 Nov 2026, not yet judged by Alex)
+Flow "Apple Health" in the prototype, start `insights/home-health`: connect card and sheet (`health/connect`), the Insights tab after connecting with the crash pattern (`insights/home-health-on`, `insights/pattern-exertion`: check-ins and tracker data on one page), the group in Check-ins (`checkins/overview-health`) and the Steps detail (`health/steps`), three Today lines (`today/home-health`, `today/home-trial-nudge`, `today/home-trial-week`), days worn on `trials/running`, a Health card on `trials/result`. New widgets `usual`, `usualchart`, `brief`. Open: only Steps has a detail page; the switch 4 weeks / 3 months / 1 year is drawn but does nothing; the × on the Today line does nothing; Apple's own permission sheet is not drawn; the flow map has 107 screens because it follows every link.
+
 ### Alex's verdict (19 Nov 2026)
 - **One model, not two.** The crash is visible in the scores as well as in the tracker data, so crash detection takes all data. Agreed by both; now written into job 2.
 - **Today: try it.** We draw the line and decide later how Today is built.
