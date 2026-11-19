@@ -140,6 +140,8 @@ Spoken lines to try: "Every day, millions of us notice what helps." / "Alone, it
 
 **Script, version 3:** `intro-storyboards/script-one-dot-each.md`. The sketch story plus the distribution: sparks fall to the horizon and pile up into two heaps of points (placebo, real); the shift between them is the signal, and the warm heap becomes the rising sun whose light reaches every star. Not yet approved; nothing is built from it.
 
+**Where it stands (Alex, 19 Nov 2026, after seeing everything):** the first sketch "One dot each" is his favourite (dot, stars, lines, the curve, the burst); the second sketch has good concepts but its frame 5 is bad; of the motion studies only the two heaps of points count. Next question, his: in which algebraic, geometric and statistical structures the stars could arrange themselves so that a good story comes out. **Method: SVG is finished for him**; candidates are video models fed with good stories, Blender, animation programs. The summary for quick access is `intro-storyboards/README.md`.
+
 Alternatives for the picture world, same six beats: (a) night sky, loose stars are joined into a constellation that can be read, then day breaks; fits the Sky theme. (b) everyone carries a small flame to one place; together they become a beacon whose beam shows the way back to all; closest to "Middle Ages to Enlightenment". (c) Earth at night with lights, most literal for "millions everywhere".
 Cautions: historical props (torches, monks) turn into pathos quickly; stay abstract with dark and light. Show a signal, not a cure; the app itself says "likely" at most.
 
