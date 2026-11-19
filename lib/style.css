@@ -817,3 +817,63 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
   body.pbar-open .pbar{display:flex}
   .pbar code{color:#dfe7ea}
 }
+
+/* hero: a game card's quiet picture strip (render.js hero()). One pale hue per game (--hh), one family: the theme sets
+   saturation and lightness (--hs, --h0 field, --h1 shapes, --h2 the lighter one). Wire: greys. Soft edges, nothing moves. */
+.hero{--hs:0%;--h0:94%;--h1:84%;--h2:97%;--ha:1;position:relative;overflow:hidden;height:52px;margin:0 0 8px;border-radius:12px;
+  background:radial-gradient(120% 100% at 25% 15%,hsl(var(--hh) var(--hs) var(--h2) / var(--ha)),transparent 65%),hsl(var(--hh) var(--hs) var(--h0) / var(--ha))}
+.hero i{position:absolute;display:block;background:hsl(var(--hh) var(--hs) var(--h1));filter:blur(.3px)}
+.hero.lg{height:96px;margin:0 0 6px;border-radius:20px}
+.stage .tile.hhero{justify-content:flex-start}
+.stage .hero{height:60px;border-radius:calc(var(--rad) - 8px);margin-bottom:12px}
+.stage :not(.grid2) > .tile.hhero > .hero{height:76px}
+.stage .hero.lg{height:112px;border-radius:var(--rad)}
+[data-hero="arith"]{--hh:32} [data-hero="reaction"]{--hh:200} [data-hero="nback"]{--hh:235} [data-hero="symbol"]{--hh:160}
+[data-hero="flow"]{--hh:190} [data-hero="blocks"]{--hh:18} [data-hero="sling"]{--hh:275} [data-hero="groups"]{--hh:48}
+/* arithmetic: three number stones */
+.hero[data-hero="arith"] i{border-radius:50%}
+.hero[data-hero="arith"] i{width:auto;aspect-ratio:1}
+.hero[data-hero="arith"] i:nth-child(1){height:66%;left:16%;top:22%}
+.hero[data-hero="arith"] i:nth-child(2){height:46%;left:44%;top:14%;background:hsl(var(--hh) var(--hs) var(--h2))}
+.hero[data-hero="arith"] i:nth-child(3){height:32%;left:66%;top:52%}
+/* reaction: one soft glowing dot */
+.hero[data-hero="reaction"] i{width:16px;height:16px;border-radius:50%;left:calc(50% - 8px);top:calc(50% - 8px);
+  background:hsl(var(--hh) var(--hs) var(--h2));box-shadow:0 0 14px 8px hsl(var(--hh) var(--hs) var(--h1) / .8)}
+/* dual n-back: a 3×3 field, one square lighter */
+.hero[data-hero="nback"]{display:grid;grid-template-columns:repeat(3,14px);grid-auto-rows:14px;gap:4px;place-content:center}
+.hero[data-hero="nback"] i{position:static;border-radius:4px}
+.hero[data-hero="nback"] i:nth-child(5){background:hsl(var(--hh) var(--hs) var(--h2));box-shadow:0 0 8px 1px hsl(var(--hh) var(--hs) var(--h2) / .9)}
+/* symbol search: circle, square, triangle, circle (one pair alike) */
+.hero[data-hero="symbol"]{display:flex;align-items:center;justify-content:center;gap:12px}
+.hero[data-hero="symbol"] i{position:static;width:18px;height:18px}
+.hero[data-hero="symbol"] i:nth-child(1),.hero[data-hero="symbol"] i:nth-child(4){border-radius:50%;background:hsl(var(--hh) var(--hs) var(--h2))}
+.hero[data-hero="symbol"] i:nth-child(2){border-radius:5px}
+.hero[data-hero="symbol"] i:nth-child(3){clip-path:polygon(50% 6%,96% 92%,4% 92%)}
+/* word flow: lines that fade out */
+.hero[data-hero="flow"] i{height:5px;border-radius:3px;left:14%;background:linear-gradient(90deg,hsl(var(--hh) var(--hs) var(--h1)),transparent)}
+.hero[data-hero="flow"] i:nth-child(1){top:30%;width:70%} .hero[data-hero="flow"] i:nth-child(2){top:48%;width:52%;left:22%} .hero[data-hero="flow"] i:nth-child(3){top:66%;width:38%}
+/* blocks: rounded blocks resting on each other */
+.hero[data-hero="blocks"] i{border-radius:5px;height:24%;bottom:12%}
+.hero[data-hero="blocks"] i:nth-child(1){left:calc(50% - 40px);width:38px} .hero[data-hero="blocks"] i:nth-child(2){left:calc(50% + 2px);width:38px;background:hsl(var(--hh) var(--hs) var(--h2))}
+.hero[data-hero="blocks"] i:nth-child(3){left:calc(50% - 22px);width:44px;bottom:calc(12% + 24% + 3px)}
+.hero[data-hero="blocks"] i:nth-child(4){left:calc(50% - 10px);width:20px;bottom:calc(12% + 48% + 6px)}
+/* slingshot: one soft arc, a dot at its end (tiny inline SVG) */
+.hero[data-hero="sling"] svg{position:absolute;inset:14% 10%;width:80%;height:72%;fill:hsl(var(--hh) var(--hs) var(--h2));stroke:hsl(var(--hh) var(--hs) var(--h1))}
+.hero[data-hero="sling"] path{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:3 7}
+.hero[data-hero="sling"] circle{stroke-width:3}
+/* word groups: four rows in four gentle tints */
+.hero[data-hero="groups"]{display:flex;flex-direction:column;justify-content:center;gap:4px;padding:0 18%}
+.hero[data-hero="groups"] i{position:static;height:6px;border-radius:3px}
+.hero[data-hero="groups"] i:nth-child(1){--hh:48} .hero[data-hero="groups"] i:nth-child(2){--hh:150;width:86%} .hero[data-hero="groups"] i:nth-child(3){--hh:215;width:94%} .hero[data-hero="groups"] i:nth-child(4){--hh:330;width:78%}
+/* ngrid: the dual n-back field on play/nback, as calm as the cards */
+.ngrid{--hs:0%;--h1:88%;--h2:96%;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:60%;margin:14px auto 0}
+.ngrid i{aspect-ratio:1;border-radius:12px;background:hsl(var(--hh) var(--hs) var(--h1))}
+.ngrid i.on{background:hsl(var(--hh) var(--hs) var(--h2));box-shadow:0 0 18px 4px hsl(var(--hh) var(--hs) var(--h2) / .9)}
+.stage .ngrid{width:236px;gap:12px;margin-top:28px} .stage .ngrid i{border-radius:18px}
+/* themes: each its own soft tones; Dusk darker and still soft */
+.frame[data-theme="cozy"] :is(.hero,.ngrid){--hs:48%;--h0:93%;--h1:84%;--h2:97%}
+.frame[data-theme="cozy"] .ngrid{--hs:30%;--h1:88%}
+.frame[data-theme="studio"] :is(.hero,.ngrid){--hs:40%;--h0:94%;--h1:85%;--h2:97%}
+.frame[data-theme="sky"] :is(.hero,.ngrid){--hs:38%;--h0:92%;--h1:83%;--h2:97%;--ha:.8}
+.frame[data-theme="meadow"] :is(.hero,.ngrid){--hs:24%;--h0:91%;--h1:82%;--h2:96%}
+.frame[data-theme="dusk"] :is(.hero,.ngrid){--hs:12%;--h0:18%;--h1:30%;--h2:40%}

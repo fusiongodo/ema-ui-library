@@ -73,3 +73,4 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 
 ## Play
 - **19 Nov** · Play section: game of the day, games in the app, level chosen freely and saved with the result, a calm result against your usual, "Not today" with a reason, connecting through the agent with tiles, "How you played" over four weeks. The game itself is a stand-in.
+- **19 Nov** · Calm game cards: each game with a soft picture strip of its own (CSS, pastel, nothing moves); a stand-in screen for Dual n-back; a card "Word groups".

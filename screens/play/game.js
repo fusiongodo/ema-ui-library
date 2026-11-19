@@ -10,6 +10,7 @@ SCREENS.push({ id:"play/start", area:"Today", status:"idea", title:"Play · befo
   ],
   w:[
     {t:"shead", left:"", l:"Arithmetic", right:"×", goRight:"back"},
+    {t:"hero", k:"arith"},
     {t:"big", l:"2 minutes of sums", n:"New tasks every time."},
     {t:"seg", items:["Easy","Medium","Hard"], on:"Medium"},
     {t:"note", l:"Choose freely. The level is saved with the result."},
@@ -53,4 +54,18 @@ SCREENS.push({ id:"play/skip", area:"Today", status:"idea", title:"Play · not t
     {t:"big", l:"What keeps you from playing?"},
     {t:"choice", items:[["Too weak today","Even a short game is too much"],["No desire","Could, but do not want to"],["No time",""]], go:["play/home","play/home","play/home"]},
     {t:"note", l:"This is saved too. A day without play says something."},
+  ]});
+SCREENS.push({ id:"play/nback", area:"Today", status:"idea", title:"Play · dual n-back (stand-in)",
+  why:"Dual n-back inside the app, full screen: a 3×3 field with one square lit, the letter you hear, two buttons for a match. Opened from its card on play/home.",
+  concept:[
+    "<b>A stand-in</b> to show the game inside the app without any browser frame.",
+    "<b>The grid is as calm as the cards:</b> soft squares, the lit one only a little lighter.",
+    "<b>× ends the game early;</b> both buttons stay on this screen in the stand-in.",
+  ],
+  w:[
+    {t:"shead", left:"×", l:"2-back · 1:48", right:"", goLeft:"play/home"},
+    {t:"ngrid", on:4},
+    {t:"big", c:true, l:"K", n:"letter you hear"},
+    {t:"row", items:[{t:"btn", light:true, l:"Same position", go:"play/nback"}, {t:"btn", light:true, l:"Same letter", go:"play/nback"}]},
+    {t:"note", l:"Tap when it matches two steps back."},
   ]});
