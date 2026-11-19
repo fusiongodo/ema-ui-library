@@ -21,7 +21,7 @@
    1 in 35 each → "hint"; pain (about 1 in 3) → no word.
    Capsules 59 of 63 = 94 % (18 of the first 19, 3 more missed later). The guess before the reveal (trials/guess):
    "No idea" → the blind held.
-   Apple Health (ticked in the setup): Sleep 7 h 20 vs. 7 h 05 → 15 min longer; Steps 1,560 vs. 1,600 → about the same; neither
+   Apple Health (ticked in the setup): Sleep 7 h 20 vs. 7 h 05 → 15 min longer; Steps 450 vs. 460 → about the same; neither
    clears the bar for a word. Tracker worn 57 of 63 days. */
 SCREENS.push({ id:"trials/result", area:"Insights", status:"idea", title:"Trial · result (after day 63)",
   tabs:"idea", tab:"Insights",
@@ -51,7 +51,7 @@ SCREENS.push({ id:"trials/result", area:"Insights", status:"idea", title:"Trial 
     {t:"diffs", l:"From Apple Health", n:"chosen before the start · on Magnesium days vs. placebo days",
       groups:[{rows:[
         ["Sleep","15 min","longer","up","health",""],
-        ["Steps","40","about the same","same","health",""]]}]},
+        ["Steps","10","about the same","same","health",""]]}]},
     {t:"compare", l:"Symptom score", n:"primary outcome · one dot per block", tap:"Tap a block",
       a:{l:"Magnesium blocks", v:[4.3,3.8,4.2], d:["Days 1–3 + 60–63","Days 24–30","Days 42–48"]},
       b:{l:"Placebo blocks", v:[4.9,4.4,4.8,4.7], d:["Days 6–12","Days 15–21","Days 33–39","Days 51–57"]}},

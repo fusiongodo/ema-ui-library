@@ -4,7 +4,7 @@
    Fri 2 Oct, Fri 9 Oct, Sun 18 Oct, Sat 24 Oct, Fri 30 Oct (the last four in the Steps chart, health/steps).
    The two days after each (14 days) vs. the other 30 days (today and the event days themselves left out):
      In your check-ins   Fatigue 7.2 vs. 5.9 → 1.3 higher (likely) · Brain fog 4.6 vs. 4.0 → 0.6 higher (hint)
-     From your tracker   Steps 1,050 vs. 1,600 a day → 550 fewer (likely) · Resting heart rate 65 vs. 61 bpm → 4 bpm higher
+     From your tracker   Steps 300 vs. 460 a day → 160 fewer (likely) · Resting heart rate 65 vs. 61 bpm → 4 bpm higher
                          (hint) · Heart rate variability 36 vs. 42 ms → 6 ms lower (hint)
    Both groups are worse: the heads name the source instead of Better / Worse (the ring glyph of "worse" stays). */
 SCREENS.push({ id:"insights/pattern-exertion", area:"Insights", status:"idea", title:"Pattern · more active, then worse",
@@ -26,11 +26,11 @@ SCREENS.push({ id:"insights/pattern-exertion", area:"Insights", status:"idea", t
           ["Fatigue","1.3","higher","up","checkins","likely"],
           ["Brain fog","0.6","higher","up","checkins","hint"]]},
         {l:"From your tracker", worse:true, rows:[
-          ["Steps","550","fewer a day","down","health","likely"],
+          ["Steps","160","fewer a day","down","health","likely"],
           ["Resting heart rate","4 bpm","higher","up","health","hint"],
           ["Heart rate variability","6 ms","lower","down","health","hint"]]}]},
     {t:"note", l:"Seen 7 times. This goes along with the active days; it is not proof that they caused it."},
     {t:"more", l:"Details",
-      rows:[["Days above your usual","7"],["Days after","14"],["Other days","30"],["Fatigue","7.2 vs. 5.9"],["Brain fog","4.6 vs. 4.0"],["Steps a day","1,050 vs. 1,600"],["Resting heart rate","65 vs. 61 bpm"],["Heart rate variability","36 vs. 42 ms"]],
+      rows:[["Days above your usual","7"],["Days after","14"],["Other days","30"],["Fatigue","7.2 vs. 5.9"],["Brain fog","4.6 vs. 4.0"],["Steps a day","300 vs. 460"],["Resting heart rate","65 vs. 61 bpm"],["Heart rate variability","36 vs. 42 ms"]],
       n:"Method: a day counts as above your usual when its steps are higher than the middle half of the four weeks before it. The two days after each such day are compared with all other days of the last 8 weeks. One model looks at everything you track: scores from your check-ins; steps, heart rate and heart rate variability from Apple Health."},
   ]});

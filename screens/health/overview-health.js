@@ -21,7 +21,7 @@ SCREENS.push({ id:"checkins/overview-health", area:"Check-ins", status:"idea", t
     {t:"note", l:"good ━━━━ bad"},
     {t:"sec", l:"From Apple Health", r:"against your usual"},
     {t:"grid2", items:[
-      {t:"usual", l:"Steps", v:"2,100", sub:"today so far", word:"higher than your usual", mark:true, band:[1100,1700], go:"health/steps", series:HEALTH_STEPS},
+      {t:"usual", l:"Steps", v:"950", sub:"today so far", word:"higher than your usual", mark:true, band:[300,500], go:"health/steps", series:HEALTH_STEPS},
       {t:"usual", l:"Sleep", v:"7 h 10", sub:"last night", word:"as usual", band:[410,460],
         series:[436,421,398,404,447,452,428,415,433,441,458,432,397,388,426,449,437,402,419,455,434,412,446,393,410,438,429,430]},
       {t:"usual", l:"Resting heart rate", v:"61", sub:"bpm", word:"as usual", band:[58,63],
