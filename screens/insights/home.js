@@ -21,6 +21,10 @@ const INSIGHTS_ASK = {t:"tile", tone:"white", l:"Ask about your data", n:"Tap a 
 const INSIGHTS_TRIALS_SEC = {t:"sec", l:"Trials", act:"+ Add", go:"trials/intro"};
 const INSIGHTS_TRIALS = {t:"tile", tone:"white", l:"Find out if something really helps", n:"A blinded test against a placebo, with a helper.",
   chips:["Start a trial"], go:["trials/intro"]};
+/* Apple Health, offered once in the default tab (between the patterns and Ask); "Not now" leads to the state without it
+   (insights/home-no-health), "Connect" to the sheet (health/connect, flow "Apple Health"). Other states of the tab have none. */
+const INSIGHTS_HEALTH = {t:"tile", tone:"white", l:"Your tracker already knows more", n:"Steps, sleep and heart rate from Apple Health can show what comes before a bad day. Nothing to log.",
+  chips:["Connect Apple Health","Not now"], go:["health/connect","insights/home-no-health"]};
 /* the optional trial guide, a small entry under the trial card in every state of the tab (trials/guide) */
 const INSIGHTS_GUIDE = {t:"note", l:"New to trials? A two-minute guide ›", go:"trials/guide"};
 const INSIGHTS_CONCEPT = [
@@ -31,6 +35,7 @@ const INSIGHTS_CONCEPT = [
   "<b>Pin to Insights</b> turns an answer into a widget on this page, so every user's Insights tab becomes their own (insights/home-pinned).",
   "<b>Trials:</b> a personal placebo-controlled test (N-of-1, see BACKLOG). Started here, from a pattern ('Run a trial' on the evidence screen) or from a protocol's detail screen; all open trials/intro (flow 'Personal trial'), as does '+ Add' on the Trials heading in every state of the tab; the start tile stands only while no trial exists. A quiet line under the trial card opens the optional two-minute guide (trials/guide) in every state of the tab. While a trial runs, its card takes this place (insights/home-trial); when it is over, the result card (insights/home-result).",
   "<b>Placeholders:</b> the first and the third pattern and all three questions have their own screen; the second pattern has none yet. 'Ask by voice' opens the listening layer.",
+  "<b>Apple Health</b> is offered once, at the moment it first helps, not in onboarding: a white card, not tinted, because nothing is demanded (PRINCIPLES 8). 'Not now' removes the card (insights/home-no-health); it comes back in the Check-ins settings (not drawn).",
   "<b>Colour:</b> the page is the Insights world (lilac rosé); a pattern's icon is Insights' own, its tile wears the world of its source (Protocols periwinkle, PRINCIPLES 9), so a finding about a protocol no longer looks like a Protocols item but still says where it comes from. No tinted card here: nothing on this page wants something from the user right now (PRINCIPLES 8)."
 ];
 SCREENS.push({ id:"insights/home", area:"Insights", status:"idea", title:"Insights · patterns, ask, trials",
@@ -41,6 +46,7 @@ SCREENS.push({ id:"insights/home", area:"Insights", status:"idea", title:"Insigh
     {t:"head", l:"Insights"},
     {t:"sec", l:"Patterns", r:"found in your data"},
     ...INSIGHTS_PATTERNS,
+    INSIGHTS_HEALTH,
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
     INSIGHTS_TRIALS_SEC,

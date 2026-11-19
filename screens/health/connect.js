@@ -1,4 +1,4 @@
-/* Connect Apple Health: one sheet, four measures, all ticked. Opened from the card on insights/home-health. */
+/* Connect Apple Health: one sheet, four measures, all ticked. Opened from the Apple Health card on insights/home. */
 SCREENS.push({ id:"health/connect", area:"Insights", status:"idea", title:"Apple Health · connect",
   sheet:true,
   why:"One sheet: what the app may read, what it is used for, where it stays. Four measures, all ticked by default; Continue hands over to Apple's own permission sheet.",

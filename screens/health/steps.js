@@ -1,5 +1,5 @@
 /* Steps, opened from the Steps tile (checkins/overview-health) and from Today's line (today/home-health). Four weeks,
-   7 Oct … today 3 Nov, HEALTH_STEPS (home-health.js); usual 1,800 to 2,800 a day; no data on 15 and 27 Oct. */
+   7 Oct … today 3 Nov, HEALTH_STEPS (shared.js); usual 1,800 to 2,800 a day; no data on 15 and 27 Oct. */
 SCREENS.push({ id:"health/steps", area:"Check-ins", status:"idea", title:"Steps · four weeks against your usual",
   tabs:"idea", tab:"Check-ins", tabto:HEALTH_TABTO,
   why:"A detail view like a score: four weeks, the band of your usual, gaps as gaps. Above the band is marked, below is not.",

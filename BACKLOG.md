@@ -1,5 +1,7 @@
 # Backlog
 
+**Done items are collected in `DONE.md`** (what was asked for and built, by area, with dates; for the presentation).
+
 ## Where we are (17 Nov 2026)
 
 **Clickable in the prototype**
@@ -194,7 +196,7 @@ Feeds Patterns without any logging effort: steps above the personal usual → fa
 **Privacy.** Only ticked measures are read; everything stays on the phone until the "Together" step exists, and then only with explicit consent.
 
 ### Drawn (19 Nov 2026, not yet judged by Alex)
-Flow "Apple Health" in the prototype, start `insights/home-health`: connect card and sheet (`health/connect`), the Insights tab after connecting with the crash pattern (`insights/home-health-on`, `insights/pattern-exertion`: check-ins and tracker data on one page), the group in Check-ins (`checkins/overview-health`) and the Steps detail (`health/steps`), three Today lines (`today/home-health`, `today/home-trial-nudge`, `today/home-trial-week`), days worn on `trials/running`, a Health card on `trials/result`. New widgets `usual`, `usualchart`, `brief`. Open: only Steps has a detail page; the switch 4 weeks / 3 months / 1 year is drawn but does nothing; the × on the Today line does nothing; Apple's own permission sheet is not drawn; the flow map has 107 screens because it follows every link.
+Flow "Apple Health" in the prototype, start `insights/home` (the connect card sits on the normal Insights tab; "Not now" leads to `insights/home-no-health`): connect card and sheet (`health/connect`), the Insights tab after connecting with the crash pattern (`insights/home-health-on`, `insights/pattern-exertion`: check-ins and tracker data on one page), the group in Check-ins (`checkins/overview-health`) and the Steps detail (`health/steps`), three Today lines (`today/home-health`, `today/home-trial-nudge`, `today/home-trial-week`), days worn on `trials/running`, a Health card on `trials/result`. New widgets `usual`, `usualchart`, `brief`. Open: only Steps has a detail page; the switch 4 weeks / 3 months / 1 year is drawn but does nothing; the × on the Today line does nothing; Apple's own permission sheet is not drawn; the flow map has 107 screens because it follows every link.
 
 ### Alex's verdict (19 Nov 2026)
 - **One model, not two.** The crash is visible in the scores as well as in the tracker data, so crash detection takes all data. Agreed by both; now written into job 2.
@@ -215,8 +217,12 @@ The tracker measures exertion well, but it is not the only way. Ideas he threw i
 ## Trial: how well it is kept, and a gentle heads-up (Alex, 19 Nov 2026)
 While a trial runs, check-ins (and the tracker) can be filled in too rarely. There must be a criterion; it could be set in the trial setup (which adherence one wants to reach). If the person falls below it: a heads-up, careful and never pushy, that can be ignored and swiped away or opened. Framed as "about your trial: what we noticed", with what could be done better or a small piece of information about the trial, nothing boring. **Only when needed:** if the person keeps to everything, the trial stays silent in the background. Milestones may speak ("week 2 done"). Tone matters doubly with this illness: no word that sounds like "try harder".
 
+**Refined (Alex, 19 Nov 2026, later the same day):** the criterion follows what was chosen in the trial setup. The scores (and Health measures, questionnaires) picked there are the ones the app reminds about, very carefully; they are the ones that are best tracked consistently. The setup says so where they are chosen: a small sign with an explanation. The explanation also says that other scores are still evaluated afterwards, but the app does not remind about them. Drawn: a line with a bell on step 2 (`trials/measure`) and the explanation `trials/term-reminders`. Still open: how often is "missed often", and whether the person sets it.
+
 ## Today is the reception (Alex, 19 Nov 2026)
 Everything else is the back office; Today is what a good personal assistant who manages it all would tell you: not the details, only what you need or profit from most, with emotional intelligence and knowing the person. So Today carries a short briefing (a heads-up line or a careful banner, dismissible), and stays quiet when nothing is due. Examples: more active than your usual today; about your trial; a milestone.
+
+**Scores as a fold (Alex, 19 Nov 2026):** "Scores · 7 days" threw four rows in the face, and there can be more scores. It becomes a fold like Morning / Noon in Protocols: a heading row that opens and closes, open by default so the page does not look empty. An emptier Today is fine; it fills up over time. Drawn: `today/home`, `today/home-scores-closed`.
 
 Later idea: Today is modular and the agent asks after a while "Does the Today page annoy you? Shall we trim it? Just say it", then changes it.
 
@@ -265,6 +271,15 @@ Seeds:
 - A really beautiful sky as a background picture: he wants to pick reference graphics himself first.
 - Icons he is unsure about: the capsule on the pattern cards (being replaced by an Insights icon in the source area's colour) and the flask on the Trials tile (left as it is for now).
 - No visible scrollbar inside the phone in the prototype (done).
+
+## Design: a theory of our own from comparable apps (Alex, 19 Nov 2026)
+Belongs to the design area (clay tiles, Icon Lab, backgrounds). Analyse the design of other, comparable apps; find out what we like; from that develop a kind of theory of our design requirements, the ones that resonate with Alex as project manager; then apply these principles ourselves. Order: collect and look (with him, since resonance is his call), name what works and why, write it down as principles, only then draw. Not started.
+
+## Play: games from other platforms instead of building them all (Alex, 19 Nov 2026)
+For the games section (cognitive benchmarks): we do not have to build every game in our app.
+- **Roblox:** if someone builds a game there that really challenges (concentrate, jump, time it: a good brain fog and endurance benchmark), the person could connect their Roblox account and simply play in Roblox; or the Play section holds a link, a tap opens the game in Roblox. The results come back into the app. "Falls Roblox sowas bietet, wäre das sehr geil."
+- **Other platforms:** check which games and platforms offer an interface so that results land in the app directly.
+- **Needs a broad search:** which game platforms would be good partners (account linking, reading scores, deep links into one game, terms for health use, children on Roblox). Not researched yet; nothing here is verified.
 
 ## Design work that is not SVG: backgrounds, pictures, avatars (Alex, 19 Nov 2026)
 When the icons are taken up again with Blender or another program (the clay look, see the Icon Lab below), a second, separate piece of design work belongs next to it: **really beautiful backgrounds.** His example: at a certain time of day an orange and pink evening sky, not a sunset as a motif, just the clouds and the sky, running in a gradient into a slightly beige white. More of the same kind is needed: backgrounds, pictures, avatars; "a lot of design work that is not SVG".

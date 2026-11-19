@@ -24,6 +24,8 @@ const TRIAL_TERMS = {
     "After a switch, the earlier kind can still act. So washout days come before each block: taken like any other day, but not compared."],
   primary: ["Primary outcome", "primary",
     "Fixed before the start, it decides the result. Choose it afterwards and you'd pick whichever score looks best by chance."],
+  reminders: ["Gentle reminders", "reminders",
+    "The scores you choose here count most when they are logged every day. If one is missed often, the app tells you once, quietly."],
   composite: ["Composite score", "composite",
     "Your scores averaged into one number a day, higher always meaning worse. One result for how you were overall."],
 };
@@ -53,3 +55,10 @@ SCREENS.push(trialTerm("primary", ...TRIAL_TERMS.primary,
 SCREENS.push(trialTerm("composite", ...TRIAL_TERMS.composite,
   "From the (i) beside 'Composite score' on trials/measure. Three scores (6, 3, 5) become one symptom score (4.7).",
   ["<b>Aligned first:</b> a score where higher is better (sleep quality) is turned around before averaging, so the composite always reads 'higher = worse'."]));
+/* the bell line under the chosen scores on trials/measure; the second sentence as a note under the card */
+const TERM_REMINDERS = trialTerm("reminders", ...TRIAL_TERMS.reminders,
+  "From the (i) after the bell line on trials/measure. One week as seven dots: five logged, two missed, a small bell over each missed day.",
+  ["<b>Only what was chosen gets reminders,</b> and only when it is missed often: one quiet hint, never a streak.",
+   "<b>Nothing else is lost:</b> the line under the card says that everything else is still looked at afterwards."]);
+TERM_REMINDERS.w.push({t:"note", l:"Everything else you log is still looked at afterwards. The app just does not remind you about it."});
+SCREENS.push(TERM_REMINDERS);

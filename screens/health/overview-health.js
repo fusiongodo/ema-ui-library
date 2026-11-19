@@ -1,5 +1,5 @@
 /* Check-ins with Apple Health connected: checkins/overview-next as it is, plus the group "From Apple Health" under the scale
-   note. Series 7 Oct … today 3 Nov (index 0 = 7 Oct). Steps: HEALTH_STEPS (home-health.js). The watch was not worn on 15 and
+   note. Series 7 Oct … today 3 Nov (index 0 = 7 Oct). Steps: HEALTH_STEPS (shared.js). The watch was not worn on 15 and
    27 Oct (index 8, 20): no data for every measure it records that day; sleep also none last night.
    Resting heart rate and HRV: slightly higher / lower on the two days after 9, 18, 24, 30 Oct (index 3–4, 12–13, 18–19, 24–25). */
 SCREENS.push({ id:"checkins/overview-health", area:"Check-ins", status:"idea", title:"Check-ins · with Apple Health",
