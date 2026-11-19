@@ -67,3 +67,6 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 ## How we work
 - **19 Nov** · Claude writes concept and every detail; Opus agents only build. While a direction is open, the plan is named first.
 - **19 Nov** · This file.
+
+## Research
+- **19 Nov** · Play: which game platforms give results back, which cognitive tasks fit, what iOS allows for games (`research/play-games.md`).
