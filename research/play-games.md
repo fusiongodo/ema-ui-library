@@ -85,6 +85,14 @@ Three layers, in this order:
 
 Roblox only as our own game, and only after the question of children and health data is answered. Not now.
 
+## Alex's verdict (19 Nov 2026) and what changes
+- **Roblox is in.** His brother has built a Roblox game that is really good; we do have a game of our own there. Claude's condition for it: the Roblox side only ever sees a pairing code, never health data; results travel from the game to our server to the app. That needs a small server, which the app does not have yet.
+- **The agent is the interface, not a wall of links.** Nobody wants to see 20 links. The agent says: we have many games that work with the evaluation, which one do you want to sign in to? Then tiles. If signing in on a website is too much work, take one of the games that are in the app.
+- **"Mainly speed and reaction time" is wrong from the inside.** He knows it as a patient: associations are worse, general creativity has dropped extremely, working memory is lower. Claude's reading of the papers after this: they say speed is what is measured most consistently, not that it is the only loss; memory and attention are in the same meta-analysis, and creativity and association are hardly ever tested, which is a gap in the research, not a finding. Consequence: the set needs tasks for working memory (span, n-back) and for association and fluency. Candidates from Claude's memory, not checked: verbal fluency (as many words of one kind as possible in 60 seconds, spoken, fits the voice agent) and the Divergent Association Task (ten words as unrelated as possible, scored by distance in meaning).
+- **Brain training does count as a measure.** His argument: even while one is still getting better, a crash shows as a dip against last week, and in one week there is little learning. Played longer, the learning curve flattens; the app can say that some games need a while before they give good data. Claude agrees with this and withdraws "puzzles are only activity": it is the same stance as Apple Health, the value against your own usual. What stays necessary: tasks are randomised and never repeat, the difficulty is fixed or the reached level is the score, and the slow learning trend is taken out before a dip is called a dip.
+- **Crash warning.** Everyone stays within their limit. Not playing is a data point too: too weak to play is one thing, no desire is another, so a skip should be able to say which.
+- **Web games must feel native.** No browser frame; embedded as if they were part of the app. Technically possible (a web view without any chrome, full screen); runners and slingshot games run fine in the browser today.
+
 ## Open
 - Which of the four tasks first, and how the Play section shows "measure" next to "play".
 - Whether a rating from Lichess or a typing speed is trusted as a measure (it also changes with training and opponents).
