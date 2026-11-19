@@ -145,3 +145,16 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - The rotation reaches its full speed by 5.6 and the observer's move ends at 6.0, so the turn is complete before the broadcast.
 
 **Round 5 is built and published (19 Nov 2026), not judged yet.** 15.0 s. The first star: calm, about 14 px across with a soft warm glow for the first two seconds, then a little larger and brighter than the rest until it rises. Giving 4.4 to 6.2, rays to all 6.2 to 6.6, signals arrive 7.46 to 7.89, rise from 7.85, rain from 9.0, ring from 10.8, wordmark from 13.8. Known: from about 3 s on the first star is only slightly distinct from the brightest stars near it.
+
+## Feedback, round 5 (Alex, 19 Nov 2026, late)
+
+- **From the single star through the pull-back to the cloud everything is right, kinematically.** ("alles top")
+- Same stars, same mapping, same camera path; only the timing changes: **the giving should start at 2.9 s**, the same rays in somewhat faster succession.
+- **The centre should light up and grow before the rays to all and the broadcast begin.**
+
+### What Claude changes for round 6 (Claude's decisions, to be judged)
+- Giving from 2.9 s, one giver every 0.11 s instead of 0.1375; the signals arrive between 3.6 and 4.5. The eight other givers light up earlier than before so each is lit when its ray appears.
+- The centre grows from 4.0 to 5.0 and holds its peak; the first ray to a star appears at 5.01, not before.
+- Everything from the broadcast on moves 1.2 s earlier, unchanged in itself. The draft is 13.8 s long.
+
+**Round 6 is built and published (19 Nov 2026), not judged yet.** 13.8 s. Camera identical to round 5 until 6.6 s, all star positions identical until 6.6 s. Giving 2.9 to 4.5, centre grows 4.0 to 5.0, rays to all 5.01 to 5.44, signals leave 5.5 to 5.8 and arrive 6.26 to 6.69, rise from 6.65, rain from 7.8, ring from 9.6, wordmark from 12.6. The centre now fades in with the first arrival instead of jumping on. **Known, a consequence of his three wishes together:** at 2.9 to 3.5 the picture is still zoomed in, so five of the eight other givers (144, 67, 351, 301, 273) are outside the frame when they give; their rays and signals come in from beyond the edge. With the same stars and the same camera every giver is in the frame only from a start at about 4.2 s; a start at 2.9 with every giver visible needs other stars.

@@ -46,7 +46,7 @@ body{overflow-x:hidden}
       <button class="btn icon" id="play" aria-label="Abspielen">
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path id="playIcon" fill="currentColor" d="M2 1l9 5-9 5z"/></svg>
       </button>
-      <input type="range" id="scrub" min="0" max="15" step="0.01" value="0" aria-label="Zeit">
+      <input type="range" id="scrub" min="0" max="13.8" step="0.01" value="0" aria-label="Zeit">
       <span class="time" id="time">0.0 s</span>
     </div>
     <div class="row2">
@@ -61,7 +61,7 @@ body{overflow-x:hidden}
 (function(){
 'use strict';
 // ---------------------------------------------------------------- constants
-var T_END = 15;   // recomputed from R0 below
+var T_END = 13.8;   // recomputed from R0 below
 var N = 600;
 var R = 10;
 var ASPECT = 390 / 844;
@@ -77,8 +77,8 @@ var COL_WARM = hex('#FFD27A'), COL_CHARGED = hex('#FFF1C9'),
 var BG = hex('#0B1120');
 
 var STEPS = [
-  [0.0,'Ein Stern'],[1.5,'Mehr und mehr'],[3.5,'Eine Wolke im Raum'],[4.4,'Einige geben'],
-  [6.2,'Das Zentrum antwortet'],[7.5,'Alle leuchten']
+  [0.0,'Ein Stern'],[1.5,'Mehr und mehr'],[2.9,'Einige geben'],[4.0,'Das Zentrum w\u00e4chst'],
+  [5.0,'Das Zentrum antwortet'],[6.3,'Alle leuchten']
 ];  // the later steps are appended once the rain / ring times are known (see T_FALL0, R0)
 
 function hex(h){ var n = parseInt(h.slice(1),16); return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]; }
@@ -120,9 +120,9 @@ for (var i = 0; i < N; i++){
 }
 
 // orbit angle = integral of the spin rate; rate: 0 -> 1 (smootherstep 2.8..5.6: the turn is complete before the
-// giving), 1 -> 0 (smootherstep 8.4..10.1, while the stars already rise: they spiral upward, the last turn dies as
+// giving), 1 -> 0 (smootherstep 7.2..8.9, while the stars already rise: they spiral upward, the last turn dies as
 // the last stars reach the line). SPIN_DIR: the cloud's own turn matches the apparent turn from the camera moving right.
-var SPIN_DIR = -1, SPIN_T1 = 8.4, SPIN_T2 = 10.1, SP0 = 2.8, SP1 = 5.6;
+var SPIN_DIR = -1, SPIN_T1 = 7.2, SPIN_T2 = 8.9, SP0 = 2.8, SP1 = 5.6;
 function spinA(t){
   var U = SP1 - SP0, D = SPIN_T2 - SPIN_T1;
   var up = t <= SP0 ? 0 : t < SP1 ? U * ssI((t - SP0) / U) : U / 2 + (t - SP1);
@@ -146,8 +146,8 @@ function cloudPos(i, A, dz, out){
 // ---------------------------------------------------------------- camera
 // W(t): one eased curve in log space, 0.6 .. 6.0
 function camW(t){ return W0 * Math.pow(W_END / W0, eIO(seg(t, 0.6, 6.0))); }
-// the switch: one smootherstep over 7.85..9.4 for angles, fov and depth
-var SW_T1 = 7.85, SW_T2 = 9.4;
+// the switch: one smootherstep over 6.65..8.2 for angles, fov and depth
+var SW_T1 = 6.65, SW_T2 = 8.2;
 function swU(t){ return ss(seg(t, SW_T1, SW_T2)); }
 function camFov(t){
   if (t < SW_T1) return 8 + 34 * eIO(seg(t, 2.8, 5.3));
@@ -178,7 +178,7 @@ for (i = 1; i < N; i++){
 }
 
 // ---------------------------------------------------------------- givers (step 4)
-var GIVE_GAP = 0.1375, GIVE_T0 = 4.4, SPARK_DUR = 0.7;
+var GIVE_GAP = 0.11, GIVE_T0 = 2.9, SPARK_DUR = 0.7;
 var givers = [0], givers0 = [0];
 var HERO_B = 1.15 * (function(){ var m = 0; for (var j = 1; j < N; j++) m = Math.max(m, S[j].bright); return m; })();
 // camera at time t (shared by render and the giver check)
@@ -218,14 +218,18 @@ function onScreen(j, t, lim){   // live cloud position at t (stars orbit until t
     // take the next candidate of the sector that is (deterministic)
     var k0 = Math.floor(rand() * cand.length), tg = GIVE_T0 + givers.length * GIVE_GAP, pick = cand[k0];
     givers0.push(pick);
-    for (var m = 0; m < cand.length; m++){
-      var jj = cand[(k0 + m) % cand.length];
-      if (S[jj].fade + 0.5 <= tg && onScreen(jj, tg, 0.9)){ pick = jj; break; }
-    }
-    givers.push(pick);
+    givers.push(pick);   // the list stays as approved (0, 144, 67, 351, 301, 273, 344, 322, 107); no fallback
   });
 })();
 givers.forEach(function(g, k){ S[g].give = GIVE_T0 + k * GIVE_GAP; });
+// a giver is fully lit 0.3 s before it gives (its ray starts 0.15 s before): move only its fade-in earlier,
+// same 0.5 s duration, never before 1.2 s (the hero stays alone until then)
+var fadeMoved = [];
+givers.forEach(function(g){
+  if (g === 0) return;
+  var latest = S[g].give - 0.3 - 0.5;
+  if (S[g].fade > latest){ var nf = Math.max(1.2, latest); fadeMoved.push([g, +(S[g].fade - nf).toFixed(3)]); S[g].fade = nf; }
+});
 
 // ---------------------------------------------------------------- resting cloud (orbit angle after the spin has stopped) + chart slots
 var A_F = spinA(SPIN_T2);
@@ -235,7 +239,7 @@ function sy(f){ return (0.5 - f) * H_W; }      // stage y (fraction from top) ->
 var Y_TOP = sy(0.14), Y_BASE = sy(0.78);
 var PITCH = 2 * W_END / 68;                     // dot diameter in world units
 var LEAVE_SPREAD = 0.5;   // short: with arrivals spread over 0.7 s, at most ~270 stars sit on the line at once
-var RISE_T0 = 7.85, RISE_STAG = 0.7, RISE_DUR = 1.1;
+var RISE_T0 = 6.65, RISE_STAG = 0.7, RISE_DUR = 1.1;
 function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the rise picks up sooner
 
 (function(){
@@ -314,8 +318,8 @@ function ringRot(t){
 // ray fades in at rayOn, the signal leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
 for (i = 0; i < N; i++){
   var sI = S[i];
-  sI.rayOn = 6.15 + 0.3 * (sI.r / R) + 0.2 * rand();
-  sI.dep = 6.7 + 0.3 * rand();
+  sI.rayOn = 4.95 + 0.3 * (sI.r / R) + 0.2 * rand();
+  sI.dep = 5.5 + 0.3 * rand();
   sI.arr = sI.dep + 0.75 + 0.15 * rand();
 }
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
@@ -555,22 +559,23 @@ function render(t){
   giveRays.visible = anyGive;
   gg.attributes.position.needsUpdate = true; gg.attributes.color.needsUpdate = true;
 
-  // centre glow: gradual brightening per arrival, a swell to a small climax (5.7..6.8, overlapping the last
-  // arrivals, whose pulses ride on top), dims while the light leaves (6.8..7.7), rests, fades out 7.85..8.6
+  // centre glow: gradual brightening per arrival, a swell to a small climax (4.0..5.0, overlapping the last
+  // arrivals, whose pulses ride on top), holds 5.0..5.6, dims while the light leaves (5.6..6.5), fades out 6.65..7.4
   var gb = 0, gp = 0;
   for (g = 0; g < NG; g++){
     var ta = S[givers[g]].give + SPARK_DUR;
-    if (t >= ta){ gb += 0.1; gp += Math.exp(-(t - ta) / 0.14); }
+    // the centre's first appearance fades in over 0.25 s with the first arrival (no pop)
+    if (t >= ta){ var wA = g === 0 ? ss(seg(t, ta, ta + 0.25)) : 1; gb += 0.1 * wA; gp += Math.exp(-(t - ta) / 0.14) * wA; }
   }
   var gsz = 44;
-  var sw = eIO(seg(t, 5.7, 6.8));
+  var sw = eIO(seg(t, 4.0, 5.0));                 // climax first: swell 4.0..5.0, hold 5.0..5.6
   gsz = lerp(gsz, 70, sw); gb = lerp(gb, 1.15, sw);
-  if (t >= 6.8){
-    var dm = eIO(seg(t, 6.8, 7.7));
+  if (t >= 5.6){
+    var dm = eIO(seg(t, 5.6, 6.5));               // dims while the light leaves
     gsz = lerp(70, 44, dm); gb = lerp(1.15, 0.3, dm);
   }
   gsz += 44 * 0.18 * gp; gb += 0.12 * gp;
-  gb *= 1 - eIO(seg(t, 7.85, 8.6));
+  gb *= 1 - eIO(seg(t, 6.65, 7.4));
   pPos[I_GLOW*3] = 0; pPos[I_GLOW*3+1] = 0; pPos[I_GLOW*3+2] = 0;
   pSize[I_GLOW] = gsz; pBright[I_GLOW] = gb; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
 
@@ -595,8 +600,8 @@ function render(t){
   rg.attributes.position.needsUpdate = true; rg.attributes.color.needsUpdate = true;
 
   // chart lines
-  var cp = eIO(seg(t, 8.1, 9.2));
-  chart.visible = t >= 8.1 && t < R0 + 0.6;
+  var cp = eIO(seg(t, 6.9, 8.0));
+  chart.visible = t >= 6.9 && t < R0 + 0.6;
   chart.material.opacity = 0.45 * (1 - seg(t, R0, R0 + 0.6));
   var half = 0.84 * cp;
   var L = [
@@ -699,7 +704,7 @@ function seek(t){
 }
 window.seek = seek;
 window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
-  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, T_END: T_END, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0 };
+  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, T_END: T_END, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
 again.addEventListener('click', function(){ play(0); });
