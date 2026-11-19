@@ -2,6 +2,10 @@
 
 Quick access to everything about the intro animation for MEjority: what Alex liked, what he rejected, what is open. Updated 19 Nov 2026.
 
+## Current direction: "The cloud"
+
+On 19 Nov 2026 Alex described his own picture: one faint star, pulling back to many, the flat picture gains depth and turns out to be a rotating cloud around one centre, a few stars send something in, the centre answers all at the same instant, the charged stars jump to a line at the top, fall like rain, two bell curves grow from the ground, the points become a turning circle, hands, "MEjority". The full sequence is in **`script-cloud.md`**. It builds on what he liked below.
+
 ## What Alex likes, in his order
 
 1. **First sketch "One dot each"** → `sketches/one-dot-each.png`. His favourite so far. One dot, then stars everywhere, then the lines to a centre, then the curve (real rising above placebo), then the burst of light back to all, then day. "Die Geschichte richtig geil."
