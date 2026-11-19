@@ -158,3 +158,20 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - Everything from the broadcast on moves 1.2 s earlier, unchanged in itself. The draft is 13.8 s long.
 
 **Round 6 is built and published (19 Nov 2026), not judged yet.** 13.8 s. Camera identical to round 5 until 6.6 s, all star positions identical until 6.6 s. Giving 2.9 to 4.5, centre grows 4.0 to 5.0, rays to all 5.01 to 5.44, signals leave 5.5 to 5.8 and arrive 6.26 to 6.69, rise from 6.65, rain from 7.8, ring from 9.6, wordmark from 12.6. The centre now fades in with the first arrival instead of jumping on. **Known, a consequence of his three wishes together:** at 2.9 to 3.5 the picture is still zoomed in, so five of the eight other givers (144, 67, 351, 301, 273) are outside the frame when they give; their rays and signals come in from beyond the edge. With the same stars and the same camera every giver is in the frame only from a start at about 4.2 s; a start at 2.9 with every giver visible needs other stars.
+
+## Feedback, round 6 (Alex, 19 Nov 2026, night)
+
+"Ganz kleine störende Details." The timing stays as it is.
+- **The first star should not give.** It disturbs him; he cannot say why.
+- **The packages from the outer stars to the centre** are too tiny. The ray is fine; the package itself should be a little thicker, more luminous and have a trail.
+- **What goes from the centre outwards** should not be such hard discrete dots.
+- **The centre should swell larger** before it sends the rays out.
+- (The givers outside the frame at 2.9 to 3.5 s were not mentioned.)
+
+### What Claude changes for round 7 (Claude's decisions, to be judged)
+- Eight givers instead of nine (144, 67, 351, 301, 273, 344, 322, 107), same order, same span 2.9 to 3.78.
+- Each package is a small comet: a warm glowing head (size 11 instead of 5) with a continuous tapering tail of about 0.14 s of travel.
+- The broadcast is a streak of light running along each ray, bright at the head and fading to the tail, with only a soft glint at the head. Inside the inner 45 % of a ray the streak stays dark, otherwise 600 streaks add up to a white burst at the centre.
+- The centre swells to size 100 instead of 70, with a soft warm halo, and keeps drifting to 104 until 5.6 so it never freezes. The growth is warm glow, not a larger white disc.
+
+**Round 7 is built and published (19 Nov 2026), not judged yet.** 13.8 s, camera, star positions and all times as in round 6. Measured: the visible glow of the centre at 5.0 is 1.46 times as wide as in round 6, its white core unchanged; white pixels around the centre during the broadcast (5.7 to 6.2) are at most 1.1 times round 6. Known: the first version of the streaks (round 7 before the fix) was a white star-burst around 6.0, the "explosion" he rejected in round 1; it took three steps to remove (darker inner zone, warmer and dimmer streaks, shorter streaks 0.16). In stills the larger centre is a modest change; the thin rays still converge into a white core about 25 px across.

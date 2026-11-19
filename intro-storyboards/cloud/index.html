@@ -178,7 +178,7 @@ for (i = 1; i < N; i++){
 }
 
 // ---------------------------------------------------------------- givers (step 4)
-var GIVE_GAP = 0.11, GIVE_T0 = 2.9, SPARK_DUR = 0.7;
+var GIVE_GAP = 0.88 / 7, GIVE_T0 = 2.9, SPARK_DUR = 0.7;
 var givers = [0], givers0 = [0];
 var HERO_B = 1.15 * (function(){ var m = 0; for (var j = 1; j < N; j++) m = Math.max(m, S[j].bright); return m; })();
 // camera at time t (shared by render and the giver check)
@@ -221,6 +221,7 @@ function onScreen(j, t, lim){   // live cloud position at t (stars orbit until t
     givers.push(pick);   // the list stays as approved (0, 144, 67, 351, 301, 273, 344, 322, 107); no fallback
   });
 })();
+givers = givers.slice(1);   // the first star (hero) does not give; the eight others keep their order and span
 givers.forEach(function(g, k){ S[g].give = GIVE_T0 + k * GIVE_GAP; });
 // a giver is fully lit 0.3 s before it gives (its ray starts 0.15 s before): move only its fade-in earlier,
 // same 0.5 s duration, never before 1.2 s (the hero stays alone until then)
@@ -373,39 +374,41 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(8, ASPECT, 0.05, 5000);
 
 var NG = givers.length;
-var NP = N + NG + 1 + N + 1;        // stars, giver signals, centre glow, answer signals, hero glow
-var I_MINI = N, I_GLOW = N + NG, I_HEAD = N + NG + 1, I_HALO = N + NG + 1 + N;
+var TRAIL_K = 80, PK = TRAIL_K + 1;  // per package: head + TRAIL_K trail points
+var NP = N + NG*PK + 1 + N + 1 + 1;  // stars, packages, centre glow, answer glints, hero glow, centre halo
+var I_MINI = N, I_GLOW = N + NG*PK, I_HEAD = I_GLOW + 1, I_HALO = I_HEAD + N, I_CHALO = I_HALO + 1;
 var pPos = new Float32Array(NP*3), pSize = new Float32Array(NP), pBright = new Float32Array(NP),
-    pCol = new Float32Array(NP*3), pSq = new Float32Array(NP);
+    pCol = new Float32Array(NP*3), pSq = new Float32Array(NP), pSh = new Float32Array(NP).fill(1);
 var pg = new THREE.BufferGeometry();
 pg.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
 pg.setAttribute('aSize', new THREE.BufferAttribute(pSize, 1));
 pg.setAttribute('aBright', new THREE.BufferAttribute(pBright, 1));
 pg.setAttribute('aColor', new THREE.BufferAttribute(pCol, 3));
 pg.setAttribute('aSquash', new THREE.BufferAttribute(pSq, 1));
+pg.setAttribute('aSharp', new THREE.BufferAttribute(pSh, 1));   // core falloff factor (1 = as before)
 var pMat = new THREE.ShaderMaterial({
   uniforms: { uScale: { value: 1 }, uRef: { value: 1 }, uDepth: { value: 0 } },
   vertexShader: [
-    'attribute float aSize; attribute float aBright; attribute vec3 aColor; attribute float aSquash;',
+    'attribute float aSize; attribute float aBright; attribute vec3 aColor; attribute float aSquash; attribute float aSharp;',
     'uniform float uScale; uniform float uRef; uniform float uDepth;',
-    'varying vec3 vCol; varying float vSq;',
+    'varying vec3 vCol; varying float vSq; varying float vSh;',
     'void main(){',
     '  vec4 mv = modelViewMatrix * vec4(position, 1.0);',
     '  float k = clamp(uRef / max(-mv.z, 0.001), 0.3, 3.0);',
     '  float ks = pow(k, 2.0 * uDepth);',
     '  gl_PointSize = aSize * uScale * ks;',
     '  vCol = aColor * aBright * pow(k, 1.2 * uDepth);',
-    '  vSq = aSquash;',
+    '  vSq = aSquash; vSh = aSharp;',
     '  gl_Position = projectionMatrix * mv;',
     '}'].join('\n'),
   fragmentShader: [
-    'varying vec3 vCol; varying float vSq;',
+    'varying vec3 vCol; varying float vSq; varying float vSh;',
     'void main(){',
     '  vec2 p = gl_PointCoord * 2.0 - 1.0;',
     '  p.x /= (1.0 + vSq); p.y /= (1.0 - vSq);',
     '  float d2 = dot(p, p);',
     '  if (d2 > 1.0) discard;',
-    '  float core = exp(-d2 * 22.0);',
+    '  float core = exp(-d2 * 22.0 * vSh);',
     '  float halo = exp(-d2 * 5.0) * 0.16 * (1.0 - d2);',
     '  gl_FragColor = vec4(vCol * (core + halo), 1.0);',
     '}'].join('\n'),
@@ -427,12 +430,27 @@ rg.setAttribute('color', new THREE.BufferAttribute(rCol, 3));
 // origin end dimmer than the head end, so 600 lines do not burn the centre white
 for (i = 0; i < N*2; i++){ var rf = i % 2 ? 1 : 0.18; rCol[i*3] = COL_CHARGED[0]*rf; rCol[i*3+1] = COL_CHARGED[1]*rf; rCol[i*3+2] = COL_CHARGED[2]*rf; }
 var rays = new THREE.LineSegments(rg, lineMat(0.10)); rays.frustumCulled = false; scene.add(rays);
+// outbound streaks: one short line per ray, bright at the head, fading to 0 at the tail
+var STREAK_SEG = 4, STREAK_LEN = 0.16, STREAK_B = 0.5;   // each streak in 4 pieces, so the distance factor acts along it
+var STREAK_HEAD_COL = [0,0,0]; mixColStatic(COL_WARM, COL_CHARGED, 0.25, STREAK_HEAD_COL);
+var bPos = new Float32Array(N*STREAK_SEG*6), bCol = new Float32Array(N*STREAK_SEG*6);
+var bgm = new THREE.BufferGeometry();
+bgm.setAttribute('position', new THREE.BufferAttribute(bPos, 3));
+bgm.setAttribute('color', new THREE.BufferAttribute(bCol, 3));
+var streaks = new THREE.LineSegments(bgm, lineMat(1)); streaks.frustumCulled = false; scene.add(streaks);
 // giver rays: one thin warm line per giver, fade baked into the vertex colours
 var gPos = new Float32Array(NG*6), gCol = new Float32Array(NG*6);
 var gg = new THREE.BufferGeometry();
 gg.setAttribute('position', new THREE.BufferAttribute(gPos, 3));
 gg.setAttribute('color', new THREE.BufferAttribute(gCol, 3));
 var giveRays = new THREE.LineSegments(gg, lineMat(1)); giveRays.frustumCulled = false; scene.add(giveRays);
+// package trails: a 1 px bright spine through the trail points, so the tail reads as one continuous line
+var tPos = new Float32Array(NG*TRAIL_K*6), tCol = new Float32Array(NG*TRAIL_K*6);
+var tgm = new THREE.BufferGeometry();
+tgm.setAttribute('position', new THREE.BufferAttribute(tPos, 3));
+tgm.setAttribute('color', new THREE.BufferAttribute(tCol, 3));
+var trails = new THREE.LineSegments(tgm, lineMat(1)); trails.frustumCulled = false; scene.add(trails);
+var TRAIL_T = 0.14, GLOW_SHARP_EXP = 1.5;   // centre core falls off faster above size 70 (0 = off)
 var SOFT_CHARGED = [0,0,0]; mixColStatic(COL_WARM, COL_CHARGED, 0.4, SOFT_CHARGED);
 function mixColStatic(a, b, u, out){ for (var q = 0; q < 3; q++) out[q] = a[q] + (b[q]-a[q])*u; }
 
@@ -548,14 +566,27 @@ function render(t){
     if (la > 0) anyGive = true;
     gPos[g*6] = sx0; gPos[g*6+1] = sy0; gPos[g*6+2] = sz0; gPos[g*6+3] = 0; gPos[g*6+4] = 0; gPos[g*6+5] = 0;
     for (var q = 0; q < 3; q++){ gCol[g*6+q] = COL_WARM[q] * 0.16 * la; gCol[g*6+3+q] = COL_WARM[q] * 0.05 * la; }
-    var u = (t - te) / SPARK_DUR;
-    if (u < 0 || u >= 1){ pBright[j] = 0; pSize[j] = 0; pPos[j*3] = 0; pPos[j*3+1] = 0; pPos[j*3+2] = 0; continue; }
-    var e = 1 - ss(u);
-    pPos[j*3] = sx0*e; pPos[j*3+1] = sy0*e; pPos[j*3+2] = sz0*e;
-    pSize[j] = 5;
-    pBright[j] = 1.1 * clamp01((t - te) / 0.08) * clamp01((te + SPARK_DUR - t) / 0.08);
-    setCol(j, COL_CHARGED); pSq[j] = 0;
+    // the package: a small comet. Head (size 11, warm-charged) + TRAIL_K overlapping points at earlier path
+    // positions (TRAIL_T s of travel), tapering in size and fading to 0 at the tail, plus a bright 1 px spine.
+    var A = (t >= te && t < te + SPARK_DUR) ? clamp01((t - te) / 0.08) * clamp01((te + SPARK_DUR - t) / 0.06) : 0;
+    for (var k = 0; k <= TRAIL_K; k++){
+      var jk = I_MINI + g*PK + k, uk = (t - k * TRAIL_T / TRAIL_K - te) / SPARK_DUR;
+      var vis = A > 0 && uk >= 0;
+      var ek = vis ? 1 - ss(uk) : 0;
+      pPos[jk*3] = sx0*ek; pPos[jk*3+1] = sy0*ek; pPos[jk*3+2] = sz0*ek; pSq[jk] = 0;
+      var f = 1 - k / TRAIL_K;
+      if (k === 0){ pSize[jk] = 11; pBright[jk] = 1.4 * A; setCol(jk, SOFT_CHARGED); }
+      else { pSize[jk] = vis ? lerp(2.5, 8, f) : 0; pBright[jk] = vis ? 0.55 * f * f * A : 0; setCol(jk, COL_WARM); }
+      if (k > 0){
+        var o = (g*TRAIL_K + k - 1) * 6, jp = jk - 1, fp = 1 - (k-1) / TRAIL_K;
+        tPos[o] = pPos[jp*3]; tPos[o+1] = pPos[jp*3+1]; tPos[o+2] = pPos[jp*3+2];
+        tPos[o+3] = pPos[jk*3]; tPos[o+4] = pPos[jk*3+1]; tPos[o+5] = pPos[jk*3+2];
+        for (var q2 = 0; q2 < 3; q2++){ tCol[o+q2] = vis ? COL_WARM[q2] * 0.6 * fp * A : 0; tCol[o+3+q2] = vis ? COL_WARM[q2] * 0.6 * f * A : 0; }
+      }
+    }
   }
+  trails.visible = anyGive;
+  tgm.attributes.position.needsUpdate = true; tgm.attributes.color.needsUpdate = true;
   giveRays.visible = anyGive;
   gg.attributes.position.needsUpdate = true; gg.attributes.color.needsUpdate = true;
 
@@ -568,19 +599,22 @@ function render(t){
     if (t >= ta){ var wA = g === 0 ? ss(seg(t, ta, ta + 0.25)) : 1; gb += 0.1 * wA; gp += Math.exp(-(t - ta) / 0.14) * wA; }
   }
   var gsz = 44;
-  var sw = eIO(seg(t, 4.0, 5.0));                 // climax first: swell 4.0..5.0, hold 5.0..5.6
-  gsz = lerp(gsz, 70, sw); gb = lerp(gb, 1.15, sw);
-  if (t >= 5.6){
-    var dm = eIO(seg(t, 5.6, 6.5));               // dims while the light leaves
-    gsz = lerp(70, 44, dm); gb = lerp(1.15, 0.3, dm);
-  }
+  var sw = eIO(seg(t, 4.0, 5.0));                 // climax first: swell 4.0..5.0 to 100, then drifts on to 104 (5.0..5.6)
+  gsz = lerp(gsz, 100, sw) + 4 * sstep(seg(t, 5.0, 5.6)); gb = lerp(gb, 1.15, sw);
+  var dm = eIO(seg(t, 5.6, 6.5));                 // dims while the light leaves
+  if (t >= 5.6){ gsz = lerp(104, 44, dm); gb = lerp(1.15, 0.3, dm); }
+  var cHalo = 2 * gsz, cHaloB = 0.10 * sw * (1 - dm);
   gsz += 44 * 0.18 * gp; gb += 0.12 * gp;
   gb *= 1 - eIO(seg(t, 6.65, 7.4));
   pPos[I_GLOW*3] = 0; pPos[I_GLOW*3+1] = 0; pPos[I_GLOW*3+2] = 0;
   pSize[I_GLOW] = gsz; pBright[I_GLOW] = gb; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
+  // the growth comes as warm glow: the core falloff steepens above size 70, so the white core barely widens
+  pSh[I_GLOW] = gsz > 70 ? Math.pow(gsz / 70, GLOW_SHARP_EXP) : 1;
+  pPos[I_CHALO*3] = 0; pPos[I_CHALO*3+1] = 0; pPos[I_CHALO*3+2] = 0;
+  pSize[I_CHALO] = cHalo; pBright[I_CHALO] = cHaloB; setCol(I_CHALO, COL_WARM); pSq[I_CHALO] = 0;
 
   // the centre answers, per star: faint ray (fade-in from rayOn, fade-out from arr), signal dep -> arr along the live ray
-  var anyRay = false;
+  var anyRay = false, anyStreak = false;
   for (i = 0; i < N; i++){
     var s = S[i], hj = I_HEAD + i, px = pPos[i*3], py = pPos[i*3+1], pz = pPos[i*3+2];
     var ra = eIO(seg(t, s.rayOn, s.rayOn + 0.3)) * (1 - eIO(seg(t, s.arr, s.arr + 0.5)));
@@ -591,10 +625,27 @@ function render(t){
     // so freshly departed signals do not pile up into a white clump at the centre
     var hu = seg(t, s.dep, s.arr), he = 0.5 * (1 - (1-hu)*(1-hu)) + 0.5 * eIO(hu);
     var on = t >= s.dep && t < s.arr;
+    var fac = on ? sstep(he / 0.45) * clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
+    if (fac > 0) anyStreak = true;
+    // a pulse of light along the ray: streak from progress he - 0.22 (clamped at 0) to he, bright at the head
+    // every vertex: linear ramp from tail (0) to head (STREAK_B), times its own distance factor smoothstep(p/0.3),
+    // so the part of a streak inside the inner 45 % of the ray stays dark; colour COL_WARM at the tail, 25 % charged at the head
+    var tl = Math.max(0, he - STREAK_LEN), fT = on ? clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
+    for (var m = 0; m < STREAK_SEG; m++){
+      var o3 = (i*STREAK_SEG + m) * 6;
+      for (var end = 0; end < 2; end++){
+        var w = (m + end) / STREAK_SEG, pv = lerp(tl, he, w), bv = STREAK_B * w * sstep(pv / 0.45) * fT;
+        bPos[o3+end*3] = px*pv; bPos[o3+end*3+1] = py*pv; bPos[o3+end*3+2] = pz*pv;
+        for (var q3 = 0; q3 < 3; q3++) bCol[o3+end*3+q3] = lerp(COL_WARM[q3], STREAK_HEAD_COL[q3], w) * bv;
+      }
+    }
+    // the head only as a soft glint
     pPos[hj*3] = px*he; pPos[hj*3+1] = py*he; pPos[hj*3+2] = pz*he;
-    pSize[hj] = 4.5; pBright[hj] = on ? 0.9 * sstep(he / 0.3) * clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
-    setCol(hj, COL_CHARGED); pSq[hj] = 0;
+    pSize[hj] = 3.5; pBright[hj] = 0.35 * fac;
+    setCol(hj, SOFT_CHARGED); pSq[hj] = 0;
   }
+  streaks.visible = anyStreak;
+  bgm.attributes.position.needsUpdate = true; bgm.attributes.color.needsUpdate = true;
   rays.visible = anyRay;
   rays.material.opacity = 0.10;
   rg.attributes.position.needsUpdate = true; rg.attributes.color.needsUpdate = true;
@@ -642,6 +693,7 @@ function render(t){
   pg.attributes.aBright.needsUpdate = true;
   pg.attributes.aColor.needsUpdate = true;
   pg.attributes.aSquash.needsUpdate = true;
+  pg.attributes.aSharp.needsUpdate = true;
 
   bgCol.setRGB(BG[0], BG[1], BG[2]);
   renderer.setClearColor(bgCol, 1);
@@ -704,7 +756,8 @@ function seek(t){
 }
 window.seek = seek;
 window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
-  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, T_END: T_END, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved };
+  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, T_END: T_END, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved,
+  size: pSize, idx: { I_GLOW: I_GLOW, I_MINI: I_MINI, I_CHALO: I_CHALO, PK: PK, NG: NG } };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
 again.addEventListener('click', function(){ play(0); });
