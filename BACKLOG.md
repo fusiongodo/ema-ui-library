@@ -172,32 +172,50 @@ Show imported data (sleep, steps, heart rate variability and the like) in the UI
 
 Feeds Patterns without any logging effort: steps above the personal usual → fatigue two days later (the overexertion crash), short sleep → brain fog next day, resting heart rate / HRV as early warning. Makes an exertion slider in the check-in optional.
 
-### Concept, first version (Claude, 19 Nov 2026; proposal, not yet judged by Alex, nothing drawn)
+### Concept (Claude, 19 Nov 2026; judged by Alex the same day: accepted with the changes under "Alex's verdict")
 **What it is for, three jobs.**
 1. *Scores without effort.* Steps, sleep, resting heart rate, heart rate variability stand next to the check-in scores as measures of their own.
-2. *The missing half of the crash pattern.* "More than your usual, worse two days later" needs a measure of exertion; the tracker gives it without asking.
+2. *Exertion for the crash pattern.* "More than your usual, worse for two days" needs a measure of exertion; the tracker gives it without asking. **There is no Apple Health crash detector of its own: one model reads everything that is tracked** (check-in scores and Health measures), and a crash shows in both (see "One model over all data").
 3. *In a trial.* Ticked measures are fixed before the start and the app reminds to wear and charge the tracker (his purpose); the result says how complete the data was.
 
-**The stance: your usual, never a goal.** No rings, no 10,000 steps, no "good" or "bad". Every value is shown against the person's own usual (the middle half of the last four weeks) and worded as "higher / lower than your usual". For this illness more steps is not better. Follows principle 2: only a deviation gets a mark.
+**The stance: your usual, never a goal.** No rings, no 10,000 steps, no "good" or "bad". Every value is shown against the person's own usual (the middle half of the last four weeks) and worded as "higher / lower than your usual". For this illness more steps is not better. Follows principle 2: only a deviation gets a mark. Alex: "Finde ich sehr gut." Later: the usual over several windows (four weeks, three months, a year); "a problem we solve later".
 
 **Where it lives. No new tab.**
 - *Connect:* offered once, at the moment it first helps (a card on the Insights tab), not in onboarding. One sheet: which measures, one sentence on what for, "stays on this phone".
 - *Check-ins:* a quiet group "From Apple Health" under the own scores; each measure has a detail view like a score: four weeks, the band of the usual, gaps shown as gaps.
-- *Today:* silent by default. At most one line when today is clearly above the usual ("More active than your usual today"), as a pacing hint, never as praise.
+- *Today:* one quiet line when today is clearly above the usual ("More active than your usual today"), as a pacing hint, never as praise. Alex: "Geile Idee"; we try it and see (see "Today is the reception").
 - *Insights:* patterns and evaluations use the measures (the Rapamycin evaluation already does); Ask can answer about them.
 - *Trials:* the picker in the setup (built), a line in the running state when the tracker was not worn, the measures in the result.
 
-**First measures:** steps, sleep duration, resting heart rate, heart rate variability. **Later:** time above a personal heart-rate limit (pacing, important for ME/CFS, probably a feature of its own), sleep stages, wrist temperature, menstrual cycle (a real confounder for symptoms), workouts.
+**First measures:** steps, sleep duration, resting heart rate, heart rate variability. **Later:** sleep stages, wrist temperature, menstrual cycle (a real confounder for symptoms), workouts.
 
 **Honest data.** Not worn is "no data", never zero. The source is always named ("Apple Health", and the device behind it where known); Garmin, Oura and others come in through Apple Health without extra work.
 
 **Privacy.** Only ticked measures are read; everything stays on the phone until the "Together" step exists, and then only with explicit consent.
 
-**Open.**
-- Whether Today should say anything at all.
-- Whether pacing by heart rate belongs to this or is its own piece.
-- Whether the app should also write to Apple Health (symptoms) or read medications from it; what HealthKit offers for medications needs checking.
-- How Health measures fit the general model of scores and rhythms (see "How scores and check-ins are structured").
+### Alex's verdict (19 Nov 2026)
+- **One model, not two.** The crash is visible in the scores as well as in the tracker data, so crash detection takes all data. Agreed by both; now written into job 2.
+- **Today: try it.** We draw the line and decide later how Today is built.
+- **Pacing by heart rate: separate and far later.** He would not base pacing on pulse; "for experts, I cannot say". Not part of this piece.
+- **Medications from Apple Health: dropped.** "Hardly anyone uses Apple Health for medications." Writing symptoms to Health is not asked for either.
+- Still open: how Health measures fit the general model of scores and rhythms (see "How scores and check-ins are structured").
+
+## One model over all data (Alex, 19 Nov 2026)
+Patterns, the crash above all, come from one model that processes every tracked score and every Apple Health measure together. No detector per source. On a screen this means: an evidence page lists what was different in the check-ins and in the tracker data side by side (as the Rapamycin evaluation already does).
+
+## Measuring exertion: tracker, check-in or log (Alex, 19 Nov 2026, open)
+The tracker measures exertion well, but it is not the only way. Ideas he threw in, none decided:
+- **Asked several times a day:** "How active were you in the last two hours?" Five times over the day is much more precise than one question in the evening about the whole day.
+- **The scale drifts.** A subjective 1 to 5 for activity can shift completely over the years: what was a 5 then is a 2 or 3 once the person is better. (Known as response shift.) Speaks against subjective activity as the only measure, for the tracker or for counted things.
+- **Just talk, the agent extracts.** The person speaks into the log and the agent pulls out measures such as "read for one hour". Open what counts (what was read, how demanding).
+
+## Trial: how well it is kept, and a gentle heads-up (Alex, 19 Nov 2026)
+While a trial runs, check-ins (and the tracker) can be filled in too rarely. There must be a criterion; it could be set in the trial setup (which adherence one wants to reach). If the person falls below it: a heads-up, careful and never pushy, that can be ignored and swiped away or opened. Framed as "about your trial: what we noticed", with what could be done better or a small piece of information about the trial, nothing boring. **Only when needed:** if the person keeps to everything, the trial stays silent in the background. Milestones may speak ("week 2 done"). Tone matters doubly with this illness: no word that sounds like "try harder".
+
+## Today is the reception (Alex, 19 Nov 2026)
+Everything else is the back office; Today is what a good personal assistant who manages it all would tell you: not the details, only what you need or profit from most, with emotional intelligence and knowing the person. So Today carries a short briefing (a heads-up line or a careful banner, dismissible), and stays quiet when nothing is due. Examples: more active than your usual today; about your trial; a milestone.
+
+Later idea: Today is modular and the agent asks after a while "Does the Today page annoy you? Shall we trim it? Just say it", then changes it.
 
 ## The app follows the time of day
 Dark blue at night, lighter in the morning, more colour during the day (Alex, 17 Nov 2026). The Sky theme already does this; open how it combines with one colour per area in Cozy. Goes with: a loving companion that is always there, and soft background sound (see Ambient sound).
