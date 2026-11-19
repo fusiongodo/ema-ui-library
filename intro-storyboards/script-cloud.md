@@ -77,3 +77,26 @@ What changed against the long version:
 Timing, Claude's proposal for 6.5 seconds (not judged): star 0.5 · pull back 0.8 · sphere appears and turns 1.0 · points in, impulse out, all light up 1.0 · flat, line at the top 0.6 · fall 0.5 · two peaks jump up 0.7 · swirl of three 0.6 · hands and wordmark 0.8. At this speed every beat has to flow into the next; nothing stands still except the wordmark.
 
 Open: whether the two colours of the randomisation still fit in at this length (Claude: yes, as colour only, without an extra beat); what the three points of the swirl stand for (Claude's reading, not his: none needed, it is the sign that becomes the logo).
+
+## Feedback on the playable draft, round 1 (Alex, 19 Nov 2026, late)
+
+Times are seconds in the 18-second draft (`cloud/index.html`). Overall: "richtig fucking geil". The look from 7.3 on (rotation, single stars giving) is great, apart from the transitions.
+
+**0 to 4.5 s: perfect.** Do not touch.
+
+**4.5 to 7 s: the turn is jerky and changes direction.** What he sees: pull back, then a sideways shift (the observer moves right from about 4.7 to 5.3, so the cloud seems to turn left), a stop, then from about 5.7 the cloud turns the other way. "Das macht gar keinen Sinn." What he wants: while still pulling back, the turning begins slowly; the observer moves right, the cloud turns left, and the cloud's own rotation carries on **in that same direction**, in one smooth movement with the pull-back. No stop in between.
+
+**7 to 8.8 s, a few give:** a star does not fall in and nothing flies like a star. The star stays where it is. It gets a very faint, very thin ray to the centre, and along that ray it sends one small light signal, "ein Mini-Stern", down to the centre. The centre flashes softly each time one arrives (that is already good) and grows brighter.
+
+**8.8 to 9.7 s, the centre answers:** now it explodes in white and shoots stars at the stars. "Zu krass", it looks like an explosion. Wanted: the centre lights everyone gently. A very thin ray from the centre to every star; the centre lights up once; then a light signal runs back along every ray. What only a few sent in now goes out to all. Every star that is reached lights up; not white, not all at once like a flash.
+
+**9.7 to 11 s, the switch:** now the motion stops when all are reached, they flash white, the rays vanish, the sphere is abruptly turned a few degrees further, then thrown to the ceiling, then down. "Stopp, gedreht, an die Decke geschmissen, runter." The flow is lost. Wanted: no stop, no jerk; one continuous movement.
+
+### What Claude changes for round 2 (Claude's decisions, to be judged)
+- The cloud's rotation is reversed so that it continues the turn the observer's move to the right begins. The observer's move is stretched (about 3.5 to 8 s, very soft), the rotation speeds up under it; measured on screen, the direction never reverses and nothing stands still between 4.5 s and the switch.
+- Giving: a thin ray fades in per giver and follows the star; one small point travels down it; the ray fades after arrival.
+- The answer: no shrinking, no burst, no background flash. The centre swells softly (8.8 to 9.3), faint rays to all fade in, small signals travel out with a gentle start and a gentle arrival (9.3 to 10.2), still all arriving in the same instant. Reached stars glow up over 0.3 s, warm, a little larger, and stay charged.
+- The switch: the rotation is never frozen. From 10.5 to 12.0 the rotation slows to rest, the view swings face-on and the depth collapses in the same eased movement, and inside it every star leaves its orbit in a curve and settles on the top line (upper stars first, 0.9 s each, no bounce). The chart lines draw themselves meanwhile.
+- Everything from the rain on is unchanged, 1.2 s later. The draft is 19.2 s long now.
+
+**Round 2 is built and published (19 Nov 2026), not judged yet.** Measured: on screen the near stars move left without a change of direction from 4.6 s to the switch; in the switch no star's speed changes by more than 3 % of its peak between two frames. Also in it: after the hit the stars are a little larger and shrink back while they fall; an old error is fixed that turned the heaps into white blobs in Chrome, so the rain and the heaps look calmer than in round 1. Known: the flash when a star leaves the top line is the only near-white left. He has not commented on anything from the rain on.
