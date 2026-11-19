@@ -295,48 +295,91 @@ STEPS.push([RISE_T0,'Aufsteigen'], [Math.round(T_FALL0*10)/10,'Regen, zwei Glock
 
 // ring
 var RING_C = sy(0.44), RING_R = 0.3 * 2 * W_END;
-var RING_W = 2 * Math.PI / 14, RING_MIN_SWEEP = 40 * DEG, RING_LEAD = 0.55;   // radius reaches the ring within the first 55 % of the travel
-function travOf(sw){ return 0.85 + 0.75 * sw / (350 * DEG); }                  // travel time grows with the sweep
+var RING_W = 2 * Math.PI / 14;
+var RING_CRUISE = 260 * DEG;     // cruise speed on the ring (angular); the same linear speed on the flight
+var RING_MIN_RUN = 30 * DEG;     // shortest run along the ring after touching it
+var RING_TA = 0.35, RING_TD = 0.5;   // longest ease up from the heap / ease down into the slot (s)
+var RING_ORDER_BY_PASS = true;
+var RING_SPIRAL = 1.08, RING_SPI_ANG = 40 * DEG;   // closer than this to the centre: outward spiral instead of a tangent
 // ring rotation, counter-clockwise on screen: eases in from R0 over 1.0 s, then turns at RING_W
 function ringRot(t){
   if (t <= R0) return 0;
   if (t <= R0 + 1.0) return RING_W * (t-R0)*(t-R0) / 2;
   return RING_W * (t - R0 - 0.5);
 }
-// one swirl: departures in landing order (heaps empty from the bottom); ring slots in the order of each star's
-// angle around the ring centre, so no two paths cross; every star turns counter-clockwise by 40 deg or more
-var SWEEP = { min: 0, max: 0 };
+function ringRotV(t){ return t <= R0 ? 0 : t <= R0 + 1.0 ? RING_W * (t - R0) : RING_W; }
+function rI(x){ x = clamp01(x); return x*x*x - x*x*x*x/2; }    // integral of smoothstep
+// distance along the path tau s after leaving the heap: smooth ease up to cruise, cruise, smooth ease down to the slot speed
+function travD(s, tau){
+  if (tau <= 0) return 0;
+  var v = s.v;
+  if (tau < s.ta) return v * s.ta * rI(tau / s.ta);
+  var d = v * s.ta / 2;
+  if (tau < s.ta + s.tc) return d + v * (tau - s.ta);
+  d += v * s.tc;
+  var x = clamp01((tau - s.ta - s.tc) / s.td);
+  return d + s.td * (s.ve * x + (v - s.ve) * (x - rI(x)));
+}
+// heap -> ring: a straight flight along the tangent onto the ring (arriving counter-clockwise), then a run along the
+// ring to the slot. Slots are handed out in the order of touching, like a thread winding on: the first to touch gets
+// the slot farthest ahead, each later one the next slot behind, so nobody overtakes and nobody passes a seated star.
+var RUN = { min: 0, max: 0 }, NSPI = 0;
 (function(){
   var byLand = []; for (var j = 0; j < N; j++) byLand.push(j);
   byLand.sort(function(a,b){ return S[a].land - S[b].land; });
   byLand.forEach(function(j, k){ S[j].ringT = Math.max(R0 + 0.9 * k / (N - 1), S[j].land + 0.1); });
-  var ang = []; for (j = 0; j < N; j++){ var s = S[j]; s.r0 = Math.hypot(s.colX, s.landY - RING_C); s.th0 = Math.atan2(s.landY - RING_C, s.colX); ang.push(j); }
-  ang.sort(function(a,b){ return S[a].th0 - S[b].th0 || S[a].r0 - S[b].r0; });
-  // cut the circle in the largest empty gap of the start angles
-  var gapAt = 0, gap = S[ang[0]].th0 + 2*Math.PI - S[ang[N-1]].th0;
-  for (var k = 1; k < N; k++){ var g2 = S[ang[k]].th0 - S[ang[k-1]].th0; if (g2 > gap){ gap = g2; gapAt = k; } }
-  var ord = ang.slice(gapAt).concat(ang.slice(0, gapAt));
-  ord.forEach(function(j, k){ if (k > 0 && S[j].th0 < S[ord[k-1]].th0) S[j].th0 += 2*Math.PI; });   // unwrap ascending
-  // offset so the smallest sweep (to the slot including the ring rotation at arrival) is 40 deg, then nudged by
-  // less than one slot so the final ring dots sit where they sat before (base: pi/2 + pi/N + k*2pi/N, turned by the old rotation)
-  var step = 2*Math.PI / N;
-  var dOld = T_END - R0;                                       // final frame, same distance to R0 as before
-  var rotOldEnd = RING_W * (dOld - 1.0 - 0.25), rotNewEnd = ringRot(T_END);
-  var want = Math.PI/2 + Math.PI/N + rotOldEnd - rotNewEnd;     // lattice the final dots must sit on
-  ord.forEach(function(j){ S[j].trav = 1.1; });
-  for (var it = 0; it < 4; it++){                              // sweep and travel time depend on each other: settle them
-    var lo = 1e9;
-    ord.forEach(function(j, k){ lo = Math.min(lo, k*step + ringRot(S[j].ringT + S[j].trav) - S[j].th0); });
-    var off = RING_MIN_SWEEP - lo;
-    off += (((want - off) % step) + step) % step;
-    SWEEP.min = 1e9; SWEEP.max = -1e9;
-    ord.forEach(function(j, k){
-      var s = S[j]; s.ringA = off + k*step;
-      var sw = s.ringA + ringRot(s.ringT + s.trav) - s.th0;
-      if (it < 3) s.trav = travOf(sw);
-      SWEEP.min = Math.min(SWEEP.min, sw); SWEEP.max = Math.max(SWEEP.max, sw);
-    });
+  var v = RING_CRUISE * RING_R, step = 2*Math.PI / N, ord = [];
+  for (j = 0; j < N; j++){
+    var s = S[j], Rt = RING_R, it, L = 0, ta = 0;
+    s.v = v; s.r0 = Math.hypot(s.colX, s.landY - RING_C); s.th0 = Math.atan2(s.landY - RING_C, s.colX);
+    s.spi = s.r0 < RING_SPIRAL * RING_R;
+    if (s.spi) NSPI++;
+    for (it = 0; it < 4; it++){      // the touch uses the live ring radius at the moment of touching
+      if (!s.spi){
+        L = Math.sqrt(s.r0*s.r0 - Rt*Rt);
+        s.phT = s.th0 + Math.acos(Rt / s.r0);
+      } else {
+        // outward (or inward) spiral: radius eases monotonically to the ring with zero radial speed, angle +40 deg
+        s.phT = s.th0 + RING_SPI_ANG; s.spX = []; s.spY = []; s.spD = []; L = 0;
+        for (var q = 0; q <= 64; q++){
+          var x = q / 64, ph = s.th0 + RING_SPI_ANG * x, rr = Rt + (s.r0 - Rt) * (1-x)*(1-x);
+          var px = rr * Math.cos(ph), py = RING_C + rr * Math.sin(ph);
+          if (q > 0) L += Math.hypot(px - s.spX[q-1], py - s.spY[q-1]);
+          s.spX.push(px); s.spY.push(py); s.spD.push(L);
+        }
+      }
+      ta = Math.min(RING_TA, 1.6 * L / v);
+      s.tTouch = s.ringT + ta + (L - v * ta / 2) / v;
+      Rt = ringRad(s.tTouch);
+    }
+    s.L = L; s.ta = ta; s.Rt = Rt;
+    s.Tx = Rt * Math.cos(s.phT); s.Ty = RING_C + Rt * Math.sin(s.phT);
+    s.psi = s.phT - ringRot(s.tTouch);     // touch point in the turning ring's own frame
+    ord.push(j);
   }
+  // order of the thread: by touching time (RING_ORDER_BY_PASS false) or by the time each star, running on at cruise,
+  // would pass one common point of the turning ring (true)
+  ord.forEach(function(j){ var s = S[j]; s.key = RING_ORDER_BY_PASS ? s.tTouch - s.psi / RING_CRUISE : s.tTouch; });
+  ord.sort(function(a,b){ return S[a].key - S[b].key; });
+  var base = -1e9;
+  ord.forEach(function(j, k){ base = Math.max(base, S[j].psi + k * step + RING_MIN_RUN); });
+  // nudge by less than one slot so the final ring dots sit where they sat before
+  var dOld = T_END - R0, rotOldEnd = RING_W * (dOld - 1.0 - 0.25), rotNewEnd = ringRot(T_END);
+  var want = Math.PI/2 + Math.PI/N + rotOldEnd - rotNewEnd;
+  base += (((want - base) % step) + step) % step;
+  RUN.min = 1e9; RUN.max = -1e9;
+  ord.forEach(function(j, k){
+    var s = S[j], Ta = s.tTouch + 0.5, D, run, ve, td, tc;
+    s.ringA = base - k * step; s.touchRank = k;
+    for (var it = 0; it < 10; it++){
+      run = s.ringA + ringRot(Ta) - s.phT; D = s.L + RING_R * run; ve = RING_R * ringRotV(Ta);
+      td = Math.min(RING_TD, 2 * (D - s.L) / (v + ve));
+      tc = (D - v * s.ta / 2 - td * (v + ve) / 2) / v;
+      Ta = s.ringT + s.ta + tc + td;
+    }
+    s.ve = ve; s.td = td; s.tc = tc; s.tArr = Ta; s.trav = Ta - s.ringT; s.run = run;
+    RUN.min = Math.min(RUN.min, run); RUN.max = Math.max(RUN.max, run);
+  });
 })();
 // the centre answers, per star (drawn after all other random numbers, so nothing else changes):
 // ray fades in at rayOn, the signal leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
@@ -373,11 +416,26 @@ function starPos(i, t, out){
     out[0] = s.colX; out[1] = s.landY; out[2] = 0;
     return out;
   }
-  // ring: polar path around the ring centre. Angle from th0 to the live slot angle (which turns with the ring),
-  // radius from r0 to the ring radius, one ease (zero speed in the heap, merging at the ring's own speed)
-  var u = seg(t, s.ringT, s.ringT + s.trav), e2 = 0.5 - 0.5 * Math.cos(Math.PI * u);   // sine ease: gentler peak angular speed
-  var a = s.th0 + (s.ringA + ringRot(t) - s.th0) * e2, rr = lerp(s.r0, ringRad(t), eIO(clamp01(u / RING_LEAD)));
-  out[0] = rr * Math.cos(a); out[1] = RING_C + rr * Math.sin(a); out[2] = 0;
+  // ring: tangent flight (or spiral), then the run along the ring, then seated in the turning ring
+  if (t >= s.tArr){
+    var a = s.ringA + ringRot(t), rr = ringRad(t);
+    out[0] = rr * Math.cos(a); out[1] = RING_C + rr * Math.sin(a); out[2] = 0;
+    return out;
+  }
+  var d = travD(s, t - s.ringT);
+  if (d < s.L){
+    if (!s.spi){
+      var f = d / s.L;
+      out[0] = lerp(s.colX, s.Tx, f); out[1] = lerp(s.landY, s.Ty, f); out[2] = 0;
+    } else {
+      var q = 1; while (q < 64 && s.spD[q] < d) q++;
+      var g = (d - s.spD[q-1]) / (s.spD[q] - s.spD[q-1]);
+      out[0] = lerp(s.spX[q-1], s.spX[q], g); out[1] = lerp(s.spY[q-1], s.spY[q], g); out[2] = 0;
+    }
+    return out;
+  }
+  var a2 = s.phT + (d - s.L) / RING_R, rr2 = ringRad(t);
+  out[0] = rr2 * Math.cos(a2); out[1] = RING_C + rr2 * Math.sin(a2); out[2] = 0;
   return out;
 }
 
@@ -557,6 +615,10 @@ function render(t){
     // ring: colour back to warm, highlight sweep
     if (t >= s.ringT){
       var rv = eIO(seg(t, s.ringT, s.ringT + s.trav));
+      // while it runs along the ring the thread is denser than the finished ring: dim from the touch (0.15 s),
+      // back to full during the slow-down into the slot
+      if (t >= s.tTouch && t < s.tArr)
+        b *= 1 - 0.38 * eIO(seg(t, s.tTouch, s.tTouch + 0.15)) * (1 - eIO(seg(t, s.ringT + s.ta + s.tc, s.tArr)));
       col = mixCol(s.group === 0 ? COL_BLUE : COL_WARM, COL_WARM, rv, cc2);
       if (hlEnv > 0){
         var da = s.ringA + ringRot(t) - hlA;
@@ -773,7 +835,7 @@ function seek(t){
 }
 window.seek = seek;
 window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
-  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, R0_OLD: R0_OLD, T_END: T_END, SWEEP_MIN: SWEEP.min / DEG, SWEEP_MAX: SWEEP.max / DEG, RING_LEAD: RING_LEAD, RING_C: RING_C, RING_R: RING_R, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved,
+  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, R0_OLD: R0_OLD, T_END: T_END, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, CRUISE: RING_CRUISE / DEG, RING_C: RING_C, RING_R: RING_R, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved,
   size: pSize, idx: { I_GLOW: I_GLOW, I_MINI: I_MINI, I_CHALO: I_CHALO, PK: PK, NG: NG } };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });

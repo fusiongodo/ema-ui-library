@@ -189,3 +189,15 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - Highlight and wordmark keep their distance to the ring start, so they come 0.38 s earlier. The draft is 13.4 s long.
 
 **Round 8 is built and published (19 Nov 2026), not judged yet.** 13.42 s; everything up to 9.15 s identical to round 7. First departure 9.20; at 9.83 (last landing) 70 % of the stars are already under way; last arrival 11.72; wordmark from 12.2. No star ever turns clockwise; fastest star 346°/s (the first build had 644°/s and left the frame over the top). Known: because both heaps lie within 68° as seen from the ring's centre, some stars must travel almost a full turn (40° to 368°). While the ring fills, the arc already wound on (right side, around 10.0 to 10.5) is brighter than the finished ring. The columns hollow out from below, so their tops hang for about half a second. One star leaves the stage on the right by about 16 px around 9.97. The bell outlines fade 9.58 to 10.18 as before, so for a moment they frame heaps that are mostly gone.
+
+## Feedback, round 8 (Alex, 19 Nov 2026, night)
+
+- That the stars landing in the distribution already pass into the circular motion "ist sehr cool".
+- **The swirl is still a little unsmooth.** Some stars make a rather large arc and only join the ring tangentially at the top. That startles the viewer. They should fly directly, tangent-wise, onto the circle and cling to it.
+
+### What Claude changes for round 9 (Claude's decisions, to be judged)
+- Each star flies in a straight line along a tangent onto the ring (touching it at the lower right, where the ring moves the same way) and runs on along it counter-clockwise, without a kink and without a change of speed at the touch point. No star moves farther from the ring than where it started.
+- One speed for all: ease up in the heap, cruise at 260°/s through the touch, ease down into the slot.
+- The ring fills like a thread winding on: the first to arrive runs farthest, each later one seats itself behind. Stars are dimmed to 62 % while they run along the ring, otherwise the running thread is a white strip.
+
+**Round 9 is built and published (19 Nov 2026), not judged yet.** 13.42 s; everything up to 9.15 s and every departure time identical to round 8. First touch 9.86, first star seated 10.96, last arrival 11.72. Direction changes at the touch point by at most 2.6°, speed by 0.9 %. Known: 26 stars start inside the ring and spiral outward onto it instead of flying a tangent. Runs along the ring are 37° to 422°, so the head of the thread goes once round. Stars still overtake each other slightly on the ring (up to 6°, about ten places in a thread of 600; Claude's first slot rule gave 70°); a fix is known (order by pass time in the fixed frame), not applied. Where the stream meets the ring (lower right, around 10.2) the picture is busy and a little bright.
