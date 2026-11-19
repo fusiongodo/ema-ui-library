@@ -48,7 +48,7 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 - **19 Nov** · Helper side: three choices (form, placebo filling, where they go), the plan as the person's own pill organizer week by week (numbered bags as the alternative), look-alike check, sealed photo, "How it was prepared" in the result.
 - **19 Nov** · Helper pages reachable inside the app from setup step 4: same phone with a helper PIN, or a link sent.
 - **19 Nov** · Feedback round: wording ("Get ready", "Fill by plan"), picture tiles for "You'll need", amounts in doses, questionnaires and Apple Health in the setup.
-- **19 Nov** · Setup says which scores the app gently reminds about; running trial shows check-ins and days the tracker was worn; result has a card for the Health measures chosen before the start.
+- **19 Nov** · Setup says which scores the app gently reminds about (a line with a bell); running trial shows check-ins and days the tracker was worn; result has a card for the Health measures chosen before the start.
 
 ## Apple Health
 - **19 Nov** · Concept, accepted by Alex with changes: your usual instead of a goal; no new tab; one model over all data; honest gaps; pacing by pulse and medications left out.

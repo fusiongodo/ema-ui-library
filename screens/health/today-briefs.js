@@ -10,7 +10,7 @@ SCREENS.push({ id:"today/home-health", area:"Today", status:"idea", title:"Today
   why:"Today as it is, with one quiet line under the greeting: more steps than your usual by early afternoon. A pacing hint, not praise; it opens Steps.",
   concept: TODAY_BRIEF_CONCEPT,
   w:[TODAY_HOME_HEAD,
-    {t:"brief", l:"More active than your usual today", n:"3,420 steps by 14:00. Your usual is 1,800 to 2,800 a day.", go:"health/steps"},
+    {t:"brief", l:"More active than your usual today", n:"2,100 steps by 14:00. Your usual is 1,100 to 1,700 a day.", go:"health/steps"},
     ...TODAY_HOME_W.map(w=>w.t !== "row" ? w : {...w, items:w.items.map(i=>i.go === "checkins/overview-next" ? {...i, go:"checkins/overview-health"} : i)})]});   // Check-ins tile → the state with Apple Health
 SCREENS.push({ id:"today/home-trial-nudge", area:"Today", status:"idea", title:"Today · about your trial",
   tabs:"idea", tab:"Today", of:"today/home", tabto:{Protocols:"protocols/today-folds-trial", Insights:"insights/home-trial"},

@@ -264,6 +264,7 @@ section{scroll-margin-top:56px}
 .df-m{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:11px;color:var(--muted)}
 .df-src{display:inline-flex;align-items:center;gap:5px} .df-src:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.55}
 .df-v{display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;text-align:right} .df-v b{font-size:15px} .df-v .n{font-size:10.5px;color:var(--muted);margin-top:2px}
+.df-f{margin:6px 0 0;padding-top:6px;border-top:1px solid var(--line);font-size:10.5px;color:var(--muted)}
 /* Apple Health against your usual (render.js usual / usualchart / brief). The colours are variables, so a theme only sets
    them: --us-* / --uc-* line, band of the usual, the mark (a ring = a deviation), the gap around today's dot. */
 .us{--us-line:#6f6f6f;--us-band:rgba(0,0,0,.07);--us-mark:var(--ink);--us-gap:var(--white);justify-content:flex-start;gap:3px}
@@ -665,6 +666,7 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .df-t{gap:4px} .stage .df-t b{font-size:var(--t-body)}
 .stage .df-m{gap:4px 10px;font-size:var(--t-foot)} .stage .df-m .pa-c{font-size:var(--t-min);padding:1px 8px}
 .stage .df-v b{font-size:22px} .stage .df-v .n{font-size:var(--t-foot);margin-top:3px}
+.stage .df-f{margin-top:10px;padding-top:10px;font-size:var(--t-foot)}
 .stage .us{gap:4px} .stage .us .l{font-size:var(--t-sub)} .stage .us .us-v b{font-size:26px} .stage .us .us-v .n{font-size:var(--t-foot)}
 .stage .us-c{height:40px;margin:8px 0 6px} .stage .us-p{width:9px;height:9px;margin:-4.5px 0 0 -4.5px} .stage .us-w{font-size:var(--t-foot)}
 .stage .us.dev .us-w{gap:7px} .stage .us.dev .us-w:before{width:9px;height:9px;box-shadow:inset 0 0 0 2px var(--us-mark)}
