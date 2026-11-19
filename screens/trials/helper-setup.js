@@ -16,7 +16,7 @@ SCREENS.push({ id:"trials/helper-setup", area:"Insights", status:"idea", title:"
     {t:"list", rows:[["Form","Opaque capsules ›"],["Placebo filling","Rice flour ›"],["Where they go","Alex's pill organizer ›"]],
       go:["trials/helper-pick-form","trials/helper-pick-control","trials/helper-pick-container"], info:[null,"trials/term-placebo",null]},
     {t:"sec", l:"You'll need"},
-    {t:"needs", items:[["capsule","Empty capsules","63, opaque"],["jar","Magnesium powder","for 27"],["bowl","Rice flour","for 36"],["organizer","Alex's organizer","7 days"]]},
+    {t:"needs", items:[["capsule","Empty capsules","63, opaque"],["jar","Magnesium powder","for 27 doses"],["bowl","Rice flour","for 36 doses"],["organizer","Alex's organizer","7 days"]]},
     {t:"note", l:"Fill each week's seven before Monday. About 5 minutes a week."},
     {t:"btn", l:"Open week 1", go:"trials/helper-plan"},
   ]});
