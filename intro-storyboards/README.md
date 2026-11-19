@@ -6,6 +6,8 @@ Quick access to everything about the intro animation for MEjority: what Alex lik
 
 On 19 Nov 2026 Alex described his own picture: one faint star, pulling back to many, the flat picture gains depth and turns out to be a rotating cloud around one centre, a few stars send something in, the centre answers all at the same instant, the charged stars jump to a line at the top, fall like rain, two bell curves grow from the ground, the points become a turning circle, hands, "MEjority". The full sequence is in **`script-cloud.md`**. In the evening he tightened it: **5 to 7 seconds in all**, a turning sphere, at the end a swirl of three points that hands cover and reveal as the wordmark (section "Short version" there). That short version is the one to build. It builds on what he liked below.
 
+**His verdict on the playable draft (19 Nov 2026):** "richtig fucking geil", "pures Gold". Draft: `cloud/index.html`, published at https://claude.ai/artifact/4ynLEeShw7kMaPdr8Q5XAn (all links: `../LINKS.md`). To rework later: acceleration, abruptness of some moments, the look. The final animation is made later in other tools (Blender etc.), not in JavaScript; nothing more is built until he asks.
+
 ## What Alex likes, in his order
 
 1. **First sketch "One dot each"** → `sketches/one-dot-each.png`. His favourite so far. One dot, then stars everywhere, then the lines to a centre, then the curve (real rising above placebo), then the burst of light back to all, then day. "Die Geschichte richtig geil."

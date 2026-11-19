@@ -58,6 +58,7 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 - **17 Nov** · Seven storyboards; the animated Hands intro in the prototype (a stopgap).
 - **18 to 19 Nov** · Story in Alex's words; sketches "One dot each" 1 and 2; six motion studies; his ranking written down (`intro-storyboards/README.md`).
 - **19 Nov** · His own sequence "The cloud" as a script; a first playable draft as particles in Three.js. Not judged yet.
+- **19 Nov** · The playable draft is judged: "pures Gold". Kept as the reference; the final version comes later in other tools. A short version (5 to 7 seconds) is written down.
 - **19 Nov** · Decided: no SVG for the intro or the clay icons.
 
 ## Icons
@@ -67,6 +68,7 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 ## How we work
 - **19 Nov** · Claude writes concept and every detail; Opus agents only build. While a direction is open, the plan is named first.
 - **19 Nov** · This file.
+- **19 Nov** · `LINKS.md`: every published page with its link and its source file.
 
 ## Research
 - **19 Nov** · Play: which game platforms give results back, which cognitive tasks fit, what iOS allows for games (`research/play-games.md`).

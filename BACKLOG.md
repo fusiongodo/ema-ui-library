@@ -1,6 +1,6 @@
 # Backlog
 
-**Done items are collected in `DONE.md`** (what was asked for and built, by area, with dates; for the presentation).
+**All published pages with their links: `LINKS.md`.** **Done items are collected in `DONE.md`** (what was asked for and built, by area, with dates; for the presentation).
 
 ## Where we are (17 Nov 2026)
 
@@ -151,6 +151,8 @@ Spoken lines to try: "Every day, millions of us notice what helps." / "Alone, it
 **Where it stands (Alex, 19 Nov 2026, after seeing everything):** the first sketch "One dot each" is his favourite (dot, stars, lines, the curve, the burst); the second sketch has good concepts but its frame 5 is bad; of the motion studies only the two heaps of points count. Next question, his: in which algebraic, geometric and statistical structures the stars could arrange themselves so that a good story comes out. **Method: SVG is finished for him**; candidates are video models fed with good stories, Blender, animation programs. The summary for quick access is `intro-storyboards/README.md`.
 
 **Short version of "The cloud" (Alex, 19 Nov 2026, evening; backlog, nothing built):** the picture is now much clearer in his head, and it is short: **5 to 7 seconds in all** (the playable draft runs 18). One single star. Pull back: many stars. Suddenly a dimension is added: it is a sphere, and it turns. Single points go into the centre; one impulse goes out to all, and every star lights up as it is hit. Then it is suddenly two-dimensional: all lit points go to a line at the top, fall down, and out of the ground jumps the distribution with its two peaks. From that a circling swirl of **three points** forms; hands move over it and apart again, and there stands "MEjority". Written out beat by beat in `intro-storyboards/script-cloud.md` (section "Short version"). What is new against the long script: the length, a sphere instead of a loose cloud, the swirl has three points, the hands close over the swirl and open to the wordmark. Open: the timing per beat (Claude's proposal is in the script), and how it is made (not SVG; the Three.js particle draft is not judged yet).
+
+**Verdict on the playable draft (Alex, 19 Nov 2026, late):** "richtig fucking geil", "Gold, pures Gold". The draft (`intro-storyboards/cloud/index.html`, link in `LINKS.md`) is kept as the reference for the final animation. Still to rework: the acceleration, how abruptly some things happen, and the visual look. **Not now and not in this technique:** the draft is plain JavaScript; the real one is made later in other tools (Blender and whatever else fits), "zu gegebener Zeit". Until he says so, nothing more is built on the intro. When it is taken up: start from the short version (5 to 7 seconds) and this draft together.
 
 Alternatives for the picture world, same six beats: (a) night sky, loose stars are joined into a constellation that can be read, then day breaks; fits the Sky theme. (b) everyone carries a small flame to one place; together they become a beacon whose beam shows the way back to all; closest to "Middle Ages to Enlightenment". (c) Earth at night with lights, most literal for "millions everywhere".
 Cautions: historical props (torches, monks) turn into pathos quickly; stay abstract with dark and light. Show a signal, not a cure; the app itself says "likely" at most.
