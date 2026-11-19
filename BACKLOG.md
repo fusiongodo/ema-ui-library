@@ -172,6 +172,33 @@ Show imported data (sleep, steps, heart rate variability and the like) in the UI
 
 Feeds Patterns without any logging effort: steps above the personal usual → fatigue two days later (the overexertion crash), short sleep → brain fog next day, resting heart rate / HRV as early warning. Makes an exertion slider in the check-in optional.
 
+### Concept, first version (Claude, 19 Nov 2026; proposal, not yet judged by Alex, nothing drawn)
+**What it is for, three jobs.**
+1. *Scores without effort.* Steps, sleep, resting heart rate, heart rate variability stand next to the check-in scores as measures of their own.
+2. *The missing half of the crash pattern.* "More than your usual, worse two days later" needs a measure of exertion; the tracker gives it without asking.
+3. *In a trial.* Ticked measures are fixed before the start and the app reminds to wear and charge the tracker (his purpose); the result says how complete the data was.
+
+**The stance: your usual, never a goal.** No rings, no 10,000 steps, no "good" or "bad". Every value is shown against the person's own usual (the middle half of the last four weeks) and worded as "higher / lower than your usual". For this illness more steps is not better. Follows principle 2: only a deviation gets a mark.
+
+**Where it lives. No new tab.**
+- *Connect:* offered once, at the moment it first helps (a card on the Insights tab), not in onboarding. One sheet: which measures, one sentence on what for, "stays on this phone".
+- *Check-ins:* a quiet group "From Apple Health" under the own scores; each measure has a detail view like a score: four weeks, the band of the usual, gaps shown as gaps.
+- *Today:* silent by default. At most one line when today is clearly above the usual ("More active than your usual today"), as a pacing hint, never as praise.
+- *Insights:* patterns and evaluations use the measures (the Rapamycin evaluation already does); Ask can answer about them.
+- *Trials:* the picker in the setup (built), a line in the running state when the tracker was not worn, the measures in the result.
+
+**First measures:** steps, sleep duration, resting heart rate, heart rate variability. **Later:** time above a personal heart-rate limit (pacing, important for ME/CFS, probably a feature of its own), sleep stages, wrist temperature, menstrual cycle (a real confounder for symptoms), workouts.
+
+**Honest data.** Not worn is "no data", never zero. The source is always named ("Apple Health", and the device behind it where known); Garmin, Oura and others come in through Apple Health without extra work.
+
+**Privacy.** Only ticked measures are read; everything stays on the phone until the "Together" step exists, and then only with explicit consent.
+
+**Open.**
+- Whether Today should say anything at all.
+- Whether pacing by heart rate belongs to this or is its own piece.
+- Whether the app should also write to Apple Health (symptoms) or read medications from it; what HealthKit offers for medications needs checking.
+- How Health measures fit the general model of scores and rhythms (see "How scores and check-ins are structured").
+
 ## The app follows the time of day
 Dark blue at night, lighter in the morning, more colour during the day (Alex, 17 Nov 2026). The Sky theme already does this; open how it combines with one colour per area in Cozy. Goes with: a loving companion that is always there, and soft background sound (see Ambient sound).
 
