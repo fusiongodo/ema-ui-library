@@ -123,14 +123,26 @@ for (var i = 0; i < N; i++){
 // while the stars already rise: they spiral upward, the last turn dies as the last stars reach the line).
 // SPIN_DIR: the cloud's own turn matches the apparent turn from the camera moving right (checked numerically).
 var SPIN_DIR = -1, SPIN_T1 = 11.0, SPIN_T2 = 12.7;
+// Spin-up starts at SP0 (visible turning from ~3.8) and reaches rate 1 at SP1 = 8.0. Its shape ss(x^q) is chosen so
+// that the angle for t >= 8.0 equals the earlier version exactly (up(t) = t - 5.75): t < SP0 (opening) and everything
+// from the giving on keep their star positions. q is solved once: mean rate over the ramp = (SP1 - 5.75) / (SP1 - SP0).
+var SP0 = 2.8, SP1 = 8.0;
+function rampI(x, q){ // integral of ss(u^q) over u in 0..x
+  return 6*Math.pow(x,5*q+1)/(5*q+1) - 15*Math.pow(x,4*q+1)/(4*q+1) + 10*Math.pow(x,3*q+1)/(3*q+1);
+}
+var SPIN_Q = (function(){
+  var target = (SP1 - 5.75) / (SP1 - SP0), lo = 0.2, hi = 5;
+  for (var it = 0; it < 80; it++){ var m = (lo + hi) / 2; if (rampI(1, m) > target) lo = m; else hi = m; }
+  return (lo + hi) / 2;
+})();
 function spinA(t){
-  var up = t <= 4.0 ? 0 : t < 7.5 ? 3.5 * ssI((t - 4.0) / 3.5) : 1.75 + (t - 7.5);
+  var up = t <= SP0 ? 0 : t < SP1 ? (SP1 - SP0) * rampI((t - SP0) / (SP1 - SP0), SPIN_Q) : (SP1 - 5.75) + (t - SP1);
   var D = SPIN_T2 - SPIN_T1;
   var dn = t <= SPIN_T1 ? 0 : t < SPIN_T2 ? D * ssI((t - SPIN_T1) / D) : D / 2 + (t - SPIN_T2);
   return SPIN_DIR * (up - dn);
 }
-// depth of the cloud along the view axis: flat until 3.5, full by 6.0
-function depthS(t){ return eIO(seg(t, 3.5, 6.0)); }
+// depth of the cloud along the view axis: flat until 2.8, full by 5.3
+function depthS(t){ return eIO(seg(t, 2.8, 5.3)); }
 
 var cT = Math.cos(TILT), sT = Math.sin(TILT);
 function cloudPos(i, A, dz, out){
@@ -150,11 +162,11 @@ function camW(t){ return W0 * Math.pow(W_END / W0, eIO(seg(t, 0.6, 6.0))); }
 var SW_T1 = 10.45, SW_T2 = 12.0;
 function swU(t){ return ss(seg(t, SW_T1, SW_T2)); }
 function camFov(t){
-  if (t < SW_T1) return 8 + 34 * eIO(seg(t, 3.5, 6.0));
+  if (t < SW_T1) return 8 + 34 * eIO(seg(t, 2.8, 5.3));
   return 42 - 36 * swU(t);
 }
 function camAngles(t){
-  var d = ss(seg(t, 3.5, 8.0)), b = swU(t);
+  var d = ss(seg(t, 2.6, 7.0)), b = swU(t);
   return [28 * DEG * d * (1-b), 8 * DEG * d * (1-b)];
 }
 function camDepth(t){ return t < SW_T1 ? depthS(t) : 1 - swU(t); }
@@ -280,6 +292,14 @@ function ringRot(t){
   if (t <= R1) return 0;
   if (t <= R1 + 0.5) return RING_W * (t-R1)*(t-R1) / (2*0.5);
   return RING_W * (t - R1 - 0.25);
+}
+// the centre answers, per star (drawn after all other random numbers, so nothing else changes):
+// ray fades in at rayOn, the signal leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
+for (i = 0; i < N; i++){
+  var sI = S[i];
+  sI.rayOn = 8.75 + 0.3 * (sI.r / R) + 0.2 * rand();
+  sI.dep = 9.3 + 0.3 * rand();
+  sI.arr = sI.dep + 0.75 + 0.15 * rand();
 }
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
 
@@ -437,8 +457,6 @@ function render(t){
   pMat.uniforms.uRef.value = dist;
   pMat.uniforms.uDepth.value = camDepth(t);
 
-  // the hit at 10.2: every star glows up over 0.3 s and stays charged (warm, not white)
-  var chg = ss(seg(t, 10.2, 10.5));
   var hlU = seg(t, R0 + 2.0, R0 + 3.0), hlA = Math.PI/2 + 2*Math.PI*eIO(hlU), hlEnv = Math.sin(Math.PI*hlU);
 
   for (var i = 0; i < N; i++){
@@ -460,7 +478,8 @@ function render(t){
       var gd = seg(t, s.give, s.give + 0.3);
       if (gd > 0 && gd < 1) b *= 1 - 0.4 * Math.sin(Math.PI * gd);
     }
-    // charged after the hit
+    // charged after its own signal arrives: glows up over 0.3 s and stays (warm, not white)
+    var chg = ss(seg(t, s.arr, s.arr + 0.3));
     b *= 1 + 0.35 * chg; size *= 1 + 0.2 * chg;
     var col = chg > 0 ? mixCol(COL_WARM, COL_CHARGED, 0.4 * chg, cc) : COL_WARM;
     // rain: flash + group colour, landing squash + column pulse
@@ -517,38 +536,44 @@ function render(t){
   giveRays.visible = anyGive;
   gg.attributes.position.needsUpdate = true; gg.attributes.color.needsUpdate = true;
 
-  // centre glow: soft pulse per arrival + gradual brightening, then a gentle swell (8.8..9.3),
-  // dims while the light leaves (9.3..10.2), rests, fades out 10.5..11.3
+  // centre glow: gradual brightening per arrival, a swell to a small climax (8.3..9.4, overlapping the last
+  // arrivals, whose pulses ride on top), dims while the light leaves (9.4..10.3), rests, fades out 10.45..11.2
   var gb = 0, gp = 0;
   for (g = 0; g < NG; g++){
     var ta = S[givers[g]].give + SPARK_DUR;
     if (t >= ta){ gb += 0.1; gp += Math.exp(-(t - ta) / 0.14); }
   }
-  var gsz = 44 * (1 + 0.18 * gp);
-  gb += 0.12 * gp;
-  var sw = eIO(seg(t, 8.8, 9.3));
-  gsz = lerp(gsz, 62, sw); gb = lerp(gb, 0.95, sw);
-  if (t >= 9.3){
-    var dm = eIO(seg(t, 9.3, 10.2));
-    gsz = lerp(62, 44, dm); gb = lerp(0.95, 0.3, dm);
+  var gsz = 44;
+  var sw = eIO(seg(t, 8.3, 9.4));
+  gsz = lerp(gsz, 70, sw); gb = lerp(gb, 1.15, sw);
+  if (t >= 9.4){
+    var dm = eIO(seg(t, 9.4, 10.3));
+    gsz = lerp(70, 44, dm); gb = lerp(1.15, 0.3, dm);
   }
+  gsz += 44 * 0.18 * gp; gb += 0.12 * gp;
   gb *= 1 - eIO(seg(t, 10.45, 11.2));
   pPos[I_GLOW*3] = 0; pPos[I_GLOW*3+1] = 0; pPos[I_GLOW*3+2] = 0;
   pSize[I_GLOW] = gsz; pBright[I_GLOW] = gb; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
 
-  // the centre answers: faint rays to all stars (8.8..10.8), one signal per star 9.3..10.2, all arriving together
-  var rayA = eIO(seg(t, 8.8, 9.3)) * (1 - eIO(seg(t, 10.2, 10.8)));
-  rays.visible = rayA > 0;
-  rays.material.opacity = 0.10 * rayA;
-  var hu = seg(t, 9.3, 10.2), he = eIO(hu);
-  var headB = (t >= 9.3 && t < 10.2) ? 0.9 * clamp01((t - 9.3) / 0.1) * clamp01((10.2 - t) / 0.06) : 0;
+  // the centre answers, per star: faint ray (fade-in from rayOn, fade-out from arr), signal dep -> arr along the live ray
+  var anyRay = false;
   for (i = 0; i < N; i++){
-    var hj = I_HEAD + i, px = pPos[i*3], py = pPos[i*3+1], pz = pPos[i*3+2];
+    var s = S[i], hj = I_HEAD + i, px = pPos[i*3], py = pPos[i*3+1], pz = pPos[i*3+2];
+    var ra = eIO(seg(t, s.rayOn, s.rayOn + 0.3)) * (1 - eIO(seg(t, s.arr, s.arr + 0.5)));
+    if (ra > 0) anyRay = true;
+    rPos[i*6] = 0; rPos[i*6+1] = 0; rPos[i*6+2] = 0; rPos[i*6+3] = px; rPos[i*6+4] = py; rPos[i*6+5] = pz;
+    for (var q = 0; q < 3; q++){ rCol[i*6+q] = COL_CHARGED[q] * 0.18 * ra; rCol[i*6+3+q] = COL_CHARGED[q] * ra; }
+    // travel ease leaves the centre sooner (half eOutQuad, half eIO); brightness grows with the distance travelled,
+    // so freshly departed signals do not pile up into a white clump at the centre
+    var hu = seg(t, s.dep, s.arr), he = 0.5 * (1 - (1-hu)*(1-hu)) + 0.5 * eIO(hu);
+    var on = t >= s.dep && t < s.arr;
     pPos[hj*3] = px*he; pPos[hj*3+1] = py*he; pPos[hj*3+2] = pz*he;
-    pSize[hj] = 4.5; pBright[hj] = headB; setCol(hj, COL_CHARGED); pSq[hj] = 0;
-    if (rays.visible){ rPos[i*6] = 0; rPos[i*6+1] = 0; rPos[i*6+2] = 0; rPos[i*6+3] = px; rPos[i*6+4] = py; rPos[i*6+5] = pz; }
+    pSize[hj] = 4.5; pBright[hj] = on ? 0.9 * sstep(he / 0.3) * clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
+    setCol(hj, COL_CHARGED); pSq[hj] = 0;
   }
-  rg.attributes.position.needsUpdate = true;
+  rays.visible = anyRay;
+  rays.material.opacity = 0.10;
+  rg.attributes.position.needsUpdate = true; rg.attributes.color.needsUpdate = true;
 
   // chart lines
   var cp = eIO(seg(t, 10.7, 11.8));

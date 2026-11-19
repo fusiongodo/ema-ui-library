@@ -117,3 +117,18 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 **Round 3 is built and published (19 Nov 2026), not judged yet.** 17.6 s. Measured: between the hit and the line the stars are never slower than while rotating (no rest); 507 stars are still rising when the first one falls; 31 are still falling when the first leaves for the ring; at most 266 of 600 sit on the top line at once; the bell outlines are at a third of their strength when half the stars have landed. Known: around 12.0 the top line still shows as a bright, near-white strip, because the stars sit side by side there; from the ring on nothing was changed except that it starts earlier and turns while it fills.
 
 **Verdict on round 3 (Alex, 19 Nov 2026): "YES!!!"** Round 3 is the reference for the final animation. What made the difference, and holds for the final version: the movements overlap, nothing comes to rest between two steps.
+
+## Feedback, round 3 (Alex, 19 Nov 2026, late)
+
+"Ich fühle mich einfach verstanden." The giving at 7.5 to 8 s (small rays, light signals running along them, the centre flaring a little each time) is "perfekt, wunderschön". Still open:
+- **The turn starts too late.** At 4 s one sees a cloud, but it only starts to rotate at about 4.6; between 4.5 and 4.6 there is hardly any movement. It should be a 3D cloud that starts turning at 3.5; visible movement from about 3.8, one second earlier.
+- **The centre needs a small climax.** From 8.5 on, stimulated by what it received, it should get brighter and swell a little, inside the flowing movement, without costing time.
+- **The broadcast is too synchronous.** All rays appear in one stroke (9.0 to 9.1), then "eine Detonation von Signalen" in one stroke. Each ray by itself looks great. Rays and signals should be slightly spread in time: almost together, not perfectly together.
+
+### What Claude changes for round 4 (Claude's decisions, to be judged)
+- Depth, the observer's move and the rotation all begin about half a second to a second earlier, so the cloud visibly turns from 3.8 s.
+- The centre swells from 8.3 to 9.4 (overlapping the last arrivals), a little larger and brighter than before.
+- Each ray to a star fades in at its own moment within about half a second, near stars slightly earlier; each signal leaves and arrives at its own moment within about a third of a second; each star glows up when its own signal arrives. This gives up the earlier rule "all are hit in the same instant", on his word.
+- From the rise on (10.45) nothing changes.
+
+**Round 4 is built and published (19 Nov 2026), not judged yet.** Depth opens from 2.8, the observer's move from 2.6, the rotation from 2.8; the rotation alone reaches about a quarter of its final speed on screen at 3.8 and half at 4.0. Rays to the stars fade in between 8.8 and 9.2, signals leave between 9.3 and 9.6 and arrive between 10.06 and 10.49; signals are invisible at the centre and brighten on the way out, so there is no white clump. From 8.0 on every star position is the same as in round 3. Known: between 4.2 and 5.0 the turn looks slower on screen for a moment because the pull-back makes the cloud smaller (the rotation itself keeps speeding up); the centre's bright core is at its widest around 9.6 to 9.7.
