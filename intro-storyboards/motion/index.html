@@ -1,0 +1,695 @@
+<title>Punkt-Studien</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Six looping canvas studies of glowing points; page chrome follows the storyboard pages, canvases are always night blue */
+:root{
+  --bg:#f4f1ec; --surface:#fbf9f5; --ink:#2a2723; --muted:#655f55; --line:#dcd5c9; --accent:#2f6b6a; --chip:#e1efed; --shadow:rgba(60,45,25,.18);
+  --night:#111A2C;
+  --gl:max(16px,env(safe-area-inset-left,0px)); --gr:max(16px,env(safe-area-inset-right,0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151a1a; --surface:#1e2525; --ink:#eef2f0; --muted:#a3aeab; --line:#2f3a39; --accent:#9bd1cb; --chip:#21393a; --shadow:rgba(0,0,0,.5); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151a1a; --surface:#1e2525; --ink:#eef2f0; --muted:#a3aeab; --line:#2f3a39; --accent:#9bd1cb; --chip:#21393a; --shadow:rgba(0,0,0,.5); color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.ps{box-sizing:border-box;max-width:1240px;margin:0 auto;padding-block:32px 64px;padding-left:var(--gl);padding-right:var(--gr)}
+.ps *{box-sizing:border-box}
+.top{display:flex;flex-direction:column;gap:10px;max-width:64ch;margin-bottom:36px}
+.eyebrow{margin:0;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.ps h1{margin:0;font-size:clamp(26px,4.2vw,36px);line-height:1.12;font-weight:700;letter-spacing:-.01em}
+.lede{margin:0;color:var(--muted);font-size:17px}
+.key{list-style:none;margin:4px 0 0;padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px 18px;background:var(--night);border-radius:12px;color:#e9e2d2;font-size:14px}
+.key li{display:flex;align-items:center;gap:8px}
+.key i{display:inline-block;border-radius:50%}
+.k-star{width:9px;height:9px;background:#FFD27A;box-shadow:0 0 8px 2px rgba(255,210,122,.55)}
+.k-spark{width:5px;height:5px;background:#FFF1C9;box-shadow:0 0 5px 1px rgba(255,241,201,.5)}
+.k-real{width:7px;height:7px;background:#FFD27A}
+.k-plac{width:7px;height:7px;background:#8FA3C4}
+.note{margin:0;color:var(--muted);font-size:15px}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:44px 28px}
+@media (min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  @supports (grid-template-rows:subgrid){.grid>.tile{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:12px}}}
+@media (min-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.tile{display:flex;flex-direction:column;gap:12px;min-width:0}
+.cap{display:flex;gap:12px;align-items:flex-start}
+.num{flex:none;font-weight:700;font-size:13px;color:var(--accent);background:var(--chip);border-radius:999px;min-width:26px;height:26px;display:grid;place-items:center;margin-top:1px}
+.cap h2{margin:0 0 2px;font-size:20px;line-height:1.2;font-weight:700}
+.cap p{margin:0;font-size:15px;color:var(--ink)}
+.stage{position:relative;aspect-ratio:3/4;width:100%;border-radius:18px;overflow:hidden;background:var(--night);cursor:pointer;
+  box-shadow:0 0 0 1px var(--line),0 14px 30px -14px var(--shadow);-webkit-tap-highlight-color:transparent}
+.stage:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.stage canvas{display:block;width:100%;height:100%}
+.hint{position:absolute;right:12px;bottom:9px;font-size:17px;line-height:1;color:rgba(255,241,201,.42);pointer-events:none}
+.play{display:none;position:absolute;left:50%;bottom:16px;transform:translateX(-50%);border:0;border-radius:999px;padding:8px 16px;
+  font:600 15px system-ui,-apple-system,sans-serif;color:#111A2C;background:#FFF1C9;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.play:focus-visible{outline:2px solid #FFD27A;outline-offset:3px}
+.stage.still .play{display:block}
+.stage.still .hint{display:none}
+.means{margin:0;font-size:15px;color:var(--muted);padding-left:38px}
+</style>
+
+<main class="ps">
+  <header class="top">
+    <p class="eyebrow">MEjority · Intro-Skizzen</p>
+    <h1>Punkt-Studien</h1>
+    <p class="lede">Sechs rohe Bewegungsstudien: Wie können Lichtpunkte sich bewegen und zueinander finden? Zum Vergleichen, nicht fertig.</p>
+    <ul class="key" aria-label="Legende">
+      <li><i class="k-star"></i>Stern = ein Mensch, bleibt stehen</li>
+      <li><i class="k-spark"></i>Funke = ein Datenpunkt</li>
+      <li><i class="k-real"></i>warm = echt</li>
+      <li><i class="k-plac"></i>kühl = Placebo</li>
+    </ul>
+    <p class="note">Jede Studie dauert etwa zehn Sekunden und endet in der Dämmerung. Antippen startet sie neu.</p>
+  </header>
+
+  <ol class="grid">
+    <li class="tile">
+      <div class="cap"><span class="num">1</span><div><h2>Sammeln</h2><p>Jeder Stern schickt Funken zur Mitte, dort trennen sie sich in zwei Schichten, und Licht läuft zu allen zurück.</p></div></div>
+      <div class="stage" data-study="0"><canvas></canvas><span class="hint" aria-hidden="true">↻</span><button class="play" type="button">▶ Abspielen</button></div>
+      <p class="means">Der jetzige Entwurf: alles fließt an einen Ort, das Ergebnis kommt zurück.</p>
+    </li>
+    <li class="tile">
+      <div class="cap"><span class="num">2</span><div><h2>Gleichtakt</h2><p>Jeder Stern blinkt im eigenen Takt, bis Nachbarn sich angleichen und der ganze Himmel gemeinsam pulsiert.</p></div></div>
+      <div class="stage" data-study="1"><canvas></canvas><span class="hint" aria-hidden="true">↻</span><button class="play" type="button">▶ Abspielen</button></div>
+      <p class="means">Kein Zentrum: viele finden von selbst einen gemeinsamen Rhythmus.</p>
+    </li>
+    <li class="tile">
+      <div class="cap"><span class="num">3</span><div><h2>Sternbild</h2><p>Zwischen Nachbarn entstehen Lichtfäden, ein Puls läuft durchs Netz, und die stärksten Fäden bleiben als steigende Linie.</p></div></div>
+      <div class="stage" data-study="2"><canvas></canvas><span class="hint" aria-hidden="true">↻</span><button class="play" type="button">▶ Abspielen</button></div>
+      <p class="means">Kein Zentrum: aus vielen Verbindungen wird eine lesbare Form.</p>
+    </li>
+    <li class="tile">
+      <div class="cap"><span class="num">4</span><div><h2>Schwarm</h2><p>Funken treiben wie Staub, richten sich nach ihren Nachbarn aus und fließen als Band nach oben.</p></div></div>
+      <div class="stage" data-study="3"><canvas></canvas><span class="hint" aria-hidden="true">↻</span><button class="play" type="button">▶ Abspielen</button></div>
+      <p class="means">Kein Zentrum: einzelne Punkte ergeben gemeinsam eine Richtung.</p>
+    </li>
+    <li class="tile">
+      <div class="cap"><span class="num">5</span><div><h2>Kompass</h2><p>Jeder Stern behält seine Funken, eine kleine Nadel zeigt seine eigene Richtung, und die meisten Nadeln zeigen gleich.</p></div></div>
+      <div class="stage" data-study="4"><canvas></canvas><span class="hint" aria-hidden="true">↻</span><button class="play" type="button">▶ Abspielen</button></div>
+      <p class="means">Die Daten bleiben bei jedem Menschen; erst der Vergleich der Richtungen zeigt das Signal.</p>
+    </li>
+    <li class="tile">
+      <div class="cap"><span class="num">6</span><div><h2>Verteilung</h2><p>Funken fallen von den Sternen und häufen sich zu zwei Glockenkurven, die warme liegt etwas weiter rechts.</p></div></div>
+      <div class="stage" data-study="5"><canvas></canvas><span class="hint" aria-hidden="true">↻</span><button class="play" type="button">▶ Abspielen</button></div>
+      <p class="means">Der Unterschied zwischen echt und Placebo, als Abstand sichtbar.</p>
+    </li>
+  </ol>
+</main>
+
+<script>
+(() => {
+'use strict';
+const W = 300, H = 400, TAU = Math.PI * 2, FPS = 60, HOLD = 1.6, FADE = 0.5;
+const BASE = [17, 26, 44], WARM = [255, 210, 122], SPARK = [255, 241, 201], COOL = [143, 163, 196],
+      DUSK = [201, 130, 94], PALE = [240, 222, 196];
+const FONT = '500 9px system-ui,-apple-system,"Segoe UI",sans-serif';
+
+const cl = (x, a = 0, b = 1) => x < a ? a : x > b ? b : x;
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = t => { t = cl(t); return t * t * (3 - 2 * t); };
+const ss = (a, b, t) => ease((t - a) / (b - a));
+const mix = (c1, c2, t) => [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)];
+const css = (c, a = 1) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
+function rng(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+const gauss = r => { let u = 0; while (!u) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(TAU * r()); };
+function shuffle(r, a) { for (let i = a.length - 1; i > 0; i--) { const j = (r() * (i + 1)) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function erf(x) {
+  const s = x < 0 ? -1 : 1; x = Math.abs(x);
+  const t = 1 / (1 + 0.3275911 * x);
+  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
+  return s * y;
+}
+
+/* ---------- drawing primitives (X = current context, in 300x400 units) ---------- */
+let X = null;
+const sprites = new Map();
+function glowSprite(c) {
+  const k = ((c[0] >> 3) << 10) | ((c[1] >> 3) << 5) | (c[2] >> 3);
+  let s = sprites.get(k);
+  if (s) return s;
+  s = document.createElement('canvas'); s.width = s.height = 64;
+  const g = s.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, css(c, 1)); gr.addColorStop(0.16, css(c, 0.5)); gr.addColorStop(0.42, css(c, 0.14)); gr.addColorStop(1, css(c, 0));
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+  sprites.set(k, s);
+  return s;
+}
+function dot(x, y, r, c, a, g) {
+  if (a <= 0.004) return;
+  if (g > 0) {
+    const R = r * g;
+    X.globalCompositeOperation = 'lighter';
+    X.globalAlpha = Math.min(1, a * 0.6);
+    X.drawImage(glowSprite(c), x - R, y - R, 2 * R, 2 * R);
+    X.globalCompositeOperation = 'source-over';
+  }
+  X.globalAlpha = Math.min(1, a);
+  X.fillStyle = css(c);
+  X.beginPath(); X.arc(x, y, r, 0, TAU); X.fill();
+}
+function star(x, y, r, a, boost = 0) { dot(x, y, r * (1 + boost * 0.55), WARM, a, 5 + boost * 4); }
+function line(x1, y1, x2, y2, c, a, w) {
+  if (a <= 0.004) return;
+  X.globalAlpha = Math.min(1, a); X.strokeStyle = css(c); X.lineWidth = w;
+  X.beginPath(); X.moveTo(x1, y1); X.lineTo(x2, y2); X.stroke();
+}
+function label(txt, x, y, c, a, align) {
+  if (a <= 0.004) return;
+  X.globalAlpha = a; X.fillStyle = css(c); X.font = FONT; X.textAlign = align; X.textBaseline = 'middle';
+  X.fillText(txt, x, y);
+}
+const SKY = [[0.18, DUSK], [0.42, [112, 80, 102]], [0.68, [50, 50, 84]], [1, [26, 36, 62]]];
+function sky(d) {
+  X.globalAlpha = 1; X.globalCompositeOperation = 'source-over';
+  if (d <= 0.002) { X.fillStyle = css(BASE); X.fillRect(0, 0, W, H); return; }
+  const g = X.createLinearGradient(0, H, 0, 0);
+  g.addColorStop(0, css(d < 0.6 ? mix(BASE, DUSK, ease(d / 0.6)) : mix(DUSK, PALE, ease((d - 0.6) / 0.4))));
+  for (const [h, c] of SKY) g.addColorStop(h, css(mix(BASE, c, ease((d - h * 0.5) / (1 - h * 0.5)))));
+  X.fillStyle = g; X.fillRect(0, 0, W, H);
+}
+function scatter(r, n, x0, y0, x1, y1, avoid, pts = []) {
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    let best = null, bd = -1;
+    for (let k = 0; k < 40 && (k < 14 || !best); k++) {
+      const p = { x: x0 + r() * (x1 - x0), y: y0 + r() * (y1 - y0) };
+      if (avoid && avoid(p)) continue;
+      let d = 1e9;
+      for (const q of pts) d = Math.min(d, (p.x - q.x) ** 2 + (p.y - q.y) ** 2);
+      if (d > bd) { bd = d; best = p; }
+    }
+    if (!best) best = { x: x0 + r() * (x1 - x0), y: y0 + r() * (y1 - y0) };
+    pts.push(best); out.push(best);
+  }
+  return out;
+}
+
+/* ---------- the six studies ---------- */
+const STUDIES = [];
+
+/* 1 Sammeln: sparks travel to the middle, sort into two layers, light runs back along the trails */
+STUDIES.push({
+  T: 9.5, seed: 11,
+  setup(r) {
+    const C = { x: 150, y: 205 }, O = { x: 150, y: 184 };
+    const stars = scatter(r, 30, 16, 20, 284, 382, p => ((p.x - C.x) / 88) ** 2 + ((p.y - C.y) / 78) ** 2 < 1);
+    const sp = [];
+    let k = 0;
+    for (const s of stars) {
+      s.r = 1.7 + r() * 1.3;
+      s.arr = 6.9 + Math.hypot(s.x - O.x, s.y - O.y) / 250;
+      s.t0 = 99;
+      for (let j = 0; j < 3; j++) {
+        const real = (k++) % 2 === 0, a = r() * TAU, rr = Math.sqrt(r()), mixed = r() < 0.2;
+        const q = {
+          s, real, mixed,
+          cx: C.x + Math.cos(a) * rr * 38, cy: C.y + Math.sin(a) * rr * 26,
+          fx: C.x + (r() * 2 - 1) * 50,
+          fy: mixed ? C.y + gauss(r) * 5 : (real ? C.y - 14 : C.y + 14) + gauss(r) * 3.2,
+          t0: 0.9 + r() * 2.4, dur: 1.2 + r() * 0.4, ph: r() * TAU
+        };
+        s.t0 = Math.min(s.t0, q.t0);
+        sp.push(q);
+      }
+    }
+    return { C, O, stars, sp };
+  },
+  draw(t, { C, O, stars, sp }) {
+    sky(ss(7.6, 9.5, t));
+    for (const s of stars) line(s.x, s.y, C.x, C.y, WARM, 0.09 * ss(s.t0 - 0.2, s.t0 + 0.6, t) * (1 - ss(6.9, 7.2, t)), 0.6);
+    // rays back out
+    if (t > 6.9) {
+      for (const s of stars) {
+        const p = cl((t - 6.9) / (s.arr - 6.9)), hx = lerp(O.x, s.x, p), hy = lerp(O.y, s.y, p);
+        line(O.x, O.y, hx, hy, SPARK, 0.26, 0.6);
+        const q0 = Math.max(0, p - 0.35), fade = 1 - ss(s.arr, s.arr + 0.4, t);
+        line(lerp(O.x, s.x, q0), lerp(O.y, s.y, q0), hx, hy, SPARK, 0.9 * fade, 1.0);
+        if (p < 1) dot(hx, hy, 1.1, SPARK, 0.9, 5);
+      }
+    }
+    for (const q of sp) {
+      if (t < q.t0) continue;
+      const p = (t - q.t0) / q.dur;
+      let x, y;
+      if (p < 1) { const e = ease(p); x = lerp(q.s.x, q.cx, e); y = lerp(q.s.y, q.cy, e); }
+      else {
+        const sep = ss(5.0, 6.2, t), lift = (q.real && !q.mixed) ? ss(6.0, 6.9, t) * 8 : 0;
+        x = lerp(q.cx, q.fx, sep) + Math.sin(t * 1.1 + q.ph) * 1.2;
+        y = lerp(q.cy, q.fy, sep) - lift + Math.cos(t * 0.9 + q.ph) * 0.8;
+      }
+      dot(x, y, 1.25, mix(SPARK, q.real ? WARM : COOL, ss(4.4, 5.3, t)), 0.9, 4.5);
+    }
+    const la = ss(5.9, 6.6, t) * (1 - ss(8.4, 9.0, t));
+    label('real', C.x + 58, C.y - 22, WARM, la, 'left');
+    label('placebo', C.x + 58, C.y + 14, COOL, la, 'left');
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i], fl = t > s.arr ? Math.exp(-(t - s.arr) * 2.2) : 0;
+      star(s.x, s.y, s.r, ss(i * 0.025, i * 0.025 + 0.5, t) * (0.85 + 0.15 * ss(s.arr, s.arr + 0.3, t)), fl * 1.6 + 0.35 * ss(s.arr, s.arr + 0.3, t));
+    }
+  }
+});
+
+/* 2 Gleichtakt: Kuramoto fireflies, local coupling grows, then the whole sky pulses together */
+STUDIES.push({
+  T: 9.5, seed: 22,
+  setup(r) {
+    const st = scatter(r, 46, 14, 14, 286, 386), n = st.length;
+    st.forEach(s => { s.r = 1.7 + r() * 1.2; s.w = TAU * (0.82 + r() * 0.42); s.p = r() * TAU; s.nb = []; });
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++)
+      if (Math.hypot(st[i].x - st[j].x, st[i].y - st[j].y) < 82) { st[i].nb.push(j); st[j].nb.push(i); }
+    const F = Math.ceil(this.T * FPS) + 1, ph = new Float32Array(F * n), dsky = new Float32Array(F);
+    const p = st.map(s => s.p), w = st.map(s => s.w), np = new Array(n);
+    const meanW = w.reduce((a, b) => a + b, 0) / n, sub = 2, dt = 1 / FPS / sub;
+    let acc = 0;
+    for (let f = 0; f < F; f++) {
+      const t = f / FPS;
+      let sx = 0, sy = 0, mf = 0;
+      for (let i = 0; i < n; i++) { ph[f * n + i] = p[i]; sx += Math.cos(p[i]); sy += Math.sin(p[i]); mf += flash(p[i]); }
+      const R = Math.hypot(sx, sy) / n; mf /= n;
+      acc += (1 / FPS) * 0.9 * R ** 6 * mf;
+      dsky[f] = acc + 0.1 * R ** 4 * mf;
+      for (let k = 0; k < sub; k++) {
+        const tt = t + k * dt, K = 3.4 * ss(1.2, 5.0, tt), G = 3.0 * ss(4.6, 6.6, tt), pull = 0.8 * ss(2, 6, tt);
+        let cx = 0, cy = 0;
+        for (let i = 0; i < n; i++) { cx += Math.cos(p[i]); cy += Math.sin(p[i]); }
+        const Rg = Math.hypot(cx, cy) / n, psi = Math.atan2(cy, cx);
+        for (let i = 0; i < n; i++) {
+          let loc = 0;
+          for (const j of st[i].nb) loc += Math.sin(p[j] - p[i]);
+          if (st[i].nb.length) loc /= st[i].nb.length;
+          np[i] = p[i] + (w[i] + K * loc + G * Rg * Math.sin(psi - p[i])) * dt;
+          w[i] += (meanW - w[i]) * pull * dt;
+        }
+        for (let i = 0; i < n; i++) p[i] = np[i];
+      }
+    }
+    return { st, n, ph, dsky, F };
+  },
+  draw(t, { st, n, ph, dsky, F }) {
+    const f = Math.min(F - 1, Math.round(t * FPS)), d0 = dsky[f];
+    sky(cl(d0 + ss(8.1, 9.5, t) * (1 - d0)));
+    for (let i = 0; i < n; i++) {
+      const s = st[i], b = Math.max(flash(ph[f * n + i]), 0.55 * ss(8.6, 9.4, t));
+      star(s.x, s.y, s.r * (0.85 + 0.35 * b), (0.32 + 0.68 * b) * ss(0, 0.6, t), b * 1.3);
+    }
+  }
+});
+function flash(p) { const u = (((p % TAU) + TAU) % TAU) / TAU; return Math.exp(-u * 4.2); }
+
+/* 3 Sternbild: threads grow between neighbours, a pulse runs through, a rising arc stays lit */
+STUDIES.push({
+  T: 9.5, seed: 33,
+  setup(r) {
+    const fig = [], P0 = [44, 330], P1 = [192, 322], P2 = [262, 86];
+    for (let i = 0; i < 8; i++) {
+      const u = i / 7;
+      fig.push({ x: (1 - u) ** 2 * P0[0] + 2 * (1 - u) * u * P1[0] + u * u * P2[0] + gauss(r) * 3,
+                 y: (1 - u) ** 2 * P0[1] + 2 * (1 - u) * u * P1[1] + u * u * P2[1] + gauss(r) * 3, fig: true });
+    }
+    const others = scatter(r, 28, 14, 16, 286, 386, p => fig.some(q => Math.hypot(p.x - q.x, p.y - q.y) < 28), fig.slice());
+    const st = fig.concat(others), n = st.length;
+    st.forEach(s => { s.r = (s.fig ? 2.1 : 1.6) + r() * 1.0; s.adj = []; });
+    const edges = [], key = new Set();
+    const add = (a, b, isFig) => {
+      const k = a < b ? a + '-' + b : b + '-' + a;
+      if (key.has(k)) { if (isFig) { const e = edges.find(e => (e.a === a && e.b === b) || (e.a === b && e.b === a)); e.fig = true; e.str = 1; } return; }
+      key.add(k);
+      const e = { a, b, len: Math.hypot(st[a].x - st[b].x, st[a].y - st[b].y), fig: isFig, str: isFig ? 1 : 0.3 + r() * 0.5 };
+      edges.push(e); st[a].adj.push(e); st[b].adj.push(e);
+    };
+    for (let i = 0; i < 7; i++) add(i, i + 1, true);
+    for (let i = 0; i < n; i++) {
+      const ds = [];
+      for (let j = 0; j < n; j++) if (j !== i) ds.push([Math.hypot(st[i].x - st[j].x, st[i].y - st[j].y), j]);
+      ds.sort((a, b) => a[0] - b[0]);
+      for (let k = 0; k < 3; k++) if (ds[k][0] < 100) add(i, ds[k][1], false);
+    }
+    // growth order: BFS from the star nearest the middle
+    let start = 0, bd = 1e9;
+    st.forEach((s, i) => { const d = Math.hypot(s.x - 150, s.y - 200); if (d < bd) { bd = d; start = i; } });
+    const seen = new Array(n).fill(false), order = [], used = new Set();
+    for (const s0 of [start, ...st.keys()]) {
+      if (seen[s0]) continue;
+      seen[s0] = true; const qu = [s0];
+      while (qu.length) {
+        const u = qu.shift();
+        for (const e of st[u].adj) {
+          if (used.has(e)) continue;
+          used.add(e); e.from = u; order.push(e);
+          const v = e.a === u ? e.b : e.a;
+          if (!seen[v]) { seen[v] = true; qu.push(v); }
+        }
+      }
+    }
+    order.forEach((e, i) => { e.t0 = 0.6 + (i / Math.max(1, order.length - 1)) * 3.6; });
+    // pulse: Dijkstra from the first figure star
+    const dist = new Array(n).fill(Infinity), done = new Array(n).fill(false);
+    dist[0] = 0;
+    for (let it = 0; it < n; it++) {
+      let u = -1;
+      for (let i = 0; i < n; i++) if (!done[i] && (u < 0 || dist[i] < dist[u])) u = i;
+      if (u < 0 || dist[u] === Infinity) break;
+      done[u] = true;
+      for (const e of st[u].adj) { const v = e.a === u ? e.b : e.a; if (dist[u] + e.len < dist[v]) dist[v] = dist[u] + e.len; }
+    }
+    const maxD = Math.max(...dist.filter(isFinite)), speed = maxD / 2.0;
+    st.forEach((s, i) => { s.arr = 4.8 + (isFinite(dist[i]) ? dist[i] : maxD) / speed; });
+    edges.forEach(e => { e.u = st[e.a].arr <= st[e.b].arr ? e.a : e.b; e.v = e.u === e.a ? e.b : e.a; e.trav = e.len / speed; });
+    return { st, edges };
+  },
+  draw(t, { st, edges }) {
+    sky(ss(7.9, 9.5, t));
+    const k = ss(6.9, 7.9, t);
+    X.lineCap = 'round';
+    for (const e of edges) {
+      const A = st[e.from], B = st[e.from === e.a ? e.b : e.a], g = ss(e.t0, e.t0 + 0.5, t);
+      if (g <= 0) continue;
+      const ex = lerp(A.x, B.x, g), ey = lerp(A.y, B.y, g);
+      let a = (0.1 + 0.25 * e.str) * g, w = 0.5 + 0.5 * e.str;
+      if (e.fig) {
+        a = lerp(a, 0.95, k); w = lerp(w, 1.6, k);
+        X.globalCompositeOperation = 'lighter';
+        line(A.x, A.y, ex, ey, WARM, 0.2 * k, 6);
+        X.globalCompositeOperation = 'source-over';
+      } else a *= 1 - 0.8 * k;
+      line(A.x, A.y, ex, ey, e.fig ? mix(SPARK, WARM, k * 0.5) : SPARK, a, w);
+    }
+    // travelling pulse
+    for (const e of edges) {
+      const U = st[e.u], V = st[e.v], q = (t - U.arr) / e.trav;
+      if (q <= 0 || q > 1.3) continue;
+      const q1 = Math.min(1, q), q0 = Math.max(0, q - 0.4), fa = 1 - ss(1, 1.3, q);
+      line(lerp(U.x, V.x, q0), lerp(U.y, V.y, q0), lerp(U.x, V.x, q1), lerp(U.y, V.y, q1), SPARK, 0.9 * fa, 1.2);
+    }
+    X.lineCap = 'butt';
+    for (const s of st) {
+      const fl = t > s.arr ? Math.exp(-(t - s.arr) * 2.5) : 0;
+      star(s.x, s.y, s.r, ss(0, 0.6, t) * (s.fig ? 1 : 1 - 0.35 * k), fl * 1.4 + (s.fig ? 0.5 * k : 0));
+    }
+  }
+});
+
+/* 4 Schwarm: dust sparks align with neighbours (flocking) and join one band that bends upward and lifts */
+const S4_T = 9.5;
+function s4Path(L) {
+  return [[-30, 330 - L * 0.6], [90, 336 - L], [185, 290 - L * 1.2], [222, -40]];
+}
+function bez(P, u) {
+  const v = 1 - u;
+  return [v * v * v * P[0][0] + 3 * v * v * u * P[1][0] + 3 * v * u * u * P[2][0] + u * u * u * P[3][0],
+          v * v * v * P[0][1] + 3 * v * v * u * P[1][1] + 3 * v * u * u * P[2][1] + u * u * u * P[3][1]];
+}
+const s4Lift = t => 50 * ss(5.2, 9.2, t);
+STUDIES.push({
+  T: S4_T, seed: 44,
+  setup(r) {
+    const stars = scatter(r, 14, 20, 20, 280, 380);
+    stars.forEach(s => { s.r = 1.7 + r() * 1.1; });
+    const N = 150, F = Math.ceil(this.T * FPS) + 1, pos = new Float32Array(F * N * 2), dt = 1 / FPS, S = 64;
+    const px = [], py = [], vx = [], vy = [], lane = [], spd = [];
+    for (let i = 0; i < N; i++) {
+      const s = stars[i % stars.length], a = r() * TAU, d = 4 + r() * 30, b = r() * TAU;
+      px.push(s.x + Math.cos(a) * d); py.push(s.y + Math.sin(a) * d);
+      vx.push(Math.cos(b) * 5); vy.push(Math.sin(b) * 5);
+      lane.push((r() - 0.5) * 34); spd.push(30 + r() * 14);
+    }
+    const qx = new Float32Array(S), qy = new Float32Array(S), tx = new Float32Array(S), ty = new Float32Array(S);
+    const ax = new Float32Array(N), ay = new Float32Array(N);
+    for (let f = 0; f < F; f++) {
+      const t = f / FPS;
+      for (let i = 0; i < N; i++) { pos[(f * N + i) * 2] = px[i]; pos[(f * N + i) * 2 + 1] = py[i]; }
+      const P = s4Path(s4Lift(t));
+      for (let j = 0; j < S; j++) { const q = bez(P, j / (S - 1)); qx[j] = q[0]; qy[j] = q[1]; }
+      for (let j = 0; j < S; j++) {
+        const a = Math.max(0, j - 1), b = Math.min(S - 1, j + 1), dx = qx[b] - qx[a], dy = qy[b] - qy[a], l = Math.hypot(dx, dy);
+        tx[j] = dx / l; ty[j] = dy / l;
+      }
+      const wA = 2.4 * ss(1.0, 3.6, t), wG = 2.0 * ss(3.0, 5.8, t), sig = 14 * (1 - 0.75 * ss(2.5, 6, t)),
+            target = lerp(6, 22, ss(1.2, 3.6, t)), reg = 1 - ss(3, 5.8, t);
+      for (let i = 0; i < N; i++) {
+        let sx = 0, sy = 0, c = 0;
+        for (let j = 0; j < N; j++) {
+          const dx = px[j] - px[i], dy = py[j] - py[i];
+          if (dx * dx + dy * dy < 900) { sx += vx[j]; sy += vy[j]; c++; }
+        }
+        let fx = wA * (sx / c - vx[i]) + sig * gauss(r), fy = wA * (sy / c - vy[i]) + sig * gauss(r);
+        if (wG > 0.001) {
+          let bj = 0, bd = 1e9;
+          for (let j = 0; j < S; j++) { const d = (qx[j] - px[i]) ** 2 + (qy[j] - py[i]) ** 2; if (d < bd) { bd = d; bj = j; } }
+          const nx = -ty[bj], ny = tx[bj], off = (px[i] - qx[bj]) * nx + (py[i] - qy[bj]) * ny,
+                corr = cl((lane[i] - off) * 1.4, -55, 55);
+          fx += wG * (tx[bj] * spd[i] + nx * corr - vx[i]);
+          fy += wG * (ty[bj] * spd[i] + ny * corr - vy[i]);
+        }
+        ax[i] = fx; ay[i] = fy;
+      }
+      for (let i = 0; i < N; i++) {
+        vx[i] += ax[i] * dt; vy[i] += ay[i] * dt;
+        if (reg > 0) {
+          const sp = Math.max(1, Math.hypot(vx[i], vy[i])), m = 1 + ((target - sp) / sp) * 1.5 * dt * reg;
+          vx[i] *= m; vy[i] *= m;
+        }
+        px[i] += vx[i] * dt; py[i] += vy[i] * dt;
+        if (wG < 0.3) {
+          if (px[i] < -10) px[i] += W + 20; else if (px[i] > W + 10) px[i] -= W + 20;
+          if (py[i] < -10) py[i] += H + 20; else if (py[i] > H + 10) py[i] -= H + 20;
+        } else if (px[i] < -45 || px[i] > W + 45 || py[i] < -45 || py[i] > H + 45) {
+          const j = (r() * 3) | 0;
+          px[i] = qx[j] - ty[j] * lane[i] - 10 * r(); py[i] = qy[j] + tx[j] * lane[i];
+          vx[i] = tx[j] * spd[i]; vy[i] = ty[j] * spd[i];
+        }
+      }
+    }
+    return { stars, N, F, pos };
+  },
+  draw(t, { stars, N, F, pos }) {
+    sky(ss(7.9, 9.5, t));
+    // light left behind where the band passes
+    X.globalCompositeOperation = 'lighter'; X.lineCap = 'round';
+    for (let s = 5.4; s <= t; s += 0.35) {
+      const P = s4Path(s4Lift(s));
+      X.globalAlpha = 0.032; X.strokeStyle = css(DUSK); X.lineWidth = 52;
+      X.beginPath(); X.moveTo(P[0][0], P[0][1]); X.bezierCurveTo(P[1][0], P[1][1], P[2][0], P[2][1], P[3][0], P[3][1]); X.stroke();
+    }
+    X.globalCompositeOperation = 'source-over'; X.lineCap = 'butt';
+    for (const s of stars) star(s.x, s.y, s.r, ss(0, 0.5, t) * 0.9, 0.3 * ss(7.6, 9.2, t));
+    const f = Math.min(F - 1, Math.round(t * FPS)), g = Math.max(0, f - 5);
+    for (let i = 0; i < N; i++) {
+      const x = pos[(f * N + i) * 2], y = pos[(f * N + i) * 2 + 1], x0 = pos[(g * N + i) * 2], y0 = pos[(g * N + i) * 2 + 1];
+      if (Math.abs(x - x0) + Math.abs(y - y0) < 30) line(x0, y0, x, y, SPARK, 0.3, 0.8);
+      dot(x, y, 1.15, SPARK, 0.85 * ss(0, 0.8, t), 4);
+    }
+  }
+});
+
+/* 5 Kompass: each star keeps its own orbiting sparks; a needle shows its own direction; most agree */
+STUDIES.push({
+  T: 9.5, seed: 55,
+  setup(r) {
+    const th0 = -55 * Math.PI / 180, st = [];
+    for (let row = 0; row < 4; row++) for (let c = 0; c < 3; c++)
+      st.push({ x: 50 + 100 * c + (r() * 2 - 1) * 16, y: 52 + 99 * row + (r() * 2 - 1) * 14 });
+    const dis = new Set();
+    while (dis.size < 3) dis.add((r() * 12) | 0);
+    const off = [Math.PI + 0.5, Math.PI / 2 + 0.2, -Math.PI * 0.62];
+    let k = 0;
+    st.forEach((s, i) => {
+      s.r = 2.1 + r() * 0.8; s.agree = !dis.has(i);
+      s.th = s.agree ? th0 + gauss(r) * 0.26 : th0 + off[k++];
+      s.m = s.agree ? 0.7 + r() * 0.3 : 0.35 + r() * 0.35;
+      s.ph1 = r() * TAU; s.ph2 = r() * TAU;
+      s.sp = [];
+      for (let j = 0; j < 14; j++) s.sp.push({ a: 8 + r() * 12, e: 0.6 + r() * 0.35, rot: r() * TAU, w: 0.5 + r() * 0.8, p: r() * TAU, real: j % 2 === 0 });
+    });
+    shuffle(r, st.map((_, i) => i)).forEach((i, rank) => { st[i].settle = 4.5 + rank * 0.2; });
+    const ux = Math.cos(th0), uy = Math.sin(th0), O = [0, H];
+    const pr = (x, y) => (x - O[0]) * ux + (y - O[1]) * uy;
+    st.forEach(s => { s.s = pr(s.x, s.y); });
+    const cs = [pr(0, 0), pr(W, 0), pr(0, H), pr(W, H)];
+    return { st, ux, uy, O, smin: Math.min(...cs), smax: Math.max(...cs) };
+  },
+  draw(t, { st, ux, uy, O, smin, smax }) {
+    sky(ss(8.0, 9.5, t));
+    const col = ss(1.8, 3.0, t), sh = ss(2.2, 4.2, t), nd = ss(3.4, 4.2, t), wv = ss(6.9, 7.2, t);
+    const F = lerp(smin - 90, smax + 90, ss(6.9, 8.9, t));
+    if (t > 6.9) {
+      const g = X.createLinearGradient(O[0] + ux * (F - 110), O[1] + uy * (F - 110), O[0] + ux * (F + 80), O[1] + uy * (F + 80));
+      g.addColorStop(0, css(WARM, 0.07)); g.addColorStop(0.58, css(WARM, 0.2)); g.addColorStop(1, css(WARM, 0));
+      X.globalCompositeOperation = 'lighter'; X.globalAlpha = wv; X.fillStyle = g; X.fillRect(0, 0, W, H);
+      X.globalCompositeOperation = 'source-over';
+    }
+    X.lineCap = 'round';
+    for (const s of st) {
+      const dx = Math.cos(s.th), dy = Math.sin(s.th), wf = Math.exp(-(((s.s - F) / 30) ** 2)) * wv;
+      for (const q of s.sp) {
+        const ang = q.p + t * q.w, ox = Math.cos(ang) * q.a, oy = Math.sin(ang) * q.a * q.e,
+              cr = Math.cos(q.rot), sr = Math.sin(q.rot), shift = (q.real ? 4.5 : -3) * s.m * sh;
+        dot(s.x + ox * cr - oy * sr + dx * shift, s.y + ox * sr + oy * cr + dy * shift,
+            1.1, mix(SPARK, q.real ? WARM : COOL, col), 0.85 * ss(0, 0.8, t), 4);
+      }
+      if (nd > 0) {
+        const amp = 1.7 * (1 - ss(s.settle - 0.9, s.settle, t)),
+              a = s.th + amp * (Math.sin(t * 2.1 + s.ph1) * 0.7 + Math.sin(t * 3.3 + s.ph2) * 0.45),
+              L = (8 + 12 * s.m) * nd, settled = ss(s.settle - 0.2, s.settle + 0.3, t),
+              b = 0.55 + 0.3 * settled * (s.agree ? 1 : 0) + 0.4 * wf * (s.agree ? 1 : 0),
+              x0 = s.x + Math.cos(a) * (s.r + 1.5), y0 = s.y + Math.sin(a) * (s.r + 1.5),
+              x1 = s.x + Math.cos(a) * (s.r + 1.5 + L), y1 = s.y + Math.sin(a) * (s.r + 1.5 + L);
+        line(x0, y0, x1, y1, SPARK, b, 1.4);
+        dot(x1, y1, 1.0, SPARK, b, 4);
+      }
+      star(s.x, s.y, s.r, ss(0, 0.6, t), wf * 1.3 * (s.agree ? 1 : 0.4));
+    }
+    X.lineCap = 'butt';
+  }
+});
+
+/* 6 Verteilung: sparks rain from the stars into two point bell curves; the gap between the peaks lights up */
+STUDIES.push({
+  T: 9.5, seed: 66,
+  setup(r) {
+    const stars = scatter(r, 16, 16, 18, 284, 100);
+    stars.forEach(s => { s.r = 1.7 + r() * 1.1; });
+    const base = 318, bw = 9, gap = 4.7, sd = 25, N = 84, cdf = x => 0.5 * (1 + erf(x / Math.SQRT2));
+    const slots = [], peaks = [];
+    for (const h of [{ m: 136, c: COOL, real: false, dx: -bw / 4 }, { m: 166, c: WARM, real: true, dx: bw / 4 }]) {
+      let best = -1, bx = 0;
+      for (let k = -10; k <= 10; k++) {
+        const x = 150 + k * bw + h.dx;
+        let cnt = Math.round(N * (cdf((x + bw / 2 - h.m) / sd) - cdf((x - bw / 2 - h.m) / sd)));
+        if (r() < 0.3) cnt += r() < 0.5 ? -1 : 1;
+        cnt = Math.max(0, cnt);
+        if (cnt > best || (cnt === best && Math.abs(x - h.m) < Math.abs(bx - h.m))) { best = cnt; bx = x; }
+        for (let j = 0; j < cnt; j++) slots.push({ x, y: base - j * gap, c: h.c, key: j + r() * 1.6 });
+      }
+      peaks.push({ x: bx, y: base - (best - 1) * gap });
+    }
+    slots.sort((a, b) => a.key - b.key);
+    const n = slots.length, lands = [];
+    for (let i = 0; i < n; i++) lands.push(1.6 + (i / (n - 1)) * 4.9 + r() * 0.25);
+    lands.sort((a, b) => a - b);
+    slots.forEach((q, i) => {
+      const s = stars[(r() * stars.length) | 0];
+      q.sx = s.x; q.sy = s.y; q.dur = 1.5 + r() * 0.5; q.t0 = lands[i] - q.dur; q.sway = (r() * 2 - 1) * 12;
+    });
+    return { stars, slots, peaks, base };
+  },
+  draw(t, { stars, slots, peaks, base }) {
+    sky(ss(7.9, 9.5, t));
+    for (const q of slots) {
+      if (t < q.t0) continue;
+      const p = cl((t - q.t0) / q.dur), e = ease(p);
+      dot(lerp(q.sx, q.x, e) + Math.sin(p * Math.PI) * q.sway, lerp(q.sy, q.y, e), 1.5,
+          mix(SPARK, q.c, ss(0.55, 1, p)), 0.9, 3.5);
+    }
+    const [pc, pw] = peaks, ly = Math.min(pc.y, pw.y) - 10, g = ss(6.9, 7.6, t);
+    if (g > 0) {
+      const xe = lerp(pc.x, pw.x, g);
+      X.globalCompositeOperation = 'lighter'; X.lineCap = 'round';
+      line(pc.x, ly, xe, ly, WARM, 0.25 * g, 6);
+      X.globalCompositeOperation = 'source-over';
+      line(pc.x, ly, xe, ly, SPARK, 0.95, 1.4);
+      line(pc.x, ly - 3, pc.x, ly + 3, SPARK, 0.8 * g, 1);
+      line(pw.x, ly - 3, pw.x, ly + 3, SPARK, 0.8 * ss(7.4, 7.6, t), 1);
+      X.lineCap = 'butt';
+    }
+    const la = ss(5.6, 6.4, t);
+    label('placebo', 92, base - 40, COOL, la, 'right');
+    label('real', 210, base - 40, WARM, la, 'left');
+    for (const s of stars) star(s.x, s.y, s.r, ss(0, 0.6, t), 0.3 * ss(7.8, 9.3, t));
+  }
+});
+
+/* ---------- runner ---------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+const tiles = [];
+let raf = 0, last = 0;
+
+class Tile {
+  constructor(stage) {
+    this.stage = stage; this.cv = stage.querySelector('canvas'); this.ctx = this.cv.getContext('2d');
+    this.study = STUDIES[+stage.dataset.study]; this.n = +stage.dataset.study + 1;
+    this.state = null; this.t = 0; this.visible = false; this.frames = 0;
+    this.playing = !reduce.matches; this.once = false;
+    if (reduce.matches) this.toEnd();
+    stage.setAttribute('role', 'button'); stage.tabIndex = 0;
+    this.label();
+    const act = e => { e.stopPropagation(); this.restart(); };
+    stage.addEventListener('click', act);
+    stage.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(e); } });
+    stage.querySelector('.play').addEventListener('click', act);
+  }
+  label() { this.stage.setAttribute('aria-label', `Studie ${this.n} ${reduce.matches ? 'abspielen' : 'neu starten'}`); }
+  toEnd() { this.t = this.study.T; this.playing = false; this.once = false; this.stage.classList.add('still'); }
+  restart() {
+    this.t = 0; this.playing = true; this.once = reduce.matches;
+    this.stage.classList.remove('still');
+    this.render(); kick();
+  }
+  resize() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1), w = this.cv.clientWidth;
+    if (!w) return;
+    const pw = Math.round(w * dpr), ph = Math.round(w * dpr * H / W);
+    if (pw !== this.cv.width || ph !== this.cv.height) { this.cv.width = pw; this.cv.height = ph; }
+    this.render();
+  }
+  render() {
+    if (!this.cv.width) return;
+    if (!this.state) this.state = this.study.setup.call(this.study, rng(this.study.seed));
+    X = this.ctx;
+    X.setTransform(this.cv.width / W, 0, 0, this.cv.height / H, 0, 0);
+    X.globalAlpha = 1; X.globalCompositeOperation = 'source-over';
+    const T = this.study.T;
+    this.study.draw(Math.min(this.t, T), this.state);
+    X.globalAlpha = 1; X.globalCompositeOperation = 'source-over';
+    const L = T + HOLD;
+    if (!this.once && this.playing && this.t > L - FADE) { X.fillStyle = css(BASE, ss(L - FADE, L, this.t)); X.fillRect(0, 0, W, H); }
+    this.frames++;
+  }
+  step(dt) {
+    this.t += dt;
+    const T = this.study.T;
+    if (this.once) { if (this.t >= T) this.toEnd(); }
+    else if (this.t >= T + HOLD) this.t = 0;
+    this.render();
+  }
+}
+
+function tick(now) {
+  raf = 0;
+  const dt = Math.min(0.1, Math.max(0, (now - last) / 1000));
+  last = now;
+  if (document.hidden) return;
+  let any = false;
+  for (const tl of tiles) if (tl.visible && tl.playing) { tl.step(dt); any = true; }
+  if (any) raf = requestAnimationFrame(tick);
+}
+function kick() { if (!raf && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(tick); } }
+
+document.querySelectorAll('.stage').forEach(s => tiles.push(new Tile(s)));
+const io = new IntersectionObserver(entries => {
+  for (const en of entries) {
+    const tl = tiles.find(x => x.stage === en.target);
+    tl.visible = en.isIntersecting;
+    if (tl.visible) { if (!tl.state) tl.render(); kick(); }
+  }
+});
+const ro = new ResizeObserver(entries => { for (const en of entries) tiles.find(x => x.cv === en.target).resize(); });
+tiles.forEach(tl => { io.observe(tl.stage); ro.observe(tl.cv); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+const onReduce = () => {
+  tiles.forEach(tl => { if (reduce.matches) { tl.toEnd(); tl.render(); } else { tl.stage.classList.remove('still'); tl.playing = true; tl.t = 0; } tl.label(); });
+  kick();
+};
+if (reduce.addEventListener) reduce.addEventListener('change', onReduce);
+
+// inspection hook for local checks: seek(i, t) draws study i at time t and pauses it
+window.__punkt = { tiles, seek(i, t) { const tl = tiles[i]; tl.playing = false; tl.t = t; tl.render(); } };
+})();
+</script>
