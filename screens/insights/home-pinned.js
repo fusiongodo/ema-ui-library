@@ -18,6 +18,6 @@ SCREENS.push({ id:"insights/home-pinned", area:"Insights", status:"idea", title:
       marks:[["2026-10-12","1 mg"]], avg:["2026-10-12"]},
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
-    {t:"sec", l:"Trials"},
+    INSIGHTS_TRIALS_SEC,
     INSIGHTS_TRIALS,
   ]});

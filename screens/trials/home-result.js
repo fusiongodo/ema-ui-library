@@ -8,7 +8,7 @@ SCREENS.push({ id:"insights/home-result", area:"Insights", status:"idea", title:
   ],
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Trials"},
+    INSIGHTS_TRIALS_SEC,
     {t:"tile", tone:"lilac", cta:true, l:"Your trial result is ready", n:"Magnesium · 63 days · symptom score", go:"trials/guess"},
     INSIGHTS_GUIDE,
     {t:"sec", l:"Patterns", r:"found in your data"},

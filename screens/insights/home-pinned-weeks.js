@@ -14,6 +14,6 @@ SCREENS.push({ id:"insights/home-pinned-weeks", area:"Insights", status:"idea", 
       avg:["2026-10-21"]},
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
-    {t:"sec", l:"Trials"},
+    INSIGHTS_TRIALS_SEC,
     INSIGHTS_TRIALS,
   ]});

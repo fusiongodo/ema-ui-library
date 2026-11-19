@@ -16,6 +16,9 @@ const INSIGHTS_PATTERNS = [
 const INSIGHTS_ASK = {t:"tile", tone:"white", l:"Ask about your data", n:"Tap a question or ask in your own words.",
   chips:["Did the dose change help?","What happens after I skip a dose?","How were my last two weeks?","Ask by voice"],
   go:["insights/ask-answer","insights/ask-skip","insights/ask-weeks","voice/listen"]};
+/* the Trials heading in every state of the tab: "+ Add" at its right end, as "Your protocols" in Protocols; sets up a
+   (further) trial. The start tile below it (INSIGHTS_TRIALS) only stands where no trial exists yet. */
+const INSIGHTS_TRIALS_SEC = {t:"sec", l:"Trials", act:"+ Add", go:"trials/intro"};
 const INSIGHTS_TRIALS = {t:"tile", tone:"white", l:"Find out if something really helps", n:"A blinded test against a placebo, with a helper.",
   chips:["Start a trial"], go:["trials/intro"]};
 /* the optional trial guide, a small entry under the trial card in every state of the tab (trials/guide) */
@@ -26,7 +29,7 @@ const INSIGHTS_CONCEPT = [
   "<b>Evaluation:</b> for an as-needed protocol the app can also look at everything that was different after it (Rapamycin: six measures from check-ins and Apple Health). Its card names the evaluation, not one finding, and opens an overview (insights/eval-rapamycin).",
   "<b>Ask</b> is the agent. It picks from a fixed set of built analyses (before / after a change, days after an event, last weeks vs. earlier …); the language model only chooses the analysis and words the answer, the numbers come from the built functions. The answer is one chart card plus one sentence.",
   "<b>Pin to Insights</b> turns an answer into a widget on this page, so every user's Insights tab becomes their own (insights/home-pinned).",
-  "<b>Trials:</b> a personal placebo-controlled test (N-of-1, see BACKLOG). Started here, from a pattern ('Run a trial' on the evidence screen) or from a protocol's detail screen; all open trials/intro (flow 'Personal trial'). A quiet line under the trial card opens the optional two-minute guide (trials/guide) in every state of the tab. While a trial runs, its card takes this place (insights/home-trial); when it is over, the result card (insights/home-result).",
+  "<b>Trials:</b> a personal placebo-controlled test (N-of-1, see BACKLOG). Started here, from a pattern ('Run a trial' on the evidence screen) or from a protocol's detail screen; all open trials/intro (flow 'Personal trial'), as does '+ Add' on the Trials heading in every state of the tab; the start tile stands only while no trial exists. A quiet line under the trial card opens the optional two-minute guide (trials/guide) in every state of the tab. While a trial runs, its card takes this place (insights/home-trial); when it is over, the result card (insights/home-result).",
   "<b>Placeholders:</b> the first and the third pattern and all three questions have their own screen; the second pattern has none yet. 'Ask by voice' opens the listening layer.",
   "<b>Colour:</b> the page is the Insights world (lilac rosé); a pattern's icon is Insights' own, its tile wears the world of its source (Protocols periwinkle, PRINCIPLES 9), so a finding about a protocol no longer looks like a Protocols item but still says where it comes from. No tinted card here: nothing on this page wants something from the user right now (PRINCIPLES 8)."
 ];
@@ -40,7 +43,7 @@ SCREENS.push({ id:"insights/home", area:"Insights", status:"idea", title:"Insigh
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
-    {t:"sec", l:"Trials"},
+    INSIGHTS_TRIALS_SEC,
     INSIGHTS_TRIALS,
     INSIGHTS_GUIDE,
   ]});

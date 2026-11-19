@@ -43,7 +43,7 @@ const trialRule = who => ({t:"tl", ic:["twins","key","hash"], rows:[
   ["", "Each one carries only a number", "1 to 63, one a day. The number tells you nothing."]]});
 SCREENS.push({ id:"trials/intro", area:"Insights", status:"idea", title:"Trial · what it is",
   sheet:true,
-  why:"Opened from 'Start a trial' on the Insights tab, from 'Run a trial' under a pattern, or from a protocol's detail screen. Three plain points, one honest line on limits, then one action. The two terms a newcomer meets here (placebo, blinded) carry a small info icon; a quiet link offers the two-minute guide. It reads aloud in under 20 seconds.",
+  why:"Opened from 'Start a trial' or '+ Add' on the Insights tab, from 'Run a trial' under a pattern, or from a protocol's detail screen. Three plain points, one honest line on limits, then one action. The two terms a newcomer meets here (placebo, blinded) carry a small info icon; a quiet link offers the two-minute guide. It reads aloud in under 20 seconds.",
   concept:[
     "<b>Three steps, nothing more, as actions:</b> a helper fills the capsules, you log as usual, the app tells you. Relaxed everyday words that still use the proper terms: 'real' and 'placebo' by name, 'blinded' said once with what it means.",
     "<b>Proper terms, explained on demand:</b> 'placebo' and 'blinded' are named as what they are; the (i) after the first row (placebo) and the second row (blinded) opens a half sheet with a small picture and one or two sentences (trials/term-placebo, term-blinded). 'Randomized' follows where the app draws the blocks (trials/length).",

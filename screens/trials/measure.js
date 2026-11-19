@@ -24,11 +24,13 @@ function trialMeasure(k, title, why, concept){
         go:MEASURE_IDS.map((id, i)=>i === k ? null : id), info:["trials/term-composite", null, null]},
       ...(k === 1 ? [{t:"pills", items:["Fatigue","Pain","Brain fog"], on:["Fatigue"]}] : []),
       {t:"note", l:"Whichever way you choose is fixed before the start. Judged side by side, each score needs a clearer difference before the app calls it ‘likely’: with more scores, one of them stands out by chance more easily."},
+      {t:"sec", l:"Also for this trial"},
+      {t:"list", rows:[["Questionnaires","Instrument Q1 ›"],["Apple Health","Steps, Sleep ›"]], go:["trials/pick-questionnaires","trials/pick-health"]},
       {t:"btn", l:"Continue", go:"trials/length"},
     ]};
 }
 SCREENS.push(trialMeasure(0, "Trial · 2 Scores and primary outcome",
-  "Which check-in scores the trial looks at, and how the result is judged: as one composite score, by one score, or with no primary outcome (all side by side). Chosen before the start. Demo: the composite of Fatigue, Pain and Brain fog.",
+  "Which check-in scores the trial looks at, and how the result is judged: as one composite score, by one score, or with no primary outcome (all side by side). Chosen before the start. Demo: the composite of Fatigue, Pain and Brain fog. Below, 'Also for this trial' adds questionnaires and Apple Health measures, each from its own picker.",
   [
     "<b>From the check-ins:</b> the scores the person already logs, nothing new to record. '+ Add a score' opens the check-in configuration, where a new score is created for every check-in.",
     "<b>The person decides how the result is judged.</b> Pain, brain fog, fatigue and sleep all matter for a functioning life; forcing one of them to decide would be a bias of its own. Three equal ways, each with its meaning in one line, none marked as better.",
@@ -36,6 +38,7 @@ SCREENS.push(trialMeasure(0, "Trial · 2 Scores and primary outcome",
     "<b>The honest part, one calm sentence:</b> whichever way is chosen is fixed before the start; judged side by side, each score needs a clearer difference before the app calls it 'likely', because with more scores one of them stands out by chance more easily. Information, not a warning.",
     "<b>States in place:</b> a tap on 'One score' or 'No primary outcome' changes this step in place (trials/measure-one, -none, `of`); 'One score' adds a row of pills to pick which.",
     "<b>Neutral wording:</b> the step asks what to track, not what should happen. No word suggests an expected direction.",
+    "<b>Also for this trial:</b> two rows open pickers for questionnaires (trials/pick-questionnaires) and Apple Health measures (trials/pick-health); both are optional and fixed before the start like the rest.",
   ]));
 SCREENS.push(trialMeasure(1, "Trial · 2 Primary outcome: one score",
   "The same step with 'One score' chosen: a row of the tracked scores appears under the choice to pick which one decides (Fatigue here). The others are reported next to it.",

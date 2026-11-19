@@ -40,7 +40,7 @@
 /* cards: soft, generously rounded, depth from shadow / translucency instead of lines */
 .frame.soft .stage :is(.tile,.fold,.list,.slider,.dl,.wg,.stepper,.choice > div,.pl,.cal,.stats,.lm-card,.rv){box-shadow:var(--th-shadow)}
 .frame.soft .stage :is(.slider:has(+ .slider),.slider + .slider){box-shadow:var(--th-shadow-flat)}   /* grouped card: no shadow seams */
-.frame.soft .stage :is(.qr,.fill,.org,.checks){box-shadow:var(--th-shadow)}   /* trial: QR card, the helper's fill plan, organizer, checklist */
+.frame.soft .stage :is(.qr,.fill,.org,.checks,.nd){box-shadow:var(--th-shadow)}   /* trial: QR card, the helper's fill plan, organizer, checklist, needs tiles */
 .frame.soft .stage :is(.field .box,.stepper){border-radius:18px}
 .frame.soft .stage :is(.item,.spark,.wg .wr,.dl .dr){border-top-color:var(--line)}
 .frame.soft .stage .slider + .slider:before{background:var(--line)}

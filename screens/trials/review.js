@@ -14,6 +14,8 @@ SCREENS.push({ id:"trials/review", area:"Insights", status:"idea", title:"Trial 
       ["Test", "Magnesium 300 mg", "", "trials/what"],
       ["Scores", "Fatigue, Pain, Brain fog", "", "trials/measure"],
       ["Primary outcome", "Composite score", "", "trials/measure"],
+      ["Questionnaires", "Instrument Q1", "", "trials/measure"],
+      ["Apple Health", "Steps, Sleep", "", "trials/measure"],
       ["Block duration", "1 week", "", "trials/length"],
       ["Washout period", "2 days before each block", "", "trials/length"],
       ["Total duration", "63 days · 8 weeks rounded up", "", "trials/length"],

@@ -288,7 +288,11 @@ section{scroll-margin-top:56px}
 .ds-s{display:flex;flex-direction:column;gap:6px;--dsg:1.5px}
 .dsd{display:grid;grid-template-columns:repeat(28,1fr);gap:var(--dsg)}
 .dsd i,.ds-k i{display:block;aspect-ratio:1;border-radius:50%;box-sizing:border-box}
-.dsd i.a,.ds-k i.a{background:var(--ink)} .dsd i.b,.ds-k i.b{box-shadow:inset 0 0 0 1.5px var(--ink)} .dsd i.f,.ds-k i.f{opacity:.22}
+/* the trial's two kinds, shared by the daystrip's reveal and the organizer: a = real (filled), b = placebo (ring); declared on
+   the widgets themselves so each theme's --ink resolves where it is used. Cozy and Studio set their own (cozy.css, studio.css).
+   --trial-on: a letter on a filled dot (the card colour). */
+.ds,.org{--trial-a:var(--ink);--trial-b:var(--ink);--trial-on:var(--th-card-solid,var(--white))}
+.dsd i.a,.ds-k i.a{background:var(--trial-a)} .dsd i.b,.ds-k i.b{box-shadow:inset 0 0 0 1.5px var(--trial-b)} .dsd i.f,.ds-k i.f{opacity:.22}
 .dsd i.v{background:#c9c9c9} .ds.veil .ds-s{position:relative}
 .dsx{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:2px}
 /* a shorter last line (--n dots, set by render.js): the numbers span only its dots, so the end number ends under the last dot.
@@ -307,19 +311,25 @@ section{scroll-margin-top:56px}
 .fl-tot{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:5px solid var(--grey);font-size:12px;color:var(--muted)} .fl-tot b{color:var(--ink)}
 .fill.rg .fl-r{grid-template-columns:54px 1fr 22px} .fill.rg .fl-n{width:auto;padding:0 4px}
 /* trial helper, organizer way: one week of a pill organizer (organizer), a short checklist (checks), a photo placeholder
-   (photo). M = the warm trial colour, P = a cool grey-blue; both fixed, with white letters, so they read on light and dark
-   cards alike. Ticks: ink circle, the tick in the card colour (--th-card-solid), so they invert with dark themes. */
+   (photo). M and P speak the daystrip's colour language (--trial-a / --trial-b, set with the daystrip above): M a filled
+   dot with its letter in the card colour (--trial-on), P a ring with its letter in the ring colour, so they differ without
+   colour too. Ticks: ink circle, the tick in the card colour (--th-card-solid), so they invert with dark themes. */
 .org{background:var(--white);border-radius:16px;padding:10px 10px 9px;display:flex;flex-direction:column;gap:8px}
 .og-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .og-c{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0 7px;border-radius:10px;background:var(--grey);box-shadow:inset 0 0 0 1px var(--line);min-width:0}
 .og-d{font-size:10.5px;font-weight:600;color:var(--muted)}
-.og-p{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font-style:normal;font-size:11px;font-weight:700;color:#fff;background:#8C9DB3;flex:none}
-.og-p[data-k="a"]{background:#D9822B}
+.og-p{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;font-style:normal;font-size:11px;font-weight:700;flex:none;box-sizing:border-box;
+  color:var(--trial-b);background:none;box-shadow:inset 0 0 0 1.5px var(--trial-b)}
+.og-p[data-k="a"]{color:var(--trial-on);background:var(--trial-a);box-shadow:none}
 .og-t{display:block;width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--muted);opacity:.7;position:relative}
 .og-c.done .og-t,.ck-r.done .ck-c{background:var(--ink);box-shadow:none;opacity:1}
 .og-c.done .og-t:after,.ck-r.done .ck-c:after{content:"";position:absolute;left:5.5px;top:2.5px;width:3.5px;height:7.5px;border:solid var(--th-card-solid,#fff);border-width:0 2px 2px 0;transform:rotate(45deg)}
 .og-k{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px} .og-k span{display:flex;align-items:center;gap:6px} .og-k .og-p{width:16px;height:16px;font-size:9px}
 .og-n{font-size:11.5px;color:var(--muted);font-weight:600}
+/* needs: small picture tiles, two to a row (trials/helper-setup, "You'll need"): glyph, the thing, the amount quiet */
+.needs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nd{background:var(--white);border-radius:16px;padding:10px 12px 11px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
+.nd svg{width:26px;height:26px;color:var(--ink);margin-bottom:4px} .nd b{font-size:13px;font-weight:600;line-height:1.2} .nd .n{font-size:11.5px;color:var(--muted)}
 .checks{background:var(--white);border-radius:16px;padding:0 12px}
 .ck-r{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)} .ck-r:first-child{border-top:0}
 .ck-c{display:block;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--muted);opacity:.7;position:relative}
@@ -631,9 +641,10 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .fl-r:not(.pe):not(:first-child){border-top-width:8px}
 .stage .fl-n{width:36px;height:36px;border-radius:12px;font-size:var(--t-body);font-weight:700} .stage .fl-t .n{font-size:var(--t-foot);margin-top:1px}
 .stage .fl-c{width:28px;height:28px;box-shadow:inset 0 0 0 2px #a8a8a8} .stage .fl-r.done .fl-c:after{left:10px;top:6px;width:6px;height:11px;border-width:0 2.5px 2.5px 0}
+.stage .needs{gap:var(--gap)} .stage .nd{border-radius:var(--rad);padding:14px 16px 15px} .stage .nd svg{width:30px;height:30px} .stage .nd b{font-size:var(--t-body)} .stage .nd .n{font-size:var(--t-foot)}
 .stage :is(.org,.checks){border-radius:var(--rad)} .stage .org{padding:14px 12px 12px;gap:12px} .stage .og-row{gap:5px}
 .stage .og-c{cursor:pointer;padding:9px 0 10px;gap:8px;border-radius:12px} .stage .og-d{font-size:var(--t-foot)}
-.stage .og-p{width:30px;height:30px;font-size:14px} .stage .og-t{width:22px;height:22px}
+.stage .og-p{width:30px;height:30px;font-size:14px} .stage .og-p:not([data-k="a"]){box-shadow:inset 0 0 0 2px var(--trial-b)} .stage .og-t{width:22px;height:22px}
 .stage .og-c.done .og-t:after{left:8px;top:4px;width:5px;height:10px;border-width:0 2.5px 2.5px 0}
 .stage .og-k,.stage .og-n{font-size:var(--t-foot)} .stage .og-k .og-p{width:20px;height:20px;font-size:11px}
 .stage .checks{padding:0 var(--pad)} .stage .ck-r{grid-template-columns:28px 1fr;gap:12px;min-height:var(--row);cursor:pointer}

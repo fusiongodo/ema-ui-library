@@ -11,6 +11,6 @@ SCREENS.push({ id:"insights/home-pinned-skip", area:"Insights", status:"idea", t
       series:SKIP_SERIES, marks:SKIP_MARKS},
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
-    {t:"sec", l:"Trials"},
+    INSIGHTS_TRIALS_SEC,
     INSIGHTS_TRIALS,
   ]});
