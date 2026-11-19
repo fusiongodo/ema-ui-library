@@ -10,10 +10,10 @@ const TODAY_HOME_W = [
     ["Brain fog", "4", [4,5,5,3,4,4,4]],
     ["Pain",      "3", [3,3,2,4,3,3,3]],
     ["Wellbeing", "6", [5,4,6,5,7,6,6]]]},
-  {t:"sec", l:"Play"},
+  {t:"sec", l:"Play", act:"All ›", go:"play/home"},
   {t:"row", items:[
-    {t:"tile", tone:"white", h:84, l:"Dual n-back", n:"3 min\nGame of the day", go:"checkins/games"},
-    {t:"tile", tone:"white", h:84, l:"Reaction", n:"1 min", go:"checkins/games"}]},
+    {t:"tile", tone:"white", h:84, l:"Dual n-back", n:"3 min\nGame of the day", go:"play/home"},
+    {t:"tile", tone:"white", h:84, l:"Reaction", n:"1 min", go:"play/home"}]},
 ];
 SCREENS.push({ id:"today/home", area:"Today", status:"idea", title:"Today · widget home",
   tabs:"idea", tab:"Today",

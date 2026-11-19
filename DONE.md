@@ -70,3 +70,6 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 
 ## Research
 - **19 Nov** · Play: which game platforms give results back, which cognitive tasks fit, what iOS allows for games (`research/play-games.md`).
+
+## Play
+- **19 Nov** · Play section: game of the day, games in the app, level chosen freely and saved with the result, a calm result against your usual, "Not today" with a reason, connecting through the agent with tiles, "How you played" over four weeks. The game itself is a stand-in.

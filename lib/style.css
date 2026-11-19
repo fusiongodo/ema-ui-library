@@ -30,6 +30,7 @@ section{scroll-margin-top:56px}
 .shead .side{color:var(--muted);font-size:13px} .shead .side:first-child{text-align:left} .shead .side:last-child{text-align:right}
 .shead b{font-size:14px;display:block} .shead .n{font-size:11.5px;color:var(--muted)}
 .big{padding:2px 4px 0} .big b{font-size:19px;display:block} .big .n{color:var(--muted);font-size:12.5px}
+.big.c{text-align:center;padding:28px 4px 18px} .big.c b{font-size:44px;line-height:1.1}
 .tile{border-radius:18px;padding:10px 12px;display:flex;flex-direction:column;justify-content:space-between}
 .tile .top{display:flex;justify-content:space-between;align-items:center;gap:6px}
 .tile .l{font-weight:600;font-size:13px} .tile .n{color:var(--muted);font-size:11.5px;white-space:pre-line}
@@ -544,6 +545,7 @@ a,button,label{cursor:pointer;-webkit-tap-highlight-color:rgba(61,111,216,.18)}
 .stage .shead b{font-size:var(--t-body);font-weight:600;line-height:1.25}
 .stage .shead .n{font-size:var(--t-foot)}
 .stage .big{padding:4px 4px 2px} .stage .big b{font-size:var(--t-title);font-weight:700;line-height:1.15} .stage .big .n{font-size:var(--t-sub);margin-top:4px}
+.stage .big.c{padding:48px 4px 28px} .stage .big.c b{font-size:64px;line-height:1.05} .stage .big.c + .pills{justify-content:center;gap:12px} .stage .big.c + .pills span{min-width:72px;text-align:center;font-size:var(--t-title);padding:14px 18px;border-radius:20px}
 .stage .sec{padding:10px 4px 0;font-size:var(--t-sec);font-weight:600;line-height:1.2;gap:12px}
 .stage .sec span{font-size:var(--t-sub)}
 .stage .sec .act{display:inline-flex;align-items:center;min-height:var(--chip);padding:0 16px;font-size:var(--t-sub);flex:none}
