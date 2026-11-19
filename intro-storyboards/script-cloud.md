@@ -175,3 +175,17 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - The centre swells to size 100 instead of 70, with a soft warm halo, and keeps drifting to 104 until 5.6 so it never freezes. The growth is warm glow, not a larger white disc.
 
 **Round 7 is built and published (19 Nov 2026), not judged yet.** 13.8 s, camera, star positions and all times as in round 6. Measured: the visible glow of the centre at 5.0 is 1.46 times as wide as in round 6, its white core unchanged; white pixels around the centre during the broadcast (5.7 to 6.2) are at most 1.1 times round 6. Known: the first version of the streaks (round 7 before the fix) was a white star-burst around 6.0, the "explosion" he rejected in round 1; it took three steps to remove (darker inner zone, warmer and dimmer streaks, shorter streaks 0.16). In stills the larger centre is a modest change; the thin rays still converge into a white core about 25 px across.
+
+## Feedback, round 7 (Alex, 19 Nov 2026, night)
+
+- The rain into the two bells "ist noch perfekt".
+- **A slight halt remains between rain and ring.** The lower stars start to lift only about when the last one lands. "Es ist fast kein Stopp, aber es fühlt sich trotzdem wie einer an." The lower ones could flow away from 9.2 s.
+- **Both sides should form the ring counter-clockwise together**, not running against each other. The old motion "ist auch sexy", but this flows better.
+
+### What Claude changes for round 8 (Claude's decisions, to be judged)
+- The ring starts at 9.2 instead of 9.58. Stars leave in the order they landed, so the heaps empty from below while the last stars still fall.
+- One swirl: every star travels counter-clockwise around the ring's centre, slots given in angle order so no two paths cross. The ring turns counter-clockwise from the first departure on, so an arriving star merges into the turning ring.
+- A star first comes in to the ring (radius done after 55 % of its travel) and then runs along it to its slot, like a thread winding onto a spool. Far travellers get more time (0.94 to 1.64 s) and a softer ease.
+- Highlight and wordmark keep their distance to the ring start, so they come 0.38 s earlier. The draft is 13.4 s long.
+
+**Round 8 is built and published (19 Nov 2026), not judged yet.** 13.42 s; everything up to 9.15 s identical to round 7. First departure 9.20; at 9.83 (last landing) 70 % of the stars are already under way; last arrival 11.72; wordmark from 12.2. No star ever turns clockwise; fastest star 346°/s (the first build had 644°/s and left the frame over the top). Known: because both heaps lie within 68° as seen from the ring's centre, some stars must travel almost a full turn (40° to 368°). While the ring fills, the arc already wound on (right side, around 10.0 to 10.5) is brighter than the finished ring. The columns hollow out from below, so their tops hang for about half a second. One star leaves the stage on the right by about 16 px around 9.97. The bell outlines fade 9.58 to 10.18 as before, so for a moment they frame heaps that are mostly gone.
