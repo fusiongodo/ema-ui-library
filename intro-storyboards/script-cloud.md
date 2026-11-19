@@ -201,3 +201,17 @@ Still a little rough. It runs in blocks: rotation, stop, move up, line, stop, he
 - The ring fills like a thread winding on: the first to arrive runs farthest, each later one seats itself behind. Stars are dimmed to 62 % while they run along the ring, otherwise the running thread is a white strip.
 
 **Round 9 is built and published (19 Nov 2026), not judged yet.** 13.42 s; everything up to 9.15 s and every departure time identical to round 8. First touch 9.86, first star seated 10.96, last arrival 11.72. Direction changes at the touch point by at most 2.6°, speed by 0.9 %. Known: 26 stars start inside the ring and spiral outward onto it instead of flying a tangent. Runs along the ring are 37° to 422°, so the head of the thread goes once round. Stars still overtake each other slightly on the ring (up to 6°, about ten places in a thread of 600; Claude's first slot rule gave 70°); a fix is known (order by pass time in the fixed frame), not applied. Where the stream meets the ring (lower right, around 10.2) the picture is busy and a little bright.
+
+## Feedback, round 9 (Alex, 19 Nov 2026, night)
+
+- Rise and rain: "super smooth".
+- **The giving starts a little too early** (while one only begins to see the cloud) **and then leaves a pause**: "Die Mitte leuchtet, die Mitte leuchtet. Und dann strahlt sie nach außen." The relays from outside should go on and on while the centre glows and grows, even while the centre's rays to the stars appear. Only when the centre sends its packages outward do the stars stop sending; from then on light travels only outward. They should also come more often. The length of the scene from the start of the third dimension to broadcast and rise stays.
+- **The lower stars still leave the heaps too late:** from 9.0 or 9.1. The upper ones stay at their target places in the column; nothing drops down to fill gaps.
+
+### What Claude changes for round 10 (Claude's decisions, to be judged)
+- 24 gives instead of 8, from 3.3 s (was 2.9), in ever shorter gaps (0.10 down to 0.03 s). The last package arrives at 5.48, just before the centre sends its own at 5.5; every inbound ray is gone by 5.6.
+- Only stars inside the frame give. The eight old givers stay, each at the first moment it is in the frame; sixteen new ones come from changing directions (each 77° to 150° away from the one before), from the outer part of the cloud.
+- The pulses of the many arrivals add up with a soft cap, so the centre does not flash.
+- The ring starts at 9.0 instead of 9.2. Highlight, wordmark and the end keep their times.
+
+**Round 10 is built and published (19 Nov 2026), not judged yet.** 13.42 s. Camera identical at every moment; star positions identical to round 9 until 8.95; broadcast, rise and rain untouched. At most 14 packages in flight at once (at 4.75). Ring: 553 of 600 stars under way when the last star lands (9.83); last arrival 11.52; overtaking on the ring down to 15 stars at the tail of the thread (3.6°). Known: between 4.6 and 5.2 the white area around the centre is about twice that of round 9, because comet heads and rays now converge there the whole time (the centre itself is capped: brightness at most 1.19, size 104); a fix is known (fade each comet over the last quarter of its way), not applied. The eight old givers therefore no longer give in their old order.
