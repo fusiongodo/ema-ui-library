@@ -218,6 +218,20 @@ Seeds:
 - Icons he is unsure about: the capsule on the pattern cards (being replaced by an Insights icon in the source area's colour) and the flask on the Trials tile (left as it is for now).
 - No visible scrollbar inside the phone in the prototype (done).
 
+## Design work that is not SVG: backgrounds, pictures, avatars (Alex, 19 Nov 2026)
+When the icons are taken up again with Blender or another program (the clay look, see the Icon Lab below), a second, separate piece of design work belongs next to it: **really beautiful backgrounds.** His example: at a certain time of day an orange and pink evening sky, not a sunset as a motif, just the clouds and the sky, running in a gradient into a slightly beige white. More of the same kind is needed: backgrounds, pictures, avatars; "a lot of design work that is not SVG".
+- The style he means for the cloud pictures is the **Sky theme as it is now**, with its clouds and its moon: "der Mond, die Wolken, herrlich". That is the reference for skies, not for the clay objects.
+- Related, already noted: a real sky as a background picture (he wants to pick references first), time of day in Cozy, the real companion illustration.
+- How it is made is open, together with the tool question for the intro and the clay icons (video and image models, Blender, animation programs).
+
+## Trial screens: feedback of 19 Nov 2026
+- The helper flow is "really solid"; details later. It still has an **"Excel vibe"** in places, most of all the "You'll need" list. He is unsure whether better design would only clutter a flow that is already complicated for a user; Claude's line: turn only the list of physical things into pictures, leave the rest plain.
+- Wording: "Choose how" sounds wrong; "Fill by plan" instead of "Fill by the plan".
+- The orange for Magnesium in the organizer only looks right in Sky; in the other themes the organizer's colours do not fit, and even in Sky it could be better.
+- After a trial is started, the Trials section should have an "Add" at the right of its heading, like "Your protocols" in Wire.
+- Setup: questionnaires chosen specially for this trial, kept abstract for now ("Instrument Q1, Q2, Q3"); which ones is a separate branch of the project (the outcome-measures work).
+- Setup: Apple Health data can be ticked. His purpose for ticking: the person takes special care to wear and charge the tracker during the trial. Data that was not ticked can still be evaluated afterwards. What else ticking should mean he does not know yet. Claude's reading, not yet answered by him: ticked = fixed before the start and part of the result; not ticked = looked at afterwards, a hint at most.
+
 ## Icons of our own: the Icon Lab (Alex, 18 Nov 2026)
 **How it works:** for each icon he sees the reference cut out of the inspiration next to three to five variants of our own, and approves one or rejects all. "Inspired, not copied": he wants to keep working on the variants himself. When every icon is approved, the set goes into Studio and the other themes. Everything is in `icon-lab/` (references, variants as modules and as single SVG files, generators, decisions); see `icon-lab/README.md`.
 
