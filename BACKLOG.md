@@ -130,6 +130,8 @@ Picture ideas to start from:
 6. Wordmark over the bright sky.
 Spoken lines to try: "Every day, millions of us notice what helps." / "Alone, it's a guess." / "Together, it's a signal." / "MEjority."
 
+**Version 2 (19 Nov 2026), after his feedback on the first sketch.** He likes the story ("richtig geil") but frame 4 fell out of the picture: until then the dots were people, then they were suddenly trial data points in a chart. He wants it integrated, not removed. The cause sat in frame 3, where the people themselves moved to the centre. Now two things exist: a **star is a person and stays where it is**; a **spark is a data point and travels**. Sparks all look the same on the way (blinded); only in the centre they show their colour and sort into two layers, and the "real" layer lifts off the "placebo" layer. Same place, same sky, the people still around it; no axes. In frame 5 the lifted layer becomes the light that runs back along the same trails. Sketches: `intro-storyboards/sketches/one-dot-each.png` (first), `one-dot-each-2.png` (version 2). Open: his verdict on version 2; whether the lift should stay modest with some sparks left unsorted, so it reads as a signal and not as proof.
+
 Alternatives for the picture world, same six beats: (a) night sky, loose stars are joined into a constellation that can be read, then day breaks; fits the Sky theme. (b) everyone carries a small flame to one place; together they become a beacon whose beam shows the way back to all; closest to "Middle Ages to Enlightenment". (c) Earth at night with lights, most literal for "millions everywhere".
 Cautions: historical props (torches, monks) turn into pathos quickly; stay abstract with dark and light. Show a signal, not a cure; the app itself says "likely" at most.
 
