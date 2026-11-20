@@ -32,25 +32,37 @@ sys.path.insert(0, os.path.dirname(HERE))
 import clay_theme as ct  # noqa: E402
 
 VIEW_ELEVATION_DEG = 8.0
-ROWS = int(os.environ.get("CLAY_PN_ROWS", "200"))
-COLS = int(os.environ.get("CLAY_PN_COLS", "128"))
-STAR_CUTS = int(os.environ.get("CLAY_PN_STAR_CUTS", "40"))
+ROWS = int(os.environ.get("CLAY_PN_ROWS", "260"))
+COLS = int(os.environ.get("CLAY_PN_COLS", "144"))
 
-# ---------------------------------------------------------------- head
-HEAD_H = 1.10
+# ---------------------------------------------------------------- head and bust
+HEAD_H = 1.15
 HEAD_ZC = HEAD_H / 2
-HEAD_P = float(os.environ.get("CLAY_PN_HEAD_P", "2.3"))    # superellipse exponent, upper half
-HEAD_P_LO = float(os.environ.get("CLAY_PN_HEAD_P_LO", "2.7"))  # lower half: broad jaw, short neck
-HEAD_K = 0.12                 # egg asymmetry: widest above the middle
+HEAD_P = float(os.environ.get("CLAY_PN_HEAD_P", "2.3"))    # superellipse exponent, cranium
+HEAD_P_LO = float(os.environ.get("CLAY_PN_HEAD_P_LO", "2.5"))  # cheeks -> jaw -> chin: round taper
+HEAD_K = float(os.environ.get("CLAY_PN_HEAD_K", "0.12"))   # egg asymmetry: widest above the middle
 DEPTH = 0.95                  # head depth / width
-NECK_R, NECK_H = 0.25, 0.10
-BASE_R, BASE_H = 0.41, 0.14
-Z_BOT = -NECK_H - BASE_H      # flat bottom of the foot
-BASE_EDGE = 0.05              # rounding of the foot's bottom edge
-FILLET_NECK = 0.10
-EAR_C = (0.515, 0.035, 0.52)  # x (mirrored), y (slightly behind the face plane), z
-EAR_R = (0.095, 0.06, 0.14)
-EAR_K = 0.035
+NECK_R = 0.21                 # neck width 0.42
+NECK_VIS = 0.12               # visible neck below the chin
+FILLET_NECK = 0.08
+SH_R = 0.775                  # shoulders: total width 1.55
+SH_DEPTH = 0.42               # shoulder depth / width
+SH_TOP = -0.05                # dome top on the axis (the neck fillet hides it)
+SH_WIDE = -0.36               # widest at the shoulder tips
+Z_BOT = -NECK_VIS - 0.30      # flat horizontal cut
+SH_EDGE = 0.08                # rounding of the bottom edge
+SH_P = float(os.environ.get("CLAY_PN_SH_P", "1.7"))                   # dome exponent: gently sloping, rounded shoulders
+FILLET_SH = 0.07
+# ears: flattened oval in a local frame (flared 30 deg outward-forward, tilted back 10 deg)
+EAR_ZC = 0.48 * HEAD_H
+EAR_HALF = (0.034, 0.068, 0.13)       # thickness, width, height (half extents)
+EAR_FLARE, EAR_TILT = 38.0, 10.0
+EAR_OUT = 0.028                       # centre beyond the head side
+EAR_K = 0.03                          # fillet into the head
+EAR_TOP_WIDER = 0.15
+EAR_DENT = (0.030, 0.046, 0.092)      # concha hollow (rim ridge left along back and top)
+EAR_DENT_SHIFT = (0.050, -0.012, 0.004)   # dent centre: n (outward), t (back), z
+EAR_DENT_K = 0.012
 
 
 def _egg_unit(u):
@@ -75,36 +87,70 @@ def _smin(a, b, k):
     return b * (1 - h) + a * h - k * h * (1 - h)
 
 
-def r_profile(z):
+def r_head(z):
     u = (z - HEAD_ZC) / HEAD_ZC
-    r_head = np.where(np.abs(u) <= 1, 0.5 * _egg_unit(np.clip(u, -1, 1)) / EGG_MAX, -0.3)
-    r_neck = np.where((z > Z_BOT + 0.03) & (z < 0.2), NECK_R, -0.3)
-    # foot: rounded bottom edge, then an elliptical shoulder up into the neck
-    zm = Z_BOT + BASE_EDGE
-    lower = BASE_R - BASE_EDGE + np.sqrt(np.clip(BASE_EDGE ** 2 - (zm - z) ** 2, 0, None))
-    top = Z_BOT + BASE_H + 0.09
-    upper = BASE_R * np.sqrt(np.clip(1 - ((z - zm) / (top - zm)) ** 2, 0, None))
-    r_base = np.where(z < Z_BOT, -0.3, np.where(z < zm, lower, np.where(z < top, upper, -0.3)))
-    r = _smax(r_head, r_neck, FILLET_NECK)
-    return _smax(r, r_base, FILLET_NECK)
+    return np.where(np.abs(u) <= 1, 0.5 * _egg_unit(np.clip(u, -1, 1)) / EGG_MAX, -0.3)
+
+
+def r_headneck(z):
+    r_neck = np.where((z > Z_BOT) & (z < 0.25), NECK_R, -0.3)
+    return _smax(r_head(z), r_neck, FILLET_NECK)
+
+
+def r_shoulders(z):
+    up = SH_R * np.clip(1 - np.clip((z - SH_WIDE) / (SH_TOP - SH_WIDE), 0, 1) ** SH_P, 0, 1) ** (1 / SH_P)
+    zc = Z_BOT + SH_EDGE
+    low = SH_R - SH_EDGE + np.sqrt(np.clip(SH_EDGE ** 2 - (zc - z) ** 2, 0, None))
+    r = np.where(z > SH_WIDE, up, np.where(z > zc, SH_R, low))
+    return np.where((z < Z_BOT) | (z > SH_TOP), -0.3, r)
+
+
+def _ear_frames():
+    out = []
+    for sx in (-1, 1):
+        fl, tl = math.radians(EAR_FLARE), math.radians(EAR_TILT)
+        n = np.array([sx * math.cos(fl), -math.sin(fl), 0.0])
+        zt = np.array([0.0, math.sin(tl), math.cos(tl)])      # tilted back
+        zt -= zt @ n * n
+        zt /= np.linalg.norm(zt)
+        t = np.cross(zt, n)
+        if t[1] < 0:
+            t = -t                                            # t points back
+        rs = float(r_head(np.array([EAR_ZC])))
+        c = np.array([sx * (rs + EAR_OUT), 0.04, EAR_ZC])
+        out.append((c, n, t, zt))
+    return out
+
+
+EAR_FRAMES = _ear_frames()
+
+
+def ear_f(P):
+    d = None
+    for c, n, t, zt in EAR_FRAMES:
+        q = P - c
+        a, b, h = q @ n, q @ t, q @ zt
+        wt = EAR_HALF[1] * (1 + EAR_TOP_WIDER * np.clip(h / EAR_HALF[2], -1, 1))
+        e = (np.sqrt((a / EAR_HALF[0]) ** 2 + (b / wt) ** 2 + (h / EAR_HALF[2]) ** 2) - 1) * EAR_HALF[0]
+        a2, b2, h2 = a - EAR_DENT_SHIFT[0], b - EAR_DENT_SHIFT[1], h - EAR_DENT_SHIFT[2]
+        dent = (np.sqrt((a2 / EAR_DENT[0]) ** 2 + (b2 / EAR_DENT[1]) ** 2 + (h2 / EAR_DENT[2]) ** 2) - 1) * EAR_DENT[0]
+        e = _smax(e, -dent, EAR_DENT_K)
+        d = e if d is None else np.minimum(d, e)
+    return d
 
 
 def head_f(P):
     """Signed implicit (approx. distance near the sides): < 0 inside."""
     x, y, z = P[..., 0], P[..., 1], P[..., 2]
-    rho = np.sqrt(x * x + (y / DEPTH) ** 2)
-    d = rho - r_profile(z)
+    d = np.sqrt(x * x + (y / DEPTH) ** 2) - r_headneck(z)
+    ds = np.sqrt(x * x + (y / SH_DEPTH) ** 2) - r_shoulders(z)
+    d = _smin(d, ds, FILLET_SH)
     d = np.where(z < Z_BOT, np.maximum(d, Z_BOT - z), d)
-    for sx in (-1, 1):
-        q = np.stack([(x - sx * EAR_C[0]) / EAR_R[0], (y - EAR_C[1]) / EAR_R[1],
-                      (z - EAR_C[2]) / EAR_R[2]], -1)
-        e = (np.linalg.norm(q, axis=-1) - 1.0) * min(EAR_R)
-        d = _smin(d, e, EAR_K)
-    return d
+    return _smin(d, ear_f(P), EAR_K)
 
 
 Z_FAN_LO = Z_BOT + 0.06
-Z_FAN_HI = 0.80
+Z_FAN_HI = 0.84
 
 
 def _ray(t, th):
@@ -142,16 +188,18 @@ def _bisect(f, O, D, hi, n=46):
 def make_head():
     # rows by arc length along the ear-free profile (theta = 90 deg)
     td = np.linspace(0, 3, 3001)
-    O, D = _ray(td, np.full_like(td, math.pi / 2))
-    Pd = _bisect(head_f, O, D, 1.0)
-    seg = np.linalg.norm(np.diff(Pd, axis=0), axis=1)
+    seg = 0
+    for th in (0.0, math.pi / 2):          # x profile (ears, shoulders) + y profile
+        O, D = _ray(td, np.full_like(td, th))
+        Pd = _bisect(head_f, O, D, 1.2)
+        seg = seg + np.linalg.norm(np.diff(Pd, axis=0), axis=1)
     L = np.concatenate([[0], np.cumsum(seg)])
     T = np.interp(np.linspace(0, L[-1], ROWS + 1), L, td)[1:-1]   # poles separate
     ph = np.linspace(0, 2 * math.pi, COLS, endpoint=False)
     TH = ph - 0.55 * np.sin(2 * ph) / 2          # denser toward +-x (ears)
     TT, HH = np.meshgrid(T, TH, indexing="ij")
     O, D = _ray(TT, HH)
-    V = _bisect(head_f, O, D, 1.0)
+    V = _bisect(head_f, O, D, 1.2)
     pb = _bisect(head_f, np.array([[0, 0, Z_FAN_LO]]), np.array([[0, 0, -1.0]]), 1.0)[0]
     pt = _bisect(head_f, np.array([[0, 0, Z_FAN_HI]]), np.array([[0, 0, 1.0]]), 1.0)[0]
     bm = bmesh.new()
