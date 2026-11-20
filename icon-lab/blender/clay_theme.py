@@ -118,6 +118,31 @@ REFERENCE = {
         # the camera frames the larger extent (here the height): object height / tile
         "tile_icon_width": 0.56,
     },
+    "wellbeing": {
+        "tile": "#97CACB",                       # soft teal
+        "top": {"lit": "#E3CDB8", "mid": "#CAA98A", "shadow": "#957441"},     # tan pebble
+        "middle": {"lit": "#F2EDE9", "mid": "#E2DFDA", "shadow": "#C3BDB1"},
+        "bottom": {"lit": "#EDE8E2", "mid": "#DEDBD6", "shadow": "#BEB6AB"},
+        "crease": "#978F82",                     # contact crease between pebbles
+        "tile_icon_width": 0.50,                 # stack width / tile width
+    },
+    "steps": {
+        "tile": "#E1CABC",                       # dusty blush
+        "cream": {"lit": "#F5EFE8", "mid": "#E5E0DA", "shadow": "#D9D2C8"},  # upper, toe cap, tongue
+        "light": {"mid": "#F8F3EE"},             # collar roll, lining, laces
+        "heel": {"mid": "#E3CDB8"},              # heel counter patch, light sand
+        "crease": "#C1B7AD",                     # between parts
+        "sole": {"lit": "#D8B69B", "mid": "#BD9770", "shadow": "#98754D"},   # midsole
+        "lugs": {"mid": "#9A7550"},              # outsole lugs
+        "tile_icon_width": 0.60,                 # shoe width / tile width
+        "model": ("tuki model", "clay-board/tuki-clay-running.png"),  # shape model (CC0), sheet row 1
+    },
+    "sleep": {
+        "tile": "#D3CEE5",                       # pale lavender
+        "cloud": {"lit": "#F5F1F0", "mid": "#E3DFDC", "shadow": "#BFB7B4"},   # warm white
+        "moon": {"lit": "#BDB2D0", "mid": "#9A8CAD", "shadow": "#7E7393"},    # lilac
+        "tile_icon_width": 0.60,                 # cloud + moon width / tile width
+    },
 }
 
 

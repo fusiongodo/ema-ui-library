@@ -36,6 +36,21 @@ CLAY_REFS = {
         ("tuki-clay-spreadsheet", "tuki-clay-spreadsheet.png"),
         ("3dicons-clay-chart", "3dicons-clay-chart.png"),
     ],
+    "wellbeing": [
+        ("tuki-clay-meditation", "tuki-clay-meditation.png"),
+        ("3dicons-clay-heart", "3dicons-clay-heart.png"),
+        ("fluent-smiling-face", "fluent-smiling-face-with-smiling-eyes.png"),
+    ],
+    "steps": [
+        ("fluent-running-shoe", "fluent-running-shoe.png"),
+        ("tuki-clay-running", "tuki-clay-running.png"),
+    ],
+    "sleep": [
+        ("3dicons-clay-moon", "3dicons-clay-moon.png"),
+        ("3dicons-color-moon", "3dicons-color-moon.png"),
+        ("fluent-crescent-moon", "fluent-crescent-moon.png"),
+        ("icons8-3dfluency-sleep", "icons8-3dfluency-sleep.png"),
+    ],
 }
 ROW2_SIZE = 200  # clay references in the second sheet row
 
@@ -123,7 +138,11 @@ def main(icon):
     p = os.path.join(out, f"{icon}-on-tile.png")
     c.save(p)
     print("wrote", p)
-    rows = [[("Reference", Image.open(ref)), ("Ours", c)]]
+    row1 = [("Reference", Image.open(ref))]
+    model = ct.REFERENCE[icon].get("model")  # optional shape model between reference and ours
+    if model:
+        row1.append((model[0], Image.open(os.path.join(HERE, "..", "refs", model[1]))))
+    rows = [row1 + [("Ours", c)]]
     board = os.path.join(HERE, "..", "refs", "clay-board")
     refs = [(lbl, os.path.join(board, f)) for lbl, f in CLAY_REFS.get(icon, [])]
     if refs:
