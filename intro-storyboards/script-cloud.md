@@ -239,3 +239,56 @@ He also asked Claude to stop looking at pictures of the result for now and only 
 - Nothing else. The set of line-arrival times is the same as before, so rain and ring keep their timing.
 
 **Round 12 is built and published (19 Nov 2026), not judged yet.** 13.42 s. Not looked at by Claude; numeric checks only. Arrival time against screen position at 6.2 s: correlation with height +0.005, with x +0.043, with distance from the centre +0.018. No star starts before it is hit; each leaves its orbit 0.03 to 0.06 s after. At most 264 stars on the top line at once (before: 269). Rain start and last landing moved by 0.02 s. Known: 70 signals (before 34) leave at exactly 5.50 and travel a little faster, because far stars can now be early; on the ring 9 stars at the tail still overtake by up to 2.7°.
+
+## Feedback, round 12 (Alex, 19 Nov 2026, night)
+
+"Wir sind fast da." Everything from the single star to the cloud is right. What is left is the dialogue between the stars and the centre:
+- **The centre must form faster.** After a few packages it should already be large.
+- **Giving and answering are still two layers, one after the other.** They should be nested: packages come in, and after the first five or six have arrived the centre already answers with single signals, while more come in and the centre grows and grows. Then no more single signals but "boom, der Broadcast", and everything rises.
+- Fewer packages or faster ones; the whole passage faster.
+- He offered two or three versions in case Claude is not sure.
+
+### What Claude changes for round 13 (Claude's decisions, to be judged)
+Two versions, because how much shorter the passage may get is his call:
+- **Version A, same length (13.42 s).** 18 gives instead of 24; broadcast at 5.5 as before.
+- **Version B, 0.6 s shorter (12.82 s).** 12 gives; the broadcast and everything after it comes 0.6 s earlier, as one block.
+- In both: packages travel 0.5 s instead of 0.7. The centre appears with the first arrival and grows in steps with the first, third and fifth. From the fifth arrival on the centre answers: one signal back to each giver along its own ray, the first five in quick succession, then one shortly after each further arrival. A giver that gets its answer lights up and keeps orbiting; it rises with everyone else when the broadcast reaches it.
+- Labels: "Einige geben", "Das Zentrum antwortet", "Dann allen", "Getroffen, aufsteigen".
+
+**Round 13 is built (19 Nov 2026) and was published on 20 Nov in both versions.** Not looked at by Claude; numeric checks only.
+- Version A: gives leave 3.30 to 4.75 and arrive 3.80 to 5.25; answers leave 4.31 to 5.37, the last arrives 5.82. Camera and star positions identical to round 12 at every moment.
+- Version B: gives leave 3.30 to 4.15 and arrive 3.80 to 4.65; answers leave 4.25 to 4.77, the last arrives 5.22; broadcast from 4.90. Identical to round 12 until 5.55; after that the same picture 0.6 s earlier.
+- Centre size a quarter of a second after the first, third and fifth arrival: 40, 65, 83 (A) and 42, 70, 105 (B); Claude had asked for 30, 55, 75, the pulses of the arrivals add to it. Brightness at most 1.19.
+- From the fifth arrival to the broadcast there is never a moment without an inbound package, and never more than 0.05 s without an answer under way.
+- Known: the last answers are still travelling 0.3 s into the broadcast. Ring and rain as in round 12.
+
+## Feedback, round 13 (Alex, 20 Nov 2026)
+
+Before he had seen round 13: keep the flow and all kinematics, but **the bell curves are overlooked.** Once they stand they should be traced over once and light up briefly: "Nicht übertrieben, immer noch subtil, aber etwas mehr als gerade."
+
+### What Claude changes for round 14 (Claude's decisions, to be judged)
+Why they are overlooked: the outline is a hairline that reaches its full strength for one instant and is already fading.
+- The outlines stand 0.35 s earlier and stay 0.5 s longer; the baseline leaves with them.
+- One pass per bell, left to right, like a pen going over the curve: a small soft light runs along the outline in 0.6 s, the right bell 0.12 s after the left. Behind it the curve glows as a soft band and settles back within about a second.
+- No star and no camera move changes.
+
+## Feedback, round 13, second part (Alex, 20 Nov 2026)
+
+- **Version B is discarded.** Only A (same length) goes on.
+- **No broadcast to all at once.** Today it is a pulse that hits everyone within a very short interval. Instead the centre shoots single packages outward at random, each along its own small channel, like the ones coming in. It begins earlier, while packages still come in, and gets faster and faster: "Es ist nicht ein Boom, sondern es steigt einfach an."
+- Stars that are hit light up. The ones hit at the beginning do not rise yet; once it swells, the ones hit light up briefly and then rise. The rising is spread out more. The total length stays.
+
+### What Claude changes for round 15 (Claude's decisions, to be judged)
+- One version, 13.42 s; the switch and the second file go.
+- One outbound stream instead of answers plus broadcast: each of the 600 stars gets one package, in random order, the first arriving at 4.76 and the last at 7.20 as before, sparse at first (about 18 by 5.25, 56 by 5.6) and dense at the end (about 55 per tenth of a second). Every package travels 0.45 s. A giver gets its package only after its own gift has arrived.
+- Early packages look like the single answers of round 13, late ones like the finer streaks of the broadcast, so the dense end does not turn white.
+- A star lights up when hit and stays lit. Hit from 5.6 on, it rises 0.12 s later. The roughly 56 stars hit before 5.6 keep orbiting and start to rise between 5.72 and 6.5, mixed in with the first risers.
+- The stars reach the top line at the same moments as before, in the order in which they started; the early ones therefore rise more slowly (about 2 s), the last ones in about 1.1 s. Rain, ring and end stay.
+- The centre grows on until 6.5 and dims only after its last package has left (6.75). Camera untouched.
+
+**Rounds 14 and 15 are built and published (20 Nov 2026), not judged yet.** One file, 13.42 s. Not looked at by Claude; numeric checks only.
+- Bells: outlines stand from 9.37 and leave between 10.34 and 10.84 together with the baseline. The pass runs 9.37 to 9.97 on the left bell and 9.49 to 10.09 on the right. Against the bare background the traced stretch is 2.3 times (left) and 2.0 times (right) as strong as the old outline at its best moment. It took three rounds: Claude's first measure counted too much dark background, and the glow points were too small at this camera distance (now size 10).
+- Stream: packages leave the centre from 4.31 to 6.75 and arrive from 4.76 to 7.20; arrivals per tenth of a second climb from 1 to 53 without ever falling. At most 218 packages in flight (at 6.75). 57 stars are hit before 5.6 and start to rise between 5.73 and 6.50; the other 543 rise 0.12 s after their hit. Rise takes 1.13 to 2.02 s. Order unrelated to position (correlations below 0.05).
+- From 5.6 to 8.2 at least 89 stars are rising or have a package on the way; no lull.
+- Camera identical to round 13 at every moment; star positions identical until 5.70; the stars reach the line at the same set of moments; rain starts 0.03 s later; ring, wordmark and end unchanged.
+- Known: the centre stays large and bright until 6.75 instead of dimming from 5.6, so between 6.0 and 6.9 there is about three times as much pure white around it as before in those moments (at its worst 1.4 times the old peak). Claude left it, because he asked for the centre to keep lighting up; a fix is known (cap its brightness at 1.05 while it holds). The stream ends at its highest rate and then stops; a tail-off is possible. Because the stars now reach the line in another order, different stars stand at the bells and the white there shifted a little.

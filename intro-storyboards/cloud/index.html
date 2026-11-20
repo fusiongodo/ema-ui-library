@@ -61,7 +61,9 @@ body{overflow-x:hidden}
 (function(){
 'use strict';
 // ---------------------------------------------------------------- constants
-var T_END = 13.8;   // recomputed from R0 below
+// TB = the moment the first broadcast signal left the centre in the earlier versions; SHIFT stays 0 (one version).
+var TB = 5.50, SHIFT = 0;
+var T_END = 13.8;   // set below
 var N = 600;
 var R = 10;
 var ASPECT = 390 / 844;
@@ -77,8 +79,7 @@ var COL_WARM = hex('#FFD27A'), COL_CHARGED = hex('#FFF1C9'),
 var BG = hex('#0B1120');
 
 var STEPS = [
-  [0.0,'Ein Stern'],[1.5,'Mehr und mehr'],[3.3,'Einige geben'],[4.0,'Das Zentrum w\u00e4chst'],
-  [5.0,'Das Zentrum antwortet'],[6.2,'Getroffen, aufsteigen']
+  [0.0,'Ein Stern'],[1.5,'Mehr und mehr'],[3.3,'Einige geben']
 ];  // the later steps are appended once the rain / ring times are known (see T_FALL0, R0)
 
 function hex(h){ var n = parseInt(h.slice(1),16); return [(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]; }
@@ -122,7 +123,7 @@ for (var i = 0; i < N; i++){
 // orbit angle = integral of the spin rate; rate: 0 -> 1 (smootherstep 2.8..5.6: the turn is complete before the
 // giving), 1 -> 0 (smootherstep 7.2..8.9, while the stars already rise: they spiral upward, the last turn dies as
 // the last stars reach the line). SPIN_DIR: the cloud's own turn matches the apparent turn from the camera moving right.
-var SPIN_DIR = -1, SPIN_T1 = 7.2, SPIN_T2 = 8.9, SP0 = 2.8, SP1 = 5.6;
+var SPIN_DIR = -1, SPIN_T1 = 7.2 + SHIFT, SPIN_T2 = 8.9 + SHIFT, SP0 = 2.8, SP1 = 5.6;
 function spinA(t){
   var U = SP1 - SP0, D = SPIN_T2 - SPIN_T1;
   var up = t <= SP0 ? 0 : t < SP1 ? U * ssI((t - SP0) / U) : U / 2 + (t - SP1);
@@ -147,7 +148,7 @@ function cloudPos(i, A, dz, out){
 // W(t): one eased curve in log space, 0.6 .. 6.0
 function camW(t){ return W0 * Math.pow(W_END / W0, eIO(seg(t, 0.6, 6.0))); }
 // the switch: one smootherstep over 6.20..8.2 for angles, fov and depth (starts with the first rise)
-var SW_T1 = 6.20, SW_T2 = 8.2;
+var SW_T1 = 6.20 + SHIFT, SW_T2 = 8.2 + SHIFT;
 function swU(t){ return ss(seg(t, SW_T1, SW_T2)); }
 function camFov(t){
   if (t < SW_T1) return 8 + 34 * eIO(seg(t, 2.8, 5.3));
@@ -178,7 +179,7 @@ for (i = 1; i < N; i++){
 }
 
 // ---------------------------------------------------------------- givers (step 4)
-var GIVE_GAP = 0.88 / 7, GIVE_T0 = 2.9, SPARK_DUR = 0.7, GIVE_RAY_END = 5.60;   // every inbound ray is gone by 5.60
+var GIVE_GAP = 0.88 / 7, GIVE_T0 = 2.9, SPARK_DUR = 0.5;   // package travel 0.5 s
 var givers = [0], givers0 = [0];
 var HERO_B = 1.15 * (function(){ var m = 0; for (var j = 1; j < N; j++) m = Math.max(m, S[j].bright); return m; })();
 // camera at time t (shared by render and the giver check)
@@ -221,18 +222,17 @@ function onScreen(j, t, lim){   // live cloud position at t (stars orbit until t
     givers.push(pick);   // the list stays as approved (0, 144, 67, 351, 301, 273, 344, 322, 107); no fallback
   });
 })();
-// 24 gives from 3.30 to 4.78, the gaps shrinking linearly (about 0.105 -> 0.032 s, scaled to sum 1.48): the giving
-// gets denser while the centre grows, the last package arrives at 5.48, just before the centre sends its own light out.
-// The choice is deterministic and draws no random numbers (nothing else shifts).
-var GIVE_N = 24, GIVE_FIRST = 3.30, GIVE_SPAN = 1.48, GIVE_MARGIN = 0.9, GIVE_MIN_TURN = 60 * DEG, GIVE_MIN_R = 0.35 * R;
-var GIVE_T = [GIVE_FIRST], GIVE_LOG = [];
+// the dialogue: gives from 3.30 to TB - 0.75 (18 in A, 12 in B), gaps shrinking linearly (first : last = 2.5 : 1);
+// the last package arrives at TB - 0.25. The choice is deterministic and draws no random numbers (nothing else shifts).
+var GIVE_N = 18, GIVE_FIRST = 3.30, GIVE_SPAN = TB - 0.75 - 3.30, GIVE_MARGIN = 0.9, GIVE_MIN_R = 0.35 * R;
+var GIVE_T = [GIVE_FIRST], GIVE_LOG = [], GIVE_RELAXED = 0;
 (function(){
   var gs = [], sum = 0, k;
-  for (k = 0; k < GIVE_N - 1; k++){ gs.push(0.105 + (0.032 - 0.105) * k / (GIVE_N - 2)); sum += gs[k]; }
+  for (k = 0; k < GIVE_N - 1; k++){ gs.push(2.5 + (1 - 2.5) * k / (GIVE_N - 2)); sum += gs[k]; }
   for (k = 0; k < GIVE_N - 1; k++) GIVE_T.push(GIVE_T[k] + gs[k] * GIVE_SPAN / sum);
   GIVE_T[GIVE_N - 1] = GIVE_FIRST + GIVE_SPAN;
   // in frame (5 % margin) from the give until the package has arrived; screen direction seen from the centre
-  function inFrame(j, t0){ for (var u = 0; u <= 14; u++) if (!onScreen(j, t0 + SPARK_DUR * u / 14, GIVE_MARGIN)) return false; return true; }
+  function inFrame(j, t0){ for (var u = 0; u <= 10; u++) if (!onScreen(j, t0 + SPARK_DUR * u / 10, GIVE_MARGIN)) return false; return true; }
   function dirAt(j, t){
     setCam(t, chkCam);
     chkV.set(0, 0, 0).project(chkCam); var cx = chkV.x, cy = chkV.y;
@@ -240,42 +240,38 @@ var GIVE_T = [GIVE_FIRST], GIVE_LOG = [];
     return Math.atan2((chkV.y - cy) / ASPECT, chkV.x - cx);
   }
   function turn(a, b){ var d = Math.abs(a - b) % (2*Math.PI); return d > Math.PI ? 2*Math.PI - d : d; }
-  var slot = new Array(GIVE_N).fill(-1), used = {}; used[0] = true;
-  // the eight approved givers stay: each takes the earliest free give time at which it is in frame
-  givers.slice(1).forEach(function(g){
-    used[g] = true;
-    for (var k = 0; k < GIVE_N; k++) if (slot[k] < 0 && inFrame(g, GIVE_T[k])){ slot[k] = g; return; }
-    for (k = GIVE_N - 1; k >= 0; k--) if (slot[k] < 0){ slot[k] = g; return; }   // never in frame: last free time (reported)
-  });
-  // the other sixteen: new stars, in time order. Rules: not the hero, nobody twice, in frame, at least 35 % of the
-  // cloud radius from the centre, direction at least 60 deg from the previous giver's (and from the next one's if
-  // that is an approved giver). Among the stars that pass, preferred: a turn of 70..150 deg from the previous giver and
-  // at least 40 deg away from the giver two before (so the gives do not cycle through three directions); ties are
-  // broken by a fixed hash of the star index (no random numbers drawn).
+  var oldG = givers.slice(1), slot = [], used = {}; used[0] = true;
+  // in time order. Rules: not the hero, nobody twice, in frame, at least 35 % of the cloud radius from the centre,
+  // a turn of 70..150 deg from the previous giver. Preferred: one of the eight earlier givers (+2), at least 40 deg
+  // from the giver two before (+1); ties by a fixed hash of the star index.
   for (k = 0; k < GIVE_N; k++){
-    if (slot[k] >= 0) continue;
-    var t = GIVE_T[k], best = -1, bestSc = -1;
+    var t = GIVE_T[k], best = -1, bestSc = -1, pass;
     var dPrev = k > 0 ? dirAt(slot[k-1], GIVE_T[k-1]) : null, dPrev2 = k > 1 ? dirAt(slot[k-2], GIVE_T[k-2]) : null;
-    var dNext = k + 1 < GIVE_N && slot[k+1] >= 0 ? dirAt(slot[k+1], GIVE_T[k+1]) : null;
-    for (var j = 1; j < N; j++){
-      if (used[j] || S[j].r < GIVE_MIN_R) continue;
-      var d = dirAt(j, t);
-      if (dPrev !== null && turn(d, dPrev) < GIVE_MIN_TURN) continue;
-      if (dNext !== null && turn(d, dNext) < GIVE_MIN_TURN) continue;
-      var tp = dPrev === null ? 110 * DEG : turn(d, dPrev), t2 = dPrev2 === null ? Math.PI : turn(d, dPrev2);
-      var sc = (tp >= 70 * DEG && tp <= 150 * DEG ? 2 : 0) + (t2 >= 40 * DEG ? 1 : 0) + ((j * 2654435761) % 1000) / 1000 * 0.999;
-      if (sc > bestSc && inFrame(j, t)){ bestSc = sc; best = j; }
+    for (pass = 0; pass < 2 && best < 0; pass++){       // pass 1 only if nobody meets the turn rule (reported)
+      for (var j = 1; j < N; j++){
+        if (used[j] || S[j].r < GIVE_MIN_R) continue;
+        var d = dirAt(j, t), tp = dPrev === null ? 110 * DEG : turn(d, dPrev), t2 = dPrev2 === null ? Math.PI : turn(d, dPrev2);
+        if (pass === 0 && (tp < 70 * DEG || tp > 150 * DEG)) continue;
+        var sc = (oldG.indexOf(j) >= 0 ? 2 : 0) + (t2 >= 40 * DEG ? 1 : 0) + ((j * 2654435761) % 1000) / 1000 * 0.999;
+        if (sc > bestSc && inFrame(j, t)){ bestSc = sc; best = j; }
+      }
+      if (pass === 1 && best >= 0) GIVE_RELAXED++;
     }
-    slot[k] = best; used[best] = true;
+    slot.push(best); used[best] = true;
   }
   for (k = 0; k < GIVE_N; k++){
     var g = slot[k], dk = dirAt(g, GIVE_T[k]);
-    GIVE_LOG.push({ t: GIVE_T[k], star: g, old: givers.indexOf(g) > 0, inFrame: inFrame(g, GIVE_T[k]),
-      turn: k > 0 ? turn(dk, dirAt(slot[k-1], GIVE_T[k-1])) / DEG : null, rShare: S[g].r / R });
+    GIVE_LOG.push({ t: GIVE_T[k], star: g, old: oldG.indexOf(g) >= 0, inFrame: inFrame(g, GIVE_T[k]),
+      turn: k > 0 ? turn(dk, dirAt(slot[k-1], GIVE_T[k-1])) / DEG : null,
+      turn2: k > 1 ? turn(dk, dirAt(slot[k-2], GIVE_T[k-2])) / DEG : null, rShare: S[g].r / R });
   }
   givers = slot;
 })();
 givers.forEach(function(g, k){ S[g].give = GIVE_T[k]; });
+var CEN_SZ = [30, 12.5, 12.5, 10, 10], CEN_B = [0.5, 0.2, 0.2, 0.1, 0.1];
+var GIVE_A = GIVE_T.map(function(x){ return x + SPARK_DUR; });
+GIVE_LOG.forEach(function(g, k){ g.arr = GIVE_A[k]; });
+STEPS.push([4.3, 'Das Zentrum antwortet'], [5.6, 'Getroffen, aufsteigen']);
 // a giver is fully lit 0.3 s before it gives (its ray starts 0.15 s before): move only its fade-in earlier,
 // same 0.5 s duration, never before 1.2 s (the hero stays alone until then)
 var fadeMoved = [];
@@ -293,7 +289,9 @@ function sy(f){ return (0.5 - f) * H_W; }      // stage y (fraction from top) ->
 var Y_TOP = sy(0.14), Y_BASE = sy(0.78);
 var PITCH = 2 * W_END / 68;                     // dot diameter in world units
 var LEAVE_SPREAD = 0.5;   // short: with arrivals spread over 0.7 s, at most ~270 stars sit on the line at once
-var RISE_T0 = 6.65, RISE_STAG = 0.7, RISE_DUR = 1.1, PERM_SEED = 1;
+var RISE_T0 = 6.65 + SHIFT, RISE_STAG = 0.7, RISE_DUR = 1.1, PERM_SEED = 1;
+var STREAM_T0 = 4.76, STREAM_SPAN = 2.44, STREAM_EXP = 0.45, STREAM_TRAVEL = 0.45, T_SW = 5.60;
+function streamArr(k){ return STREAM_T0 + STREAM_SPAN * Math.pow(k / (N - 1), STREAM_EXP); }
 function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the rise picks up sooner
 
 (function(){
@@ -304,7 +302,26 @@ function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the 
   // riseRank k sets the broadcast arrival (6.20 + k/599) and the line arrival (rise + RISE_DUR = 7.75 + 0.7 (k+0.5)/600)
   var perm = []; for (j = 0; j < N; j++) perm.push(j);
   perm.sort(function(a,b){ return hash01(a * 7919 + PERM_SEED) - hash01(b * 7919 + PERM_SEED); });
-  perm.forEach(function(j, k){ S[j].rise = RISE_T0 + RISE_STAG * (k + 0.5) / N; S[j].riseRank = k; });
+  // one outbound stream: slot k arrives at 4.76 + 2.44 (k/599)^0.45 (it swells), every package travels 0.45 s.
+  // Givers first, in give order, each into the earliest free slot that leaves at least 0.10 s after its give arrived;
+  // all other stars fill the remaining slots in hash order (independent of position).
+  var taken = new Array(N).fill(false), slotOf = new Array(N).fill(-1);
+  givers.forEach(function(g){
+    var ga = S[g].give + SPARK_DUR;
+    for (var k = 0; k < N; k++) if (!taken[k] && streamArr(k) - STREAM_TRAVEL >= ga + 0.10){ taken[k] = true; slotOf[g] = k; break; }
+  });
+  var kf = 0;
+  perm.forEach(function(j){ if (slotOf[j] >= 0) return; while (taken[kf]) kf++; taken[kf] = true; slotOf[j] = kf; });
+  // hit means glow; rising only once it swells: hit at or after T_SW -> rise 0.12 s after the hit; hit before -> keeps
+  // orbiting, lit, and rises between 5.72 and 6.50 (hash). Line times: today's set, in order of rise start.
+  var byRise = [];
+  for (j = 0; j < N; j++){
+    var sj = S[j]; sj.slot = slotOf[j]; sj.sArr = streamArr(sj.slot);
+    sj.riseStart = sj.sArr >= T_SW ? sj.sArr + 0.12 : 5.72 + 0.78 * hash01(j * 104729 + 7);
+    byRise.push(j);
+  }
+  byRise.sort(function(a,b){ return S[a].riseStart - S[b].riseStart || a - b; });
+  byRise.forEach(function(j, k){ S[j].rise = RISE_T0 + RISE_STAG * (k + 0.5) / N; S[j].riseRank = k; });
 })();
 
 // rain + heaps
@@ -339,12 +356,22 @@ var SIGMA = 0.11, CENTRES = [-0.22, 0.22], PX = 2/68;
 })();
 var T_FALL0 = 1e9, T_LAND = 0;
 for (i = 0; i < N; i++){ T_FALL0 = Math.min(T_FALL0, S[i].leave); T_LAND = Math.max(T_LAND, S[i].land); }
-var BELL_T1 = T_FALL0 + 0.5, BELL_T2 = T_LAND - 0.1;    // outlines grow out of the baseline while the stars fall
+var BELL_T1 = T_FALL0 + 0.5, BELL_T2 = T_LAND - 0.45;   // outlines grow out of the baseline while the stars fall, then stand
+// the trace: once both outlines stand, a soft light runs over each once, left to right (left bell first), leaving a wake
+var TR0 = T_LAND - 0.45, TR_END = TR0 + 0.72, TR_CUT = TR0 + 2.32, TR_PASS = 0.60, TR_DELAY = [0, 0.12];
+var BAND_B = 0.40, BAND_SIZE = 10, LINE_BOOST = [1/0.7, 1.2], HEAD_MIX = 0.15, TR_WAKE = 0.40, HEAD_WHITE = [1.0, 0.96, 0.88];
+var TR_FADE = TR_END + 0.25;   // outline, chart and trace leave together, after the right bell's wake has had a moment
+function trHeadU(gp, t){ return clamp01((t - TR0 - TR_DELAY[gp]) / TR_PASS); }
+function trHeadB(gp, t){ var a = TR0 + TR_DELAY[gp], b = a + TR_PASS; return t < a || t > b ? 0 : 0.7 * Math.min(clamp01((t - a) / 0.08), clamp01((b - t) / 0.08)); }
+function trGlow(gp, k, t){
+  var tk = TR0 + TR_DELAY[gp] + TR_PASS * k / (NB - 1);
+  return t < tk ? 0 : Math.exp(-(t - tk) / TR_WAKE) * (1 - sstep(seg(t, TR_CUT - 0.2, TR_CUT)));   // cut to exactly 0 at TR_CUT
+}
 var R0_OLD = T_LAND - 0.25;                             // ring start until round 7; bells and chart still fade from here
-var R0 = 9.0;                                           // ring start: the heaps begin to flow while the last stars still fall
-var RL = 9.2;                                           // ring look (breathing, highlight, wordmark, end) keeps its absolute times
+var R0 = 9.0 + SHIFT;                                           // ring start: the heaps begin to flow while the last stars still fall
+var RL = 9.2 + SHIFT;                                           // ring look (breathing, highlight, wordmark, end) keeps its absolute times
 var R1 = RL + 1.0;                                      // breathing of the ring radius
-T_END = 13.417260211447719;                             // frozen (was derived from the landing time before round 12)
+T_END = 13.417260211447719 + SHIFT;                     // frozen (was derived from the landing time before round 12)
 STEPS.push([Math.round(T_FALL0*10)/10,'Regen, zwei Glocken'],
            [Math.round(R0*10)/10,'Der Kreis'], [Math.round((RL+3.0)*10)/10,'MEjority']);
 
@@ -450,13 +477,14 @@ for (i = 0; i < N; i++){
 function hash01(n){ n = (n ^ 61) ^ (n >>> 16); n = Math.imul(n, 9); n ^= n >>> 4; n = Math.imul(n, 0x27d4eb2d); n ^= n >>> 15; return (n >>> 0) / 4294967296; }
 var DEP_CLAMPED = 0;
 for (i = 0; i < N; i++){
-  var sB = S[i], travel = sB.arr - sB.dep, lead = sB.dep - sB.rayOn;
-  sB.lineT = sB.rise + RISE_DUR;                                  // arrival on the top line, unchanged
-  sB.arr = 6.20 + 1.0 * sB.riseRank / (N - 1);                    // random order, evenly spread over 6.20..7.20
-  sB.dep = sB.arr - travel;
-  if (sB.dep < 5.50){ sB.dep = 5.50; DEP_CLAMPED++; }             // that star's signal travels a little faster
-  sB.rayOn = Math.max(5.01, sB.dep - lead);
-  sB.rise = sB.arr; sB.riseDur = sB.lineT - sB.arr;               // rises from its arrival, ends at its old line time
+  var sB = S[i], lead = sB.dep - sB.rayOn;                       // the ray keeps its lead before the package
+  sB.lineT = sB.rise + RISE_DUR;                                  // arrival on the top line (today's set of times)
+  sB.arr = sB.sArr; sB.dep = sB.arr - STREAM_TRAVEL; sB.rayOn = sB.dep - lead;
+  sB.glowT = sB.arr;                                              // glows up when hit and stays lit
+  sB.rise = sB.riseStart; sB.riseDur = sB.lineT - sB.riseStart;
+  // the look follows the density of the stream: early single packages strong, the dense stream like the old broadcast
+  var wk = sstep((sB.slot - 60) / 180);
+  sB.pkLen = lerp(0.22, 0.16, wk); sB.pkB = lerp(0.8, 0.5, wk); sB.pkGs = lerp(6, 3.5, wk); sB.pkGb = lerp(0.8, 0.35, wk);
 }
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
 
@@ -519,7 +547,7 @@ var camera = new THREE.PerspectiveCamera(8, ASPECT, 0.05, 5000);
 
 var NG = givers.length;
 var TRAIL_K = 80, PK = TRAIL_K + 1;  // per package: head + TRAIL_K trail points
-var NP = N + NG*PK + 1 + N + 1 + 1;  // stars, packages, centre glow, answer glints, hero glow, centre halo
+var NP = N + NG*PK + 1 + N + 1 + 1;  // stars, packages, centre glow, package glints, hero glow, centre halo
 var I_MINI = N, I_GLOW = N + NG*PK, I_HEAD = I_GLOW + 1, I_HALO = I_HEAD + N, I_CHALO = I_HALO + 1;
 var pPos = new Float32Array(NP*3), pSize = new Float32Array(NP), pBright = new Float32Array(NP),
     pCol = new Float32Array(NP*3), pSq = new Float32Array(NP), pSh = new Float32Array(NP).fill(1);
@@ -619,6 +647,18 @@ var NB = 96, bells = [];
   bells.push(l);
 });
 var BELL_PEAK = (N/2) * PX / (SIGMA * Math.sqrt(2*Math.PI)); // expected dots in the middle column
+// trace points (own Points object, same shader): 2 heads, then NB wake points per bell
+var NTR = 2 + 2*NB;
+var trPos = new Float32Array(NTR*3), trSize = new Float32Array(NTR), trBright = new Float32Array(NTR), trCol = new Float32Array(NTR*3),
+    trSq = new Float32Array(NTR), trSh = new Float32Array(NTR).fill(1);
+var trg = new THREE.BufferGeometry();
+trg.setAttribute('position', new THREE.BufferAttribute(trPos, 3));
+trg.setAttribute('aSize', new THREE.BufferAttribute(trSize, 1));
+trg.setAttribute('aBright', new THREE.BufferAttribute(trBright, 1));
+trg.setAttribute('aColor', new THREE.BufferAttribute(trCol, 3));
+trg.setAttribute('aSquash', new THREE.BufferAttribute(trSq, 1));
+trg.setAttribute('aSharp', new THREE.BufferAttribute(trSh, 1));
+var tracePts = new THREE.Points(trg, pMat); tracePts.frustumCulled = false; scene.add(tracePts);
 
 // ---------------------------------------------------------------- render(t): pure function of t
 var bgCol = new THREE.Color();
@@ -659,7 +699,7 @@ function render(t){
       if (gd > 0 && gd < 1) b *= 1 - 0.4 * Math.sin(Math.PI * gd);
     }
     // charged after its own signal arrives: glows up over 0.3 s and stays (warm, not white)
-    var chg = ss(seg(t, s.arr, s.arr + 0.3));
+    var chg = ss(seg(t, s.glowT, s.glowT + 0.3));
     b *= 1 + 0.35 * chg; size *= 1 + 0.2 * chg;
     var col = chg > 0 ? mixCol(COL_WARM, COL_CHARGED, 0.4 * chg, cc) : COL_WARM;
     // rain: flash + group colour, landing squash + column pulse
@@ -710,7 +750,7 @@ function render(t){
   for (var g = 0; g < NG; g++){
     var gi = givers[g], te = S[gi].give, j = I_MINI + g;
     var sx0 = pPos[gi*3], sy0 = pPos[gi*3+1], sz0 = pPos[gi*3+2];
-    var la = ss(seg(t, te - 0.15, te + 0.10)) * (1 - ss(seg(t, te + SPARK_DUR, Math.min(te + SPARK_DUR + 0.4, GIVE_RAY_END))));
+    var la = ss(seg(t, te - 0.15, te + 0.10)) * (1 - ss(seg(t, S[gi].arr, S[gi].arr + 0.4)));   // stays until the centre's package to it has arrived
     if (la > 0) anyGive = true;
     gPos[g*6] = sx0; gPos[g*6+1] = sy0; gPos[g*6+2] = sz0; gPos[g*6+3] = 0; gPos[g*6+4] = 0; gPos[g*6+5] = 0;
     for (var q = 0; q < 3; q++){ gCol[g*6+q] = COL_WARM[q] * 0.16 * la; gCol[g*6+3+q] = COL_WARM[q] * 0.05 * la; }
@@ -738,19 +778,26 @@ function render(t){
   giveRays.visible = anyGive;
   gg.attributes.position.needsUpdate = true; gg.attributes.color.needsUpdate = true;
 
-  // centre glow: gradual brightening per arrival, a swell to a small climax (4.0..5.0, overlapping the last
-  // arrivals, whose pulses ride on top), holds 5.0..5.6, dims while the light leaves (5.6..6.5), fades out 6.65..7.4
-  var gb = 0, gp = 0;
+  // centre glow: forms fast. Size pushed up by the arrivals (30 after the 1st, 55 after the 3rd, 75 after the 5th,
+  // each step eased over 0.25 s), then grows on to 100 at TB - 0.5 and drifts to 104 by TB + 0.1; brightness 0.5 / 0.9 /
+  // 1.1, then to 1.15. Fades in with the first arrival over 0.2 s. Dims from TB + 0.1 over 0.9 s, fades out with the rise.
+  var gp = 0;
   for (g = 0; g < NG; g++){
-    var ta = S[givers[g]].give + SPARK_DUR;
-    // the centre's first appearance fades in over 0.25 s with the first arrival (no pop)
-    if (t >= ta){ var wA = g === 0 ? ss(seg(t, ta, ta + 0.25)) : 1; gb += 0.1 * wA; gp += Math.exp(-(t - ta) / 0.14) * wA; }
+    var ta = GIVE_A[g];
+    if (t >= ta){ var wA = g === 0 ? ss(seg(t, ta, ta + 0.2)) : 1; gp += Math.exp(-(t - ta) / 0.14) * wA; }
   }
-  var gsz = 44;
-  var sw = eIO(seg(t, 4.0, 5.0));                 // climax first: swell 4.0..5.0 to 100, then drifts on to 104 (5.0..5.6)
-  gsz = lerp(gsz, 100, sw) + 4 * sstep(seg(t, 5.0, 5.6)); gb = lerp(gb, 1.15, sw);
-  var dm = eIO(seg(t, 5.6, 6.5));                 // dims while the light leaves
-  if (t >= 5.6){ gsz = lerp(104, 44, dm); gb = lerp(1.15, 0.3, dm); }
+  var gsz = 0, gb = 0;
+  for (g = 0; g < 5; g++){
+    var eg = ss(seg(t, GIVE_A[g], GIVE_A[g] + 0.25));
+    gsz += CEN_SZ[g] * eg; gb += CEN_B[g] * (g === 0 ? ss(seg(t, GIVE_A[0], GIVE_A[0] + 0.2)) : eg);
+  }
+  var gu = eIO(seg(t, GIVE_A[4], TB - 0.5));
+  gsz += 25 * gu + 4 * sstep(seg(t, TB - 0.7, TB + 0.1)); gb += 0.05 * gu;
+  var sw = clamp01((gsz - 44) / 56);              // halo in proportion, as before (0 at size 44, full at 100)
+  // carries the stream: grows on 5.60..6.50 to 116, holds, dims with the last departures 6.75..7.35
+  var gr = eIO(seg(t, 5.60, 6.50)), dm = eIO(seg(t, 6.75, 7.35));
+  if (t >= 5.60){ gsz = lerp(104, 116, gr); gb = lerp(1.15, 1.22, gr); }
+  if (t >= 6.75){ gsz = lerp(116, 44, dm); gb = lerp(1.22, 0.3, dm); }
   var cHalo = 2 * gsz, cHaloB = 0.10 * sw * (1 - dm);
   // arrivals come every 0.03 s at the end: their pulses add up under a soft cap (tanh), so they never stack into a flash.
   // Size and brightness: pulse sum capped softly at 0.5 (one pulse alone keeps about 46 % of its old peak).
@@ -758,7 +805,7 @@ function render(t){
   var gpc = 0.5 * Math.tanh(gp / 0.5);
   gsz += 44 * 0.18 * gpc; gb += 0.12 * gpc;
   if (gb > 1.10) gb = 1.10 + 0.15 * Math.tanh((gb - 1.10) / 0.15);
-  gb *= 1 - eIO(seg(t, 6.65, 7.4));
+  gb *= 1 - eIO(seg(t, 7.20, 7.70));
   pPos[I_GLOW*3] = 0; pPos[I_GLOW*3+1] = 0; pPos[I_GLOW*3+2] = 0;
   pSize[I_GLOW] = gsz; pBright[I_GLOW] = gb; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
   // the growth comes as warm glow: the core falloff steepens above size 70, so the white core barely widens
@@ -783,18 +830,18 @@ function render(t){
     // a pulse of light along the ray: streak from progress he - 0.22 (clamped at 0) to he, bright at the head
     // every vertex: linear ramp from tail (0) to head (STREAK_B), times its own distance factor smoothstep(p/0.3),
     // so the part of a streak inside the inner 45 % of the ray stays dark; colour COL_WARM at the tail, 25 % charged at the head
-    var tl = Math.max(0, he - STREAK_LEN), fT = on ? clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
+    var tl = Math.max(0, he - s.pkLen), fT = on ? clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
     for (var m = 0; m < STREAK_SEG; m++){
       var o3 = (i*STREAK_SEG + m) * 6;
       for (var end = 0; end < 2; end++){
-        var w = (m + end) / STREAK_SEG, pv = lerp(tl, he, w), bv = STREAK_B * w * sstep(pv / 0.45) * fT;
+        var w = (m + end) / STREAK_SEG, pv = lerp(tl, he, w), bv = s.pkB * w * sstep(pv / 0.45) * fT;
         bPos[o3+end*3] = px*pv; bPos[o3+end*3+1] = py*pv; bPos[o3+end*3+2] = pz*pv;
         for (var q3 = 0; q3 < 3; q3++) bCol[o3+end*3+q3] = lerp(COL_WARM[q3], STREAK_HEAD_COL[q3], w) * bv;
       }
     }
     // the head only as a soft glint
     pPos[hj*3] = px*he; pPos[hj*3+1] = py*he; pPos[hj*3+2] = pz*he;
-    pSize[hj] = 3.5; pBright[hj] = 0.35 * fac;
+    pSize[hj] = s.pkGs; pBright[hj] = s.pkGb * fac;
     setCol(hj, SOFT_CHARGED); pSq[hj] = 0;
   }
   streaks.visible = anyStreak;
@@ -804,9 +851,9 @@ function render(t){
   rg.attributes.position.needsUpdate = true; rg.attributes.color.needsUpdate = true;
 
   // chart lines
-  var cp = eIO(seg(t, 6.9, 8.0));
-  chart.visible = t >= 6.9 && t < R0_OLD + 0.6;
-  chart.material.opacity = 0.45 * (1 - seg(t, R0_OLD, R0_OLD + 0.6));
+  var cp = eIO(seg(t, 6.9 + SHIFT, 8.0 + SHIFT));
+  chart.visible = t >= 6.9 + SHIFT && t < TR_FADE + 0.5;         // leaves together with the bell outlines
+  chart.material.opacity = 0.45 * (1 - seg(t, TR_FADE, TR_FADE + 0.5));
   var half = 0.84 * cp;
   var L = [
     [0, Y_BASE, -half, Y_BASE], [0, Y_BASE, half, Y_BASE],
@@ -828,8 +875,9 @@ function render(t){
   // full width from BELL_T1, growing upward out of the baseline while the stars fall; pale first
   var bh = sstep(seg(t, BELL_T1, BELL_T2));
   bells.forEach(function(l, gp){
-    l.visible = t >= BELL_T1 && t < R0_OLD + 0.6;
-    l.material.opacity = (0.12 + 0.58 * bh * bh) * (1 - seg(t, R0_OLD, R0_OLD + 0.6));
+    var lf = 1 - seg(t, TR_FADE, TR_FADE + 0.5);
+    l.visible = t >= BELL_T1 && t < TR_FADE + 0.5;
+    l.material.opacity = (0.12 + 0.58 * bh * bh) * lf;
     var pos = l.geometry.attributes.position.array, c = CENTRES[gp];
     var x0 = c - 3.2*SIGMA, x1 = c + 3.2*SIGMA;
     for (var k = 0; k < NB; k++){
@@ -839,7 +887,23 @@ function render(t){
       pos[k*3+2] = 0;
     }
     l.geometry.attributes.position.needsUpdate = true;
+    // trace: wake brightens the line through its vertex colour (at full wake it reads as opacity 1.0 instead of 0.7)
+    // and shows as a soft band of points on the vertices; the head rides on the outline
+    var bc = gp === 0 ? COL_BLUE : COL_WARM, colA = l.geometry.attributes.color.array;
+    for (k = 0; k < NB; k++){
+      var gk = trGlow(gp, k, t), fk = 1 + (LINE_BOOST[gp] - 1) * gk, jw = 2 + gp*NB + k;
+      for (var q5 = 0; q5 < 3; q5++){ colA[k*3+q5] = Math.min(1, bc[q5] * fk); trCol[jw*3+q5] = bc[q5]; }
+      trPos[jw*3] = pos[k*3]; trPos[jw*3+1] = pos[k*3+1]; trPos[jw*3+2] = 0;
+      trSize[jw] = BAND_SIZE; trBright[jw] = BAND_B * gk * lf;
+    }
+    l.geometry.attributes.color.needsUpdate = true;
+    var hu2 = trHeadU(gp, t), hx = lerp(x0, x1, hu2), hz = (hx - c) / SIGMA;
+    trPos[gp*3] = sx(hx); trPos[gp*3+1] = Y_BASE + bh * (BELL_PEAK * Math.exp(-hz*hz/2) + 1.1) * PITCH; trPos[gp*3+2] = 0;
+    trSize[gp] = 6; trBright[gp] = trHeadB(gp, t) * lf;
+    for (q5 = 0; q5 < 3; q5++) trCol[gp*3+q5] = bc[q5] + (HEAD_WHITE[q5] - bc[q5]) * HEAD_MIX;
   });
+  tracePts.visible = t >= TR0 && t < TR_CUT;
+  for (var an in trg.attributes) trg.attributes[an].needsUpdate = true;
 
   pg.attributes.position.needsUpdate = true;
   pg.attributes.aSize.needsUpdate = true;
@@ -909,7 +973,7 @@ function seek(t){
 }
 window.seek = seek;
 window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
-  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, R0_OLD: R0_OLD, T_END: T_END, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, CRUISE: RING_CRUISE / DEG, RING_C: RING_C, RING_R: RING_R, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR, RL: RL, DEP_CLAMPED: DEP_CLAMPED }, GIVE_LOG: GIVE_LOG, gCol: gCol, orbit: function(i, t){ return cloudPos(i, spinA(t), depthS(t), [0,0,0]); }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved,
+  times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, R0_OLD: R0_OLD, T_END: T_END, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, CRUISE: RING_CRUISE / DEG, RING_C: RING_C, RING_R: RING_R, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR, RL: RL, DEP_CLAMPED: DEP_CLAMPED, TR0: TR0, TR_END: TR_END, TR_FADE: TR_FADE, TR_CUT: TR_CUT }, trace: { headU: trHeadU, headB: trHeadB, glow: trGlow, BAND_B: BAND_B, BAND_SIZE: BAND_SIZE, bright: trBright, NB: NB }, GIVE_LOG: GIVE_LOG, GIVE_RELAXED: GIVE_RELAXED, TB: TB, gCol: gCol, orbit: function(i, t){ return cloudPos(i, spinA(t), depthS(t), [0,0,0]); }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved,
   size: pSize, idx: { I_GLOW: I_GLOW, I_MINI: I_MINI, I_CHALO: I_CHALO, PK: PK, NG: NG } };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
