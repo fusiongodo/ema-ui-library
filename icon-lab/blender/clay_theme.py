@@ -151,6 +151,13 @@ REFERENCE = {
         # the camera frames the larger extent (here the height): group height / tile
         "tile_icon_width": 0.58,
     },
+    "protocol-injection": {
+        "tile": "#9BBC9D",                       # sage green
+        "cream": {"lit": "#F1F2EC", "mid": "#DBD4CA", "shadow": "#C5BCAE"},  # barrel, flange, hub, needle
+        "marks": "#BDB3A6",                      # graduation marks, soft
+        "lilac": {"lit": "#C2AFCF", "mid": "#9389A1", "shadow": "#736481"},  # plunger rod, thumb cap
+        "tile_icon_width": 0.63,                 # syringe bbox width / tile width
+    },
 }
 
 
