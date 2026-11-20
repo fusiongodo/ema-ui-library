@@ -143,6 +143,14 @@ REFERENCE = {
         "moon": {"lit": "#BDB2D0", "mid": "#9A8CAD", "shadow": "#7E7393"},    # lilac
         "tile_icon_width": 0.60,                 # cloud + moon width / tile width
     },
+    "pain": {
+        "tile": "#B9D6C8",                       # soft sage mint
+        "head": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},    # warm cream
+        "coral": {"lit": "#F6AE9E", "mid": "#EE8E7C", "shadow": "#D46E5E"},   # burst + rays
+        "glow": "#F0B7A8",                       # blush on the head at its peak
+        # the camera frames the larger extent (here the height): group height / tile
+        "tile_icon_width": 0.58,
+    },
 }
 
 
