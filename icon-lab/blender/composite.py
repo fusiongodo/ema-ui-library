@@ -66,9 +66,30 @@ def tile(fill):
     return img
 
 
-def compose(icon_png, fill, icon_scale=ICON_SCALE):
-    """Tile + soft tinted cast shadow (from the render's alpha) + icon."""
+def draw_ring(base, ring):
+    """Flat anti-aliased ring centred on the tile (opt-in per icon, REFERENCE[icon]["ring"]):
+    centre-line radius and stroke width as fractions of the tile width."""
+    ss = 4
+    n = TILE_SIZE * ss
+    c = n / 2
+    ro = (ring["radius"] + ring["width"] / 2) * n
+    ri = (ring["radius"] - ring["width"] / 2) * n
+    mask = Image.new("L", (n, n), 0)
+    d = ImageDraw.Draw(mask)
+    d.ellipse((c - ro, c - ro, c + ro, c + ro), fill=255)
+    d.ellipse((c - ri, c - ri, c + ri, c + ri), fill=0)
+    mask = mask.resize((TILE_SIZE, TILE_SIZE), Image.LANCZOS)
+    layer = Image.new("RGBA", base.size, ring["color"])
+    layer.putalpha(ImageChops.multiply(mask, base.getchannel("A")))
+    return Image.alpha_composite(base, layer)
+
+
+def compose(icon_png, fill, icon_scale=ICON_SCALE, ring=None, offset_y=0.0):
+    """Tile (+ optional flat ring) + soft tinted cast shadow (from the render's alpha) + icon.
+    offset_y: icon bbox centre below the tile centre, as a share of the tile (default 0)."""
     base = tile(fill)
+    if ring:
+        base = draw_ring(base, ring)
     icon = Image.open(icon_png).convert("RGBA")
     s = round(TILE_SIZE * icon_scale)
     icon = icon.resize((s, s), Image.LANCZOS)
@@ -76,7 +97,7 @@ def compose(icon_png, fill, icon_scale=ICON_SCALE):
     # centre the pair's alpha bounding box (shadow excluded) on the tile
     l, t, r, b = icon.getchannel("A").point(lambda v: 255 if v > 8 else 0).getbbox()
     ox = round(TILE_SIZE / 2 - (l + r) / 2)
-    oy = round(TILE_SIZE / 2 - (t + b) / 2)
+    oy = round(TILE_SIZE / 2 + TILE_SIZE * offset_y - (t + b) / 2)
     layer.alpha_composite(icon, (ox, oy))
 
     # cast shadow: offset, blurred alpha, tile colour x SHADOW_TINT
@@ -134,7 +155,8 @@ def main(icon):
     tile_hex = ct.REFERENCE[icon]["tile"]  # fixed reference colours (Alex, final)
     # per-icon tablet/pair width on the tile (default: clay_theme.TILE_ICON_WIDTH)
     scale = ct.REFERENCE[icon].get("tile_icon_width", ct.TILE_ICON_WIDTH) / ct.FRAME_FILL
-    c = compose(os.path.join(out, f"{icon}.png"), tile_hex, scale)
+    c = compose(os.path.join(out, f"{icon}.png"), tile_hex, scale,
+                ring=ct.REFERENCE[icon].get("ring"), offset_y=ct.REFERENCE[icon].get("tile_icon_offset_y", 0.0))
     p = os.path.join(out, f"{icon}-on-tile.png")
     c.save(p)
     print("wrote", p)

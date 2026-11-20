@@ -168,6 +168,15 @@ REFERENCE = {
         # the camera frames the larger extent (here the height incl. rings): height / tile
         "tile_icon_width": 0.595,
     },
+    "guide": {
+        "tile": "#A0C1E0",                       # soft blue
+        "glass": {"lit": "#F5F0EA", "mid": "#DFDED9", "shadow": "#CDC9BE"},  # warm white clay, opaque
+        "base": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"},   # terracotta rings + cap
+        # flat ring drawn in composite.py (opt-in): centre-line radius, stroke width (tile fractions)
+        "ring": {"color": "#E6C7AB", "radius": 0.37, "width": 0.036},
+        # the camera frames the larger extent (here the height): bulb height / tile
+        "tile_icon_width": 0.48,
+    },
 }
 
 

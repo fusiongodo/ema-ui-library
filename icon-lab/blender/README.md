@@ -59,3 +59,9 @@ All look parameters are constants at the top of `clay_theme.py` (the brief's "Li
 - Icon-level overrides only (theme untouched, #7 renders as before): fill 0 W; key 90 W at 6000 K moved to 2.5 from the tablet; small second key (area 1, 22 W, upper left az -55 el 50, distance 1.6); world strength 0.7, warm low `#7A7068`; base `#EFECE8`; chalky noise bump (scale 350, strength 0.25).
 - The AO node triggers a one-time Metal kernel compile (~3 min) on the first render after a Blender update.
 - `CLAY_PART_MASK=1` renders a top/side/score part mask for colour measurement.
+
+## guide (#13)
+
+- `icons/guide.py`: light bulb, two solids of revolution traced from 2D implicit profiles as in `protocol_injection.py` (glass: sphere with axis-compressed lower half, smooth-unioned into a 0.54 neck; base: two pillowy rings, lower one a touch narrower as in the reference, plus an elliptic dome cap). 124k faces, no remesh. View elevation 8 deg.
+- Flat peach ring drawn in `composite.py` (opt-in `REFERENCE[icon]["ring"]`: colour, centre-line radius 0.37, stroke 0.036; supersampled, under the cast shadow). `compose()` also takes an opt-in `tile_icon_offset_y` (default 0). Other icons render unchanged.
+- Icon-level overrides only: normal-direction colour gradients on both parts, sheen 0.15, edge lift 1.0, warmer/lighter ground `#B4AA9E`.
