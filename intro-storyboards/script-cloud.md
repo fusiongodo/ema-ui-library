@@ -292,3 +292,14 @@ Why they are overlooked: the outline is a hairline that reaches its full strengt
 - From 5.6 to 8.2 at least 89 stars are rising or have a package on the way; no lull.
 - Camera identical to round 13 at every moment; star positions identical until 5.70; the stars reach the line at the same set of moments; rain starts 0.03 s later; ring, wordmark and end unchanged.
 - Known: the centre stays large and bright until 6.75 instead of dimming from 5.6, so between 6.0 and 6.9 there is about three times as much pure white around it as before in those moments (at its worst 1.4 times the old peak). Claude left it, because he asked for the centre to keep lighting up; a fix is known (cap its brightness at 1.05 while it holds). The stream ends at its highest rate and then stops; a tail-off is possible. Because the stars now reach the line in another order, different stars stand at the bells and the white there shifted a little.
+
+## Feedback, round 15 (Alex, 20 Nov 2026)
+
+Before a verdict on the stream: **"MEjority" comes too late.** Today it appears only after the shine has gone round the finished ring. It should come in from left to right while the ring is still forming, shortly before it closes, and already be there when the shine runs round.
+He also wants the old version with the pulse broadcast kept, not deleted: it is saved as `cloud/archive/round13-a.html`.
+
+### What Claude changes for round 16 (Claude's decisions, to be judged)
+- The word is written in from left to right between 10.5 and 11.2 s, in place, with a soft edge. The ring's last star arrives at 11.52; the shine runs 11.2 to 12.2 with the word already standing.
+- Nothing else. The end stays at 13.42 s, so the finished picture now rests for 1.2 s; it could end up to 0.7 s earlier.
+
+**Round 16 is built and published (20 Nov 2026), not judged yet.** Not looked at by Claude; numeric checks only. Everything drawn in 3D is identical to round 15 at every moment. The edge of the wipe is at the middle of the word at 10.85; from 11.2 the word stands. No star crosses the word's area between 10.5 and 11.6. When the wipe starts the thread of stars is running round the ring but none has reached its final place (the first does at 10.77); when the word stands, 323 of 600 have. The agent proposed a later wipe (10.8 to 11.4); Claude kept the earlier one, because the word is to stand when the shine starts at 11.2.

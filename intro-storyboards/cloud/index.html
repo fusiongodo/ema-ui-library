@@ -369,11 +369,12 @@ function trGlow(gp, k, t){
 }
 var R0_OLD = T_LAND - 0.25;                             // ring start until round 7; bells and chart still fade from here
 var R0 = 9.0 + SHIFT;                                           // ring start: the heaps begin to flow while the last stars still fall
+var WORD_T0 = 10.50, WORD_T1 = 11.20;                         // wordmark wipe
 var RL = 9.2 + SHIFT;                                           // ring look (breathing, highlight, wordmark, end) keeps its absolute times
 var R1 = RL + 1.0;                                      // breathing of the ring radius
 T_END = 13.417260211447719 + SHIFT;                     // frozen (was derived from the landing time before round 12)
 STEPS.push([Math.round(T_FALL0*10)/10,'Regen, zwei Glocken'],
-           [Math.round(R0*10)/10,'Der Kreis'], [Math.round((RL+3.0)*10)/10,'MEjority']);
+           [Math.round(R0*10)/10,'Der Kreis'], [WORD_T0,'MEjority']);
 
 // ring
 var RING_C = sy(0.44), RING_R = 0.3 * 2 * W_END;
@@ -463,8 +464,8 @@ var RUN = { min: 0, max: 0 }, NSPI = 0;
     RUN.min = Math.min(RUN.min, run); RUN.max = Math.max(RUN.max, run);
   });
 })();
-// the centre answers, per star (drawn after all other random numbers, so nothing else changes):
-// ray fades in at rayOn, the signal leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
+// the outbound stream, per star (drawn after all other random numbers, so nothing else changes):
+// ray fades in at rayOn, the package leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
 for (i = 0; i < N; i++){
   var sI = S[i];
   sI.rayOn = 4.95 + 0.3 * (sI.r / R) + 0.2 * rand();
@@ -603,7 +604,7 @@ rg.setAttribute('color', new THREE.BufferAttribute(rCol, 3));
 for (i = 0; i < N*2; i++){ var rf = i % 2 ? 1 : 0.18; rCol[i*3] = COL_CHARGED[0]*rf; rCol[i*3+1] = COL_CHARGED[1]*rf; rCol[i*3+2] = COL_CHARGED[2]*rf; }
 var rays = new THREE.LineSegments(rg, lineMat(0.10)); rays.frustumCulled = false; scene.add(rays);
 // outbound streaks: one short line per ray, bright at the head, fading to 0 at the tail
-var STREAK_SEG = 4, STREAK_LEN = 0.16, STREAK_B = 0.5;   // each streak in 4 pieces, so the distance factor acts along it
+var STREAK_SEG = 4;   // each streak in 4 pieces, so the distance factor acts along it
 var STREAK_HEAD_COL = [0,0,0]; mixColStatic(COL_WARM, COL_CHARGED, 0.25, STREAK_HEAD_COL);
 var bPos = new Float32Array(N*STREAK_SEG*6), bCol = new Float32Array(N*STREAK_SEG*6);
 var bgm = new THREE.BufferGeometry();
@@ -780,7 +781,7 @@ function render(t){
 
   // centre glow: forms fast. Size pushed up by the arrivals (30 after the 1st, 55 after the 3rd, 75 after the 5th,
   // each step eased over 0.25 s), then grows on to 100 at TB - 0.5 and drifts to 104 by TB + 0.1; brightness 0.5 / 0.9 /
-  // 1.1, then to 1.15. Fades in with the first arrival over 0.2 s. Dims from TB + 0.1 over 0.9 s, fades out with the rise.
+  // 1.1, then to 1.15. Fades in with the first arrival over 0.2 s.
   var gp = 0;
   for (g = 0; g < NG; g++){
     var ta = GIVE_A[g];
@@ -813,7 +814,7 @@ function render(t){
   pPos[I_CHALO*3] = 0; pPos[I_CHALO*3+1] = 0; pPos[I_CHALO*3+2] = 0;
   pSize[I_CHALO] = cHalo; pBright[I_CHALO] = cHaloB; setCol(I_CHALO, COL_WARM); pSq[I_CHALO] = 0;
 
-  // the centre answers, per star: faint ray (fade-in from rayOn, fade-out from arr), signal dep -> arr along the live ray
+  // the outbound stream, per star: faint ray (fade-in from rayOn, fade-out from arr), signal dep -> arr along the live ray
   var anyRay = false, anyStreak = false;
   for (i = 0; i < N; i++){
     var s = S[i], hj = I_HEAD + i, px = pPos[i*3], py = pPos[i*3+1], pz = pPos[i*3+2];
@@ -827,8 +828,8 @@ function render(t){
     var on = t >= s.dep && t < s.arr;
     var fac = on ? sstep(he / 0.45) * clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
     if (fac > 0) anyStreak = true;
-    // a pulse of light along the ray: streak from progress he - 0.22 (clamped at 0) to he, bright at the head
-    // every vertex: linear ramp from tail (0) to head (STREAK_B), times its own distance factor smoothstep(p/0.3),
+    // a pulse of light along the ray: streak from progress he - pkLen (clamped at 0) to he, bright at the head
+    // every vertex: linear ramp from tail (0) to head (pkB), times its own distance factor smoothstep(p/0.3),
     // so the part of a streak inside the inner 45 % of the ray stays dark; colour COL_WARM at the tail, 25 % charged at the head
     var tl = Math.max(0, he - s.pkLen), fT = on ? clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
     for (var m = 0; m < STREAK_SEG; m++){
@@ -915,7 +916,13 @@ function render(t){
   bgCol.setRGB(BG[0], BG[1], BG[2]);
   renderer.setClearColor(bgCol, 1);
 
-  word.style.opacity = eOut(seg(t, RL + 3.0, RL + 3.7)).toFixed(3);
+  // wordmark: revealed in place by a soft wipe from left to right while the ring closes (sine ease-in-out, 10.50 .. 11.20).
+  // Mask edge E (centre of a soft zone 25 % of the word's width) runs from -12.5 % (nothing visible) to 112.5 % (all visible).
+  var wp = 0.5 - 0.5 * Math.cos(Math.PI * seg(t, WORD_T0, WORD_T1));
+  word.style.opacity = t >= WORD_T0 ? '1' : '0';
+  var wm = 'none';
+  if (wp < 1){ var wE = -12.5 + 125 * wp; wm = 'linear-gradient(to right, #000 ' + (wE - 12.5).toFixed(3) + '%, transparent ' + (wE + 12.5).toFixed(3) + '%)'; }
+  word.style.webkitMaskImage = wm; word.style.maskImage = wm;
   renderer.render(scene, camera);
 }
 
