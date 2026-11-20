@@ -326,3 +326,12 @@ He also wants the old version with the pulse broadcast kept, not deleted: it is 
 - Camera identical; the line is reached at the same set of moments; rain, ring, bells, end within 0.02 s of round 16.
 - Word: wipe 10.20 to 10.95, band of light 18 % of the word's width just behind the edge, glow strongest at 10.58. The agent added a fade-out of the band over the last fifth of the reveal, otherwise it would have vanished in one step at the right end; Claude accepts that. No star crosses the word.
 - Known: when the word starts at 10.2 no star has touched the ring yet; when it stands (10.95), 145 of 600 have. The gleam is tested in Chrome only, not in Safari. White around the centre as in round 15 (peak slightly lower).
+
+## Feedback, round 17 (Alex, 20 Nov 2026)
+
+The rise can start even earlier: a star hit at 5.0 has not moved yet. **Every star should begin to rise as soon as it is hit.** (This takes back his earlier wish that the first ones hit only light up.)
+
+### What Claude changes for round 18 (Claude's decision, to be judged)
+- Every star rises 0.12 s after its hit; the waiting group is gone. Line times unchanged, so the earliest float up for about 3 s.
+
+**Round 18 is built and published (20 Nov 2026), not judged yet.** Not looked at by Claude; numeric checks only. First rise at 4.77, the next at 4.91; starts per tenth of a second from 4.7: 1, 0, 2, 4, 5, 7, 8, 11 … 50. Rise takes 1.13 to 2.98 s; even the earliest are visibly off their orbit after 0.14 to 0.19 s and have moved 16 to 32 % of the cloud radius after half a second. They stay inside the frame. Camera identical; rain, ring, bells, word, end unchanged.

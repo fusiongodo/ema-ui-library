@@ -274,7 +274,7 @@ givers.forEach(function(g, k){ S[g].give = GIVE_T[k]; });
 var CEN_SZ = [30, 12.5, 12.5, 10, 10], CEN_B = [0.5, 0.2, 0.2, 0.1, 0.1];
 var GIVE_A = GIVE_T.map(function(x){ return x + SPARK_DUR; });
 GIVE_LOG.forEach(function(g, k){ g.arr = GIVE_A[k]; });
-STEPS.push([4.2, 'Das Zentrum antwortet'], [5.2, 'Getroffen, aufsteigen']);
+STEPS.push([4.2, 'Das Zentrum antwortet'], [4.8, 'Getroffen, aufsteigen']);
 // a giver is fully lit 0.3 s before it gives (its ray starts 0.15 s before): move only its fade-in earlier,
 // same 0.5 s duration, never before 1.2 s (the hero stays alone until then)
 var fadeMoved = [];
@@ -293,7 +293,7 @@ var Y_TOP = sy(0.14), Y_BASE = sy(0.78);
 var PITCH = 2 * W_END / 68;                     // dot diameter in world units
 var LEAVE_SPREAD = 0.5;   // short: with arrivals spread over 0.7 s, at most ~270 stars sit on the line at once
 var RISE_T0 = 6.65 + SHIFT, RISE_STAG = 0.7, RISE_DUR = 1.1, PERM_SEED = 1;
-var STREAM_T0 = 4.65, STREAM_SPAN = 2.55, STREAM_EXP = 0.45, STREAM_TRAVEL = 0.45, T_SW = 5.08;
+var STREAM_T0 = 4.65, STREAM_SPAN = 2.55, STREAM_EXP = 0.45, STREAM_TRAVEL = 0.45;
 function streamArr(k){ return STREAM_T0 + STREAM_SPAN * Math.pow(k / (N - 1), STREAM_EXP); }
 function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the rise picks up sooner
 
@@ -315,12 +315,11 @@ function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the 
   });
   var kf = 0;
   perm.forEach(function(j){ if (slotOf[j] >= 0) return; while (taken[kf]) kf++; taken[kf] = true; slotOf[j] = kf; });
-  // hit means glow; rising only once it swells: hit at or after T_SW -> rise 0.12 s after the hit; hit before -> keeps
-  // orbiting, lit, and rises between 5.20 and 6.00 (hash). Line times: today's set, in order of rise start.
+  // hit means glow, and every star sets off 0.12 s after its hit. Line times: today's set, in order of rise start.
   var byRise = [];
   for (j = 0; j < N; j++){
     var sj = S[j]; sj.slot = slotOf[j]; sj.sArr = streamArr(sj.slot);
-    sj.riseStart = sj.sArr >= T_SW ? sj.sArr + 0.12 : 5.20 + 0.80 * hash01(j * 104729 + 7);
+    sj.riseStart = sj.sArr + 0.12;
     byRise.push(j);
   }
   byRise.sort(function(a,b){ return S[a].riseStart - S[b].riseStart || a - b; });
