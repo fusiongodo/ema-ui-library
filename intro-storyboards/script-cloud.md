@@ -303,3 +303,26 @@ He also wants the old version with the pulse broadcast kept, not deleted: it is 
 - Nothing else. The end stays at 13.42 s, so the finished picture now rests for 1.2 s; it could end up to 0.7 s earlier.
 
 **Round 16 is built and published (20 Nov 2026), not judged yet.** Not looked at by Claude; numeric checks only. Everything drawn in 3D is identical to round 15 at every moment. The edge of the wipe is at the middle of the word at 10.85; from 11.2 the word stands. No star crosses the word's area between 10.5 and 11.6. When the wipe starts the thread of stars is running round the ring but none has reached its final place (the first does at 10.77); when the word stands, 323 of 600 have. The agent proposed a later wipe (10.8 to 11.4); Claude kept the earlier one, because the word is to stand when the shine starts at 11.2.
+
+## Feedback, round 16 (Alex, 20 Nov 2026)
+
+- **A slow-motion mode for the player**, first of all.
+- **The centre should send outward even earlier:** the first packages at 4.2.
+- **The rise starts too abruptly.** From 5.8 to 7.3 everyone sets off at once. Single stars could already move at 5.2, a few more at 5.7.
+- **"MEjority" at 10.2 already, and shinier:** not just a soft blend from left to right; the fade-in itself should carry one gleam across the word. Fully there around 10.9 to 11.0. Then the ring closes (11.5) and the shine round the ring follows as today.
+
+### What Claude changes for round 17 (Claude's decisions, to be judged)
+- Player: a speed button, 1× / 0.5× / 0.25× / 0.1×.
+- The stream starts 0.11 s earlier (first package leaves at 4.20) and still ends at 7.20.
+- A star rises 0.12 s after its hit if it is hit from 5.08 on, so the first rise at 5.2 and then as many per moment as are hit: a few at first, steadily more. Only the roughly 11 stars hit before that wait, lit, and set off between 5.2 and 6.0.
+- The line is reached at the same moments as before, so the earliest risers float up for about 2.5 s. Rain, ring, end unchanged.
+- Word: wipe from 10.2 to 10.95; a narrow band of warmer light rides just behind the edge inside the letters, with a faint glow around them; afterwards the word is plain.
+
+**Round 17 is built and published (20 Nov 2026), not judged yet.** 13.42 s. Not looked at by Claude; numeric checks only.
+- Speed button next to play: 1× / 0.5× / 0.25× / 0.1×; it only slows playback, the time shown stays film time.
+- Packages leave the centre from 4.20 to 6.75. Arrivals per tenth of a second climb from 1 to 50.
+- Rise: first star at 5.21; starts per tenth of a second from 5.2 on: 8, 12, 11, 14, 16, 16, 19, 23 … 50 (round 16: 15, 30, 27, 29 … from 5.7). 12 stars are hit before 5.08 and set off between 5.27 and 5.94. Rise takes 1.13 to 2.54 s; an early riser is visibly off its orbit about 0.15 s after it starts.
+- From 5.0 on at least 38 stars are rising or have a package on the way, 250 at 6.0.
+- Camera identical; the line is reached at the same set of moments; rain, ring, bells, end within 0.02 s of round 16.
+- Word: wipe 10.20 to 10.95, band of light 18 % of the word's width just behind the edge, glow strongest at 10.58. The agent added a fade-out of the band over the last fifth of the reveal, otherwise it would have vanished in one step at the right end; Claude accepts that. No star crosses the word.
+- Known: when the word starts at 10.2 no star has touched the ring yet; when it stands (10.95), 145 of 600 have. The gleam is tested in Chrome only, not in Safari. White around the centre as in round 15 (peak slightly lower).

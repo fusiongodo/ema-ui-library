@@ -32,6 +32,8 @@ body{overflow-x:hidden}
 .btn{font:inherit;font-size:12px;color:var(--ink);background:var(--btn);border:1px solid var(--btnline);
   border-radius:999px;height:28px;padding:0 12px;cursor:pointer;white-space:nowrap}
 .btn.icon{width:28px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.btn.speed{height:32px;min-width:44px;padding:0 8px;font-variant-numeric:tabular-nums}
+.btn.speed.on{color:var(--accent);border-color:var(--accent)}
 .time{font-variant-numeric:tabular-nums;min-width:38px;text-align:right;color:var(--muted)}
 .row2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted);min-height:28px}
 .again[hidden]{display:none}
@@ -46,6 +48,7 @@ body{overflow-x:hidden}
       <button class="btn icon" id="play" aria-label="Abspielen">
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path id="playIcon" fill="currentColor" d="M2 1l9 5-9 5z"/></svg>
       </button>
+      <button class="btn speed" id="speed" aria-label="Geschwindigkeit 1&times;">1&times;</button>
       <input type="range" id="scrub" min="0" max="13.8" step="0.01" value="0" aria-label="Zeit">
       <span class="time" id="time">0.0 s</span>
     </div>
@@ -271,7 +274,7 @@ givers.forEach(function(g, k){ S[g].give = GIVE_T[k]; });
 var CEN_SZ = [30, 12.5, 12.5, 10, 10], CEN_B = [0.5, 0.2, 0.2, 0.1, 0.1];
 var GIVE_A = GIVE_T.map(function(x){ return x + SPARK_DUR; });
 GIVE_LOG.forEach(function(g, k){ g.arr = GIVE_A[k]; });
-STEPS.push([4.3, 'Das Zentrum antwortet'], [5.6, 'Getroffen, aufsteigen']);
+STEPS.push([4.2, 'Das Zentrum antwortet'], [5.2, 'Getroffen, aufsteigen']);
 // a giver is fully lit 0.3 s before it gives (its ray starts 0.15 s before): move only its fade-in earlier,
 // same 0.5 s duration, never before 1.2 s (the hero stays alone until then)
 var fadeMoved = [];
@@ -290,7 +293,7 @@ var Y_TOP = sy(0.14), Y_BASE = sy(0.78);
 var PITCH = 2 * W_END / 68;                     // dot diameter in world units
 var LEAVE_SPREAD = 0.5;   // short: with arrivals spread over 0.7 s, at most ~270 stars sit on the line at once
 var RISE_T0 = 6.65 + SHIFT, RISE_STAG = 0.7, RISE_DUR = 1.1, PERM_SEED = 1;
-var STREAM_T0 = 4.76, STREAM_SPAN = 2.44, STREAM_EXP = 0.45, STREAM_TRAVEL = 0.45, T_SW = 5.60;
+var STREAM_T0 = 4.65, STREAM_SPAN = 2.55, STREAM_EXP = 0.45, STREAM_TRAVEL = 0.45, T_SW = 5.08;
 function streamArr(k){ return STREAM_T0 + STREAM_SPAN * Math.pow(k / (N - 1), STREAM_EXP); }
 function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the rise picks up sooner
 
@@ -302,7 +305,7 @@ function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the 
   // riseRank k sets the broadcast arrival (6.20 + k/599) and the line arrival (rise + RISE_DUR = 7.75 + 0.7 (k+0.5)/600)
   var perm = []; for (j = 0; j < N; j++) perm.push(j);
   perm.sort(function(a,b){ return hash01(a * 7919 + PERM_SEED) - hash01(b * 7919 + PERM_SEED); });
-  // one outbound stream: slot k arrives at 4.76 + 2.44 (k/599)^0.45 (it swells), every package travels 0.45 s.
+  // one outbound stream: slot k arrives at 4.65 + 2.55 (k/599)^0.45 (it swells), every package travels 0.45 s.
   // Givers first, in give order, each into the earliest free slot that leaves at least 0.10 s after its give arrived;
   // all other stars fill the remaining slots in hash order (independent of position).
   var taken = new Array(N).fill(false), slotOf = new Array(N).fill(-1);
@@ -313,11 +316,11 @@ function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the 
   var kf = 0;
   perm.forEach(function(j){ if (slotOf[j] >= 0) return; while (taken[kf]) kf++; taken[kf] = true; slotOf[j] = kf; });
   // hit means glow; rising only once it swells: hit at or after T_SW -> rise 0.12 s after the hit; hit before -> keeps
-  // orbiting, lit, and rises between 5.72 and 6.50 (hash). Line times: today's set, in order of rise start.
+  // orbiting, lit, and rises between 5.20 and 6.00 (hash). Line times: today's set, in order of rise start.
   var byRise = [];
   for (j = 0; j < N; j++){
     var sj = S[j]; sj.slot = slotOf[j]; sj.sArr = streamArr(sj.slot);
-    sj.riseStart = sj.sArr >= T_SW ? sj.sArr + 0.12 : 5.72 + 0.78 * hash01(j * 104729 + 7);
+    sj.riseStart = sj.sArr >= T_SW ? sj.sArr + 0.12 : 5.20 + 0.80 * hash01(j * 104729 + 7);
     byRise.push(j);
   }
   byRise.sort(function(a,b){ return S[a].riseStart - S[b].riseStart || a - b; });
@@ -369,7 +372,7 @@ function trGlow(gp, k, t){
 }
 var R0_OLD = T_LAND - 0.25;                             // ring start until round 7; bells and chart still fade from here
 var R0 = 9.0 + SHIFT;                                           // ring start: the heaps begin to flow while the last stars still fall
-var WORD_T0 = 10.50, WORD_T1 = 11.20;                         // wordmark wipe
+var WORD_T0 = 10.20, WORD_T1 = 10.95;                         // wordmark wipe + gleam
 var RL = 9.2 + SHIFT;                                           // ring look (breathing, highlight, wordmark, end) keeps its absolute times
 var R1 = RL + 1.0;                                      // breathing of the ring radius
 T_END = 13.417260211447719 + SHIFT;                     // frozen (was derived from the landing time before round 12)
@@ -916,13 +919,30 @@ function render(t){
   bgCol.setRGB(BG[0], BG[1], BG[2]);
   renderer.setClearColor(bgCol, 1);
 
-  // wordmark: revealed in place by a soft wipe from left to right while the ring closes (sine ease-in-out, 10.50 .. 11.20).
+  // wordmark: revealed in place by a soft wipe from left to right while the ring closes (sine ease-in-out, WORD_T0 .. WORD_T1).
   // Mask edge E (centre of a soft zone 25 % of the word's width) runs from -12.5 % (nothing visible) to 112.5 % (all visible).
+  // A gleam rides on the reveal, letters only (background-clip: text): a band 18 % wide centred 9 % behind E, warm white
+  // #FFFBEF at its centre falling off (cos^2) to the base colour #FFF1C9; its strength eases out over the last 20 % of p
+  // (at p = 1 the band would still overlap the word's right end). Glow: drop-shadow in the base colour, blur 6 px,
+  // alpha 0.35 sin(pi p). From WORD_T1 on the word is plain.
   var wp = 0.5 - 0.5 * Math.cos(Math.PI * seg(t, WORD_T0, WORD_T1));
   word.style.opacity = t >= WORD_T0 ? '1' : '0';
-  var wm = 'none';
-  if (wp < 1){ var wE = -12.5 + 125 * wp; wm = 'linear-gradient(to right, #000 ' + (wE - 12.5).toFixed(3) + '%, transparent ' + (wE + 12.5).toFixed(3) + '%)'; }
+  var wm = 'none', wBg = 'none', wClip = '', wCol = '', wFil = '';
+  if (wp < 1){
+    var wE = -12.5 + 125 * wp, wC = wE - 9, wF = sstep((1 - wp) / 0.2);
+    wm = 'linear-gradient(to right, #000 ' + (wE - 12.5).toFixed(3) + '%, transparent ' + (wE + 12.5).toFixed(3) + '%)';
+    if (t >= WORD_T0){
+      var wMix = function(a){ return 'rgb(255,' + (241 + 10 * a).toFixed(2) + ',' + (201 + 38 * a).toFixed(2) + ')'; };
+      wBg = 'linear-gradient(to right, #FFF1C9 ' + (wC - 9).toFixed(3) + '%, ' + wMix(0.5 * wF) + ' ' + (wC - 4.5).toFixed(3) + '%, ' +
+            wMix(wF) + ' ' + wC.toFixed(3) + '%, ' + wMix(0.5 * wF) + ' ' + (wC + 4.5).toFixed(3) + '%, #FFF1C9 ' + (wC + 9).toFixed(3) + '%)';
+      wClip = 'text'; wCol = 'transparent';
+      wFil = 'drop-shadow(0 0 6px rgba(255,241,201,' + (0.35 * Math.sin(Math.PI * wp)).toFixed(4) + '))';
+    }
+  }
   word.style.webkitMaskImage = wm; word.style.maskImage = wm;
+  word.style.backgroundImage = wBg; word.style.webkitBackgroundClip = wClip; word.style.backgroundClip = wClip;
+  word.style.color = wCol; word.style.filter = wFil;
+  word.dataset.gleam = wBg === 'none' ? '' : wC.toFixed(3) + ',' + (0.35 * Math.sin(Math.PI * wp)).toFixed(4) + ',' + wF.toFixed(4);
   renderer.render(scene, camera);
 }
 
@@ -940,6 +960,9 @@ window.addEventListener('resize', resize);
 
 // ---------------------------------------------------------------- playback + controls
 var cur = 0, playing = false, t0wall = 0, raf = 0, resumeOnShow = false;
+// slow motion: the clock advances by wall time × speed (render, seek and the time display stay in film time)
+var SPEEDS = [1, 0.5, 0.25, 0.1], speedK = 0, speed = 1, curAnchor = 0, speedBtn = document.getElementById('speed');
+function anchor(){ t0wall = performance.now(); curAnchor = cur; }
 var playBtn = document.getElementById('play'), playIcon = document.getElementById('playIcon'),
     scrub = document.getElementById('scrub'), timeEl = document.getElementById('time'),
     stepEl = document.getElementById('step'), again = document.getElementById('again');
@@ -957,7 +980,7 @@ function ui(){
 }
 function frame(now){
   if (!playing) return;
-  cur = Math.min(T_END, (now - t0wall) / 1000);
+  cur = Math.min(T_END, curAnchor + Math.max(0, now - t0wall) / 1000 * speed);
   render(cur);
   if (cur >= T_END) playing = false;
   ui();
@@ -967,7 +990,7 @@ function play(from){
   if (from !== undefined) cur = from;
   if (cur >= T_END) cur = 0;
   playing = true;
-  t0wall = performance.now() - cur * 1000;
+  anchor();
   cancelAnimationFrame(raf);
   raf = requestAnimationFrame(frame);
   ui();
@@ -975,7 +998,7 @@ function play(from){
 function pause(){ playing = false; cancelAnimationFrame(raf); ui(); }
 function seek(t){
   cur = Math.max(0, Math.min(T_END, +t || 0));
-  if (playing) t0wall = performance.now() - cur * 1000;
+  if (playing) anchor();
   render(cur); ui();
 }
 window.seek = seek;
@@ -984,6 +1007,14 @@ window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
   size: pSize, idx: { I_GLOW: I_GLOW, I_MINI: I_MINI, I_CHALO: I_CHALO, PK: PK, NG: NG } };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
+speedBtn.addEventListener('click', function(){
+  speedK = (speedK + 1) % SPEEDS.length; speed = SPEEDS[speedK];
+  if (playing) anchor();
+  var lab = String(speed) + '\u00D7';
+  speedBtn.textContent = lab; speedBtn.setAttribute('aria-label', 'Geschwindigkeit ' + lab);
+  speedBtn.classList.toggle('on', speed !== 1);
+});
+Object.defineProperty(window.__cloud, 'speed', { get: function(){ return speed; } });
 again.addEventListener('click', function(){ play(0); });
 stage.addEventListener('click', function(){ play(0); });
 scrub.addEventListener('input', function(){ if (playing) pause(); seek(parseFloat(scrub.value)); });
