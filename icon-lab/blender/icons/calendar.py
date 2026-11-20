@@ -35,13 +35,21 @@ HEAD_H = 0.22
 HEAD_Z = TOP - HEAD_H        # header / body boundary
 HEAD_SOFT = 0.006            # half width of the soft step
 
-RING_D, RING_L = 0.09, 0.20
+# Rings: closed wire loops. Side view (YZ): a rounded rectangle whose lower side runs
+# through the hole, front leg in front of the header, arc over the top edge, back leg
+# behind the slab. From the front: a vertical bar that bends back into the hole.
 RING_X = (0.19 - 0.5, 0.81 - 0.5)
-RING_OUT = 0.10              # above the top edge
-RING_Y = FRONT - STEP - 0.002  # ring axis just in front of the header face: full width, enters the hole
-HOLE_R = 0.062               # dark soft hole where the ring enters the header
-HOLE_DEPTH = 0.012
-HOLE_Z = TOP + RING_OUT - RING_L + 0.004
+RING_TUBE = 0.075            # tube diameter
+RING_OUT = 0.10              # tube top above the slab's top edge
+RING_FY = 0.10               # path half depth: legs at y = -/+ this (tube clears the header face)
+RING_BEND = 0.04             # path corner radius in side view
+# Holes: rounded ovals, deep inset (back wall 0.03 stays: clean, no membrane)
+HOLE_W, HOLE_H = 0.12, 0.08
+HOLE_Z = TOP - 0.08          # hole centre, 0.08 below the top edge
+HOLE_BACK = 0.03             # inset floor at y = +HOLE_BACK
+HOLE_RIM = 0.006             # smooth-max radius: soft rounded rim, no lip
+RING_ZB = HOLE_Z + 0.005     # loop's lower side runs through the hole centre
+RING_ZT = TOP + RING_OUT - RING_TUBE / 2
 
 CELL, CELL_R = 0.12, 0.03
 PITCH_X, PITCH_Z = 0.168, 0.153
@@ -58,7 +66,7 @@ BODY_HEX = os.environ.get("CLAY_BODY_HEX", "#F6F3F1")
 HEAD_HEX = os.environ.get("CLAY_HEAD_HEX", "#F39388")
 CELL_HEX = os.environ.get("CLAY_CELL_HEX", "#CFCBC8")
 TODAY_HEX = os.environ.get("CLAY_TODAY_HEX", "#F19080")
-HOLE_HEX = os.environ.get("CLAY_HOLE_HEX", "#B86A62")
+HOLE_HEX = os.environ.get("CLAY_HOLE_HEX", "#A9655C")
 RING_HEX = os.environ.get("CLAY_RING_HEX", "#DCD2D0")
 CAL_FILL = os.environ.get("CLAY_CAL_FILL", "30")
 CAL_KEY = os.environ.get("CLAY_CAL_KEY")
@@ -107,7 +115,12 @@ def _cells_sdf2(x, z):
 
 
 def _holes_sdf2(x, z):
-    return np.minimum(*(np.hypot(x - rx, z - HOLE_Z) - HOLE_R for rx in RING_X))
+    return np.minimum(*(_rrect(x - rx, z - HOLE_Z, HOLE_W / 2, HOLE_H / 2, HOLE_H / 2) for rx in RING_X))
+
+
+def _smax(a, b, k):
+    h = np.clip(0.5 - 0.5 * (b - a) / k, 0.0, 1.0)
+    return b * (1 - h) + a * h + k * h * (1 - h)
 
 
 def slab_sdf(P):
@@ -119,17 +132,54 @@ def slab_sdf(P):
     front = _ss(0.0, -0.02, y)                                      # profiles only on the front
     sc, _ = _cells_sdf2(x, z)
     d = d + INSET * _ss(INSET_SOFT, -INSET_SOFT, sc) * front
-    sh = _holes_sdf2(x, z)
-    d = d + HOLE_DEPTH * _ss(0.0, -HOLE_R, sh) ** 0.7 * front     # soft round dimple
+    cav = np.maximum(_holes_sdf2(x, z), y - HOLE_BACK)             # hole cavity, open to the front
+    d = _smax(d, -cav, HOLE_RIM)
     return d
+
+
+def _loop2(y, z):
+    """Distance to the ring path (rounded rectangle outline) in the YZ plane."""
+    zc, hz = (RING_ZB + RING_ZT) / 2, (RING_ZT - RING_ZB) / 2
+    return np.abs(_rrect(y, z - zc, RING_FY, hz, RING_BEND))
 
 
 def ring_sdf(P):
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
-    r = RING_D / 2
-    z0, z1 = TOP + RING_OUT - RING_L + r, TOP + RING_OUT - r
-    zc = np.clip(z, z0, z1)
-    return np.minimum(*(np.sqrt((x - rx) ** 2 + (y - RING_Y) ** 2 + (z - zc) ** 2) - r for rx in RING_X))
+    d2 = _loop2(y, z)
+    return np.minimum(*(np.hypot(d2, x - rx) - RING_TUBE / 2 for rx in RING_X))
+
+
+def _ring_start(name, rx, n=240, k=24):
+    """Tube swept along the loop path (genus 1 start mesh: no membrane inside the loop)."""
+    zc, hz = (RING_ZB + RING_ZT) / 2, (RING_ZT - RING_ZB) / 2
+    t = np.linspace(0, 2 * np.pi, 4000, endpoint=False)
+    c = np.stack([np.cos(t), np.sin(t)], 1) * 0.5
+    c = project(np.stack([np.zeros(len(t)), c[:, 0], c[:, 1] + zc], 1),
+                lambda Q: _rrect(Q[:, 1], Q[:, 2] - zc, RING_FY, hz, RING_BEND), iters=30)
+    seg = np.linalg.norm(np.roll(c, -1, 0) - c, axis=1)
+    s = np.concatenate([[0], np.cumsum(seg)])[:-1]
+    pts = np.stack([np.interp(np.linspace(0, s[-1] + seg[-1], n, endpoint=False), np.append(s, s[-1] + seg[-1]),
+                              np.append(c[:, i], c[0, i])) for i in range(3)], 1)
+    bm = bmesh.new()
+    rings = []
+    rr = RING_TUBE / 2 + 0.004
+    for i in range(n):
+        tg = pts[(i + 1) % n] - pts[i - 1]
+        tg /= np.linalg.norm(tg)
+        u = np.array([1.0, 0, 0])
+        v = np.cross(tg, u)
+        rings.append([bm.verts.new((rx + rr * math.cos(a), *(pts[i, 1:] + rr * math.sin(a) * v[1:])))
+                      for a in np.linspace(0, 2 * np.pi, k, endpoint=False)])
+    for i in range(n):
+        A, B = rings[i], rings[(i + 1) % n]
+        for j in range(k):
+            bm.faces.new((A[j], A[(j + 1) % k], B[(j + 1) % k], B[j]))
+    me = bpy.data.meshes.new(name)
+    bm.to_mesh(me)
+    bm.free()
+    obj = bpy.data.objects.new(name, me)
+    bpy.context.scene.collection.objects.link(obj)
+    return obj
 
 
 def project(P, sdf, iters=16):
@@ -188,8 +238,8 @@ def _cube_mesh(name, lo, hi):
     return obj
 
 
-def build(name, sdf, lo, hi, voxel, coarse):
-    obj = _cube_mesh(name, lo, hi)
+def build(name, sdf, lo, hi, voxel, coarse, start=None):
+    obj = start(name) if start else _cube_mesh(name, lo, hi)
     _set_co(obj.data, project(_get_co(obj.data), sdf, iters=40))
     _remesh(obj, coarse)
     _set_co(obj.data, project(_get_co(obj.data), sdf))
@@ -208,7 +258,7 @@ def _zones(P):
     cell = _ss(0.002, -0.002, sc) * front
     today = cell * (idx == TODAY[0] * COLS + TODAY[1])
     cell = cell - today
-    hole = _ss(0.004, -0.022, _holes_sdf2(x, z)) * _ss(0.0, -0.03, y) * head
+    hole = _ss(0.008, -0.002, _holes_sdf2(x, z)) * _ss(-0.065, -0.056, y) * head   # hole interior
     return head, cell, today, hole
 
 
@@ -282,10 +332,10 @@ def main():
     slab = build("Slab", slab_sdf, (-W / 2 - m, -T / 2 - m, BOT - m), (W / 2 + m, T / 2 + m, TOP + m),
                  VOXEL, 0.02)
     _vertex_colors(slab)
-    r = RING_D / 2
+    r = RING_TUBE / 2
     # one start mesh per ring (a shared start box would leave a membrane between them)
-    parts = [build("Ring%d" % i, ring_sdf, (rx - r - m, RING_Y - r - m, TOP + RING_OUT - RING_L - m),
-                   (rx + r + m, RING_Y + r + m, TOP + RING_OUT + m), VOXEL_RING, 0.01)
+    parts = [build("Ring%d" % i, ring_sdf, None, None, VOXEL_RING, 0.01,
+                   start=lambda nm, rx=rx: _ring_start(nm, rx))
              for i, rx in enumerate(RING_X)]
     bm = bmesh.new()
     for p in parts:
