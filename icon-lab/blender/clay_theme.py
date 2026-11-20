@@ -158,6 +158,16 @@ REFERENCE = {
         "lilac": {"lit": "#C2AFCF", "mid": "#9389A1", "shadow": "#736481"},  # plunger rod, thumb cap
         "tile_icon_width": 0.63,                 # syringe bbox width / tile width
     },
+    "calendar": {
+        "tile": "#F4DBD6",                       # pale pink
+        "body": {"lit": "#F4F3F1", "mid": "#EEE9E8", "shadow": "#D1CEC9"},    # warm white slab
+        "header": {"lit": "#F2A396", "mid": "#EC8E84", "shadow": "#D27B71"},  # coral
+        "cells": {"lit": "#CECAC7", "mid": "#C8C4C1", "shadow": "#BFBBB8"},   # warm grey day cells
+        "today": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},   # coral today cell
+        "rings": {"lit": "#E6DADA", "mid": "#D3C9C7", "shadow": "#B5B0AC"},
+        # the camera frames the larger extent (here the height incl. rings): height / tile
+        "tile_icon_width": 0.595,
+    },
 }
 
 
