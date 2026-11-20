@@ -335,3 +335,9 @@ The rise can start even earlier: a star hit at 5.0 has not moved yet. **Every st
 - Every star rises 0.12 s after its hit; the waiting group is gone. Line times unchanged, so the earliest float up for about 3 s.
 
 **Round 18 is built and published (20 Nov 2026), not judged yet.** Not looked at by Claude; numeric checks only. First rise at 4.77, the next at 4.91; starts per tenth of a second from 4.7: 1, 0, 2, 4, 5, 7, 8, 11 … 50. Rise takes 1.13 to 2.98 s; even the earliest are visibly off their orbit after 0.14 to 0.19 s and have moved 16 to 32 % of the cloud radius after half a second. They stay inside the frame. Camera identical; rain, ring, bells, word, end unchanged.
+
+## Verdict (Alex, 20 Nov 2026): round 17 stays, the flow is done
+
+Round 18 was "ein Schritt rückwärts", the version before "deutlich besser". **Round 17 is restored and is the final state of this draft.** He will not work on this flow any further for now: "Gute Arbeit. Herausragendes Ergebnis."
+What that settles: the first stars hit (before 5.08 s) only light up and wait; rising from 5.2 s as a gentle ramp is right. Round 18 is kept in git only (commit e23782e).
+Still open from earlier, not asked for: the final version in other tools, a short 5 to 7 s version, a test on a real iPhone (the word's gleam is checked in Chrome only).

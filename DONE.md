@@ -61,7 +61,8 @@ Maintained by Claude: when a backlog item is finished, it gets a line here.
 - **19 Nov** · The playable draft is judged: "pures Gold". Kept as the reference; the final version comes later in other tools. A short version (5 to 7 seconds) is written down.
 - **19 Nov** · Three rounds on the motion of "The cloud": one turning direction, thin rays and small signals, a gentle centre, all movements overlapping. His verdict on round 3: "YES!!!".
 - **19 Nov** · Decided: no SVG for the intro or the clay icons.
-- **19 to 20 Nov** · Rounds 6 to 15 on "The cloud": giving as comets, a centre that grows and answers while stars still give, the broadcast as a swelling stream of single packages, a star rises when it is hit, heaps flow into the ring in one counter-clockwise thread, bell outlines traced once. Verdicts on the way: "richtig geil" (round 10), "fast perfekt" (round 11). Rounds 14 and 15 not judged yet.
+- **19 to 20 Nov** · Rounds 6 to 15 on "The cloud": giving as comets, a centre that grows and answers while stars still give, the broadcast as a swelling stream of single packages, a star rises when it is hit, heaps flow into the ring in one counter-clockwise thread, bell outlines traced once. Verdicts on the way: "richtig geil" (round 10), "fast perfekt" (round 11).
+- **20 Nov** · "The cloud" is finished as a draft at round 17: slow-motion button in the player, stars rise from 5.2 s as a gentle ramp, "MEjority" written in from 10.2 s with a gleam. Alex: "Herausragendes Ergebnis." The old version with the broadcast as one pulse is kept in `intro-storyboards/cloud/archive/`.
 
 ## Icons
 - **18 Nov** · Icon Lab: for each icon the reference next to five variants of our own, he approves or rejects. Round 1 with 15 icons: 10 decided, 4 rejected, 1 open. References, variants and decisions are kept in the repo (`icon-lab/`).
