@@ -37,6 +37,17 @@ body{overflow-x:hidden}
 .time{font-variant-numeric:tabular-nums;min-width:38px;text-align:right;color:var(--muted)}
 .row2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted);min-height:28px}
 .again[hidden]{display:none}
+.panel{margin-top:14px;font-size:12px;color:var(--ink)}
+.panel summary{cursor:pointer;font-weight:600;padding:6px 0;color:var(--muted)}
+.prow{display:grid;grid-template-columns:1fr auto 32px;align-items:center;column-gap:6px;margin-top:6px}
+.prow label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow .val{font-variant-numeric:tabular-nums;color:var(--muted);text-align:right}
+.prow input{grid-column:1 / 3;width:100%;min-width:0;height:32px;margin:0;accent-color:var(--accent)}
+.prow .rs{grid-column:3;grid-row:1 / 3;width:32px;height:32px;padding:0}
+.pbtns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.pbtns .btn{height:32px}
+.pline{margin-top:8px;padding:8px;border:1px solid var(--btnline);border-radius:8px;background:var(--btn);
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;word-break:break-all;user-select:all;-webkit-user-select:all}
 </style>
 
 <div class="wrap">
@@ -56,6 +67,15 @@ body{overflow-x:hidden}
       <span id="step">Ein Stern</span>
       <button class="btn again" id="again" hidden>Noch mal</button>
     </div>
+    <details class="panel" id="panel" open>
+      <summary>Regler</summary>
+      <div id="prows"></div>
+      <div class="pbtns">
+        <button class="btn" id="pReset">Alle zur&uuml;cksetzen</button>
+        <button class="btn" id="pCopy">Werte kopieren</button>
+      </div>
+      <div class="pline" id="pLine">alles Standard</div>
+    </details>
   </div>
 </div>
 
@@ -296,6 +316,46 @@ var RISE_T0 = 6.65 + SHIFT, RISE_STAG = 0.7, RISE_DUR = 1.1, PERM_SEED = 1;
 var STREAM_T0 = 4.65, STREAM_SPAN = 2.55, STREAM_EXP = 0.45, STREAM_TRAVEL = 0.45, T_SW = 5.08;
 function streamArr(k){ return STREAM_T0 + STREAM_SPAN * Math.pow(k / (N - 1), STREAM_EXP); }
 function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the rise picks up sooner
+// ---------------------------------------------------------------- tuning parameters (panel). Defaults = the film as built.
+var PDEF = [
+  ['riseAcc',   'Aufstieg: Beschleunigung',        0.5, 3.0, 0.1,  1.0],
+  ['riseVmax',  'Aufstieg: H\u00f6chsttempo',          0.5, 3.0, 0.1,  1.0],
+  ['riseFrom',  'Aufstieg ab (s)',                 4.6, 6.5, 0.01, 5.08],   // step 0.01: 5.08 is not on a 0.05 grid from 4.6
+  ['raysOut',   'Sichtbare Strahlen nach au\u00dfen (%)', 10, 100, 5,  100],
+  ['cSize',     'Zentrum: Gr\u00f6\u00dfe',               0.5, 2.0, 0.05, 1.0],
+  ['cBright',   'Zentrum: Helligkeit',             0.5, 1.5, 0.05, 1.0],
+  ['cPulse',    'Zentrum: Puls bei Treffer',       0,   4.0, 0.1,  1.0],
+  ['cHalo',     'Zentrum: Halo',                   0,   5.0, 0.1,  1.0],
+  ['cHaloSize', 'Zentrum: Halo-Gr\u00f6\u00dfe',          0.5, 3.0, 0.1,  1.0],
+  ['inThick',   'Pakete nach innen: Dicke',        0.3, 3.0, 0.1,  1.0],
+  ['inLen',     'Pakete nach innen: L\u00e4nge',        1.0, 6.0, 0.25, 1.0],
+  ['outThick',  'Pakete nach au\u00dfen: Dicke',       0.3, 3.0, 0.1,  1.0],
+  ['outLen',    'Pakete nach au\u00dfen: L\u00e4nge',       0.5, 4.0, 0.25, 1.0],
+  ['bellGloss', 'Glocken: Glanz',                  0,   4.0, 0.1,  1.0]
+];
+var P = {}; PDEF.forEach(function(d){ P[d[0]] = d[5]; });
+// rise progress p(u), u = 0..1 (start and line arrival fixed). Velocity p' = v (1 - r^2) before the peak (r = distance to
+// the peak as a share of the time to peak, today's parabola half), v (1 - s)^k (1 + k s) after it (s = share of the
+// remaining time). Peak at u_p = 0.5 / riseAcc, peak speed v = 1.5 riseVmax; k follows from p(1) = 1:
+// v (2/3 u_p + (1 - u_p) 2 / (k + 2)) = 1. Feasible: u_p <= 0.9, 1 <= k <= 20 (k = 1 is today's falling half), so
+// v is clamped to [1.5, 1 / (2/3 u_p + (1 - u_p) / 11)]. At 1 / 1 this is exactly 3u^2 - 2u^3 (sstep, used as is).
+var RC = { def: true, up: 0.5, v: 1.5, k: 1, accEff: 1, vEff: 1 };
+function riseCurveSet(){
+  if (P.riseAcc === 1 && P.riseVmax === 1){ RC = { def: true, up: 0.5, v: 1.5, k: 1, accEff: 1, vEff: 1 }; return; }
+  var up = Math.min(0.9, Math.max(1/6, 0.5 / P.riseAcc));
+  var vlo = 1.5, vhi = 1 / (2/3 * up + (1 - up) * 2 / 22);
+  var v = Math.min(vhi, Math.max(vlo, 1.5 * P.riseVmax));
+  var Id = (1 / v - 2/3 * up) / (1 - up), k = Math.min(20, Math.max(1, 2 / Id - 2));
+  RC = { def: false, up: up, v: v, k: k, accEff: 0.5 / up, vEff: v / 1.5 };
+}
+function riseP(u){
+  if (RC.def) return sstep(u);
+  u = clamp01(u); if (u >= 1) return 1;
+  var up = RC.up, v = RC.v, k = RC.k;
+  if (u < up){ var r = (up - u) / up; return v * up * ((1 - r) - (1 - r*r*r) / 3); }
+  var sx_ = (u - up) / (1 - up);
+  return Math.min(1, v * up * 2/3 + v * (1 - up) * (2 - Math.pow(1 - sx_, k + 1) * (2 + k * sx_)) / (k + 2));
+}
 
 (function(){
   var ord = []; for (var j = 0; j < N; j++) ord.push(j);
@@ -490,6 +550,19 @@ for (i = 0; i < N; i++){
   var wk = sstep((sB.slot - 60) / 180);
   sB.pkLen = lerp(0.22, 0.16, wk); sB.pkB = lerp(0.8, 0.5, wk); sB.pkGs = lerp(6, 3.5, wk); sB.pkGb = lerp(0.8, 0.35, wk);
 }
+// tuning: which stars show their outbound ray (stable hash, the givers always), default rise times kept for the reset
+for (i = 0; i < N; i++){ S[i].rayShow = hash01(i * 15485863 + 3); S[i].rise0 = S[i].rise; S[i].riseDur0 = S[i].riseDur; }
+givers.forEach(function(g){ S[g].rayShow = -1; });
+// "Aufstieg ab" = T_SW: hit at or after it -> rise 0.12 s after the hit; before -> rise at T_SW + 0.12 + 0.80 hash (today's
+// hashes). Line arrival of every star stays as built, so the rise duration is line arrival - rise start.
+function applyRise(){
+  for (var j = 0; j < N; j++){
+    var sj = S[j];
+    if (P.riseFrom === 5.08){ sj.rise = sj.rise0; sj.riseDur = sj.riseDur0; continue; }
+    sj.rise = sj.sArr >= P.riseFrom ? sj.sArr + 0.12 : 5.20 + (P.riseFrom - 5.08) + 0.80 * hash01(j * 104729 + 7);
+    sj.riseDur = sj.lineT - sj.rise;
+  }
+}
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
 
 // ---------------------------------------------------------------- star position / look
@@ -499,7 +572,7 @@ function starPos(i, t, out){
   if (t < s.ringT){
     if (t < s.rise + s.riseDur){
       // blend from the live, still turning orbit to the slot: leaves without a kink, settles without a bounce
-      var e = sstep((t - s.rise) / s.riseDur);
+      var e = riseP((t - s.rise) / s.riseDur);
       cloudPos(i, spinA(t), depthS(t), out);
       out[0] = lerp(out[0], s.slotX, e); out[1] = lerp(out[1], Y_TOP, e); out[2] = lerp(out[2], 0, e);
       return out;
@@ -664,7 +737,48 @@ trg.setAttribute('aSquash', new THREE.BufferAttribute(trSq, 1));
 trg.setAttribute('aSharp', new THREE.BufferAttribute(trSh, 1));
 var tracePts = new THREE.Points(trg, pMat); tracePts.frustumCulled = false; scene.add(tracePts);
 
-// ---------------------------------------------------------------- render(t): pure function of t
+// inbound package head stretched along its flight into a capsule ("Pakete nach innen: Laenge"): the shader can only
+// squash along the screen axes, so CAP_M extra head-sized points sit behind the head along its path. Own Points object,
+// created only when the slider is above 1 (removed again at 1, so the default scene is unchanged).
+var CAP_M = 12, capPts = null, cpg = null, cpPos, cpSize, cpBright, cpCol, cpSq, cpSh, capV = new THREE.Vector3(), capW = new THREE.Vector3();
+function capEnsure(){
+  if (P.inLen > 1 && !capPts){
+    var n = NG * CAP_M;
+    cpPos = new Float32Array(n*3); cpSize = new Float32Array(n); cpBright = new Float32Array(n); cpCol = new Float32Array(n*3);
+    cpSq = new Float32Array(n); cpSh = new Float32Array(n).fill(1);
+    cpg = new THREE.BufferGeometry();
+    cpg.setAttribute('position', new THREE.BufferAttribute(cpPos, 3)); cpg.setAttribute('aSize', new THREE.BufferAttribute(cpSize, 1));
+    cpg.setAttribute('aBright', new THREE.BufferAttribute(cpBright, 1)); cpg.setAttribute('aColor', new THREE.BufferAttribute(cpCol, 3));
+    cpg.setAttribute('aSquash', new THREE.BufferAttribute(cpSq, 1)); cpg.setAttribute('aSharp', new THREE.BufferAttribute(cpSh, 1));
+    capPts = new THREE.Points(cpg, pMat); capPts.frustumCulled = false; scene.add(capPts);
+  } else if (P.inLen <= 1 && capPts){ scene.remove(capPts); cpg.dispose(); capPts = null; cpg = null; }
+}
+function capScreen(x, y, z, out){ capV.set(x, y, z).project(camera); out[0] = (capV.x + 1) / 2 * stage.clientWidth; out[1] = (1 - capV.y) / 2 * stage.clientHeight; }
+var capA = [0,0], capB = [0,0];
+function capHead(g, sx0, sy0, sz0, ek, A){
+  if (!capPts) return;
+  var o = g * CAP_M;
+  if (!(A > 0)){
+    for (var m = 0; m < CAP_M; m++){ cpBright[o+m] = 0; cpSize[o+m] = 0; for (var q = 0; q < 3; q++){ cpPos[(o+m)*3+q] = 0; cpCol[(o+m)*3+q] = 0; } }
+    return;
+  }
+  // visible head width in CSS px: core of a size-11 point (about 45 % of the sprite), with the depth size factor
+  camera.updateMatrixWorld(); camera.matrixWorldInverse.copy(camera.matrixWorld).invert();   // this frame's camera
+  capW.set(sx0*ek, sy0*ek, sz0*ek).applyMatrix4(camera.matrixWorldInverse);
+  var kd = Math.min(3, Math.max(0.3, pMat.uniforms.uRef.value / Math.max(-capW.z, 0.001)));
+  var sizeCss = 11 * P.inThick * (stage.clientWidth / 390) * Math.pow(kd, 2 * pMat.uniforms.uDepth.value);
+  var wv = 0.45 * sizeCss, Lpx = (P.inLen - 1) * wv;
+  capScreen(sx0*ek, sy0*ek, sz0*ek, capA); capScreen(sx0*(ek+0.01), sy0*(ek+0.01), sz0*(ek+0.01), capB);
+  var dpx = Math.hypot(capB[0]-capA[0], capB[1]-capA[1]), dPer = dpx > 1e-6 ? 0.01 / dpx : 0;
+  for (m = 0; m < CAP_M; m++){
+    var dk = (m + 1) / CAP_M * Lpx * dPer, e2 = ek + dk;
+    cpPos[(o+m)*3] = sx0*e2; cpPos[(o+m)*3+1] = sy0*e2; cpPos[(o+m)*3+2] = sz0*e2;
+    cpSize[o+m] = 11 * P.inThick; cpBright[o+m] = 1.4 * A * Math.min(1, 1.2 * Lpx / CAP_M / wv);
+    cpCol[(o+m)*3] = SOFT_CHARGED[0]; cpCol[(o+m)*3+1] = SOFT_CHARGED[1]; cpCol[(o+m)*3+2] = SOFT_CHARGED[2];
+  }
+}
+
+// ---------------------------------------------------------------- render(t): pure function of t and the parameters P
 var bgCol = new THREE.Color();
 var sp = [0,0,0];
 function setCol(j, c){ pCol[j*3] = c[0]; pCol[j*3+1] = c[1]; pCol[j*3+2] = c[2]; }
@@ -767,8 +881,8 @@ function render(t){
       var ek = vis ? 1 - ss(uk) : 0;
       pPos[jk*3] = sx0*ek; pPos[jk*3+1] = sy0*ek; pPos[jk*3+2] = sz0*ek; pSq[jk] = 0;
       var f = 1 - k / TRAIL_K;
-      if (k === 0){ pSize[jk] = 11; pBright[jk] = 1.4 * A; setCol(jk, SOFT_CHARGED); }
-      else { pSize[jk] = vis ? lerp(2.5, 8, f) : 0; pBright[jk] = vis ? 0.55 * f * f * A : 0; setCol(jk, COL_WARM); }
+      if (k === 0){ pSize[jk] = 11 * P.inThick; pBright[jk] = 1.4 * A; setCol(jk, SOFT_CHARGED); capHead(g, sx0, sy0, sz0, ek, A); }
+      else { pSize[jk] = vis ? lerp(2.5, 8, f) * P.inThick : 0; pBright[jk] = vis ? 0.55 * f * f * A : 0; setCol(jk, COL_WARM); }
       if (k > 0){
         var o = (g*TRAIL_K + k - 1) * 6, jp = jk - 1, fp = 1 - (k-1) / TRAIL_K;
         tPos[o] = pPos[jp*3]; tPos[o+1] = pPos[jp*3+1]; tPos[o+2] = pPos[jp*3+2];
@@ -777,6 +891,8 @@ function render(t){
       }
     }
   }
+  if (capPts) capPts.visible = P.inLen > 1 && anyGive;
+  if (capPts) for (var an2 in cpg.attributes) cpg.attributes[an2].needsUpdate = true;
   trails.visible = anyGive;
   tgm.attributes.position.needsUpdate = true; tgm.attributes.color.needsUpdate = true;
   giveRays.visible = anyGive;
@@ -802,16 +918,17 @@ function render(t){
   var gr = eIO(seg(t, 5.60, 6.50)), dm = eIO(seg(t, 6.75, 7.35));
   if (t >= 5.60){ gsz = lerp(104, 116, gr); gb = lerp(1.15, 1.22, gr); }
   if (t >= 6.75){ gsz = lerp(116, 44, dm); gb = lerp(1.22, 0.3, dm); }
-  var cHalo = 2 * gsz, cHaloB = 0.10 * sw * (1 - dm);
+  var cHalo = 2 * gsz * P.cSize * P.cHaloSize, cHaloB = 0.10 * sw * (1 - dm) * P.cHalo;
   // arrivals come every 0.03 s at the end: their pulses add up under a soft cap (tanh), so they never stack into a flash.
   // Size and brightness: pulse sum capped softly at 0.5 (one pulse alone keeps about 46 % of its old peak).
   // Brightness also has a soft knee from 1.10 and never exceeds 1.25.
-  var gpc = 0.5 * Math.tanh(gp / 0.5);
+  var gpc0 = 0.5 * Math.tanh(gp / 0.5), gpc = gpc0 * P.cPulse;    // pulse slider scales the sum and its cap together
+  if (P.cHalo > 1) cHaloB += 0.10 * (P.cHalo - 1) * (gpc0 / 0.5) * (1 - dm);   // halo flares with each arrival
   gsz += 44 * 0.18 * gpc; gb += 0.12 * gpc;
   if (gb > 1.10) gb = 1.10 + 0.15 * Math.tanh((gb - 1.10) / 0.15);
   gb *= 1 - eIO(seg(t, 7.20, 7.70));
   pPos[I_GLOW*3] = 0; pPos[I_GLOW*3+1] = 0; pPos[I_GLOW*3+2] = 0;
-  pSize[I_GLOW] = gsz; pBright[I_GLOW] = gb; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
+  pSize[I_GLOW] = gsz * P.cSize; pBright[I_GLOW] = gb * P.cBright; setCol(I_GLOW, COL_CHARGED); pSq[I_GLOW] = 0;
   // the growth comes as warm glow: the core falloff steepens above size 70, so the white core barely widens
   pSh[I_GLOW] = gsz > 70 ? Math.pow(gsz / 70, GLOW_SHARP_EXP) : 1;
   pPos[I_CHALO*3] = 0; pPos[I_CHALO*3+1] = 0; pPos[I_CHALO*3+2] = 0;
@@ -821,31 +938,32 @@ function render(t){
   var anyRay = false, anyStreak = false;
   for (i = 0; i < N; i++){
     var s = S[i], hj = I_HEAD + i, px = pPos[i*3], py = pPos[i*3+1], pz = pPos[i*3+2];
-    var ra = eIO(seg(t, s.rayOn, s.rayOn + 0.3)) * (1 - eIO(seg(t, s.arr, s.arr + 0.5)));
+    var shown = s.rayShow < P.raysOut / 100;   // hidden rays: the star is still hit, lights up and rises as before
+    var ra = shown ? eIO(seg(t, s.rayOn, s.rayOn + 0.3)) * (1 - eIO(seg(t, s.arr, s.arr + 0.5))) : 0;
     if (ra > 0) anyRay = true;
     rPos[i*6] = 0; rPos[i*6+1] = 0; rPos[i*6+2] = 0; rPos[i*6+3] = px; rPos[i*6+4] = py; rPos[i*6+5] = pz;
     for (var q = 0; q < 3; q++){ rCol[i*6+q] = COL_CHARGED[q] * 0.18 * ra; rCol[i*6+3+q] = COL_CHARGED[q] * ra; }
     // travel ease leaves the centre sooner (half eOutQuad, half eIO); brightness grows with the distance travelled,
     // so freshly departed signals do not pile up into a white clump at the centre
     var hu = seg(t, s.dep, s.arr), he = 0.5 * (1 - (1-hu)*(1-hu)) + 0.5 * eIO(hu);
-    var on = t >= s.dep && t < s.arr;
+    var on = shown && t >= s.dep && t < s.arr;
     var fac = on ? sstep(he / 0.45) * clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
     if (fac > 0) anyStreak = true;
     // a pulse of light along the ray: streak from progress he - pkLen (clamped at 0) to he, bright at the head
     // every vertex: linear ramp from tail (0) to head (pkB), times its own distance factor smoothstep(p/0.3),
     // so the part of a streak inside the inner 45 % of the ray stays dark; colour COL_WARM at the tail, 25 % charged at the head
-    var tl = Math.max(0, he - s.pkLen), fT = on ? clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
+    var tl = Math.max(0, he - s.pkLen * P.outLen), fT = on ? clamp01((t - s.dep) / 0.1) * clamp01((s.arr - t) / 0.06) : 0;
     for (var m = 0; m < STREAK_SEG; m++){
       var o3 = (i*STREAK_SEG + m) * 6;
       for (var end = 0; end < 2; end++){
-        var w = (m + end) / STREAK_SEG, pv = lerp(tl, he, w), bv = s.pkB * w * sstep(pv / 0.45) * fT;
+        var w = (m + end) / STREAK_SEG, pv = lerp(tl, he, w), bv = s.pkB * P.outThick * w * sstep(pv / 0.45) * fT;
         bPos[o3+end*3] = px*pv; bPos[o3+end*3+1] = py*pv; bPos[o3+end*3+2] = pz*pv;
         for (var q3 = 0; q3 < 3; q3++) bCol[o3+end*3+q3] = lerp(COL_WARM[q3], STREAK_HEAD_COL[q3], w) * bv;
       }
     }
     // the head only as a soft glint
     pPos[hj*3] = px*he; pPos[hj*3+1] = py*he; pPos[hj*3+2] = pz*he;
-    pSize[hj] = s.pkGs; pBright[hj] = s.pkGb * fac;
+    pSize[hj] = s.pkGs * P.outThick; pBright[hj] = s.pkGb * fac;
     setCol(hj, SOFT_CHARGED); pSq[hj] = 0;
   }
   streaks.visible = anyStreak;
@@ -895,15 +1013,15 @@ function render(t){
     // and shows as a soft band of points on the vertices; the head rides on the outline
     var bc = gp === 0 ? COL_BLUE : COL_WARM, colA = l.geometry.attributes.color.array;
     for (k = 0; k < NB; k++){
-      var gk = trGlow(gp, k, t), fk = 1 + (LINE_BOOST[gp] - 1) * gk, jw = 2 + gp*NB + k;
+      var gk = trGlow(gp, k, t), fk = 1 + (LINE_BOOST[gp] - 1) * gk * P.bellGloss, jw = 2 + gp*NB + k;
       for (var q5 = 0; q5 < 3; q5++){ colA[k*3+q5] = Math.min(1, bc[q5] * fk); trCol[jw*3+q5] = bc[q5]; }
       trPos[jw*3] = pos[k*3]; trPos[jw*3+1] = pos[k*3+1]; trPos[jw*3+2] = 0;
-      trSize[jw] = BAND_SIZE; trBright[jw] = BAND_B * gk * lf;
+      trSize[jw] = BAND_SIZE; trBright[jw] = BAND_B * gk * lf * P.bellGloss;
     }
     l.geometry.attributes.color.needsUpdate = true;
     var hu2 = trHeadU(gp, t), hx = lerp(x0, x1, hu2), hz = (hx - c) / SIGMA;
     trPos[gp*3] = sx(hx); trPos[gp*3+1] = Y_BASE + bh * (BELL_PEAK * Math.exp(-hz*hz/2) + 1.1) * PITCH; trPos[gp*3+2] = 0;
-    trSize[gp] = 6; trBright[gp] = trHeadB(gp, t) * lf;
+    trSize[gp] = 6; trBright[gp] = trHeadB(gp, t) * lf * P.bellGloss;
     for (q5 = 0; q5 < 3; q5++) trCol[gp*3+q5] = bc[q5] + (HEAD_WHITE[q5] - bc[q5]) * HEAD_MIX;
   });
   tracePts.visible = t >= TR0 && t < TR_CUT;
@@ -1005,6 +1123,70 @@ window.seek = seek;
 window.__cloud = { camera: camera, pos: pPos, bright: pBright, S: S,
   times: { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0, R0_OLD: R0_OLD, T_END: T_END, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, CRUISE: RING_CRUISE / DEG, RING_C: RING_C, RING_R: RING_R, BELL_T1: BELL_T1, BELL_T2: BELL_T2, RISE_DUR: RISE_DUR, RL: RL, DEP_CLAMPED: DEP_CLAMPED, TR0: TR0, TR_END: TR_END, TR_FADE: TR_FADE, TR_CUT: TR_CUT }, trace: { headU: trHeadU, headB: trHeadB, glow: trGlow, BAND_B: BAND_B, BAND_SIZE: BAND_SIZE, bright: trBright, NB: NB }, GIVE_LOG: GIVE_LOG, GIVE_RELAXED: GIVE_RELAXED, TB: TB, gCol: gCol, orbit: function(i, t){ return cloudPos(i, spinA(t), depthS(t), [0,0,0]); }, STEPS: STEPS, givers: givers, givers0: givers0, fadeMoved: fadeMoved,
   size: pSize, idx: { I_GLOW: I_GLOW, I_MINI: I_MINI, I_CHALO: I_CHALO, PK: PK, NG: NG } };
+
+// ---------------------------------------------------------------- tuning panel
+var PKEY = 'cloud.tune.v1', pInputs = {}, pVals = {};
+function pDec(st){ var x = String(st), d = x.indexOf('.'); return d < 0 ? 0 : x.length - d - 1; }
+function pLine(){
+  var parts = [];
+  PDEF.forEach(function(d){ if (P[d[0]] !== d[5]) parts.push(d[0] + '=' + P[d[0]]); });
+  return parts.length ? parts.join('; ') : 'alles Standard';
+}
+function pShow(){
+  PDEF.forEach(function(d){
+    var k = d[0], txt = P[k].toFixed(pDec(d[4]));
+    if (k === 'riseAcc' && Math.abs(RC.accEff - P.riseAcc) > 0.005) txt += ' (→' + RC.accEff.toFixed(2) + ')';
+    if (k === 'riseVmax' && Math.abs(RC.vEff - P.riseVmax) > 0.005) txt += ' (→' + RC.vEff.toFixed(2) + ')';
+    if (pVals[k]) pVals[k].textContent = txt;
+    if (pInputs[k] && parseFloat(pInputs[k].value) !== P[k]) pInputs[k].value = String(P[k]);
+  });
+  var ln = document.getElementById('pLine'); if (ln) ln.textContent = pLine();
+}
+function pApply(){
+  riseCurveSet(); applyRise(); capEnsure();
+  try { localStorage.setItem(PKEY, JSON.stringify(P)); } catch (e) {}
+  render(cur); pShow();
+}
+function setParams(obj){
+  PDEF.forEach(function(d){
+    if (obj && Object.prototype.hasOwnProperty.call(obj, d[0])){
+      var v = +obj[d[0]]; if (isFinite(v)) P[d[0]] = Math.min(d[3], Math.max(d[2], v));
+    }
+  });
+  pApply();
+}
+(function(){
+  var box = document.getElementById('prows');
+  PDEF.forEach(function(d){
+    var row = document.createElement('div'); row.className = 'prow';
+    var lab = document.createElement('label'); lab.textContent = d[1]; lab.htmlFor = 'p_' + d[0];
+    var val = document.createElement('span'); val.className = 'val';
+    var inp = document.createElement('input'); inp.type = 'range'; inp.id = 'p_' + d[0];
+    inp.min = String(d[2]); inp.max = String(d[3]); inp.step = String(d[4]); inp.value = String(d[5]);
+    var rs = document.createElement('button'); rs.className = 'btn rs'; rs.textContent = '↺'; rs.setAttribute('aria-label', d[1] + ' zurücksetzen');
+    inp.addEventListener('input', function(){ P[d[0]] = parseFloat(inp.value); pApply(); });
+    rs.addEventListener('click', function(){ P[d[0]] = d[5]; pApply(); });
+    row.appendChild(lab); row.appendChild(val); row.appendChild(rs); row.appendChild(inp); box.appendChild(row);
+    pInputs[d[0]] = inp; pVals[d[0]] = val;
+  });
+  document.getElementById('pReset').addEventListener('click', function(){ PDEF.forEach(function(d){ P[d[0]] = d[5]; }); pApply(); });
+  document.getElementById('pCopy').addEventListener('click', function(){
+    var txt = pLine();
+    try { if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function(){}); } catch (e) {}
+  });
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(PKEY) || 'null'); } catch (e) { saved = null; }
+  if (saved && typeof saved === 'object'){
+    PDEF.forEach(function(d){ var v = +saved[d[0]]; if (d[0] in saved && isFinite(v)) P[d[0]] = Math.min(d[3], Math.max(d[2], v)); });
+    riseCurveSet(); applyRise(); capEnsure();
+  }
+  pShow();
+})();
+Object.defineProperty(window.__cloud, 'params', { get: function(){ var o = {}; for (var k in P) o[k] = P[k]; return o; } });
+window.__cloud.setParams = setParams;
+window.__cloud.riseP = riseP;
+window.__cloud.riseInfo = function(){ return { up: RC.up, v: RC.v, k: RC.k, accEff: RC.accEff, vEff: RC.vEff,
+  clamped: !RC.def && (Math.abs(RC.accEff - P.riseAcc) > 0.005 || Math.abs(RC.vEff - P.riseVmax) > 0.005) }; };
 
 playBtn.addEventListener('click', function(){ playing ? pause() : play(); });
 speedBtn.addEventListener('click', function(){
