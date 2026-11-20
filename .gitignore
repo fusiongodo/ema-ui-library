@@ -1,3 +1,12 @@
 .shots/
 .dist/
 icon-lab/index.html
+# Blender icon pipeline: local-only artefacts
+icon-lab/blender/.venv/
+icon-lab/blender/**/__pycache__/
+icon-lab/blender/out/**/*.blend
+icon-lab/blender/out/**/*-sheet.png
+# clay-board: only openly licensed references are committed (see SOURCES.md)
+icon-lab/refs/clay-board/icons8-*
+icon-lab/refs/clay-board/iconscout-*
+icon-lab/refs/clay-board/board-*.png
