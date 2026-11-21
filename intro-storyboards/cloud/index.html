@@ -47,6 +47,9 @@ body{overflow-x:hidden}
 .stage:focus{outline:none}
 .panel{margin-top:14px;font-size:12px;color:var(--ink)}
 .panel summary{cursor:pointer;font-weight:600;padding:6px 0;color:var(--muted)}
+.psec + .psec{border-top:1px solid var(--btnline);margin-top:12px;padding-top:10px}
+.phead{display:flex;align-items:baseline;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--ink)}
+.phead .ptime{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)}
 .prow{display:grid;grid-template-columns:1fr auto 32px;align-items:center;column-gap:6px;margin-top:6px}
 .prow label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .prow .val{font-variant-numeric:tabular-nums;color:var(--muted);text-align:right}
@@ -1252,8 +1255,29 @@ function setParams(obj){
   pApply();
 }
 (function(){
-  var box = document.getElementById('prows');
-  PDEF.forEach(function(d){
+  var prows = document.getElementById('prows'), box = null, secOf = {};
+  // sections in film order (the copy line keeps the PDEF order)
+  var PGROUPS = [
+    ['Pakete nach innen', 'ab 3,3 s', ['inThick', 'inLen']],
+    ['Zentrum', '3,8 bis 7,7 s', ['cSize', 'cBright', 'cPulse', 'cHalo', 'cHaloSize']],
+    ['Strahlen nach au\u00dfen', '4,2 bis 7,2 s', ['raysOut', 'outThick', 'outLen']],
+    ['Aufstieg', 'ab 5,2 s', ['riseFrom', 'riseAcc', 'riseVmax']],
+    ['Decke und Regen', '7,8 bis 9,8 s', ['topSpan', 'topDwell']],
+    ['Glocken', 'ab 9,4 s', ['bellGloss']]
+  ];
+  var PBYKEY = {}; PDEF.forEach(function(d){ PBYKEY[d[0]] = d; });
+  var PORDER = [];
+  PGROUPS.forEach(function(g){
+    var sec = document.createElement('div'); sec.className = 'psec'; sec.dataset.sec = g[0];
+    var hd = document.createElement('div'); hd.className = 'phead';
+    var ht = document.createElement('span'); ht.textContent = g[0];
+    var hm = document.createElement('span'); hm.className = 'ptime'; hm.textContent = g[1];
+    hd.appendChild(ht); hd.appendChild(hm); sec.appendChild(hd); prows.appendChild(sec);
+    g[2].forEach(function(k){ secOf[k] = sec; PORDER.push(PBYKEY[k]); });
+  });
+  PDEF.forEach(function(d){ if (!secOf[d[0]]){ secOf[d[0]] = prows; PORDER.push(d); } });   // safety: nothing gets lost
+  PORDER.forEach(function(d){
+    box = secOf[d[0]];
     var row = document.createElement('div'); row.className = 'prow';
     var lab = document.createElement('label'); lab.textContent = d[1]; lab.htmlFor = 'p_' + d[0];
     var val = document.createElement('span'); val.className = 'val';

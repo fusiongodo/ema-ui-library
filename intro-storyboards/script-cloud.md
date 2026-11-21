@@ -371,3 +371,7 @@ Built (Claude's decision, two sliders instead of one in percent):
 - The chart lines fade in earlier when the first arrival is earlier; the bells grow only after the lines are drawn.
 
 Limits: `topSpan` was first built up to 2.5 s. The reviewer rejected that: stars lay at the top before the line was drawn and the row was slanted while the camera still tilts (6.2 to 8.2 s). Hence the cap at 1.6 s. At 1.6 the lines still swing in slightly slanted between 6.25 and 7.0 s. More spread would need the camera tilt to move earlier.
+
+## Round 24: sliders in sections (21 Nov)
+
+The 16 sliders are grouped in six sections in film order, each with its film time at default: Pakete nach innen, Zentrum, Strahlen nach außen, Aufstieg, Decke und Regen, Glocken. Known: the times in the headings are fixed and do not follow the sliders.
