@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Stat emblems A B C</title>
+<!-- The six statistical emblems in the three styles (icon-lab/glyphs/stat-emblems.mjs, via lib/clay-icons.js): at display size
+     on an Insights pattern card and at 96 px. A is the default. Rebuild lib/clay-icons.js after changing the module. -->
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 40px; width: 1240px; background: #FAFAFB; color: #2E2C34;
+         font-family: -apple-system, system-ui, sans-serif; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  p.note { margin: 0 0 20px; font-size: 13px; color: #6B6870; max-width: 900px; line-height: 1.45; }
+  table { border-collapse: collapse; }
+  th { font-size: 13px; text-align: left; padding: 0 16px 10px 0; color: #6B6870; font-weight: 600; }
+  td { padding: 10px 16px 10px 0; vertical-align: middle; border-top: 1px solid #E4E2E8; }
+  td.id { font: 12px ui-monospace, monospace; width: 170px; }
+  .card { width: 72px; height: 72px; border-radius: 18px; background: #F3F2F0; display: grid; place-items: center; }
+  .tile { width: 56px; height: 56px; border-radius: 14px; background: #fff; border: .5px solid #E2DFDA; display: grid; place-items: center; }
+  .tile.b { background: none; border-color: transparent; }
+  .tile svg { width: 46px; height: 46px; display: block; }
+  .tile.b svg { width: 54px; height: 54px; }
+  .big { width: 96px; height: 96px; background: #fff; border-radius: 12px; outline: 1px solid #E4E2E8; }
+  .big svg { width: 96px; height: 96px; display: block; }
+  .gap { width: 28px; }
+</style></head>
+<body>
+<h1>Statistical emblems · styles A, B, C</h1>
+<p class="note"><b>A (default)</b>: a small white tile (56 px, radius 14, 0.5 px border), the drawing at 46 px, thin grey lines, fine hatching and one pink accent on the finding.
+<b>B</b>: no tile, the drawing at 54 px on the card, grey only (the accent becomes the main ink).
+<b>C</b>: the white tile, grey only; the finding is a solid dark fill instead of hatching plus accent, the rest turns grey.
+Each style is shown on the card colour at display size, then at 96 px. Strokes keep their pixel width at every size (non-scaling).
+In the prototype the Play bar switch "Emblems" picks the style (Studio only).</p>
+<table id="t"><tr><th>id</th><th>A</th><th>B</th><th>C</th><th class="gap"></th><th>A · 96</th><th>B · 96</th><th>C · 96</th></tr></table>
+<script src="../../lib/clay-icons.js"></script>
+<script>
+  const t = document.getElementById("t");
+  for (const [id, v] of Object.entries(ClayIcons.emblem)) {
+    const small = ["a", "b", "c"].map(k => `<td><div class="card"><div class="tile ${k}">${v[k]}</div></div></td>`).join("");
+    const big = ["a", "b", "c"].map(k => `<td><div class="big">${v[k]}</div></td>`).join("");
+    t.insertAdjacentHTML("beforeend", `<tr><td class="id">${id}</td>${small}<td></td>${big}</tr>`);
+  }
+</script>
+</body></html>

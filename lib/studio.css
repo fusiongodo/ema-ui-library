@@ -189,14 +189,22 @@
    no shadow); the Studio tile it replaces only gives size and corner radius, which mask it */
 .frame[data-theme="studio"] .stage .cz-ic.cz-clay{background:none;box-shadow:none;overflow:hidden}
 .frame[data-theme="studio"] .stage .cz-clay img{display:block;width:100%;height:100%;border-radius:inherit}
-/* statistical emblem on a pattern card (cozy.js studio pass, icon-lab/glyphs/stat-emblems.mjs): a larger tile (56, radius 18),
-   the line drawing at 44 px in the full deep area ink, no float shadow (it would blur the lines); the accent is the sketch's
-   pink (#D4537E, the glyph's fallback), which stands apart from the lilac ink better than the Insights fill. Every pattern
-   card's icon column is 56 wide, so the text starts at the same x on all cards; a 44 tile (evaluation, clay) sits centred in it */
+/* statistical emblem on a pattern card (cozy.js studio pass, icon-lab/glyphs/stat-emblems.mjs): thin technical lines as in the
+   sketch, in one of three styles, picked by data-emblem on the frame (Play bar "Emblems", lib/play.js; a when unset). The tile
+   carries all three SVGs and shows one. a: a small white tile (56, radius 14, 0.5 px border, no shadow, no gradient), the
+   drawing at 46 px with one pink accent. b: no tile, the drawing at 54 px, grey only. c: the white tile, grey only, the finding
+   filled solid. Every pattern card's icon column is 56 wide, so the text starts at the same x on all cards; a 44 tile
+   (evaluation, clay) sits centred in it */
 .frame[data-theme="studio"] .stage .pa:not(.big){grid-template-columns:56px minmax(0,1fr) 14px}
 .frame[data-theme="studio"] .stage .pa > .pa-ic{justify-self:center}
-.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em{width:56px;height:56px;border-radius:18px;color:var(--st-ink)}   /* outranks the tile rule's :is() */
-.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em svg{width:44px;height:44px;filter:none}
+.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em{width:56px;height:56px;box-sizing:border-box;border-radius:14px;
+  background:#fff;border:.5px solid #E2DFDA;box-shadow:none}   /* outranks the tile rule's :is() */
+.frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em{background:none;border-color:transparent}
+.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{display:none;width:46px;height:46px;filter:none}
+.frame[data-theme="studio"]:not([data-emblem="b"],[data-emblem="c"]) .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="a"],
+.frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="b"],
+.frame[data-theme="studio"][data-emblem="c"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="c"]{display:block}
+.frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{width:54px;height:54px}
 /* trend tile with a clay tile: the tile at the start of the head, beside name and "— today"; in every trend tile the dots
    and days sit at the bottom, so neighbours in a row stay level */
 .frame[data-theme="studio"] .stage .tile.trend{justify-content:flex-start}

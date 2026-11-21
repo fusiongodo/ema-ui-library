@@ -34,6 +34,10 @@ The letters mean the same on every icon. Tiles: A Clay, B Soft flat, C Duotone, 
 | Palette | Skin `#EDBF9C`, hair `#5B3D33`, face lines `#3B2B27`, blush `#F09C8A` at 50 %, jumper `#F5E7CF` and `#EAD6B6`, pillow `#FFFFFF`. Themed through variables, with these fallbacks: blanket `#FFF4E2`, blanket hem and dots `#F6D9B0`, z `#7A3B0E`, mug `#D9876A` |
 | Status | Placeholder until the real companion illustration exists. Kept unchanged. In Studio the Protocols setup card shows the clay weekly pill box (`blender/out/week-box/`) instead of it |
 
+## Statistical emblems · styles A, B, C
+
+The six emblems on the Insights pattern cards (`glyphs/stat-emblems.mjs`, after the approved sketch `glyphs/stat-emblems-sketch.svg`) come in three styles, all thin technical grey lines: **A** a small white tile with fine hatching and one pink accent on the finding; **B** no tile, a larger drawing on the card, grey only; **C** the white tile, grey only, the finding filled solid dark. **A is the default** (the orchestrator's pick; Alex leans to A). In Play, Studio's "Emblems" switch in the Play bar changes the style live (stored as `wf-emblem`). All six in all three styles: `glyphs/stat-emblems-abc.html`. After a change run `node icon-lab/integrate/build-clay-module.mjs`.
+
 ## Working on a variant
 
 - Edit the SVG string in `icons/<id>.mjs` (or the generator, for a change across a family), then run `node icon-lab/build.mjs` to see it on the review page.
