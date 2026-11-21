@@ -243,6 +243,30 @@ REFERENCE = {
         "moon": {"lit": "#F8EBC2", "mid": "#EAD290", "shadow": "#C9AF6A"},   # butter moon + star
         "tile_icon_width": 0.58,                 # camera frames the height: moon height 0.58 of the tile
     },
+    # #25 to #28 trend and health tiles (round 3)
+    "fatigue": {
+        "tile": "#F3D9C4",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # battery body + nub
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # charge pill
+        "tile_icon_width": 0.62,                 # body + nub width / tile width
+    },
+    "thirst": {
+        "tile": "#A8D8DF",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # tumbler
+        "water": {"lit": "#B2DDF3", "mid": "#86C1E4", "shadow": "#5F9CC4"},  # water + drop
+        "tile_icon_width": 0.60,                 # group width / tile width
+    },
+    "resting-heart": {
+        "tile": "#F2CFCB",
+        "heart": {"lit": "#F5A59B", "mid": "#E67F73", "shadow": "#C66257"},  # coral-red heart
+        "tile_icon_width": 0.56,                 # heart width / tile width
+    },
+    "hrv": {
+        "tile": "#D9CCEB",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # heart
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # pulse line
+        "tile_icon_width": 0.56,                 # heart width / tile width
+    },
 }
 
 

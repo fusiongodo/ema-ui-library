@@ -37,6 +37,7 @@ body{overflow-x:hidden}
 .time{font-variant-numeric:tabular-nums;min-width:38px;text-align:right;color:var(--muted)}
 .row2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;font-size:12px;color:var(--muted);min-height:28px}
 .again[hidden]{display:none}
+.stage:focus{outline:none}
 .panel{margin-top:14px;font-size:12px;color:var(--ink)}
 .panel summary{cursor:pointer;font-weight:600;padding:6px 0;color:var(--muted)}
 .prow{display:grid;grid-template-columns:1fr auto 32px;align-items:center;column-gap:6px;margin-top:6px}
@@ -70,7 +71,7 @@ body{overflow-x:hidden}
 
 <div class="wrap">
   <div class="col">
-    <div class="stage" id="stage" aria-label="Intro-Animation, tippen startet neu">
+    <div class="stage" id="stage" tabindex="-1" aria-label="Intro-Animation, tippen startet neu">
       <div class="word" id="word">MEjority</div>
     </div>
     <div class="bar">
@@ -1221,7 +1222,36 @@ speedBtn.addEventListener('click', function(){
 Object.defineProperty(window.__cloud, 'speed', { get: function(){ return speed; } });
 again.addEventListener('click', function(){ play(0); });
 stage.addEventListener('click', function(){ play(0); });
-scrub.addEventListener('input', function(){ if (playing) pause(); seek(parseFloat(scrub.value)); });
+// time slider: dragging or clicking keeps the play state (playing resumes from the new position on release)
+var scrubResume = false;
+function scrubStart(){ if (playing){ scrubResume = true; pause(); } }
+function scrubEnd(){ if (scrubResume){ scrubResume = false; play(); } }
+scrub.addEventListener('pointerdown', scrubStart);
+scrub.addEventListener('input', function(){ scrubStart(); seek(parseFloat(scrub.value)); });
+scrub.addEventListener('change', scrubEnd);
+scrub.addEventListener('pointerup', scrubEnd);
+scrub.addEventListener('pointercancel', scrubEnd);
+// keyboard: space toggles play / pause wherever the focus is (once per press: the focused control does not also act,
+// the page does not scroll); arrows step the film 0.1 s (Shift: 1.0 s) and pause, except on a parameter slider
+function isParamSlider(el){ return el && el.tagName === 'INPUT' && el.type === 'range' && el.id.indexOf('p_') === 0; }
+document.addEventListener('keydown', function(e){
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.code === 'Space' || e.key === ' '){
+    e.preventDefault(); e.stopPropagation();
+    if (!e.repeat){ if (playing) pause(); else play(); }
+    return;
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
+    if (isParamSlider(e.target)) return;
+    e.preventDefault(); e.stopPropagation();
+    var stepT = (e.shiftKey ? 1.0 : 0.1) * (e.key === 'ArrowRight' ? 1 : -1);
+    pause(); seek(Math.round((cur + stepT) * 1000) / 1000);
+  }
+}, true);
+document.addEventListener('keyup', function(e){ if (e.code === 'Space' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); } }, true);
+// inside the artifact frame keys only arrive once the document has focus: a press on the stage or the player gives it
+stage.addEventListener('pointerdown', function(){ try { stage.focus({ preventScroll: true }); } catch (er) { stage.focus(); } });
+document.addEventListener('pointerdown', function(){ try { window.focus(); } catch (er) {} }, true);
 document.addEventListener('visibilitychange', function(){
   if (document.hidden){ resumeOnShow = playing; if (playing) pause(); }
   else if (resumeOnShow){ resumeOnShow = false; play(); }
