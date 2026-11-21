@@ -375,3 +375,9 @@ Limits: `topSpan` was first built up to 2.5 s. The reviewer rejected that: stars
 ## Round 24: sliders in sections (21 Nov)
 
 The 16 sliders are grouped in six sections in film order, each with its film time at default: Pakete nach innen, Zentrum, Strahlen nach außen, Aufstieg, Decke und Regen, Glocken. Known: the times in the headings are fixed and do not follow the sliders.
+
+## Round 25: timetable sliders (21 Nov)
+
+Alex could not set the rhythm with a stretch and a factor: "Die Stellschrauben, die ich bräuchte, gibt es gerade noch nicht." He wants to set when stars fall and how long rising and falling overlap.
+
+Built (Claude's decision): `topSpan` and `topDwell` are gone. A section "Fahrplan: Aufstieg und Regen" holds five sliders in film seconds: `riseFrom` (Aufstieg ab), `topFirst` (Erste oben bei, 6.85 to 8.40), `topLast` (Letzte oben bei, 7.20 to 9.50), `fallFirst` (Erste fallen bei, 6.85 to 10.00), `fallLast` (Letzte fallen bei, 7.20 to 11.00). Defaults are today's exact times (7.75, 8.45, 7.82, 8.96). Each star's arrival and leave are today's times mapped linearly onto the new spans; no star falls before it is up; a rise lasts at least 0.35 s. Below the sliders a timetable picture: three bars (steigen, oben an, fallen), the overlap as a band, a line for the playhead, and a text line with overlap, most stars at the top at once, end of rain, end of film. `riseAcc` and `riseVmax` sit in their own section "Aufstiegskurve": they only shape the curve, the duration comes from the timetable.
