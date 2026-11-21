@@ -10,4 +10,5 @@ SCREENS.push({ id:"checkins/overview-next", area:"Check-ins", status:"idea", tit
       {t:"trend", l:"Pain"},{t:"trend", l:"Thirst"}]},
     {t:"note", l:"good ━━━━ bad"},
     {t:"list", rows:[["Benchmarks · 1 per day","›"]], go:"checkins/games"},
+    {t:"tile", tone:"white", l:"Questionnaires", n:"Longer questions, now and then", r:"›", go:"checkins/q-home"},
   ]});
