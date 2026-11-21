@@ -319,12 +319,13 @@ When the icons are taken up again with Blender or another program (the clay look
 
 **Round 1 (15 icons), decided:** tab-today B, tab-checkins D, tab-protocols A, tab-insights D; protocol-pill, sleep, pain, evaluation in clay (A); steps as a footprint (E); calendar soft flat (B). For tiles, clay is clearly his direction.
 
-**On hold (Alex, 18 Nov 2026):** nothing is redrawn until he has found a good method for the clay look. His verdict on round 1: pure SVG did not get it right; above all the very soft shadings of clay did not work. Candidates to try, not decided: a 3D tool (Spline, Blender) with one material and one light for all icons, or an image model with a fixed style prompt and cut-out afterwards; either way the icons would become rendered pictures instead of SVG.
+**Clay method found and in use (state 21 Nov 2026):** the tiles are rendered in Blender (one material, one light, `icon-lab/blender/`); tab and control icons are a soft-solid glyph family (`icon-lab/glyphs/`). Both are built into the Studio theme of the prototype.
+- **Built in:** protocol pill and injection, check-in, log-scores, wellbeing, pain, sleep, steps, calendar, guide, scores, the four games, ask; round 3: Morning, Noon, Evening (variant B, each on its own colour), fatigue, thirst, resting heart rate, HRV, finding (pattern cards), flask (Trials).
+- **Alex on round 3:** flask and battery very good. He wondered whether all tiles should share one, more neutral colour, or a more minimal look, maybe as in Wire; not decided, to be compared side by side.
 
 **Open:**
-- New variants for protocol-injection, checkin-chat, log-scores and wellbeing (all five rejected); guide is undecided. Waits for the clay method.
-- The four chosen tab glyphs come from three different families; they need one pass to become a set.
-- Not drawn yet: empty-state illustration, the companion, control glyphs, trial flask, the finding and overview icons on pattern cards.
+- Empty-state illustration, the companion, control glyphs.
+- Detail heads for resting heart rate and HRV once those screens exist.
 - The references are another app's artwork: never ship them, remove them before the repository becomes public.
 
 ## Meadow: background shapes
