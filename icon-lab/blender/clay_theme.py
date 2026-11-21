@@ -318,6 +318,40 @@ REFERENCE = {
         "tile_icon_width": 0.60,
         "set_compare": ("protocol-pill", "calendar", "flask"),
     },
+    # #35 to #38 protocol kinds: supplement (capsule, softgel), group (C3 open compact, C4 cluster)
+    "protocol-capsule": {
+        "tile": "#AFB5E5",                       # = protocol-pill
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # cap
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # body
+        "tile_icon_width": 0.64,
+        "set_compare": ("protocol-pill", "protocol-injection", "protocols-folder"),
+    },
+    "protocol-softgel": {
+        "tile": "#AFB5E5",
+        "amber": {"lit": "#F7D28E", "mid": "#EDB861", "shadow": "#CF9443"},  # round 2: glossy gelatine
+        "tile_icon_width": 0.64,
+        "set_compare": ("protocol-pill", "protocol-injection", "protocols-folder"),
+    },
+    "protocol-group-c3": {
+        "tile": "#AFB5E5",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # case, lid, tablets, capsule bodies
+        "rose": {"lit": "#F3D9E8", "mid": "#E3BFD5"},                        # case interior
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},
+        "amber": {"lit": "#F6CF8A", "mid": "#E8B460", "shadow": "#C98F3E"},
+        "tile_icon_width": 0.64,
+        "set_compare": ("protocol-pill", "protocol-injection", "protocols-folder"),
+    },
+    "protocol-group-c4": {
+        "tile": "#AFB5E5",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},
+        "lilac": {"lit": "#C2AFCF", "mid": "#9389A1", "shadow": "#736481"},
+        "amber": {"lit": "#F6CF8A", "mid": "#E8B460", "shadow": "#C98F3E"},
+        "tile_icon_width": 0.64,
+        "set_compare": ("protocol-pill", "protocol-injection", "protocols-folder"),
+    },
 }
 
 
