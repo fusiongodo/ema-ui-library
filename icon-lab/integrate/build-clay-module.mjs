@@ -27,7 +27,7 @@ const CLAY = {
   "word-game": 52, "arithmetic": 52,
   "morning": 52, "noon": 52, "evening": 52, "fatigue": 52, "thirst": 52,
   "resting-heart": 60, "hrv": 60, "finding": 52, "flask": 52,
-  "protocols-folder": 52, "protocol-capsule": 52, "protocol-softgel": 52, "protocol-group": 52,
+  "protocols-folder": 52, "protocol-capsule": 52, "protocol-supplement-tab": 52, "protocol-softgel": 52, "protocol-group": 52,
 };
 /* a render other than <id>-on-tile.png: the approved variant (B for the three times of day) */
 const FILE = { "morning": "morning-on-tile-b.png", "noon": "noon-on-tile-b.png", "evening": "evening-on-tile-b.png",

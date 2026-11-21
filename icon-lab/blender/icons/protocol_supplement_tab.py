@@ -3,8 +3,11 @@
 Spec (Alex, 21 Nov 2026): also just a cylinder, gently domed on top, smaller diameter than the
 medication tablet (protocol-pill) and a bit taller, no score line; white with a very faint beige
 shift, so it differs only slightly from the medication.
-Geometry relative to protocol-pill (diameter 1.0): diameter 0.72, total height 0.42, dome 0.05,
-rim radius 0.08 (straight side band between). Pose, light, material (chalky grain) and the cast
+Geometry relative to protocol-pill (diameter 1.0): diameter 0.72, total height 0.42, dome 0.035,
+rim radius 0.018 (straight side band between).
+Rev. 21 Nov 2026 (Alex): pressed tablet with sharp edges, unlike the medication tablet's soft rim:
+rim round-over 0.08 -> 0.018 (just a thin highlight line). Built as an analytic lathe of the
+profile (offset of the domed core) instead of a voxel remesh, so the tight rim stays clean. Pose, light, material (chalky grain) and the cast
 shadow as protocol_pill.py (icon-level overrides copied, theme untouched).
 Run: ./render.sh protocol_supplement_tab
 """
@@ -24,10 +27,10 @@ import sdf_kit as k  # noqa: E402
 
 # ------------------------------------------------------------ shape params
 RADIUS = 0.36                # diameter 0.72 (protocol-pill: 1.0)
-RIM_R = 0.08                 # edge round-over
+RIM_R = 0.018                # edge round-over: pressed-tablet edge, thin highlight only
 THICK = 0.42                 # total height incl. both domes (protocol-pill: 0.36)
-DOME = 0.05                  # dome height above the rim plane (top and bottom)
-HALF_FLAT = THICK / 2 - DOME - RIM_R   # 0.08: half-height of the straight side band
+DOME = 0.035                 # dome height above the rim plane (top and bottom)
+HALF_FLAT = THICK / 2 - DOME - RIM_R   # 0.157: half-height of the straight side band
 CORE = RADIUS - RIM_R
 
 VIEW_ELEVATION_DEG = 32.0    # as protocol-pill (top face seen at 32 deg)
@@ -44,33 +47,50 @@ WORLD_LOW_HEX = os.environ.get("CLAY_TAB_LOW", "#7A7068")
 KEY2_ENERGY, KEY2_SIZE, KEY2_AZ_EL, KEY2_DISTANCE = 22.0, 1.0, (-55.0, 50.0), 1.6
 GRAIN_SCALE, GRAIN_STRENGTH = 350.0, 0.25
 
-VOXEL = float(os.environ.get("CLAY_VOXEL", "0.004"))
+N_RADIAL = int(os.environ.get("CLAY_TAB_SEG", "320"))   # lathe segments around the axis
 
 
-def _top_z(r):
-    t = np.clip(1.0 - (r / CORE) ** 2, 0.0, 1.0)
-    return DOME * t * t
-
-
-def sdf(P):
-    x, y, z = P[:, 0], P[:, 1], P[:, 2]
-    r = np.hypot(x, y)
-    qx = r - CORE
-    qy = np.abs(z) - _top_z(r) - HALF_FLAT
-    out = np.hypot(np.maximum(qx, 0), np.maximum(qy, 0))
-    return out + np.minimum(np.maximum(qx, qy), 0) - RIM_R
+def _profile():
+    """Upper-half (r, z) profile from the axis to the equator: the domed top of the core offset by
+    RIM_R along its normal, the quarter-circle rim, then the straight side down to z = 0."""
+    u = np.linspace(0.0, 1.0, 121)[1:-1]
+    u = 1.0 - (1.0 - u) ** 1.6                        # denser towards the rim
+    r = u * CORE
+    t = 1.0 - u * u
+    z = HALF_FLAT + DOME * t * t
+    dz = -4.0 * DOME * u * t / CORE                   # dz/dr of the dome
+    nl = np.hypot(dz, 1.0)
+    top = np.stack([r - RIM_R * dz / nl, z + RIM_R / nl], 1)
+    a = np.linspace(math.pi / 2, 0.0, 41)             # rim arc (dome slope is 0 at r = CORE)
+    arc = np.stack([CORE + RIM_R * np.cos(a), HALF_FLAT + RIM_R * np.sin(a)], 1)
+    zs = np.linspace(HALF_FLAT, 0.0, 25)[1:]
+    side = np.stack([np.full_like(zs, RADIUS), zs], 1)
+    return np.concatenate([top, arc, side])
 
 
 def build_tablet(name):
+    up = _profile()
+    prof = np.concatenate([up, up[-2::-1] * [1, -1]])   # mirror to the bottom half
+    n, m = len(prof), N_RADIAL
+    phi = np.arange(m) * 2 * math.pi / m
+    verts = [(0.0, 0.0, THICK / 2), (0.0, 0.0, -THICK / 2)]
+    for r, z in prof:
+        verts += [(r * math.cos(p), r * math.sin(p), z) for p in phi]
+    vi = lambda i, j: 2 + i * m + (j % m)
+    faces = [(0, vi(0, j), vi(0, j + 1)) for j in range(m)]
+    faces += [(vi(i, j), vi(i + 1, j), vi(i + 1, j + 1), vi(i, j + 1)) for i in range(n - 1) for j in range(m)]
+    faces += [(1, vi(n - 1, j + 1), vi(n - 1, j)) for j in range(m)]
+    me = bpy.data.meshes.new(name)
+    me.from_pydata(verts, [], faces)
+    me.validate()
+    obj = bpy.data.objects.new(name, me)
+    bpy.context.scene.collection.objects.link(obj)
     bm = bmesh.new()
-    bmesh.ops.create_uvsphere(bm, u_segments=64, v_segments=32, radius=1.0,
-                              matrix=Matrix.Diagonal((RADIUS * 1.02, RADIUS * 1.02, THICK / 2 * 1.05, 1)))
-    obj = k._link(name, bm)
-    k._remesh(obj, 0.02)
-    k.set_co(obj.data, k.project(k.get_co(obj.data), sdf))
-    k._remesh(obj, VOXEL)
-    k.set_co(obj.data, k.project(k.get_co(obj.data), sdf))
-    obj.data.shade_smooth()
+    bm.from_mesh(me)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bm.to_mesh(me)
+    bm.free()
+    me.shade_smooth()
     return obj
 
 
