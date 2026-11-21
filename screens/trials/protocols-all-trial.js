@@ -2,7 +2,7 @@
    screens/trials/ because the trial owns it. Drawn on day 19 (Fri 27 Nov), the same moment as trials/running.
    Magnesium is the trial item: one row with the "Trial" badge, tonight's capsule number and the evening slot. Its strip =
    Sat 14 … Fri 27 Nov, all trial days: capsule no. 11 skipped on Thu 19 Nov (the 6th dot), tonight's no. 19 taken.
-   Vitamin B12 (weekly, Mondays): taken on Mon 16 and Mon 23 Nov. The other rows as on protocols/all. */
+   Semaglutide (weekly, Mondays): taken on Mon 16 and Mon 23 Nov. The other rows as on protocols/all. */
 SCREENS.push({ id:"protocols/all-trial", area:"Protocols", status:"idea", title:"Protocols · All protocols with a trial running",
   tabs:"idea", tab:"Protocols", sub:"9 active · 1 ended", of:"protocols/all",
   tabto:{Protocols:"protocols/today-folds-trial", Insights:"insights/home-trial"},
@@ -26,7 +26,7 @@ SCREENS.push({ id:"protocols/all-trial", area:"Protocols", status:"idea", title:
       ["Magnesium" + TRIAL_BADGE, "capsule no. 19 today · evening", "xxxxxoxxxxxxxx", "protocols/item-capsule"]]},
     {t:"sec", l:"Weekly"},
     {t:"plist", rows:[
-      ["Vitamin B12", "1000 mcg · injection · Mondays, evening", "..x......x...."]]},
+      ["Semaglutide", "0.25 mg · injection · Mondays, evening", "..x......x...."]]},
     {t:"sec", l:"As needed"},
     {t:"plist", rows:[
       ["Epitalon", "5 mg · 2 days ago", ".x....x....x.."],
