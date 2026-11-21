@@ -33,7 +33,7 @@ SCREENS.push({ id:"protocols/item-naltrexon", area:"Protocols", status:"idea", t
         "xxx xx-"]},
     {t:"stats", items:[["146 of 152","doses taken"],["6","noon doses skipped"],["1 mg","since 12 Oct"]]},
     {t:"sec", l:"Patterns"},
-    {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},   // as insights/home (INSIGHTS_PATTERNS[0])
+    {t:"pattern", src:"protocols", em:"stat-earlier-later", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},   // as insights/home (INSIGHTS_PATTERNS[0])
     {t:"sec", l:"With your scores"},
     {t:"linemarks", from:"2026-09-14", n:"last 8 weeks",
       series:[

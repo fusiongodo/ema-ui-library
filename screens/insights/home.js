@@ -9,8 +9,8 @@
    · Rapamycin 19 Sep, 29 Sep, 6 Oct, 16 Oct, 25 Oct (5 doses): an evaluation of the two days after each dose, 6 measures
      differ (insights/eval-rapamycin). */
 const INSIGHTS_PATTERNS = [
-  {t:"pattern", src:"protocols", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
-  {t:"pattern", src:"protocols", l:"Since you increased Naltrexon from 0.5 to 1 mg, your fatigue has decreased by 18 %.", n:"Over 3 weeks", conf:"likely"},
+  {t:"pattern", src:"protocols", em:"stat-earlier-later", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
+  {t:"pattern", src:"protocols", em:"stat-before-after", l:"Since you increased Naltrexon from 0.5 to 1 mg, your fatigue has decreased by 18 %.", n:"Over 3 weeks", conf:"likely"},
   {t:"pattern", src:"protocols", ic:"overview", l:"Your Rapamycin evaluation", n:"6 things were different in the two days after", go:"insights/eval-rapamycin"},
 ];
 const INSIGHTS_ASK = {t:"tile", tone:"white", l:"Ask about your data", n:"Tap a question or ask in your own words.",

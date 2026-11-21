@@ -12,7 +12,7 @@ SCREENS.push({ id:"insights/home-health-on", area:"Insights", status:"idea", tit
   w:[
     {t:"head", l:"Insights"},
     {t:"sec", l:"Patterns", r:"found in your data"},
-    {t:"pattern", src:"checkins", l:"After a day with more steps than your usual, you were worse for two days.", n:"Seen 7 times", conf:"likely", go:"insights/pattern-exertion"},
+    {t:"pattern", src:"checkins", em:"stat-earlier-later", l:"After a day with more steps than your usual, you were worse for two days.", n:"Seen 7 times", conf:"likely", go:"insights/pattern-exertion"},
     INSIGHTS_PATTERNS[0],
     INSIGHTS_PATTERNS[2],
     {t:"list", rows:[["Apple Health connected · 4 measures","›"]], go:"checkins/overview-health"},
