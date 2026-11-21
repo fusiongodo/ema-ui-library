@@ -19,6 +19,7 @@ const OUT = join(LAB, "..", "lib", "clay-icons.js");
 const CLAY = {
   "protocol-pill": 54, "protocol-injection": 44, "log-scores": 44, "checkin-chat": 44, "wellbeing": 44,
   "pain": 44, "sleep": 44, "steps": 52, "calendar": 44, "guide": 44,
+  "scores": 44, "dual-n-back": 44, "reaction": 44, "ask": 44,
 };
 
 const tmp = mkdtempSync(join(tmpdir(), "clay-"));
