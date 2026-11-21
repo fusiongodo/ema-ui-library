@@ -388,7 +388,7 @@ var PDEF = [
   ['riseAcc',   'Aufstieg: Beschleunigung',        0.5, 3.0, 0.1,  1.0],
   ['riseVmax',  'Aufstieg: H\u00f6chsttempo',          0.5, 3.0, 0.1,  1.0],
   ['streamShift', 'Strahlen nach au\u00dfen ab (s)',  4.05, 4.20, 0.05, 4.20],   // film time of the first departure
-  ['hitLast',   'Letzter Treffer bei (s)',         5.50, 7.50, 0.05, 0],    // default: today's last hit, set below
+  ['hitLast',   'Letzter Treffer bei (s)',         5.80, 7.50, 0.05, 0],    // default: today's last hit, set below
   ['riseFrom',  'Aufstieg ab (s)',                 4.1, 6.5, 0.01, 5.08],   // step 0.01: 5.08 is not on a 0.05 grid from 4.1
   ['camStart',  'Kamera kippt ab (s)',             4.80, 6.20, 0.05, 6.20],
   ['topFirst',  'Erste oben bei (s)',              5.45, 8.40, 0.05, 0],    // defaults: today's exact values, set below
@@ -1348,7 +1348,8 @@ function pHintList(k){
   if (k === 'streamShift' && HELD > 0) h.push(HELD === 1 ? '1 Geber startet sp\u00e4ter: erst kommt sein eigenes Paket an' : HELD + ' Geber starten sp\u00e4ter: erst kommt ihr eigenes Paket an');
   if (k === GROUP_LAST.limit && coupleOn(k)){
     var dl = PDEF.filter(function(q){ return q[0] === k; })[0];
-    if (Math.abs(P[k] - dl[2]) < 1e-6 || Math.abs(P[k] - dl[3]) < 1e-6) h.push('h\u00e4lt die gekoppelte Gruppe: am Ende seines Bereichs');
+    var room = GROUP_LAST.dir < 0 ? P[k] - dl[2] : dl[3] - P[k];     // room left in the direction last tried
+    if (room < 0.05 - 1e-6) h.push('h\u00e4lt die gekoppelte Gruppe: kein ganzer Schritt mehr bis zum Ende seines Bereichs');
   }
   if (k === 'riseFrom') h.push('Wirkt nur auf Sterne, die vor diesem Zeitpunkt getroffen werden. Alle anderen steigen 0,12 s nach ihrem Treffer.');
   if (k === 'riseFrom' && P.riseFrom < PLAN.streamHit0) h.push('Vor dem ersten Treffer (' + PLAN.streamHit0.toFixed(2) + ' s) steigt kein Stern: fr\u00fcher geht nur mit fr\u00fcheren Strahlen');
@@ -1430,7 +1431,7 @@ function groupMove(k, n){
     var a = Math.ceil((d[2] - P[x]) * 20 - 1e-6), b = Math.floor((d[3] - P[x]) * 20 + 1e-6);
     if (a > lo){ lo = a; lk = x; } if (b < hi){ hi = b; hk = x; } });
   var n0 = n; n = Math.max(lo, Math.min(hi, n));
-  GROUP_LAST = { n: n, asked: n0, limit: n0 < lo ? lk : n0 > hi ? hk : null };
+  GROUP_LAST = { n: n, asked: n0, dir: n0 < 0 ? -1 : 1, limit: n0 < lo ? lk : n0 > hi ? hk : null };
   if (n !== 0) grp.forEach(function(x){
     var d = PDEF.filter(function(q){ return q[0] === x; })[0], v = P[x] + n / 20;
     if (Math.abs(v - d[5]) < 1e-9) v = d[5];
