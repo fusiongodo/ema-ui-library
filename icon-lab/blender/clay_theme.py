@@ -226,6 +226,23 @@ REFERENCE = {
         "terracotta": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"},  # equals
         "tile_icon_width": 0.56,                 # plate width / tile width
     },
+    # #22 to #24 times of day: tile = uniform variant A, tile_b = own colour (opt-in, composite.py)
+    "morning": {
+        "tile": "#BFC4EF", "tile_b": "#F2CDB0",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # horizon slab
+        "sun": {"lit": "#FFD3A0", "mid": "#F5B06C", "shadow": "#D88E4C"},    # apricot sun + rays
+        "tile_icon_width": 0.56,                 # bounding width / tile width
+    },
+    "noon": {
+        "tile": "#BFC4EF", "tile_b": "#F1E2B3",
+        "sun": {"lit": "#FFE39C", "mid": "#F6C95F", "shadow": "#D6A443"},    # yellow disc + rays
+        "tile_icon_width": 0.56,
+    },
+    "evening": {
+        "tile": "#BFC4EF", "tile_b": "#CFC8EC",
+        "moon": {"lit": "#F8EBC2", "mid": "#EAD290", "shadow": "#C9AF6A"},   # butter moon + star
+        "tile_icon_width": 0.672,                # camera frames the height: 0.56 x 718 / 598 px -> bounding width 0.56
+    },
 }
 
 

@@ -161,9 +161,17 @@ def main(icon):
     p = os.path.join(out, f"{icon}-on-tile.png")
     c.save(p)
     print("wrote", p)
+    cb = None
+    if ct.REFERENCE[icon].get("tile_b"):
+        # opt-in second tile colour from the same render: <icon>-on-tile-b.png
+        cb = compose(os.path.join(out, f"{icon}.png"), ct.REFERENCE[icon]["tile_b"], scale,
+                     ring=ct.REFERENCE[icon].get("ring"), offset_y=ct.REFERENCE[icon].get("tile_icon_offset_y", 0.0))
+        pb = os.path.join(out, f"{icon}-on-tile-b.png")
+        cb.save(pb)
+        print("wrote", pb)
     if not os.path.exists(ref):
         # own design without a reference: set comparison with finished tiles (each 260 px, 60 px below)
-        row = [("Ours", c)]
+        row = [("Ours", c)] + ([("Ours (tile b)", cb)] if cb is not None else [])
         for other in SET_COMPARE:
             p = os.path.join(HERE, "out", other, f"{other}-on-tile.png")
             if os.path.exists(p):
