@@ -228,7 +228,7 @@ REFERENCE = {
     },
     # #22 to #24 times of day: tile = uniform variant A, tile_b = own colour (opt-in, composite.py)
     "morning": {
-        "tile": "#BFC4EF", "tile_b": "#F2CDB0",
+        "tile": "#BFC4EF", "tile_b": "#F7E1CF",          # b: #F2CDB0 swallowed the sun at 60 px
         "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # horizon slab
         "sun": {"lit": "#FFD3A0", "mid": "#F5B06C", "shadow": "#D88E4C"},    # apricot sun + rays
         "tile_icon_width": 0.66,                 # bounding width / tile width (0.56 read too small)
@@ -266,6 +266,18 @@ REFERENCE = {
         "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # heart
         "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # pulse line
         "tile_icon_width": 0.56,                 # heart width / tile width
+    },
+    # #29 finding, #30 flask (Insights, round 3)
+    "finding": {
+        "tile": "#E2B9D5",
+        "gold": {"lit": "#FFE28E", "mid": "#F2C24F", "shadow": "#CE9A2F"},   # both sparkles
+        "tile_icon_width": 0.62,                 # sparkle group / tile width
+    },
+    "flask": {
+        "tile": "#BFD3EE",
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # flask
+        "lilac": {"lit": "#CDBBDD", "mid": "#AE9DC2", "shadow": "#8C7DA3"},  # liquid + bubbles (approved lighter lilac)
+        "tile_icon_width": 0.74,                 # framed by height (flask + bubbles) / tile width
     },
 }
 

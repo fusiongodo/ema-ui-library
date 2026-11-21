@@ -5,7 +5,7 @@ Run: Blender -b --factory-startup --python icons/hrv.py -- <out_dir>
 Method: sdf_kit. Heart from resting_heart.py. Pulse line: a swept tube (diameter 0.06)
 whose centre lies on the heart's front surface (embedded halfway), smooth-unioned with the
 heart (soft fillets); coral where the tube is nearer than the heart (vertex colour).
-Trace: flat, small peak, deep dip, tall peak, flat; spans 0.80 of the heart width.
+Trace: flat, small peak, deep dip, tall peak, flat; spans 0.74 of the heart width (ends pulled in 0.03 after review).
 """
 import os
 import sys
@@ -21,13 +21,13 @@ import resting_heart as rh  # noqa: E402
 
 TUBE_R, FILLET = 0.03, 0.015
 BASE_Z = 0.03                                    # mid-height of the heart's broad part
-TRACE = [(-0.40, 0.0), (-0.23, 0.0), (-0.17, 0.08), (-0.06, -0.16),
-         (0.05, 0.25), (0.13, 0.0), (0.40, 0.0)]
+TRACE = [(-0.37, 0.0), (-0.23, 0.0), (-0.17, 0.08), (-0.06, -0.16),
+         (0.05, 0.25), (0.13, 0.0), (0.37, 0.0)]
 JOIN_K = 0.025                                   # rounded joins (soft-solid glyph)
 
 VIEW_ELEVATION_DEG = 8.0
 CREAM_HEX = "#EEEAE1"
-CREAM_GRAD = (("#F4F0EA", 0.15), ("#A89C8C", 0.30))
+CREAM_GRAD = (("#F2EEE8", 0.12), ("#A89C8C", 0.30))
 CORAL_HEX = "#EF8D7A"
 CORAL_GRAD = (("#F2A08E", 0.40), ("#E08A78", 0.40))
 SHEEN = 0.10                                    # 0.15 clipped the lobe tops

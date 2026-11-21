@@ -2,7 +2,7 @@
 
    node icon-lab/integrate/build-clay-module.mjs
 
-   Clay: each icon-lab/blender/out/<id>/<id>-on-tile.png (1024 px, tile included) is downsized with macOS `sips` to 3× its
+   Clay: each icon-lab/blender/out/<id>/<id>-on-tile.png (or the variant named in FILE; 1024 px, tile included) is downsized with macOS `sips` to 3× its
    largest display size and kept as lossless PNG, so the rendered colours stay exactly as approved. Glyphs: the SVG strings
    of icon-lab/glyphs/glyphs.mjs, drawn in currentColor. Both go in as text, so the bundle stays one self-contained file. */
 import { execFileSync } from "node:child_process";
@@ -21,13 +21,17 @@ const CLAY = {
   "pain": 44, "sleep": 44, "steps": 52, "calendar": 44, "guide": 44,
   "scores": 44, "dual-n-back": 44, "reaction": 44, "ask": 44,
   "word-game": 44, "arithmetic": 44,
+  "morning": 44, "noon": 44, "evening": 44, "fatigue": 44, "thirst": 44,
+  "resting-heart": 52, "hrv": 52, "finding": 44, "flask": 44,
 };
+/* a render other than <id>-on-tile.png: the approved variant (B for the three times of day) */
+const FILE = { "morning": "morning-on-tile-b.png", "noon": "noon-on-tile-b.png", "evening": "evening-on-tile-b.png" };
 
 const tmp = mkdtempSync(join(tmpdir(), "clay-"));
 const clay = {};
 try {
   for (const [id, px] of Object.entries(CLAY)) {
-    const src = join(LAB, "blender", "out", id, `${id}-on-tile.png`), dst = join(tmp, `${id}.png`);
+    const src = join(LAB, "blender", "out", id, FILE[id] || `${id}-on-tile.png`), dst = join(tmp, `${id}.png`);
     execFileSync("sips", ["-Z", String(px * 3), src, "--out", dst], { stdio: "ignore" });
     clay[id] = "data:image/png;base64," + readFileSync(dst).toString("base64");
   }

@@ -21,12 +21,14 @@ import sdf_kit as k  # noqa: E402
 
 LOBE_X, LOBE_Z, LOBE_R = 0.22, 0.17, 0.28       # width 2 x (0.22 + 0.28) = 1.0; top at 0.45
 TIP_Z, TIP_R = -0.39, 0.06                      # soft bottom point at -0.45: height 0.90
-CLEFT_K = 0.08                                  # smooth union: shallow soft cleft
-HALF, EDGE_R = 0.21, 0.17                       # depth 0.42, puffy rounding
+CLEFT_K = 0.12                                  # wide smooth union: shallow soft cleft, no ridge below it
+HALF, EDGE_R = 0.21, 0.20                       # depth 0.42, puffy rounding
+DOME = 0.25                                     # rounding depth in the outline plane: domed front
 
 VIEW_ELEVATION_DEG = 8.0
 HEART_HEX = "#EC8174"
-HEART_GRAD = (("#F4AEA2", 0.45), ("#A8473C", 0.45))
+HEART_GRAD = (("#F2A89C", 0.36), ("#A8473C", 0.45))
+HI_COMP = 0.05
 SHEEN = 0.10                                    # 0.15 clipped the lobe tops
 
 
@@ -77,13 +79,13 @@ def heart_lookup(x, z):
 
 
 def heart_sdf(P):
-    return k.extrude(heart_lookup(P[:, 0], P[:, 2]), P[:, 1], 0.0, HALF, EDGE_R)
+    return k.extrude(heart_lookup(P[:, 0], P[:, 2]), P[:, 1] * DOME / HALF, 0.0, DOME, EDGE_R)
 
 
 def front_y(x, z):
     """Front surface y of the heart at (x, z) (analytic from the rounded extrusion)."""
     w = np.maximum(heart_lookup(x, z) + EDGE_R, 0)
-    return -(HALF - EDGE_R + np.sqrt(np.maximum(EDGE_R ** 2 - w ** 2, 0)))
+    return -(DOME - EDGE_R + np.sqrt(np.maximum(EDGE_R ** 2 - w ** 2, 0))) * HALF / DOME
 
 
 HEART_BOX = ((-0.53, -0.24, -0.49), (0.53, 0.24, 0.49))
@@ -95,7 +97,9 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     ct.reset_scene()
     heart = k.build("Heart", heart_sdf, *HEART_BOX, 0.004, 0.012)
-    k.set_colors(heart, k.graded(HEART_HEX, *HEART_GRAD, k.normals(heart.data)[:, 2]), (1, 0, 0))
+    nz = k.normals(heart.data)[:, 2]
+    hi = (1 - HI_COMP * k.ss(0.6, 1.0, nz))[:, None]             # key-facing lobe tops: no clip
+    k.set_colors(heart, k.graded(HEART_HEX, *HEART_GRAD, nz) * hi, (1, 0, 0))
     objs = [heart]
     k.tilt(objs, VIEW_ELEVATION_DEG)
     mat = k.zone_material("ClayRestingHeart", SHEEN)

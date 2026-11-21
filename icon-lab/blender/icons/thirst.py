@@ -5,7 +5,7 @@ Run: Blender -b --factory-startup --python icons/thirst.py -- <out_dir>
 Method: sdf_kit. The glass is solid clay up to the water level and a hollow wall above it
 (opaque: only the water top shows). Separate objects (contact creases): glass (lathe start
 mesh, so no membrane over the opening), water disc with meniscus, drop (round cone).
-Units: glass height 0.80, group width 1.0. X right, Z up, front at -Y.
+Units: glass height 0.80; drop 0.32 high, 0.10 right of the rim. X right, Z up, front at -Y.
 """
 import math
 import os
@@ -24,9 +24,9 @@ WATER_FILL = 0.90                               # brief 70 %: at 18 deg the near
 ZW = Z0 + WATER_FILL * HGT                      # that is 0.24 down in a 0.42-wide glass; 90 % shows it
 TAPER = (TOP_R - BOT_R) / HGT
 BASE_R = 0.08                                   # soft base corner
-DROP_H, DROP_R1, DROP_R2 = 0.24, 0.09, 0.02
-DROP_X = -TOP_R + 1.0 - DROP_R1                 # whole group 1.0 wide
-DROP_Z = Z0 + 0.62                              # bottom-sphere centre: upper right, floating
+DROP_H, DROP_R1, DROP_R2 = 0.32, 0.12, 0.026
+DROP_X = TOP_R + 0.10 + DROP_R1                  # gap 0.10 from the rim (orchestrator, after review)
+DROP_Z = Z0 + HGT + 0.04                        # bottom-sphere centre: drop slightly above rim height
 
 VIEW_ELEVATION_DEG = 18.0
 CREAM_HEX = "#EEEAE1"
@@ -101,7 +101,7 @@ def main():
     k.set_colors(glass, k.graded(CREAM_HEX, *CREAM_GRAD, k.normals(glass.data)[:, 2]), (0, 0, 0))
     inner = BOT_R - WALL + TAPER * (ZW - Z0) + 0.02
     water = k.build("Water", water_sdf, (-inner, -inner, ZW - 0.07), (inner, inner, ZW + 0.04), 0.004, 0.010)
-    drop = k.build("Drop", drop_sdf, (DROP_X - 0.12, -0.12, DROP_Z - 0.12), (DROP_X + 0.12, 0.12, DROP_Z + 0.20),
+    drop = k.build("Drop", drop_sdf, (DROP_X - 0.15, -0.15, DROP_Z - 0.15), (DROP_X + 0.15, 0.15, DROP_Z + 0.25),
                    0.0025, 0.008)
     for o in (water, drop):
         k.set_colors(o, k.graded(WATER_HEX, *WATER_GRAD, k.normals(o.data)[:, 2]), (0, 0, 1))
