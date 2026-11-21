@@ -5,7 +5,7 @@ SCREENS.push({ id:"checkins/q-home", area:"Check-ins", status:"idea", title:"Que
   why:"The empty state: one sentence on what questionnaires are for and one action, choosing an area.",
   w:[
     {t:"shead", left:"‹", l:"Questionnaires", right:"", goLeft:"back"},
-    {t:"big", l:"Questionnaires that studies use too."},
-    {t:"note", l:"Pick an area. You answer a few questions every few weeks, and your values become comparable with research."},
+    {t:"big", l:"The questionnaires research uses."},
+    {t:"note", l:"Pick an area. Every few weeks you answer a few questions, and you can compare your values with studies."},
     {t:"tile", tone:"lilac", l:"Choose an area", cta:true, go:"checkins/q-area"},
   ]});

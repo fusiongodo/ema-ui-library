@@ -9,7 +9,7 @@
       sheet:true,
       why:"One question per screen; a tap on an answer moves on, no extra Next button.",
       w:[
-        {t:"shead", left:"‹", l:`Fatigue · ${i+1} of 4`, right:"×", goLeft:"back", goRight:"close"},
+        {t:"shead", left:"‹", l:`Fatigue · ${i+1} of 4`, right:"×", goLeft:"back", goRight:"checkins/q-home-added"},
         {t:"note", l:"How much of the time during the past 4 weeks …"},
         {t:"big", l:q},
         {t:"list", rows:A.map(a=>[a,""]), go:next},

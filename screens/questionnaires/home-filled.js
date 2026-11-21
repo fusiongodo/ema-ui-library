@@ -5,6 +5,5 @@ SCREENS.push({ id:"checkins/q-home-filled", area:"Check-ins", status:"idea", tit
   w:[
     {t:"shead", left:"‹", l:"Questionnaires", right:"", goLeft:"back"},
     {t:"sec", l:"Yours", act:"+ Add", go:"checkins/q-area"},
-    {t:"list", rows:[["Fatigue", "35", "", "RAND-36 Vitality · every month · next in 4 weeks"]]},
-    {t:"note", l:"Values out of 100. Higher means more energy."},
+    {t:"list", rows:[["Fatigue", "35", "", "Energy 35 of 100 · every month · next in a month"]]},
   ]});
