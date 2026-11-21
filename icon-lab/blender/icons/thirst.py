@@ -20,18 +20,19 @@ import sdf_kit as k  # noqa: E402
 
 TOP_R, BOT_R, HGT, WALL = 0.31, 0.26, 0.80, 0.06
 Z0 = -HGT / 2                                   # base at z = -0.40
-ZW = Z0 + 0.70 * HGT                            # water surface: 70 % of the height
+WATER_FILL = 0.90                               # brief 70 %: at 18 deg the near rim hides a surface
+ZW = Z0 + WATER_FILL * HGT                      # that is 0.24 down in a 0.42-wide glass; 90 % shows it
 TAPER = (TOP_R - BOT_R) / HGT
 BASE_R = 0.08                                   # soft base corner
 DROP_H, DROP_R1, DROP_R2 = 0.24, 0.09, 0.02
 DROP_X = -TOP_R + 1.0 - DROP_R1                 # whole group 1.0 wide
-DROP_Z = ZW + 0.06                              # bottom-sphere centre: upper right, floating
+DROP_Z = Z0 + 0.62                              # bottom-sphere centre: upper right, floating
 
 VIEW_ELEVATION_DEG = 18.0
 CREAM_HEX = "#EEEAE1"
-CREAM_GRAD = (("#F6F2EC", 0.20), ("#B4A99B", 0.25))
-WATER_HEX = "#8CC4E6"
-WATER_GRAD = (("#B6DFF4", 0.40), ("#5A96C0", 0.50))
+CREAM_GRAD = (("#F8F4EE", 0.25), ("#A89C8C", 0.45))
+WATER_HEX = "#7CB8E0"
+WATER_GRAD = (("#A8D6F0", 0.25), ("#4A86B4", 0.60))
 SHEEN = 0.15
 
 

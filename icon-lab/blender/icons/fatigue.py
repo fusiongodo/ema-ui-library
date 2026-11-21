@@ -28,7 +28,7 @@ CREAM_HEX = "#EEEAE1"
 CREAM_GRAD = (("#F6F2EC", 0.20), ("#B4A99B", 0.25))
 GREY_HEX = "#BFB6AA"                                # warm grey middle tone in the inset
 CORAL_HEX = "#EF8D7A"
-CORAL_GRAD = (("#F2A08E", 0.40), ("#D07563", 0.40))
+CORAL_GRAD = (("#F8A894", 0.50), ("#D88270", 0.30))
 SHEEN = 0.15
 
 
@@ -67,7 +67,7 @@ def main():
     c = k.graded(CREAM_HEX, *CREAM_GRAD, nz)
     w = k.rrect(P[:, 0], P[:, 2], WIN_W / 2, WIN_H / 2, WIN_R)
     g = (k.ss(0.004, -0.006, w) * k.ss(FRONT + 0.05, FRONT + 0.03, P[:, 1]))[:, None]
-    k.set_colors(body, c * (1 - g) + k.lin(GREY_HEX) * g, (0, 0, 0))
+    k.set_colors(body, c * (1 - g) + k.lin(GREY_HEX) * g, np.hstack([0 * g, 0 * g, g]))   # inset: blue in the mask
     nub = k.build("Nub", nub_sdf, (0.44, -0.11, -0.14), (0.60, 0.11, 0.14), 0.003, 0.010)
     k.set_colors(nub, k.graded(CREAM_HEX, *CREAM_GRAD, k.normals(nub.data)[:, 2]), (0, 1, 0))
     pill = k.build("Pill", pill_sdf, (PILL_X - 0.13, FRONT - 0.06, -0.15), (PILL_X + 0.13, FRONT + 0.10, 0.15),

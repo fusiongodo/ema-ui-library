@@ -29,6 +29,13 @@ body{overflow-x:hidden}
   letter-spacing:.03em;opacity:0;pointer-events:none;white-space:nowrap;line-height:1;font-size:35px}
 .bar{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px}
 .bar input{flex:1;min-width:0;margin:0;accent-color:var(--accent)}
+.scrubw{flex:1;min-width:0;display:flex;align-items:center;position:relative}
+.scrubw input{width:100%}
+.marks{position:absolute;left:0;right:0;top:0;height:0;pointer-events:none;--th:8px}
+.mark{position:absolute;bottom:0;transform:translateX(-50%);font-size:10px;line-height:10px;color:var(--muted);
+  text-align:center;pointer-events:none;font-variant-numeric:tabular-nums}
+.mark::after{content:"";display:block;width:1px;height:3px;margin:1px auto 0;background:currentColor}
+.keys{display:none}
 .btn{font:inherit;font-size:12px;color:var(--ink);background:var(--btn);border:1px solid var(--btnline);
   border-radius:999px;height:28px;padding:0 12px;cursor:pointer;white-space:nowrap}
 .btn.icon{width:28px;padding:0;display:inline-flex;align-items:center;justify-content:center}
@@ -61,6 +68,7 @@ body{overflow-x:hidden}
   .prow .rs{width:28px;height:28px;}
   .pfoot{position:sticky;bottom:0;background:var(--page);padding-top:8px;}
   .pfoot .pbtns{margin-top:0;}
+  .keys{display:block;margin-top:6px;font-size:11px;color:var(--muted)}
 }
 @supports (height:100dvh){ @media (min-width: 820px){
   .col{grid-template-columns:min(430px, calc((100dvh - 96px) * 390 / 844)) clamp(340px, 30vw, 420px);}
@@ -79,7 +87,7 @@ body{overflow-x:hidden}
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path id="playIcon" fill="currentColor" d="M2 1l9 5-9 5z"/></svg>
       </button>
       <button class="btn speed" id="speed" aria-label="Geschwindigkeit 1&times;">1&times;</button>
-      <input type="range" id="scrub" min="0" max="13.8" step="0.01" value="0" aria-label="Zeit">
+      <span class="scrubw"><input type="range" id="scrub" min="0" max="13.8" step="0.01" value="0" aria-label="Zeit"><span class="marks" id="marks" aria-hidden="true"></span></span>
       <span class="time" id="time">0.0 s</span>
     </div>
     <div class="row2">
@@ -96,6 +104,7 @@ body{overflow-x:hidden}
         <button class="btn" id="pCopy">Werte kopieren</button>
       </div>
       <div class="pline" id="pLine">alles Standard</div>
+      <div class="keys">Leertaste Play/Pause &middot; Pfeile 0,1 s &middot; Shift+1 bis 9 Marke setzen &middot; 1 bis 9 springen</div>
       </div>
     </details>
     </div>
@@ -1114,7 +1123,7 @@ function ui(){
   timeEl.textContent = cur.toFixed(1) + ' s';
   var name = STEPS[0][1];
   for (var k = 0; k < STEPS.length; k++) if (cur >= STEPS[k][0]) name = STEPS[k][1];
-  stepEl.textContent = name;
+  stepEl.textContent = performance.now() < markMsgUntil ? markMsg : name;
   playIcon.setAttribute('d', playing ? 'M2 1h3v10H2zM7 1h3v10H7z' : 'M2 1l9 5-9 5z');
   playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Abspielen');
   again.hidden = cur < T_END;
@@ -1222,6 +1231,23 @@ speedBtn.addEventListener('click', function(){
 Object.defineProperty(window.__cloud, 'speed', { get: function(){ return speed; } });
 again.addEventListener('click', function(){ play(0); });
 stage.addEventListener('click', function(){ play(0); });
+// marks 1..9 on the timeline: Shift + digit sets (or removes, within 0.02 s), digit jumps. Stored per viewer.
+var MKEY = 'cloud.marks.v1', marks = {}, marksEl = document.getElementById('marks');
+try { var mSaved = JSON.parse(localStorage.getItem(MKEY) || 'null'); if (mSaved && typeof mSaved === 'object') for (var mk0 in mSaved) if (/^[1-9]$/.test(mk0) && isFinite(+mSaved[mk0])) marks[mk0] = Math.max(0, Math.min(T_END, +mSaved[mk0])); } catch (er) {}
+function marksSave(){ try { localStorage.setItem(MKEY, JSON.stringify(marks)); } catch (er) {} }
+function marksDraw(){
+  marksEl.textContent = '';
+  Object.keys(marks).sort().forEach(function(k){
+    var m = document.createElement('span'); m.className = 'mark'; m.textContent = k; m.dataset.t = String(marks[k]);
+    var fr = marks[k] / T_END;
+    m.style.left = 'calc(var(--th) + (100% - 2 * var(--th)) * ' + fr.toFixed(5) + ')';
+    marksEl.appendChild(m);
+  });
+}
+var markMsg = '', markMsgUntil = 0, markTimer = 0;
+function markNote(txt){ markMsg = txt; markMsgUntil = performance.now() + 1000; ui(); clearTimeout(markTimer); markTimer = setTimeout(ui, 1010); }
+marksDraw();
+window.__cloud.marks = function(){ var o = {}; for (var k in marks) o[k] = marks[k]; return o; };
 // time slider: dragging or clicking keeps the play state (playing resumes from the new position on release)
 var scrubResume = false;
 function scrubStart(){ if (playing){ scrubResume = true; pause(); } }
@@ -1239,6 +1265,19 @@ document.addEventListener('keydown', function(e){
   if (e.code === 'Space' || e.key === ' '){
     e.preventDefault(); e.stopPropagation();
     if (!e.repeat){ if (playing) pause(); else play(); }
+    return;
+  }
+  var dm_ = /^(Digit|Numpad)([1-9])$/.exec(e.code || '');
+  if (dm_){
+    e.preventDefault(); e.stopPropagation();
+    if (e.repeat) return;
+    var mk = dm_[2];
+    if (e.shiftKey){
+      if (dm_[1] !== 'Digit') return;
+      if (marks[mk] !== undefined && Math.abs(marks[mk] - cur) <= 0.02){ delete marks[mk]; markNote('Marke ' + mk + ' entfernt'); }
+      else { marks[mk] = cur; markNote('Marke ' + mk + ' \u00b7 ' + cur.toFixed(2) + ' s'); }
+      marksSave(); marksDraw();
+    } else if (marks[mk] !== undefined) seek(marks[mk]);   // play state kept (seek re-anchors while playing)
     return;
   }
   if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
