@@ -165,6 +165,33 @@
 .frame[data-theme="studio"] .stage .cz-ic-b{display:grid;margin-bottom:14px}
 .frame[data-theme="studio"] .stage .choice .cz-ic-b{width:54px;height:54px;border-radius:18px;margin-bottom:14px}
 .frame[data-theme="studio"] .stage .choice .cz-ic-b svg{width:31px;height:31px}
+/* clay tile (lib/clay-icons.js, cozy.js studio pass): the render brings its own tile and colours, kept as rendered (no gradient,
+   no shadow); the Studio tile it replaces only gives size and corner radius, which mask it */
+.frame[data-theme="studio"] .stage .cz-ic.cz-clay{background:none;box-shadow:none;overflow:hidden}
+.frame[data-theme="studio"] .stage .cz-clay img{display:block;width:100%;height:100%;border-radius:inherit}
+/* trend tile with a clay tile: the tile at the start of the head, beside name and "— today"; in every trend tile the dots
+   and days sit at the bottom, so neighbours in a row stay level */
+.frame[data-theme="studio"] .stage .tile.trend{justify-content:flex-start}
+.frame[data-theme="studio"] .stage .tile.trend > .dots{margin-top:auto}
+.frame[data-theme="studio"] .stage .tile.trend:has(> .cz-clay){display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto 1fr auto;
+  grid-template-areas:"ic l" "ic n" "d d" "w w";column-gap:12px}
+.frame[data-theme="studio"] .stage .tile.trend > .cz-clay{grid-area:ic;align-self:center;margin:0}
+.frame[data-theme="studio"] .stage .tile.trend:has(> .cz-clay) > .l{grid-area:l;align-self:end}
+.frame[data-theme="studio"] .stage .tile.trend:has(> .cz-clay) > .n{grid-area:n;align-self:start}
+.frame[data-theme="studio"] .stage .tile.trend:has(> .cz-clay) > .dots{grid-area:d;align-self:end}
+.frame[data-theme="studio"] .stage .tile.trend:has(> .cz-clay) > .days{grid-area:w}
+.frame[data-theme="studio"] .stage .us .cz-ic-u{display:grid;margin-bottom:8px}   /* Health tile */
+/* a Health detail head: the clay tile beside title and source line */
+.frame[data-theme="studio"] .stage .big.st-bighead{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"ic b" "ic n";column-gap:14px;align-items:center}
+.frame[data-theme="studio"] .stage .st-bighead > .cz-ic-h{grid-area:ic}
+.frame[data-theme="studio"] .stage .st-bighead > b{grid-area:b;align-self:end}
+.frame[data-theme="studio"] .stage .st-bighead > .n{grid-area:n;align-self:start}
+/* "View all trends" under the trends grid: a card row, the Insights square with its glyph, then the label */
+.frame[data-theme="studio"] .stage .st-trends{display:flex;align-items:center;gap:14px;padding:12px 20px 12px 12px;border-radius:24px;background:var(--st-card);
+  color:#2E2C34;font-size:17px;font-weight:600;cursor:pointer}
+.frame[data-theme="studio"] .stage .st-sq{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:13px;background:var(--st-tile);color:#2E2C34;font-style:normal}
+.frame[data-theme="studio"] .stage .st-sq svg{display:block;width:24px;height:24px}
+.frame[data-theme="studio"] .stage .st-trends .r{margin-left:auto;color:var(--muted);font-weight:400}   /* the › of a list row (Benchmarks) */
 /* inline icon (replaces an emoji glyph in running text) */
 .frame[data-theme="studio"] .stage .cz-g{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;font-style:normal;color:var(--st-ink)}
 .frame[data-theme="studio"] .stage .cz-g svg{display:block;width:100%;height:100%}
@@ -389,9 +416,13 @@
 .frame[data-theme="studio"] .stage .tabs:before{border-radius:33px;background:#fff;box-shadow:var(--st-shadow-float)}
 .frame[data-theme="studio"] .stage .tabs > span{margin:7px 1px;border-radius:26px;gap:3px}
 .frame[data-theme="studio"] .stage .tabs > span:before{display:none}
-.frame[data-theme="studio"] .stage .tabs > span.on{background:#F1F0ED;color:var(--st-ink);font-weight:600}
-.frame[data-theme="studio"] .stage .tabs .cz-ti{display:block;width:24px;height:24px;font-style:normal}
-.frame[data-theme="studio"] .stage .tabs .cz-ti svg{display:block;width:100%;height:100%}
+/* soft-solid glyphs (cozy.js studio pass): the active glyph on a 52 × 32 pill in its tab's area tile colour (each tab carries
+   its own data-world), glyph and label in ink; the other tabs the same ink at 55 % */
+.frame[data-theme="studio"] .stage .tabs > span{color:#2E2C34;opacity:.55}
+.frame[data-theme="studio"] .stage .tabs > span.on{color:#2E2C34;opacity:1;font-weight:600}
+.frame[data-theme="studio"] .stage .tabs .cz-ti{display:grid;place-items:center;width:52px;height:32px;border-radius:16px;font-style:normal}
+.frame[data-theme="studio"] .stage .tabs > span.on .cz-ti{background:var(--st-tile)}
+.frame[data-theme="studio"] .stage .tabs .cz-ti svg{display:block;width:26px;height:26px}
 .frame[data-theme="studio"] .stage .tabs .fab{align-self:center;width:52px;height:52px;margin:0 4px;color:#fff;
   background:radial-gradient(120% 120% at 30% 18%,#4E9792 0%,#2F6B6A 60%,#245756 100%);
   box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 8px 18px -8px rgb(47 107 106 / .75)}   /* the mic leads to Voice: teal on every page */

@@ -21,7 +21,7 @@ OUT=.dist/ema-wireframes.html
   cat lib/render.js
   # screens and flows in the order wireframes.html loads them
   grep -o 'src="\(screens\|flows\)/[^"]*"' wireframes.html | sed 's/src="//;s/"$//' | while read -r f; do cat "$f"; echo; done
-  cat lib/flows.js lib/play.js lib/buddy.js lib/cozy.js lib/splash.js lib/app.js
+  cat lib/flows.js lib/play.js lib/buddy.js lib/clay-icons.js lib/cozy.js lib/splash.js lib/app.js
   echo 'boot();'
   echo '</script>'
 } > "$OUT"
