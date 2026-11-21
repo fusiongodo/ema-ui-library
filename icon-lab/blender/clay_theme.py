@@ -279,6 +279,15 @@ REFERENCE = {
         "lilac": {"lit": "#CDBBDD", "mid": "#AE9DC2", "shadow": "#8C7DA3"},  # liquid + bubbles (approved lighter lilac)
         "tile_icon_width": 0.74,                 # framed by height (flask + bubbles) / tile width
     },
+    # #31 week-box: no tile (opt-in "no_tile" in composite.py): object + soft shadow on transparency
+    "week-box": {
+        "tile": "#EDEFFE", "no_tile": True,      # card colour (Studio card "Set up your protocols")
+        "card_icon_height": 0.42,                # object height / card height in week-box-on-card.png
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # base, caps, lids
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # capsule, cell 3
+        "lilac": {"lit": "#CDBBDD", "mid": "#AE9DC2", "shadow": "#8C7DA3"},  # tablets, cell 4
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},   # capsule, cell 5
+    },
 }
 
 

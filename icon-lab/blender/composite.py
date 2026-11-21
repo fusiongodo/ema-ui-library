@@ -150,9 +150,81 @@ def sheet(rows, out_path):
     img.convert("RGB").save(out_path)
 
 
+CARD_W, CARD_H = 1024, 640  # no-tile card composite (#31 week-box)
+
+
+def no_tile(icon, out, cfg):
+    """Opt-in (REFERENCE[icon]["no_tile"]): <icon>-render.png -> <icon>.png (object + soft
+    cast shadow on transparency), <icon>-on-card.png and <icon>-sheet.png (110 px preview)."""
+    raw = Image.open(os.path.join(out, f"{icon}-render.png")).convert("RGBA")
+    n = raw.size[0]
+    a = raw.getchannel("A")
+    sx, sy = (round(n * v) for v in ct.SHADOW_OFFSET)
+    sh_a = Image.new("L", raw.size, 0)
+    sh_a.paste(a, (sx, sy))
+    sh_a = sh_a.filter(ImageFilter.GaussianBlur(n * ct.SHADOW_BLUR)).point(lambda v: round(v * ct.SHADOW_OPACITY))
+    rgb = ImageColor.getrgb(cfg["tile"])
+    shadow = Image.new("RGBA", raw.size, tuple(round(c * ct.SHADOW_TINT) for c in rgb) + (0,))
+    shadow.putalpha(sh_a)
+    obj = Image.alpha_composite(shadow, raw)
+    # <icon>.png: tight to object + soft shadow, 4 % margin, 1024 px on the long side
+    ol, ot, orr, ob = obj.getchannel("A").point(lambda v: 255 if v > 3 else 0).getbbox()
+    m = round(0.04 * max(orr - ol, ob - ot))
+    tight = Image.new("RGBA", (orr - ol + 2 * m, ob - ot + 2 * m), (0, 0, 0, 0))
+    tight.alpha_composite(obj.crop((ol, ot, orr, ob)), (m, m))
+    f = 1024 / max(tight.size)
+    tight = tight.resize((round(tight.size[0] * f), round(tight.size[1] * f)), Image.LANCZOS)
+    p = os.path.join(out, f"{icon}.png")
+    tight.save(p)
+    print("wrote", p, tight.size)
+    l, t, r, b = a.point(lambda v: 255 if v > 8 else 0).getbbox()
+    s = CARD_H * cfg.get("card_icon_height", 0.42) / (b - t)
+    ss = 4
+    mask = Image.new("L", (CARD_W * ss, CARD_H * ss), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, CARD_W * ss - 1, CARD_H * ss - 1),
+                                           radius=round(CARD_H * 0.12) * ss, fill=255)
+    card = Image.new("RGBA", (CARD_W, CARD_H), cfg["tile"])
+    card.putalpha(mask.resize((CARD_W, CARD_H), Image.LANCZOS))
+    big = obj.resize((round(n * s), round(n * s)), Image.LANCZOS)
+    layer = Image.new("RGBA", card.size, (0, 0, 0, 0))
+    layer.alpha_composite(big, (round(CARD_W / 2 - (l + r) / 2 * s), round(CARD_H / 2 - (t + b) / 2 * s)))
+    layer.putalpha(ImageChops.multiply(layer.getchannel("A"), card.getchannel("A")))
+    oc = Image.alpha_composite(card, layer)
+    p = os.path.join(out, f"{icon}-on-card.png")
+    oc.save(p)
+    print("wrote", p)
+    # sheet: card composite + object alone; then the 110 px preview next to the clay pill tile (same height)
+    crop = tight
+    pw = 110
+    prev = crop.resize((pw, round(crop.size[1] * pw / crop.size[0])), Image.LANCZOS)
+    pill_p = os.path.join(HERE, "out", "protocol-pill", "protocol-pill-on-tile.png")
+    w, h = 1200, 820
+    img = Image.new("RGBA", (w, h), SHEET_BG)
+    d = ImageDraw.Draw(img)
+    f = font(20)
+    d.text((40, 30), "On the card (#E9E9FB)", fill="#444444", font=f)
+    img.alpha_composite(oc.resize((640, 400), Image.LANCZOS), (40, 64))
+    d.text((720, 30), "Alone, with cast shadow", fill="#444444", font=f)
+    img.alpha_composite(crop.resize((440, round(crop.size[1] * 440 / crop.size[0])), Image.LANCZOS), (720, 64))
+    d.text((40, 520), "110 px preview on the card colour, next to the clay pill tile at the same height",
+           fill="#444444", font=f)
+    patch = Image.new("RGBA", (pw + 40, prev.size[1] + 40), cfg["tile"])
+    patch.alpha_composite(prev, (20, 20))
+    img.alpha_composite(patch, (40, 560))
+    if os.path.exists(pill_p):
+        ph = prev.size[1]
+        img.alpha_composite(Image.open(pill_p).convert("RGBA").resize((ph, ph), Image.LANCZOS), (40 + pw + 80, 580))
+    p = os.path.join(out, f"{icon}-sheet.png")
+    img.convert("RGB").save(p)
+    print("wrote", p)
+
+
 def main(icon):
     out = os.path.join(HERE, "out", icon)
     ref = os.path.join(HERE, "..", "refs", f"{icon}.png")
+    if ct.REFERENCE[icon].get("no_tile"):
+        no_tile(icon, out, ct.REFERENCE[icon])
+        return
     tile_hex = ct.REFERENCE[icon]["tile"]  # fixed reference colours (Alex, final)
     # per-icon tablet/pair width on the tile (default: clay_theme.TILE_ICON_WIDTH)
     scale = ct.REFERENCE[icon].get("tile_icon_width", ct.TILE_ICON_WIDTH) / ct.FRAME_FILL

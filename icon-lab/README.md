@@ -23,6 +23,17 @@ Where our own icons are developed. For each icon there is a reference (someone e
 
 The letters mean the same on every icon. Tiles: A Clay, B Soft flat, C Duotone, D Line, E another motif. Tab glyphs: A Plump, B Cut-out, C Two weights, D Line, E another motif.
 
+## Illustrations · companion (buddy)
+
+| | |
+|---|---|
+| What | The companion: a small person in four states. `sleep` (head on a pillow under a round blanket, two small z), `awake` (big jumper, both hands round a mug with steam), `listening` (head and shoulders, eyes closed, a slight nod), `speaking` (eyes open, the mouth moves a few times, then rests) |
+| Code | `lib/buddy.js`: `buddy(state)` returns the markup; `BUDDY_ART` takes one finished image per state later, with no other file changing |
+| Used in | Studio (on Cozy's decorator; Cozy itself is archived): the empty states (a tinted card with nothing in it yet, except "Set up your protocols", where Studio shows the clay week-box; always `sleep`) and Today, next to the greeting (`awake` by day, `sleep` at night). Also the voice screens (`listening`, `speaking`) |
+| Style | Soft flat SVG placeholder built from simple shapes (circles, ellipses, rounded paths), no outlines except the face lines. Not clay |
+| Palette | Skin `#EDBF9C`, hair `#5B3D33`, face lines `#3B2B27`, blush `#F09C8A` at 50 %, jumper `#F5E7CF` and `#EAD6B6`, pillow `#FFFFFF`. Themed through variables, with these fallbacks: blanket `#FFF4E2`, blanket hem and dots `#F6D9B0`, z `#7A3B0E`, mug `#D9876A` |
+| Status | Placeholder until the real companion illustration exists. Kept unchanged. In Studio the Protocols setup card shows the clay weekly pill box (`blender/out/week-box/`) instead of it |
+
 ## Working on a variant
 
 - Edit the SVG string in `icons/<id>.mjs` (or the generator, for a change across a family), then run `node icon-lab/build.mjs` to see it on the review page.

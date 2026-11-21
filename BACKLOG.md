@@ -273,6 +273,7 @@ Seeds:
 
 ## Themes (Alex, 18 Nov 2026)
 - **Only three themes are maintained (Alex, 21 Nov 2026): Cozy, Studio, Wire.** Sky, Dusk and Meadow are set aside: no longer selectable in Play, their CSS and code stay so they can come back (`lib/play.js` THEMES, `#p-theme` in `wireframes.html`).
+- Cozy archived (21 Nov 2026); Studio still uses its decorator.
 - A sixth theme, "Studio", is being built from an inspiration he found (a calm consumer health app): neutral stage, grey cards, black pills for the main action, the area colour only in pastel icon tiles, soft dimensional icons, floating tab bar. Not a copy; principles only. Plan: several themes exist side by side, later the best parts are mixed into one look of our own.
 - Cozy: "not bad, but can be developed further".
 - A really beautiful sky as a background picture: he wants to pick reference graphics himself first.
