@@ -202,16 +202,27 @@ def no_tile(icon, out, cfg):
     img = Image.new("RGBA", (w, h), SHEET_BG)
     d = ImageDraw.Draw(img)
     f = font(20)
-    d.text((40, 30), "On the card (#E9E9FB)", fill="#444444", font=f)
+    # label: real card colour for opt-in sheets; the week-box sheet keeps its old text (byte-identical)
+    d.text((40, 30), f"On the card ({cfg['tile']})" if cfg.get("sheet_compare") else "On the card (#E9E9FB)",
+           fill="#444444", font=f)
     img.alpha_composite(oc.resize((640, 400), Image.LANCZOS), (40, 64))
     d.text((720, 30), "Alone, with cast shadow", fill="#444444", font=f)
     img.alpha_composite(crop.resize((440, round(crop.size[1] * 440 / crop.size[0])), Image.LANCZOS), (720, 64))
-    d.text((40, 520), "110 px preview on the card colour, next to the clay pill tile at the same height",
+    cmp_icon = cfg.get("sheet_compare")  # opt-in: compare with another no-tile object at the same width
+    d.text((40, 520), f"110 px preview on the card colour, next to {cmp_icon} at the same width" if cmp_icon
+           else "110 px preview on the card colour, next to the clay pill tile at the same height",
            fill="#444444", font=f)
     patch = Image.new("RGBA", (pw + 40, prev.size[1] + 40), cfg["tile"])
     patch.alpha_composite(prev, (20, 20))
     img.alpha_composite(patch, (40, 560))
-    if os.path.exists(pill_p):
+    if cmp_icon:
+        ci = Image.open(os.path.join(HERE, "out", cmp_icon, f"{cmp_icon}.png")).convert("RGBA")
+        ci = ci.resize((pw, round(ci.size[1] * pw / ci.size[0])), Image.LANCZOS)
+        cmp_cfg = ct.REFERENCE.get(cmp_icon, {})
+        patch2 = Image.new("RGBA", (pw + 40, ci.size[1] + 40), cmp_cfg.get("tile", cfg["tile"]))
+        patch2.alpha_composite(ci, (20, 20))
+        img.alpha_composite(patch2, (40 + pw + 80, 560))
+    elif os.path.exists(pill_p):
         ph = prev.size[1]
         img.alpha_composite(Image.open(pill_p).convert("RGBA").resize((ph, ph), Image.LANCZOS), (40 + pw + 80, 580))
     p = os.path.join(out, f"{icon}-sheet.png")

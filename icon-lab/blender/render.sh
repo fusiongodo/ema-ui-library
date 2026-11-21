@@ -10,7 +10,7 @@ OUT="out/$SLUG"
 mkdir -p "$OUT"
 "$BLENDER" -b --factory-startup --python "icons/$ICON.py" -- "$PWD/$OUT" 2>&1 \
   | grep -E "ENGINE|POLYS|RENDERED|TIMES|Error|Traceback|GPU setup" || true
-test -f "$OUT/$SLUG.png" || { echo "render failed"; exit 1; }
+test -f "$OUT/$SLUG.png" || test -f "$OUT/$SLUG-render.png" || { echo "render failed"; exit 1; }  # -render: no-tile icons
 PY="python3"
 [ -x .venv/bin/python ] && PY=".venv/bin/python"
 "$PY" composite.py "$SLUG"

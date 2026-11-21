@@ -1,5 +1,5 @@
 SCREENS.push({ id:"protocols/plans-list", area:"Protocols", status:"current", title:"Plans list",
-  tabs:"current", tab:"Plans",
+  tabs:"current", tab:"Protocols",
   why:"Reached via 'Manage plans'. Three lines per card, mostly repeated defaults.",
   w:[
     {t:"head", l:"Plans", r:"+"},

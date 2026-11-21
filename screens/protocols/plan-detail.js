@@ -1,5 +1,5 @@
 SCREENS.push({ id:"protocols/plan-detail", area:"Protocols", status:"current", title:"Plan detail",
-  tabs:"current", tab:"Plans",
+  tabs:"current", tab:"Protocols",
   why:"Read view of one plan. Long entry list, no actions besides Edit.",
   w:[
     {t:"shead", left:"‹ Plans", l:"", right:"Edit", goLeft:"back", goRight:"protocols/plan-editor"},

@@ -29,8 +29,9 @@ const CLAY = {
 /* a render other than <id>-on-tile.png: the approved variant (B for the three times of day) */
 const FILE = { "morning": "morning-on-tile-b.png", "noon": "noon-on-tile-b.png", "evening": "evening-on-tile-b.png" };
 
-/* object renders without a tile, by display box in Studio (px, width × height): the setup card on Protocols (week-box) */
-const ART = { "week-box": { file: "week-box.png", w: 132, h: 80 } };
+/* object renders without a tile, by display box in Studio (px, width × height): the setup card on Protocols (week-box),
+   the Apple Health card on Insights (health-watch, 86 px wide; the render is upright, 664 × 1024, so 133 high) */
+const ART = { "week-box": { file: "week-box.png", w: 132, h: 80 }, "health-watch": { file: "health-watch.png", w: 86, h: 133 } };
 
 const tmp = mkdtempSync(join(tmpdir(), "clay-"));
 const clay = {}, art = {};

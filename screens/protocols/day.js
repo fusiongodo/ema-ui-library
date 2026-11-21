@@ -1,5 +1,5 @@
 SCREENS.push({ id:"protocols/day", area:"Protocols", status:"current", title:"Protocols · Day",
-  tabs:"current", tab:"Plans",
+  tabs:"current", tab:"Protocols",
   why:"Today's plans on one timeline rail. Clean, technical, Whoop-like. Worth keeping.",
   w:[
     {t:"seg", items:["Day","Week"], on:"Day", r:"Manage plans", go:[null,"protocols/week"], goRight:"protocols/plans-list"},

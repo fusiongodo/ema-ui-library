@@ -288,6 +288,17 @@ REFERENCE = {
         "lilac": {"lit": "#CDBBDD", "mid": "#AE9DC2", "shadow": "#8C7DA3"},  # tablets, cell 4
         "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},   # capsule, cell 5
     },
+    # #32 health-watch: no tile, Studio Insights card (--st-tint #FBEDF6)
+    "health-watch": {
+        "tile": "#FBEDF6", "no_tile": True,
+        "card_icon_height": 0.42,                # as #31 week-box
+        "sheet_compare": "week-box",             # 110 px preview next to the week-box at the same width
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # case, crown
+        "rose": {"lit": "#F3D9E8", "mid": "#E3BFD5"},                        # screen (ask bars)
+        "heart": {"lit": "#F5A59B", "mid": "#E67F73", "shadow": "#C66257"},  # heart
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # pulse trace
+        "terracotta": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"},  # strap
+    },
 }
 
 

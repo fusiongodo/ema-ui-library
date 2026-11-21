@@ -1,5 +1,5 @@
 SCREENS.push({ id:"protocols/week", area:"Protocols", status:"current", title:"Protocols · Week",
-  tabs:"current", tab:"Plans",
+  tabs:"current", tab:"Protocols",
   why:"Rows = plans, columns = days. ● taken, struck ○ skipped, + extra. Reconstructed from the spec, correct me if it differs.",
   w:[
     {t:"seg", items:["Day","Week"], on:"Week", r:"Manage plans", go:["protocols/day",null], goRight:"protocols/plans-list"},
