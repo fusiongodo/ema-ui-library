@@ -11,8 +11,11 @@ SCREENS.push({ id:"insights/home-health-on", area:"Insights", status:"idea", tit
   ],
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
-    {t:"pattern", src:"checkins", em:"stat-earlier-later", l:"After a day with more steps than your usual, you were worse for two days.", n:"Seen 7 times", conf:"likely", go:"insights/pattern-exertion"},
+    INSIGHTS_PATTERNS_SEC,
+    {t:"pattern", src:"checkins", em:"stat-earlier-later", l:"After a day with more steps than your usual, you were worse for two days.", n:"Seen 7 times", conf:"likely", go:"insights/pattern-exertion",
+      /* Studio's data strip (stat: screens/insights/home.js): fatigue 7.2 in the two days after vs. 5.9 (insights/pattern-exertion) */
+      stat:{num:"+1.3", lab:"Fatigue · 2 days after", n:"n = 7 active days · 14 vs 30",
+        chart:{t:"above", dom:[4.5, 8.4], usual:[5.4, 5.9, 6.4], v:[6.9, 7.6, 7.0, 7.4, 6.8, 7.5, 7.2]}}},
     INSIGHTS_PATTERNS[0],
     INSIGHTS_PATTERNS[2],
     {t:"list", rows:[["Apple Health connected · 4 measures","›"]], go:"checkins/overview-health"},

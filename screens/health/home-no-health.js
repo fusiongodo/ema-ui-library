@@ -7,7 +7,7 @@ SCREENS.push({ id:"insights/home-no-health", area:"Insights", status:"idea", tit
   ],
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
+    INSIGHTS_PATTERNS_SEC,
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,

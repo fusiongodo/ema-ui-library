@@ -4,7 +4,7 @@ SCREENS.push({ id:"insights/home-pinned-skip", area:"Insights", status:"idea", t
   why:"The same tab after the answer about skipped doses was pinned (as insights/home-pinned for the dose change). The chart sits under 'Pinned', after the patterns, and updates with new check-ins.",
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
+    INSIGHTS_PATTERNS_SEC,
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Pinned"},
     {t:"linemarks", from:"2026-09-14", q:"What happens after I skip a dose?", n:"marks = skipped",

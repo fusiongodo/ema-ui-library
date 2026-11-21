@@ -372,6 +372,12 @@ When the icons are taken up again with Blender or another program (the clay look
 ## Ambient sound
 Soft background sound in the real app (Alex, 17 Nov 2026: calm, focus-music feel). Not in the browser prototype; sound does not start reliably there. Needs an off switch and must never start on its own.
 
+## Insights that stay hidden until a set time (Alex, 21 Nov 2026)
+On a protocol the person can choose to see its insights only after a number of weeks from the start, e.g. "show me after 6 weeks". Until then the insight sits in Insights as a locked, hidden card: it is there, you can look forward to it, but its result stays covered.
+- **Why:** so as not to fall for the placebo effect while still taking it; the person does not watch the numbers every day and talk themselves into an effect.
+- **Difference to trials:** placebo-controlled trials are locked anyway and show their result only at the end. This is the same idea for ordinary protocol insights, without a trial.
+- **Open:** where it is set (when adding the protocol or later on its detail screen), whether it can be opened early, how the locked card looks.
+
 ## Insights tab
 Empty in the prototype. Needs a first screen.
 

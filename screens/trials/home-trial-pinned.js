@@ -8,10 +8,14 @@ SCREENS.push({ id:"insights/home-trial-pinned", area:"Insights", status:"idea", 
   ],
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
+    INSIGHTS_PATTERNS_SEC,
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Pinned"},
-    {t:"pattern", src:"insights", em:"stat-before-after", l:"Your symptom score was 0.6 lower on Magnesium days.", n:"Blinded trial · 63 days", conf:"likely", go:"trials/result"},
+    {t:"pattern", src:"insights", em:"stat-before-after", l:"Your symptom score was 0.6 lower on Magnesium days.", n:"Blinded trial · 63 days", conf:"likely", go:"trials/result",
+      /* Studio's data strip (stat: screens/insights/home.js): symptom score 4.1 on Magnesium vs. 4.7 on placebo; one dot per
+         block as on trials/result (placebo 4.9 4.4 4.8 4.7, Magnesium 4.3 3.8 4.2), n in the chart's order */
+      stat:{num:"−0.6", lab:"Score · vs. placebo", n:"n = 4 vs 3 blocks · blinded",
+        chart:{t:"dots", dom:[3.7, 5.0], rows:[["Placebo", [4.9, 4.4, 4.8, 4.7]], ["Magnesium", [4.3, 3.8, 4.2]]]}}},
     {t:"sec", l:"Ask"},
     INSIGHTS_ASK,
     INSIGHTS_TRIALS_SEC,

@@ -8,11 +8,31 @@
      (of the 6.2 shown on insights/ask-answer), likely. (Brain fog rose 3.8 → 4.4 over the same weeks; the Ask answer says so.)
    · Rapamycin 19 Sep, 29 Sep, 6 Oct, 16 Oct, 25 Oct (5 doses): an evaluation of the two days after each dose, 6 measures
      differ (insights/eval-rapamycin). */
+/* stat: the data strip under the sentence in Studio (lib/cozy.js studio pass; every other theme ignores it). num = the effect
+   size, big; lab = what it is (shown uppercase); n = how many behind it, left in the footer (replaces "Seen 6 times");
+   chart = the small chart beside the number, on the 0–10 score scale (dom = the part shown):
+     {t:"above", usual:[low, mid, high], v:[values]}  the usual band (middle half of the other evenings) and one dot per event
+     {t:"box", rows:[[label, [min, q1, median, q3, max]], …]}  box plots, the first the comparison (dashed), the last the finding
+     {t:"dots", rows:[[label, [values]], …]}  one dot per value (a trial's blocks) with a median tick, rows as for box
+   The pattern's conf (hint · likely · strong) becomes the three-step meter beside n. An evaluation (rows instead of num):
+   rows = [label, relative change in % (sets the bar, around zero; left = the measure went down), value as said], more = the
+   line under them.
+   Values: skip 7.5 vs. 5.9, the six evenings 8 7 7 8 8 7 (insights/pattern-skip), the band the quartiles 5 · 6 · 7 of the 45
+   other evenings; dose 6.2 (28 days on 0.5 mg) → 5.1 (23 days on 1 mg) = −18 %, five-number summaries of the ask-answer series
+   0.5 mg 4 5 6 7 8, 1 mg 4 5 5 5 7; Rapamycin pain 3.4 vs. 4.2 = −19 %, sleep 6 h 50 vs. 7 h 25 = −35 min (−8 %), brain fog
+   3.6 vs. 4.2 = −14 % (insights/eval-rapamycin). */
 const INSIGHTS_PATTERNS = [
-  {t:"pattern", src:"protocols", em:"stat-earlier-later", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip"},
-  {t:"pattern", src:"protocols", em:"stat-before-after", l:"Since you increased Naltrexon from 0.5 to 1 mg, your fatigue has decreased by 18 %.", n:"Over 3 weeks", conf:"likely"},
-  {t:"pattern", src:"protocols", ic:"overview", l:"Your Rapamycin evaluation", n:"6 things were different in the two days after", go:"insights/eval-rapamycin"},
+  {t:"pattern", src:"protocols", em:"stat-earlier-later", l:"After a skipped noon dose of Naltrexon, your fatigue, pain and brain fog were worse the same evening.", n:"Seen 6 times", conf:"likely", go:"insights/pattern-skip",
+    stat:{num:"+1.6", lab:"Fatigue · vs. usual", n:"n = 6 skips · same evening",
+      chart:{t:"above", dom:[4, 9], usual:[5, 6, 7], v:[8, 7, 7, 8, 8, 7]}}},
+  {t:"pattern", src:"protocols", em:"stat-before-after", l:"Since you increased Naltrexon from 0.5 to 1 mg, your fatigue has decreased by 18 %.", n:"Over 3 weeks", conf:"likely",
+    stat:{num:"−18%", lab:"Fatigue · 3 weeks", n:"n = 28 vs 23 days",
+      chart:{t:"box", dom:[3, 9], rows:[["0.5 mg", [4, 5, 6, 7, 8]], ["1 mg", [4, 5, 5, 5, 7]]]}}},
+  {t:"pattern", src:"protocols", ic:"overview", em:"stat-evaluation", l:"Your Rapamycin evaluation", n:"6 things were different in the two days after", go:"insights/eval-rapamycin",
+    stat:{rows:[["Pain", -19, "−19%"], ["Sleep", -8, "−35 min"], ["Brain fog", -14, "−14%"]], more:"+ 3 more · tap for all"}},
 ];
+/* the Patterns heading of every state of the tab; span = the stretch of data looked at (Studio's note: "Last 8 weeks") */
+const INSIGHTS_PATTERNS_SEC = {t:"sec", l:"Patterns", r:"found in your data", span:"8 weeks"};
 const INSIGHTS_ASK = {t:"tile", tone:"white", l:"Ask about your data", n:"Tap a question or ask in your own words.",
   chips:["Did the dose change help?","What happens after I skip a dose?","How were my last two weeks?","Ask by voice"],
   go:["insights/ask-answer","insights/ask-skip","insights/ask-weeks","voice/listen"]};
@@ -44,7 +64,7 @@ SCREENS.push({ id:"insights/home", area:"Insights", status:"idea", title:"Insigh
   concept: INSIGHTS_CONCEPT,
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
+    INSIGHTS_PATTERNS_SEC,
     ...INSIGHTS_PATTERNS,
     INSIGHTS_HEALTH,
     {t:"sec", l:"Ask"},

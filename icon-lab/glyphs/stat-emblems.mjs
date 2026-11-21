@@ -144,6 +144,19 @@ const showUpTogether = (v, s) => {
   );
 };
 
+// ---------- 7 stat-evaluation · an evaluation of several measures: a forest plot around a dashed zero line, one estimate per
+// measure (the Rapamycin evaluation card). The top estimate, clearly off zero, is the finding; two more stand on either side ----------
+const evaluation = (v, s) => {
+  const ink = s.solid ? GREY : INK;
+  return svg(v,
+    line('M6 56H58', BASE, 1) +
+    dashed('M34 6V56') +
+    line('M10 17H28', s.acc, 2) + sq(19, 17, s.solid ? 8 : 7, s.acc) +
+    line('M16 32H33', ink, 1.6) + sq(24, 32, 5.5, ink) +
+    line('M38 46H56', ink, 1.6) + sq(47, 46, 5.5, ink),
+  );
+};
+
 const DRAW = [
   ['stat-before-after', 'Before / after', beforeAfter],
   ['stat-earlier-later', 'Earlier / later', earlierLater],
@@ -151,6 +164,7 @@ const DRAW = [
   ['stat-outside-usual', 'Outside your usual', outsideUsual],
   ['stat-how-sure', 'How sure', howSure],
   ['stat-show-up-together', 'Show up together', showUpTogether],
+  ['stat-evaluation', 'Evaluation', evaluation],
 ];
 
 // [{ id, label, svg: { a, b, c } }]

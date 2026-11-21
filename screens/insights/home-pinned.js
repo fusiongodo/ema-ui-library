@@ -8,7 +8,7 @@ SCREENS.push({ id:"insights/home-pinned", area:"Insights", status:"idea", title:
   ],
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
+    INSIGHTS_PATTERNS_SEC,
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Pinned"},
     {t:"linemarks", from:"2026-09-14", q:"Did the dose change help?", n:"averages before / since 1 mg",

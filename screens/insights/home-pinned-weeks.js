@@ -4,7 +4,7 @@ SCREENS.push({ id:"insights/home-pinned-weeks", area:"Insights", status:"idea", 
   why:"The same tab after the answer about the last two weeks was pinned (as insights/home-pinned for the dose change). Pinned, it always compares the latest two weeks with the two before.",
   w:[
     {t:"head", l:"Insights"},
-    {t:"sec", l:"Patterns", r:"found in your data"},
+    INSIGHTS_PATTERNS_SEC,
     ...INSIGHTS_PATTERNS,
     {t:"sec", l:"Pinned"},
     {t:"linemarks", from:"2026-10-07", q:"How were my last two weeks?", n:"averages: two weeks before / last two",

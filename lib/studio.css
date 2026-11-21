@@ -205,6 +205,36 @@
 .frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="b"],
 .frame[data-theme="studio"][data-emblem="c"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="c"]{display:block}
 .frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{width:54px;height:54px}
+/* data strip under a pattern's sentence (cozy.js studio pass, stat on the pattern): a hairline, then the effect size big with
+   its label beside a small chart (150 × 44), then n and a three-step confidence meter, which replace the n line and the
+   "likely" pill. Numbers and small labels in the rounded face with tabular figures, the labels small and uppercase.
+   The evaluation card gets a mini table instead (label · diverging bar around a dashed zero · value) and keeps its subline */
+.frame[data-theme="studio"] .stage .pa:is(.st-ds-on,.st-ds-ev){row-gap:12px}
+.frame[data-theme="studio"] .stage .pa.st-ds-on .pa-m{display:none}
+.frame[data-theme="studio"] .stage .st-ds{grid-column:1 / -1;min-width:0;padding-top:12px;border-top:.5px solid #DEDBD5;
+  font-family:ui-rounded,"SF Pro Rounded",var(--st-font);font-variant-numeric:tabular-nums;letter-spacing:0}
+.frame[data-theme="studio"] .stage .st-ds-s{font-size:11px;font-weight:500;line-height:1.25;letter-spacing:.04em;text-transform:uppercase;color:#77737C}
+.frame[data-theme="studio"] .stage .st-n{font-style:normal;text-transform:none}   /* the sample size stays a small n, "vs" small too */
+.frame[data-theme="studio"] .stage .st-ds-r{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.frame[data-theme="studio"] .stage .st-ds-big{display:flex;flex-direction:column;gap:6px;min-width:0}
+.frame[data-theme="studio"] .stage .st-ds-big > b{font-size:28px;font-weight:500;line-height:1;color:#1D1C21;letter-spacing:-.01em}
+.frame[data-theme="studio"] .stage .st-ds-ch{flex:none;display:block;width:150px;height:44px;overflow:visible}
+.frame[data-theme="studio"] .stage .st-ds-bl{font-size:10px;font-weight:500;fill:#77737C}
+.frame[data-theme="studio"] .stage .st-ds-f{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.frame[data-theme="studio"] .stage .st-cf{flex:none;display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:500;
+  letter-spacing:.04em;text-transform:uppercase;color:#2E2C34}
+.frame[data-theme="studio"] .stage .st-mt{display:inline-flex;gap:2px}
+.frame[data-theme="studio"] .stage .st-mt i{width:14px;height:5px;border-radius:2px;background:#D6D3CE}
+.frame[data-theme="studio"] .stage .st-mt i.on{background:#2E2C34}
+.frame[data-theme="studio"] .stage .st-ev{display:grid;grid-template-columns:86px minmax(0,1fr) minmax(46px,auto);align-items:center;gap:9px 10px}
+.frame[data-theme="studio"] .stage .st-ev > b{font-size:15px;font-weight:500;color:#1D1C21;text-align:right;white-space:nowrap}
+.frame[data-theme="studio"] .stage .st-ev-b{position:relative;height:14px}
+.frame[data-theme="studio"] .stage .st-ev-b:before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;border-left:1px dashed #8A8590}
+.frame[data-theme="studio"] .stage .st-ev-b > i{position:absolute;top:4px;height:6px;border-radius:2px;background:#2E2C34}
+.frame[data-theme="studio"] .stage .st-ds-more{margin-top:12px}
+/* the Patterns heading's note (cozy.js): "Last 8 weeks" as a small label */
+.frame[data-theme="studio"] .stage .sec > span.st-sec-n{font-family:ui-rounded,"SF Pro Rounded",var(--st-font);font-variant-numeric:tabular-nums;
+  font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:#77737C}
 /* trend tile with a clay tile: the tile at the start of the head, beside name and "— today"; in every trend tile the dots
    and days sit at the bottom, so neighbours in a row stay level */
 .frame[data-theme="studio"] .stage .tile.trend{justify-content:flex-start}
