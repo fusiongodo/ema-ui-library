@@ -381,3 +381,19 @@ The 16 sliders are grouped in six sections in film order, each with its film tim
 Alex could not set the rhythm with a stretch and a factor: "Die Stellschrauben, die ich bräuchte, gibt es gerade noch nicht." He wants to set when stars fall and how long rising and falling overlap.
 
 Built (Claude's decision): `topSpan` and `topDwell` are gone. A section "Fahrplan: Aufstieg und Regen" holds five sliders in film seconds: `riseFrom` (Aufstieg ab), `topFirst` (Erste oben bei, 6.85 to 8.40), `topLast` (Letzte oben bei, 7.20 to 9.50), `fallFirst` (Erste fallen bei, 6.85 to 10.00), `fallLast` (Letzte fallen bei, 7.20 to 11.00). Defaults are today's exact times (7.75, 8.45, 7.82, 8.96). Each star's arrival and leave are today's times mapped linearly onto the new spans; no star falls before it is up; a rise lasts at least 0.35 s. Below the sliders a timetable picture: three bars (steigen, oben an, fallen), the overlap as a band, a line for the playhead, and a text line with overlap, most stars at the top at once, end of rain, end of film. `riseAcc` and `riseVmax` sit in their own section "Aufstiegskurve": they only shape the curve, the duration comes from the timetable.
+
+## Round 26: coupling, stream and camera in the timetable (21 Nov)
+
+Alex's wish: move several timetable sliders together by the same amount, and more room towards earlier times.
+
+Found by the builder: "Aufstieg ab" (`riseFrom`) only steers the 12 stars that are hit before it. All others rise 0.12 s after their hit, so the stream from the centre decides when the rise begins.
+
+Built (Claude's decisions):
+- Every timetable slider has a checkbox; checked sliders move together by the same amount. If one reaches the end of its range the whole group stops, so the gaps stay.
+- `streamShift` "Strahlen nach außen ab" (first departure, 4.05 to 4.20, default 4.20): moves the whole stream. Not earlier than 4.05 because the centre is barely visible before.
+- `hitLast` "Letzter Treffer bei" (5.50 to 7.50, default 7.20): the stream is spread between the first hit and this time. Earlier means a shorter, denser stream and an earlier rise for everyone. The centre dims and fades with the end of the stream.
+- `camStart` "Kamera kippt ab" (4.80 to 6.20, default 6.20): moves the camera tilt and the spin. `topFirst` may go down to 5.45, but not earlier than 0.65 s after the tilt begins.
+- Timetable picture: bars for stream and camera added; the text line starts with the duration of the rise (shortest, longest, median).
+- Coupling stream start, last hit, rise start, first up and last up and moving them together keeps the rise duration (checked: 1.13 / 1.46 / 2.54 s before and after).
+
+Limits: earlier than this needs act one (star, cloud, giving) to be shortened. With `hitLast` at 5.50 a held giver keeps the effective last hit at 5.80.
