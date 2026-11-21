@@ -15,32 +15,38 @@
 .frame[data-theme="cozy"][data-world="today"],.frame[data-theme="cozy"] [data-world="today"]{   /* warm apricot / sun */
   --cz-bg:#FFD49B; --cz-bg-rgb:255 212 155; --cz-mid:#FFBE78; --cz-sheet:#FFEBD2; --cz-sheet-rgb:255 235 210;
   --cz-light:#FFF2DF; --cz-tabbar:#FFF7EC; --cz-dark:#8A3F0A; --cz-dark-rgb:138 63 10;
+  --cz-fill:#EE9445; --cz-fill-rgb:238 148 69;   /* slider fill = Studio's --st-fill */
   --cz-title:#8A3F0A; --cz-sub:#76502F; --ink:#3D2615; --muted:#76502F;
 }
 .frame[data-theme="cozy"][data-world="checkins"],.frame[data-theme="cozy"] [data-world="checkins"]{   /* fresh mint / sage */
   --cz-bg:#BDE5CC; --cz-bg-rgb:189 229 204; --cz-mid:#9FD6B6; --cz-sheet:#DFF3E7; --cz-sheet-rgb:223 243 231;
   --cz-light:#E6F6EC; --cz-tabbar:#F1FAF4; --cz-dark:#1B5C40; --cz-dark-rgb:27 92 64;
+  --cz-fill:#3E9F6D; --cz-fill-rgb:62 159 109;   /* slider fill = Studio's --st-fill */
   --cz-title:#1B5C40; --cz-sub:#3D5E4E; --ink:#1E3328; --muted:#3D5E4E;
 }
 .frame[data-theme="cozy"][data-world="protocols"],.frame[data-theme="cozy"] [data-world="protocols"]{   /* periwinkle */
   --cz-bg:#C5CBF7; --cz-bg-rgb:197 203 247; --cz-mid:#A9B1F0; --cz-sheet:#E3E6FC; --cz-sheet-rgb:227 230 252;
   --cz-light:#ECEEFE; --cz-tabbar:#F4F5FF; --cz-dark:#383D9C; --cz-dark-rgb:56 61 156;
+  --cz-fill:#6B73DD; --cz-fill-rgb:107 115 221;   /* slider fill = Studio's --st-fill */
   --cz-title:#383D9C; --cz-sub:#474C7C; --ink:#23264A; --muted:#474C7C;
 }
 .frame[data-theme="cozy"][data-world="insights"],.frame[data-theme="cozy"] [data-world="insights"]{   /* lilac rosé (benchmarks, insights) */
   --cz-bg:#EDC8E2; --cz-bg-rgb:237 200 226; --cz-mid:#E0AACF; --cz-sheet:#F7E4F1; --cz-sheet-rgb:247 228 241;
   --cz-light:#FBEEF7; --cz-tabbar:#FDF5FA; --cz-dark:#782C66; --cz-dark-rgb:120 44 102;
+  --cz-fill:#BF639D; --cz-fill-rgb:191 99 157;   /* slider fill = Studio's --st-fill */
   --cz-title:#782C66; --cz-sub:#674060; --ink:#3A1F35; --muted:#674060;
 }
 .frame[data-theme="cozy"][data-world="voice"],.frame[data-theme="cozy"] [data-world="voice"]{   /* deep calm teal: light text on the page */
   --cz-bg:#2F6B6A; --cz-bg-rgb:47 107 106; --cz-mid:#5B9693; --cz-sheet:#E1EFED; --cz-sheet-rgb:225 239 237;
   --cz-light:#E3F1EF; --cz-tabbar:#EEF7F5; --cz-dark:#123C3D; --cz-dark-rgb:18 60 61;
+  --cz-fill:#2F7F7C; --cz-fill-rgb:47 127 124;   /* slider fill = Studio's --st-fill */
   --cz-title:#F3FBF9; --cz-sub:#D2E9E5; --ink:#17302F; --muted:#46625F;
 }
 
 .frame[data-theme="cozy"][data-world="neutral"],.frame[data-theme="cozy"] [data-world="neutral"]{   /* belongs to no area (a note in the listening layer; the trial helper's pages, world:"neutral"): warm grey */
   --cz-bg:#E9E5DE; --cz-bg-rgb:233 229 222; --cz-mid:#D3CCC0; --cz-sheet:#F4F1EC; --cz-sheet-rgb:244 241 236;
   --cz-light:#F1EEE8; --cz-tabbar:#F8F6F2; --cz-dark:#5B554B; --cz-dark-rgb:91 85 75;
+  --cz-fill:#7A7368; --cz-fill-rgb:122 115 104;   /* slider fill = Studio's --st-fill */
   --cz-title:#4A453D; --cz-sub:#6A6459; --ink:#2E2A24; --muted:#6A6459;
 }
 
@@ -200,8 +206,8 @@
 .frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.draft,.field[data-go],.rv.cmp[data-go]):active{
   transform:scale(.96);transition-duration:.08s;transition-timing-function:ease-out}
 
-/* ---------- slider: the pill slider (lib/themes.css) on a white card, track = the area's light tone, fill = its dark tone ---------- */
-.frame[data-theme="cozy"] .stage .slider{--sl-fill:var(--cz-dark);--sl-fill-rgb:var(--cz-dark-rgb);--sl-track:var(--cz-light)}
+/* ---------- slider: the pill slider (lib/themes.css) on a white card, track = the area's light tone, fill = Studio's area fill (--cz-fill) ---------- */
+.frame[data-theme="cozy"] .stage .slider{--sl-fill:var(--cz-fill);--sl-fill-rgb:var(--cz-fill-rgb);--sl-track:var(--cz-light)}
 .frame[data-theme="cozy"] .stage .slider .vn{font-family:var(--round)}
 
 /* ---------- score curves (Today): line in the dark world colour, soft area, today's point emphasised ---------- */

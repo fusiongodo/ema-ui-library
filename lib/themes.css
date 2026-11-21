@@ -91,8 +91,9 @@
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider{--sl-in:22px;padding:16px var(--pad) 14px}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .st{display:block}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .st .l{display:block;font-size:20px;line-height:1.25;font-weight:600;color:var(--ink)}
-.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .v{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;column-gap:8px;margin:16px 0;color:var(--muted)}
+.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .v{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;column-gap:6px;margin:16px 0;color:var(--muted)}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .vx{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:2px 6px;min-width:0;text-align:right}
+.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .hq:after{content:"\00a0→"}   /* the arrow stays with the last word */
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .vn{display:block;grid-column:2;font-size:44px;line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .vn b{font:inherit;letter-spacing:inherit;min-width:0;color:var(--muted)}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider.moved .vn b{color:var(--ink)}
@@ -100,12 +101,14 @@
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .tr{height:44px;margin:0}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .rail{left:0;right:0;top:0;bottom:0;height:auto;margin:0;border-radius:22px;background:var(--sl-track);box-shadow:inset 0 1px 2px rgba(20,20,22,.06)}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .fill{left:0;top:0;bottom:0;width:calc(40px + var(--p,0) * (100% - 44px));padding:0;border-radius:22px;opacity:.38;box-shadow:none;
-  background:linear-gradient(90deg,var(--sl-fill),color-mix(in srgb,var(--sl-fill) 60%,#fff))}
-.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider.moved .fill{opacity:1;box-shadow:0 0 14px rgb(var(--sl-fill-rgb) / .35)}
+  background:linear-gradient(90deg,color-mix(in srgb,var(--sl-fill) 85%,#fff),color-mix(in srgb,var(--sl-fill) 60%,#fff))}   /* a touch lighter than the pure fill at the left end */
+.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider.moved .fill{opacity:1;box-shadow:0 0 14px rgb(var(--sl-fill-rgb) / .35);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--sl-fill) 85%,#fff),color-mix(in srgb,var(--sl-fill) 60%,#fff))}   /* beats .soft .slider.moved .fill */
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .dots{display:block;position:absolute;inset:0;pointer-events:none}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .dots i{position:absolute;top:50%;left:calc(22px + var(--i) * (100% - 44px));width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .dots i.on{background:rgba(255,255,255,.75)}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider.moved .dots i.lv{background:color-mix(in srgb,var(--ink) 35%,transparent)}   /* the last value (was the tick) */
+.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider.moved .dots i.lv.on{width:8px;height:8px;margin:-4px 0 0 -4px;background:#fff}   /* … on the fill: white, 8 pt */
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .last,.frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider.moved .last{display:none}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .knob{left:calc(22px + var(--p,0) * (100% - 44px));width:36px;height:36px;margin:-18px 0 0 -18px;transition:transform .12s ease-out}
 .frame:is([data-theme="studio"],[data-theme="cozy"]) .stage .slider .knob:before{display:none}
