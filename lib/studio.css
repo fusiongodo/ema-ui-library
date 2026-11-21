@@ -186,6 +186,17 @@
 .frame[data-theme="studio"] .stage .st-bighead > .cz-ic-h{grid-area:ic}
 .frame[data-theme="studio"] .stage .st-bighead > b{grid-area:b;align-self:end}
 .frame[data-theme="studio"] .stage .st-bighead > .n{grid-area:n;align-self:start}
+/* All protocols rows (cozy.js studio pass): clay tile or empty slot, name, strip, chevron, the same columns in every row */
+.frame[data-theme="studio"] .stage .plr:has(> :is(.cz-clay,.cz-slot)){grid-template-columns:40px minmax(0,1fr) auto 12px;column-gap:12px}
+.frame[data-theme="studio"] .stage .plr > .cz-ic.cz-clay{width:40px;height:40px;border-radius:14px}
+.frame[data-theme="studio"] .stage .plr > .cz-slot{width:40px}
+.frame[data-theme="studio"] .stage .pk .plr:has(> .cz-clay){padding-left:0}   /* ended protocols: their tile in the tile column */
+.frame[data-theme="studio"] .stage .plr > .cz-clay.st-ended{opacity:.5}
+/* intake calendar head (cozy.js studio pass): calendar tile, "Intake", the span muted; the section heading it repeats hides */
+.frame[data-theme="studio"] .stage .st-calh{display:flex;align-items:center;gap:12px;margin:4px 0 12px}
+.frame[data-theme="studio"] .stage .st-calh b{font-size:13px;font-weight:600;color:var(--ink)}
+.frame[data-theme="studio"] .stage .st-calh-s{font-size:13px;color:var(--muted)}
+.frame[data-theme="studio"] .stage .sec.st-dup{display:none}
 /* "View all trends" under the trends grid: a card row, the Insights square with its glyph, then the label */
 .frame[data-theme="studio"] .stage .st-trends{display:flex;align-items:center;gap:14px;padding:12px 20px 12px 12px;border-radius:24px;background:var(--st-card);
   color:#2E2C34;font-size:17px;font-weight:600;cursor:pointer}

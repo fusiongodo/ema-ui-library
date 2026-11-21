@@ -177,6 +177,39 @@ REFERENCE = {
         # the camera frames the larger extent (here the height): bulb height / tile
         "tile_icon_width": 0.48,
     },
+    # #16 to #19: own designs, no reference image (sheet compares with the finished set)
+    "scores": {
+        "tile": "#A9D4B9",                       # mint
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # tablet
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},   # score curve
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # today dot
+        "tile_icon_width": 0.58,                 # tablet width / tile width
+    },
+    "dual-n-back": {
+        "tile": "#CFC8EC",                       # lavender
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # plate
+        "pad": {"lit": "#EDE7E0", "mid": "#DCD5CC", "shadow": "#BDB4A8"},    # unlit pads
+        "lilac": {"lit": "#CDBBDD", "mid": "#AE9DC2", "shadow": "#8C7DA3"},  # lit pad r1 c3 (lighter)
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # lit pad r2 c1
+        "tile_icon_width": 0.56,                 # plate width / tile width
+    },
+    "reaction": {
+        "tile": "#F2CDB0",                       # apricot
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # body, stem, side nub
+        "dial": {"lit": "#F7F3EE"},                                          # lighter dial inset
+        "ticks": {"mid": "#BDB4A8"},                                         # warm grey nubs
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # hand, cap, push button
+        # the camera frames the larger extent (height incl. crown): set so the body width is 0.54
+        "tile_icon_width": 0.615,                # 0.54 / (body width 0.877 of the framed height)
+    },
+    "ask": {
+        "tile": "#E2B9D5",                       # rose
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # ring, collar
+        "lens": {"lit": "#F8F4F6", "mid": "#ECE4E9"},                        # opaque clay lens
+        "bars": {"lit": "#E3A9CF", "mid": "#C98DB6", "shadow": "#A86E95"},
+        "handle": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"}, # terracotta
+        "tile_icon_width": 0.60,                 # whole magnifier width / tile width
+    },
 }
 
 

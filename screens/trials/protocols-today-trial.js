@@ -28,5 +28,5 @@ SCREENS.push({ id:"protocols/today-folds-trial", area:"Protocols", status:"idea"
       goRows:["protocols/item-naltrexon","protocols/item-capsule"]},
     {t:"sec", l:"As needed", r:"tap = taken now"},
     {t:"chips", items:["Epitalon · 2d","Selank · today","Rapamycin · 9d"]},
-    {t:"tile", tone:"white", l:"All protocols", r:"›", n:"8 active · 1 ended", go:"protocols/all-trial"},
+    {t:"tile", tone:"white", l:"All protocols", r:"›", n:"9 active · 1 ended", go:"protocols/all-trial"},
   ]});

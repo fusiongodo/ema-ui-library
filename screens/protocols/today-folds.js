@@ -13,5 +13,5 @@ SCREENS.push({ id:"protocols/today-folds", area:"Protocols", status:"idea", titl
     {t:"sec", l:"As needed", r:"tap = taken now"},
     {t:"chips", items:["Epitalon · 2d","Selank · today","Rapamycin · 9d"]},
     {t:"tile", tone:"white", l:"Consistency · 30 days", heat:true},
-    {t:"tile", tone:"white", l:"All protocols", r:"›", n:"8 active · 1 ended", go:"protocols/all"},
+    {t:"tile", tone:"white", l:"All protocols", r:"›", n:"9 active · 1 ended", go:"protocols/all"},
   ]});

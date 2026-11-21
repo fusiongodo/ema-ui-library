@@ -1,9 +1,10 @@
 SCREENS.push({ id:"protocols/all", area:"Protocols", status:"idea", title:"Protocols · All protocols",
-  tabs:"idea", tab:"Protocols", sub:"8 active · 1 ended",
+  tabs:"idea", tab:"Protocols", sub:"9 active · 1 ended",
   why:"The collection behind the Today folds, opened from the quiet 'All protocols' card at the end of the Protocols tab; ‹ goes back to today. One row per protocol, a group is one row that unfolds. The dots on the right are the last 14 days, so a gap shows without opening anything. Tap a row for its history.",
   concept:[
     "<b>Rows say only what isn't default</b> (PRINCIPLES 3): dose and slot; 'daily' is not printed, a course shows its day ('day 4 of 14').",
     "<b>14-day strip:</b> filled = taken, ring = planned but skipped, small dot = not planned. Newest on the right (today).",
+    "<b>Weekly:</b> Vitamin B12 by injection, Mondays in the evening. Its strip shows the two Mondays (26 Oct, 2 Nov) as taken, the other days as not planned; on the Today folds it appears only on a Monday (the demo day is a Tuesday).",
     "<b>Ended</b> protocols stay findable but folded away; their history keeps its versions (PRINCIPLES 6).",
     "<b>Links:</b> only Naltrexon, Magnesium and Rapamycin have their own detail screen; the other rows are not tappable in the prototype (no placeholder that opens the wrong protocol)."
   ],
@@ -19,6 +20,9 @@ SCREENS.push({ id:"protocols/all", area:"Protocols", status:"idea", title:"Proto
       ["MOTS-C", "1.5 mg · morning · day 4 of 14", "..........xxxx"],
       ["Taurine", "500 mg · noon", "xxxxxxxxxxxxxx"],
       ["Magnesium", "300 mg · evening", "xxxxxxxoxxxxx.", "protocols/item-magnesium"]]},
+    {t:"sec", l:"Weekly"},
+    {t:"plist", rows:[
+      ["Vitamin B12", "1000 mcg · injection · Mondays, evening", ".....x......x."]]},
     {t:"sec", l:"As needed"},
     {t:"plist", rows:[
       ["Epitalon", "5 mg · 2 days ago", ".x....x....x.."],
