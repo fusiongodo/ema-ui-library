@@ -272,6 +272,7 @@ Seeds:
 **Direction:** keep the calendar, split the day dot into one segment per planned dose (morning / noon / evening); a missed dose is a hollow segment. Tap shows "Thu 30 Oct · morning ✓ · noon skipped · evening ✓". One line under the calendar names a repeated gap: "Noon dose missed on 4 of 8 Thursdays."
 
 ## Themes (Alex, 18 Nov 2026)
+- **Only three themes are maintained (Alex, 21 Nov 2026): Cozy, Studio, Wire.** Sky, Dusk and Meadow are set aside: no longer selectable in Play, their CSS and code stay so they can come back (`lib/play.js` THEMES, `#p-theme` in `wireframes.html`).
 - A sixth theme, "Studio", is being built from an inspiration he found (a calm consumer health app): neutral stage, grey cards, black pills for the main action, the area colour only in pastel icon tiles, soft dimensional icons, floating tab bar. Not a copy; principles only. Plan: several themes exist side by side, later the best parts are mixed into one look of our own.
 - Cozy: "not bad, but can be developed further".
 - A really beautiful sky as a background picture: he wants to pick reference graphics himself first.
