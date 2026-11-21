@@ -4,7 +4,8 @@ SCREENS.push({ id:"protocols/today-folds", area:"Protocols", status:"idea", titl
   ref:"refs/juno-folds.png",
   w:[
     {t:"head", l:"Protocols"},
-    {t:"tile", tone:"white", l:"Today · all as planned", n:"0 deviations · 22 intakes", bar:100},
+    {t:"tile", tone:"white", l:"Today · all as planned", n:"0 deviations · 22 intakes", bar:100,
+      day:[["Morning",1],["Noon",1],["Evening",0]]},
     {t:"sec", l:"Your protocols", act:"+ Add", go:"protocols/add-0-choose"},
     {t:"fold", l:"☀︎ Morning", m:"18 · as planned", a:"Different?"},
     {t:"fold", l:"◐ Noon", m:"2", a:"Different?", open:[["Naltrexon","1 mg"],["Taurine","500 mg",1]],

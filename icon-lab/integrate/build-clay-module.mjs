@@ -3,7 +3,8 @@
    node icon-lab/integrate/build-clay-module.mjs
 
    Clay: each icon-lab/blender/out/<id>/<id>-on-tile.png (or the variant named in FILE; 1024 px, tile included) is downsized with macOS `sips` to 3× its
-   largest display size and kept as lossless PNG, so the rendered colours stay exactly as approved. Art: object renders without a
+   largest display size and kept as lossless PNG, so the rendered colours stay exactly as approved; a clay not rendered yet is
+   skipped with a note (Studio keeps its glyph there). Art: object renders without a
    tile (transparent PNG, e.g. out/week-box/week-box.png), downsized the same way to 3× their display box; a render that does not
    exist yet is skipped with a note, and Studio then keeps what it showed before. Glyphs: the SVG strings
    of icon-lab/glyphs/glyphs.mjs, drawn in currentColor; emblems: the statistical emblems of icon-lab/glyphs/stat-emblems.mjs, three styles each. Both go in as text, so the bundle stays one self-contained file. */
@@ -26,19 +27,23 @@ const CLAY = {
   "word-game": 44, "arithmetic": 44,
   "morning": 44, "noon": 44, "evening": 44, "fatigue": 44, "thirst": 44,
   "resting-heart": 52, "hrv": 52, "finding": 44, "flask": 44,
+  "protocols-folder": 44,
 };
 /* a render other than <id>-on-tile.png: the approved variant (B for the three times of day) */
 const FILE = { "morning": "morning-on-tile-b.png", "noon": "noon-on-tile-b.png", "evening": "evening-on-tile-b.png" };
 
-/* object renders without a tile, by display box in Studio (px, width × height): the setup card on Protocols (week-box),
+/* object renders without a tile, by display box in Studio (px, width × height): the setup card on Protocols (week-box) and,
+   closed, the status card after setup ("Today · all as planned", week-box-closed, the same box),
    the Apple Health card on Insights (health-watch, 86 px wide; the render is upright, 664 × 1024, so 133 high) */
-const ART = { "week-box": { file: "week-box.png", w: 132, h: 80 }, "health-watch": { file: "health-watch.png", w: 86, h: 133 } };
+const ART = { "week-box": { file: "week-box.png", w: 132, h: 80 }, "week-box-closed": { file: "week-box-closed.png", w: 132, h: 80 },
+  "health-watch": { file: "health-watch.png", w: 86, h: 133 } };
 
 const tmp = mkdtempSync(join(tmpdir(), "clay-"));
 const clay = {}, art = {};
 try {
   for (const [id, px] of Object.entries(CLAY)) {
     const src = join(LAB, "blender", "out", id, FILE[id] || `${id}-on-tile.png`), dst = join(tmp, `${id}.png`);
+    if (!existsSync(src)) { console.log(`clay ${id}: ${src} not rendered yet, skipped`); continue; }
     execFileSync("sips", ["-Z", String(px * 3), src, "--out", dst], { stdio: "ignore" });
     clay[id] = "data:image/png;base64," + readFileSync(dst).toString("base64");
   }

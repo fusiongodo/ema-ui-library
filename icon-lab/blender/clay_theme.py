@@ -299,6 +299,25 @@ REFERENCE = {
         "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # pulse trace
         "terracotta": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"},  # strap
     },
+    # #33 week-box-closed: #31 with all lids closed, mint check on cell 4 (Protocols card "all as planned")
+    "week-box-closed": {
+        "tile": "#EDEFFE", "no_tile": True,
+        "card_icon_height": 0.42,                # scale and place taken from week-box (crop_like)
+        "crop_like": "week-box",                 # same crop, margin and card placement as week-box.png
+        "sheet_compare": "week-box", "preview_px": 132,
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # base, caps
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},   # check on cell 4
+    },
+    # #34 protocols-folder: tile for "All protocols" (protocol-pill tile colour)
+    "protocols-folder": {
+        "tile": "#AFB5E5",                       # = protocol-pill
+        "lilac": {"lit": "#C2AFCF", "mid": "#9389A1", "shadow": "#736481"},  # folder
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # cards
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # capsule, front card
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},   # dot, middle card
+        "tile_icon_width": 0.60,
+        "set_compare": ("protocol-pill", "calendar", "flask"),
+    },
 }
 
 

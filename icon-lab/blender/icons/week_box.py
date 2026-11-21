@@ -197,4 +197,5 @@ def main():
     k.finish(objs, out_dir, "week-box-render")
 
 
-main()
+if __name__ == "__main__":   # importable by week_box_closed.py (#33)
+    main()

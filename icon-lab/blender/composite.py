@@ -159,16 +159,26 @@ def no_tile(icon, out, cfg):
     raw = Image.open(os.path.join(out, f"{icon}-render.png")).convert("RGBA")
     n = raw.size[0]
     a = raw.getchannel("A")
-    sx, sy = (round(n * v) for v in ct.SHADOW_OFFSET)
-    sh_a = Image.new("L", raw.size, 0)
-    sh_a.paste(a, (sx, sy))
-    sh_a = sh_a.filter(ImageFilter.GaussianBlur(n * ct.SHADOW_BLUR)).point(lambda v: round(v * ct.SHADOW_OPACITY))
-    rgb = ImageColor.getrgb(cfg["tile"])
-    shadow = Image.new("RGBA", raw.size, tuple(round(c * ct.SHADOW_TINT) for c in rgb) + (0,))
-    shadow.putalpha(sh_a)
-    obj = Image.alpha_composite(shadow, raw)
+
+    def with_shadow(raw, a):
+        sx, sy = (round(n * v) for v in ct.SHADOW_OFFSET)
+        sh_a = Image.new("L", raw.size, 0)
+        sh_a.paste(a, (sx, sy))
+        sh_a = sh_a.filter(ImageFilter.GaussianBlur(n * ct.SHADOW_BLUR)).point(lambda v: round(v * ct.SHADOW_OPACITY))
+        rgb = ImageColor.getrgb(cfg["tile"])
+        shadow = Image.new("RGBA", raw.size, tuple(round(c * ct.SHADOW_TINT) for c in rgb) + (0,))
+        shadow.putalpha(sh_a)
+        return Image.alpha_composite(shadow, raw)
+
+    obj = with_shadow(raw, a)
+    frame_obj, frame_a = obj, a
+    like = cfg.get("crop_like")  # opt-in: crop, scale and place exactly as another no-tile icon
+    if like:
+        lraw = Image.open(os.path.join(HERE, "out", like, f"{like}-render.png")).convert("RGBA")
+        frame_a = lraw.getchannel("A")
+        frame_obj = with_shadow(lraw, frame_a)
     # <icon>.png: tight to object + soft shadow, 4 % margin, 1024 px on the long side
-    ol, ot, orr, ob = obj.getchannel("A").point(lambda v: 255 if v > 3 else 0).getbbox()
+    ol, ot, orr, ob = frame_obj.getchannel("A").point(lambda v: 255 if v > 3 else 0).getbbox()
     m = round(0.04 * max(orr - ol, ob - ot))
     tight = Image.new("RGBA", (orr - ol + 2 * m, ob - ot + 2 * m), (0, 0, 0, 0))
     tight.alpha_composite(obj.crop((ol, ot, orr, ob)), (m, m))
@@ -177,7 +187,7 @@ def no_tile(icon, out, cfg):
     p = os.path.join(out, f"{icon}.png")
     tight.save(p)
     print("wrote", p, tight.size)
-    l, t, r, b = a.point(lambda v: 255 if v > 8 else 0).getbbox()
+    l, t, r, b = frame_a.point(lambda v: 255 if v > 8 else 0).getbbox()
     s = CARD_H * cfg.get("card_icon_height", 0.42) / (b - t)
     ss = 4
     mask = Image.new("L", (CARD_W * ss, CARD_H * ss), 0)
@@ -195,7 +205,7 @@ def no_tile(icon, out, cfg):
     print("wrote", p)
     # sheet: card composite + object alone; then the 110 px preview next to the clay pill tile (same height)
     crop = tight
-    pw = 110
+    pw = cfg.get("preview_px", 110)
     prev = crop.resize((pw, round(crop.size[1] * pw / crop.size[0])), Image.LANCZOS)
     pill_p = os.path.join(HERE, "out", "protocol-pill", "protocol-pill-on-tile.png")
     w, h = 1200, 820
@@ -209,7 +219,7 @@ def no_tile(icon, out, cfg):
     d.text((720, 30), "Alone, with cast shadow", fill="#444444", font=f)
     img.alpha_composite(crop.resize((440, round(crop.size[1] * 440 / crop.size[0])), Image.LANCZOS), (720, 64))
     cmp_icon = cfg.get("sheet_compare")  # opt-in: compare with another no-tile object at the same width
-    d.text((40, 520), f"110 px preview on the card colour, next to {cmp_icon} at the same width" if cmp_icon
+    d.text((40, 520), f"{pw} px preview on the card colour, next to {cmp_icon} at the same width" if cmp_icon
            else "110 px preview on the card colour, next to the clay pill tile at the same height",
            fill="#444444", font=f)
     patch = Image.new("RGBA", (pw + 40, prev.size[1] + 40), cfg["tile"])
@@ -255,7 +265,7 @@ def main(icon):
     if not os.path.exists(ref):
         # own design without a reference: set comparison with finished tiles (each 260 px, 60 px below)
         row = [("Ours", c)] + ([("Ours (tile b)", cb)] if cb is not None else [])
-        for other in SET_COMPARE:
+        for other in ct.REFERENCE[icon].get("set_compare", SET_COMPARE):
             p = os.path.join(HERE, "out", other, f"{other}-on-tile.png")
             if os.path.exists(p):
                 row.append((other, Image.open(p)))
