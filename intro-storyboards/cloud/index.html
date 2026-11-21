@@ -58,13 +58,14 @@ body{overflow-x:hidden}
   .prow{margin-top:4px;}
   .prow input{height:24px;}
   .prow .rs{width:28px;height:28px;}
-  .pbtns{margin-top:8px;}
+  .pfoot{position:sticky;bottom:0;background:var(--page);padding-top:8px;}
+  .pfoot .pbtns{margin-top:0;}
 }
 @supports (height:100dvh){ @media (min-width: 820px){
   .col{grid-template-columns:min(430px, calc((100dvh - 96px) * 390 / 844)) clamp(340px, 30vw, 420px);}
 } }
 .pline{margin-top:8px;padding:8px;border:1px solid var(--btnline);border-radius:8px;background:var(--btn);
-  font-family:ui-monospace,Menlo,monospace;font-size:11px;word-break:break-all;user-select:all;-webkit-user-select:all}
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;overflow-wrap:anywhere;user-select:all;-webkit-user-select:all}
 </style>
 
 <div class="wrap">
@@ -88,11 +89,13 @@ body{overflow-x:hidden}
     <details class="panel" id="panel" open>
       <summary>Regler</summary>
       <div id="prows"></div>
+      <div class="pfoot">
       <div class="pbtns">
         <button class="btn" id="pReset">Alle zur&uuml;cksetzen</button>
         <button class="btn" id="pCopy">Werte kopieren</button>
       </div>
       <div class="pline" id="pLine">alles Standard</div>
+      </div>
     </details>
     </div>
   </div>
@@ -1097,7 +1100,7 @@ window.addEventListener('resize', resize);
 
 // ---------------------------------------------------------------- playback + controls
 var cur = 0, playing = false, t0wall = 0, raf = 0, resumeOnShow = false;
-// slow motion: the clock advances by wall time × speed (render, seek and the time display stay in film time)
+// slow motion: the clock advances by wall time x speed (render, seek and the time display stay in film time)
 var SPEEDS = [1, 0.5, 0.25, 0.1], speedK = 0, speed = 1, curAnchor = 0, speedBtn = document.getElementById('speed');
 function anchor(){ t0wall = performance.now(); curAnchor = cur; }
 var playBtn = document.getElementById('play'), playIcon = document.getElementById('playIcon'),
@@ -1154,8 +1157,8 @@ function pLine(){
 function pShow(){
   PDEF.forEach(function(d){
     var k = d[0], txt = P[k].toFixed(pDec(d[4]));
-    if (k === 'riseAcc' && Math.abs(RC.accEff - P.riseAcc) > 0.005) txt += ' (→' + RC.accEff.toFixed(2) + ')';
-    if (k === 'riseVmax' && Math.abs(RC.vEff - P.riseVmax) > 0.005) txt += ' (→' + RC.vEff.toFixed(2) + ')';
+    if (k === 'riseAcc' && Math.abs(RC.accEff - P.riseAcc) > 0.005) txt += ' (\u2192' + RC.accEff.toFixed(2) + ')';
+    if (k === 'riseVmax' && Math.abs(RC.vEff - P.riseVmax) > 0.005) txt += ' (\u2192' + RC.vEff.toFixed(2) + ')';
     if (pVals[k]) pVals[k].textContent = txt;
     if (pInputs[k] && parseFloat(pInputs[k].value) !== P[k]) pInputs[k].value = String(P[k]);
   });
@@ -1182,7 +1185,7 @@ function setParams(obj){
     var val = document.createElement('span'); val.className = 'val';
     var inp = document.createElement('input'); inp.type = 'range'; inp.id = 'p_' + d[0];
     inp.min = String(d[2]); inp.max = String(d[3]); inp.step = String(d[4]); inp.value = String(d[5]);
-    var rs = document.createElement('button'); rs.className = 'btn rs'; rs.textContent = '↺'; rs.setAttribute('aria-label', d[1] + ' zurücksetzen');
+    var rs = document.createElement('button'); rs.className = 'btn rs'; rs.textContent = '\u21ba'; rs.setAttribute('aria-label', d[1] + ' zur\u00fccksetzen');
     inp.addEventListener('input', function(){ P[d[0]] = parseFloat(inp.value); pApply(); });
     rs.addEventListener('click', function(){ P[d[0]] = d[5]; pApply(); });
     row.appendChild(lab); row.appendChild(val); row.appendChild(rs); row.appendChild(inp); box.appendChild(row);

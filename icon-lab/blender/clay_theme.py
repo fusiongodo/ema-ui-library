@@ -231,7 +231,7 @@ REFERENCE = {
         "tile": "#BFC4EF", "tile_b": "#F2CDB0",
         "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # horizon slab
         "sun": {"lit": "#FFD3A0", "mid": "#F5B06C", "shadow": "#D88E4C"},    # apricot sun + rays
-        "tile_icon_width": 0.56,                 # bounding width / tile width
+        "tile_icon_width": 0.66,                 # bounding width / tile width (0.56 read too small)
     },
     "noon": {
         "tile": "#BFC4EF", "tile_b": "#F1E2B3",
@@ -241,7 +241,7 @@ REFERENCE = {
     "evening": {
         "tile": "#BFC4EF", "tile_b": "#CFC8EC",
         "moon": {"lit": "#F8EBC2", "mid": "#EAD290", "shadow": "#C9AF6A"},   # butter moon + star
-        "tile_icon_width": 0.672,                # camera frames the height: 0.56 x 718 / 598 px -> bounding width 0.56
+        "tile_icon_width": 0.58,                 # camera frames the height: moon height 0.58 of the tile
     },
 }
 
