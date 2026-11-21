@@ -1,6 +1,6 @@
 """Compare sheet of the protocol-kind tiles: out/protocol-kinds-sheet.png.
 Row 1: the tiles at 132 px. Row 2: the same at 44 px on the white card (#F5F3F0), as in "All protocols".
-Run: python3 kinds_sheet.py  (after the four ./render.sh runs)
+Run: python3 kinds_sheet.py  (after the ./render.sh runs of the tiles in IDS)
 """
 import os
 
@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 
 from composite import HERE, SHEET_BG, font
 
-IDS = ("protocol-pill", "protocol-injection", "protocol-capsule", "protocol-softgel",
+IDS = ("protocol-pill", "protocol-supplement-tab", "protocol-injection", "protocol-capsule", "protocol-softgel",
        "protocol-group-c3", "protocol-group-c4")
 BIG, SMALL, CARD = 132, 44, "#F5F3F0"
 

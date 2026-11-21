@@ -352,6 +352,14 @@ REFERENCE = {
         "tile_icon_width": 0.64,
         "set_compare": ("protocol-pill", "protocol-injection", "protocols-folder"),
     },
+    # supplement tablet (Alex, 21 Nov 2026): smaller, taller, no score line, faint beige shift
+    "protocol-supplement-tab": {
+        "tile": "#AFB5E5",                       # = protocol-pill
+        "top": {"lit": "#F6EFE4", "mid": "#E8E0D3"},
+        "side_shadow": "#BFB4A6",
+        "tile_icon_width": 0.45,                 # tablet width / tile width (protocol-pill 0.55)
+        "set_compare": ("protocol-pill", "protocol-capsule", "protocol-softgel"),
+    },
 }
 
 
