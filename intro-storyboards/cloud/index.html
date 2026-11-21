@@ -353,6 +353,8 @@ var PDEF = [
   ['riseAcc',   'Aufstieg: Beschleunigung',        0.5, 3.0, 0.1,  1.0],
   ['riseVmax',  'Aufstieg: H\u00f6chsttempo',          0.5, 3.0, 0.1,  1.0],
   ['riseFrom',  'Aufstieg ab (s)',                 4.6, 6.5, 0.01, 5.08],   // step 0.01: 5.08 is not on a 0.05 grid from 4.6
+  ['topSpan',   'Ankunft oben \u00fcber (s)',          0.70, 1.60, 0.05, 0.70],
+  ['topDwell',  'Verweilen an der Decke',          0,   4.0, 0.05, 1.0],
   ['raysOut',   'Sichtbare Strahlen nach au\u00dfen (%)', 10, 100, 5,  100],
   ['cSize',     'Zentrum: Gr\u00f6\u00dfe',               0.5, 2.0, 0.05, 1.0],
   ['cBright',   'Zentrum: Helligkeit',             0.5, 1.5, 0.05, 1.0],
@@ -428,14 +430,16 @@ var SIGMA = 0.11, CENTRES = [-0.22, 0.22], PX = 2/68;
   ord.forEach(function(j, k){
     var s = S[j];
     s.group = k < N/2 ? 0 : 1;
-    s.leave = s.rise + RISE_DUR + 0.05 + rand() * LEAVE_SPREAD;   // falls soon after its own arrival: no standing line
-    s.fall = 0.55 + rand() * 0.35;
+    var rl_ = rand(); s.rL = rl_;                                   // per-star draws kept for the tuning rebuild
+    s.leave = s.rise + RISE_DUR + 0.05 + rl_ * LEAVE_SPREAD;   // falls soon after its own arrival: no standing line
+    var rf_ = rand(); s.rF = rf_;
+    s.fall = 0.55 + rf_ * 0.35;
     s.land = s.leave + s.fall;
     var z = Math.max(-3, Math.min(3, gauss()));
     var kc = Math.round(z * SIGMA / PX);
     s.col = kc;
     s.colX = sx(CENTRES[s.group] + kc * PX);
-    var key = s.group + ':' + kc;
+    var key = s.group + ':' + kc; s.colKey = key;
     (cols[key] = cols[key] || []).push(j);
   });
   Object.keys(cols).forEach(function(key){
@@ -502,7 +506,8 @@ function travD(s, tau){
 // ring to the slot. Slots are handed out in the order of touching, like a thread winding on: the first to touch gets
 // the slot farthest ahead, each later one the next slot behind, so nobody overtakes and nobody passes a seated star.
 var RUN = { min: 0, max: 0 }, NSPI = 0;
-(function(){
+function ringBuild(){
+  NSPI = 0;
   var byLand = []; for (var j = 0; j < N; j++) byLand.push(j);
   byLand.sort(function(a,b){ return S[a].land - S[b].land; });
   byLand.forEach(function(j, k){ S[j].ringT = Math.max(R0 + 0.9 * k / (N - 1), S[j].land + 0.1); });
@@ -558,7 +563,8 @@ var RUN = { min: 0, max: 0 }, NSPI = 0;
     s.ve = ve; s.td = td; s.tc = tc; s.tArr = Ta; s.trav = Ta - s.ringT; s.run = run;
     RUN.min = Math.min(RUN.min, run); RUN.max = Math.max(RUN.max, run);
   });
-})();
+}
+ringBuild();
 // the outbound stream, per star (drawn after all other random numbers, so nothing else changes):
 // ray fades in at rayOn, the package leaves at dep and arrives at arr, the star glows up from arr, the ray fades from arr
 for (i = 0; i < N; i++){
@@ -585,15 +591,71 @@ for (i = 0; i < N; i++){
 // tuning: which stars show their outbound ray (stable hash, the givers always), default rise times kept for the reset
 for (i = 0; i < N; i++){ S[i].rayShow = hash01(i * 15485863 + 3); S[i].rise0 = S[i].rise; S[i].riseDur0 = S[i].riseDur; }
 givers.forEach(function(g){ S[g].rayShow = -1; });
-// "Aufstieg ab" = T_SW: hit at or after it -> rise 0.12 s after the hit; before -> rise at T_SW + 0.12 + 0.80 hash (today's
-// hashes). Line arrival of every star stays as built, so the rise duration is line arrival - rise start.
-function applyRise(){
-  for (var j = 0; j < N; j++){
-    var sj = S[j];
-    if (P.riseFrom === 5.08){ sj.rise = sj.rise0; sj.riseDur = sj.riseDur0; continue; }
-    sj.rise = sj.sArr >= P.riseFrom ? sj.sArr + 0.12 : 5.20 + (P.riseFrom - 5.08) + 0.80 * hash01(j * 104729 + 7);
-    sj.riseDur = sj.lineT - sj.rise;
+// chart fade-in (baseline, top line, ticks): today 6.9 .. 8.0; it follows the first arrival on the top line when that
+// comes earlier (start = first arrival - 0.851 s, 1.1 s long)
+var CH_T0 = 6.9 + SHIFT, CH_T1 = 8.0 + SHIFT;
+// ---------------------------------------------------------------- tuning rebuild: arrival on the top line, dwell, rain,
+// heaps, ring and every later absolute time. The default build is kept as a snapshot and restored exactly.
+var SNAP = S.map(function(s){ return Object.assign({}, s); });
+var G0 = { T_FALL0: T_FALL0, T_LAND: T_LAND, BELL_T1: BELL_T1, BELL_T2: BELL_T2, TR0: TR0, TR_END: TR_END, TR_CUT: TR_CUT,
+  TR_FADE: TR_FADE, R0_OLD: R0_OLD, R0: R0, WORD_T0: WORD_T0, WORD_T1: WORD_T1, RL: RL, R1: R1, T_END: T_END,
+  RUN_MIN: RUN.min, RUN_MAX: RUN.max, NSPI: NSPI, STEPS: STEPS.map(function(x){ return x.slice(); }) };
+var LT0_ = 1e9, LT1_ = -1e9; SNAP.forEach(function(s){ LT0_ = Math.min(LT0_, s.lineT); LT1_ = Math.max(LT1_, s.lineT); });
+var TOP_CLAMPED = 0, TOP_MIN_RISE = 0.35;
+function setLate(){
+  var fa = 1e9; for (var j = 0; j < N; j++) fa = Math.min(fa, S[j].lineT);
+  CH_T0 = Math.min(6.9 + SHIFT, fa - 0.851); CH_T1 = CH_T0 === 6.9 + SHIFT ? 8.0 + SHIFT : CH_T0 + 1.1;
+  BELL_T1 = Math.max(T_FALL0 + 0.5, CH_T1); BELL_T2 = T_LAND - 0.45;
+  TR0 = T_LAND - 0.45; TR_END = TR0 + 0.72; TR_CUT = TR0 + 2.32; TR_FADE = TR_END + 0.25; R0_OLD = T_LAND - 0.25;
+  var D = T_LAND - G0.T_LAND;
+  R0 = G0.R0 + D; RL = G0.RL + D; R1 = RL + 1.0; WORD_T0 = G0.WORD_T0 + D; WORD_T1 = G0.WORD_T1 + D; T_END = G0.T_END + D;
+  STEPS.length = 0; G0.STEPS.forEach(function(x){ STEPS.push(x.slice()); });
+  STEPS.length -= 3;
+  STEPS.push([Math.round(T_FALL0*10)/10,'Regen, zwei Glocken'], [Math.round(R0*10)/10,'Der Kreis'], [Math.round(WORD_T0*100)/100,'MEjority']);
+}
+function rebuild(){
+  var j, s;
+  if (P.riseFrom === 5.08 && P.topSpan === 0.70 && P.topDwell === 1){
+    for (j = 0; j < N; j++) Object.assign(S[j], SNAP[j]);
+    T_FALL0 = G0.T_FALL0; T_LAND = G0.T_LAND; BELL_T1 = G0.BELL_T1; BELL_T2 = G0.BELL_T2; TR0 = G0.TR0; TR_END = G0.TR_END;
+    TR_CUT = G0.TR_CUT; TR_FADE = G0.TR_FADE; R0_OLD = G0.R0_OLD; R0 = G0.R0; WORD_T0 = G0.WORD_T0; WORD_T1 = G0.WORD_T1;
+    RL = G0.RL; R1 = G0.R1; T_END = G0.T_END; CH_T0 = 6.9 + SHIFT; CH_T1 = 8.0 + SHIFT; RUN.min = G0.RUN_MIN; RUN.max = G0.RUN_MAX; NSPI = G0.NSPI;
+    STEPS.length = 0; G0.STEPS.forEach(function(x){ STEPS.push(x.slice()); });
+    TOP_CLAMPED = 0;
+  } else {
+    TOP_CLAMPED = 0;
+    var kSpan = P.topSpan / 0.70;   // today's arrivals span 0.699 s; the slider's 0.70 is today's span
+    for (j = 0; j < N; j++){
+      s = S[j]; var s0 = SNAP[j];
+      s.rise = P.riseFrom === 5.08 ? s0.rise : (s.sArr >= P.riseFrom ? s.sArr + 0.12 : 5.20 + (P.riseFrom - 5.08) + 0.80 * hash01(j * 104729 + 7));
+      var lt = P.topSpan === 0.70 ? s0.lineT : LT1_ - kSpan * (LT1_ - s0.lineT);
+      if (lt < s.rise + TOP_MIN_RISE){ lt = s.rise + TOP_MIN_RISE; TOP_CLAMPED++; }
+      s.lineT = lt; s.riseDur = lt - s.rise;
+      s.leave = lt + P.topDwell * (0.05 + s0.rL * LEAVE_SPREAD);
+      s.fall = s0.fall; s.land = s.leave + s.fall;
+    }
+    var cols = {};
+    for (j = 0; j < N; j++) (cols[S[j].colKey] = cols[S[j].colKey] || []).push(j);
+    Object.keys(cols).forEach(function(key){
+      var list = cols[key];
+      list.sort(function(a,b){ return S[a].land - S[b].land || SNAP[a].h - SNAP[b].h; });
+      list.forEach(function(q, h){
+        S[q].h = h; S[q].landY = Y_BASE + (h + 0.6) * PITCH;
+        S[q].above = list.slice(h+1).map(function(q2, k){ return [S[q2].land, k + 1]; });
+      });
+    });
+    for (j = 0; j < N; j++){ s = S[j]; s.g = 2 * (Y_TOP - s.landY) / (s.fall * s.fall); }
+    T_FALL0 = 1e9; T_LAND = 0;
+    for (j = 0; j < N; j++){ T_FALL0 = Math.min(T_FALL0, S[j].leave); T_LAND = Math.max(T_LAND, S[j].land); }
+    setLate();
+    ringBuild();
   }
+  if (window.__cloud && window.__cloud.times) Object.assign(window.__cloud.times, { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0,
+    R0_OLD: R0_OLD, T_END: T_END, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, RL: RL, TR0: TR0, TR_END: TR_END,
+    TR_FADE: TR_FADE, TR_CUT: TR_CUT, BELL_T1: BELL_T1, BELL_T2: BELL_T2, WORD_T0: WORD_T0, WORD_T1: WORD_T1, TOP_CLAMPED: TOP_CLAMPED, CH_T0: CH_T0, CH_T1: CH_T1 });
+  if (typeof scrub !== 'undefined' && scrub) scrub.max = String(T_END);
+  if (typeof cur !== 'undefined' && cur > T_END) cur = T_END;
+  if (typeof marksEl !== 'undefined' && marksEl) marksDraw();
 }
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
 
@@ -1005,8 +1067,8 @@ function render(t){
   rg.attributes.position.needsUpdate = true; rg.attributes.color.needsUpdate = true;
 
   // chart lines
-  var cp = eIO(seg(t, 6.9 + SHIFT, 8.0 + SHIFT));
-  chart.visible = t >= 6.9 + SHIFT && t < TR_FADE + 0.5;         // leaves together with the bell outlines
+  var cp = eIO(seg(t, CH_T0, CH_T1));
+  chart.visible = t >= CH_T0 && t < TR_FADE + 0.5;         // leaves together with the bell outlines
   chart.material.opacity = 0.45 * (1 - seg(t, TR_FADE, TR_FADE + 0.5));
   var half = 0.84 * cp;
   var L = [
@@ -1162,22 +1224,24 @@ function pDec(st){ var x = String(st), d = x.indexOf('.'); return d < 0 ? 0 : x.
 function pLine(){
   var parts = [];
   PDEF.forEach(function(d){ if (P[d[0]] !== d[5]) parts.push(d[0] + '=' + P[d[0]]); });
-  return parts.length ? parts.join('; ') : 'alles Standard';
+  return (parts.length ? parts.join('; ') : 'alles Standard') + '; Ende=' + T_END.toFixed(2);
 }
 function pShow(){
   PDEF.forEach(function(d){
     var k = d[0], txt = P[k].toFixed(pDec(d[4]));
     if (k === 'riseAcc' && Math.abs(RC.accEff - P.riseAcc) > 0.005) txt += ' (\u2192' + RC.accEff.toFixed(2) + ')';
     if (k === 'riseVmax' && Math.abs(RC.vEff - P.riseVmax) > 0.005) txt += ' (\u2192' + RC.vEff.toFixed(2) + ')';
+    if (k === 'topDwell') txt = '\u00d7' + txt;
+    if (k === 'topSpan' && TOP_CLAMPED > 0) txt += ' (' + TOP_CLAMPED + ' geklemmt)';
     if (pVals[k]) pVals[k].textContent = txt;
     if (pInputs[k] && parseFloat(pInputs[k].value) !== P[k]) pInputs[k].value = String(P[k]);
   });
   var ln = document.getElementById('pLine'); if (ln) ln.textContent = pLine();
 }
 function pApply(){
-  riseCurveSet(); applyRise(); capEnsure();
+  riseCurveSet(); rebuild(); capEnsure();
   try { localStorage.setItem(PKEY, JSON.stringify(P)); } catch (e) {}
-  render(cur); pShow();
+  render(cur); ui(); pShow();
 }
 function setParams(obj){
   PDEF.forEach(function(d){
@@ -1210,7 +1274,7 @@ function setParams(obj){
   try { saved = JSON.parse(localStorage.getItem(PKEY) || 'null'); } catch (e) { saved = null; }
   if (saved && typeof saved === 'object'){
     PDEF.forEach(function(d){ var v = +saved[d[0]]; if (d[0] in saved && isFinite(v)) P[d[0]] = Math.min(d[3], Math.max(d[2], v)); });
-    riseCurveSet(); applyRise(); capEnsure();
+    riseCurveSet(); rebuild(); capEnsure();
   }
   pShow();
 })();
@@ -1239,7 +1303,7 @@ function marksDraw(){
   marksEl.textContent = '';
   Object.keys(marks).sort().forEach(function(k){
     var m = document.createElement('span'); m.className = 'mark'; m.textContent = k; m.dataset.t = String(marks[k]);
-    var fr = marks[k] / T_END;
+    var fr = Math.min(marks[k], T_END) / T_END;   // marks behind a shorter film stay stored, shown at the end
     m.style.left = 'calc(var(--th) + (100% - 2 * var(--th)) * ' + fr.toFixed(5) + ')';
     marksEl.appendChild(m);
   });

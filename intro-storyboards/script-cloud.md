@@ -351,3 +351,23 @@ One wish after the verdict: the rising stars accelerate slowly and hold a slow s
 - Limits found while building: top speed below today's is not possible with a smooth start and landing (values under 1 do nothing); very high top speed without more acceleration is capped (shown in the label). Lines cannot get thicker in the browser, so "thickness" of outbound packages changes their glint and brightness, and of inbound ones the head and trail but not the hair line. "Aufstieg ab" late (towards 6.5) makes some stars dash up in 0.35 s, because their arrival stays fixed. The elongated head is built from overlapping points; how it reads is unchecked.
 - Next: Alex sends his values, Claude makes them the defaults and removes sliders that are settled.
 - **Round 20 (21 Nov 2026):** at his wish the panel sits to the right of the film from 820 px window width, so nothing scrolls; on a phone it stays below. A second Opus agent reviewed it on screenshots at six window sizes and found that on short windows the buttons and the values line scrolled out of view; fixed, they now stick to the bottom of the panel.
+
+## Rounds 20b to 22: player tools (20 to 21 Nov)
+
+- Panel on the right from 820 px window width; its footer (buttons, values line, key help) always stays visible.
+- Space bar plays and pauses wherever the focus is; arrows step 0.1 s (Shift 1.0 s).
+- Marks: Shift+1 to 9 sets a mark at the playhead (again on the same spot removes it), 1 to 9 jumps to it. Marks survive a reload.
+
+## Round 23: arrival and dwell at the top (21 Nov)
+
+Alex's wish: arriving at the top and falling should overlap as one even process; the first may fall before all have arrived; the film may get shorter.
+
+Found in the code: stars never waited for each other. Each fell 0.05 to 0.55 s after its own arrival; the first fell when about 10 % were up. It looked like "all gather, then fall" because all 600 arrive within 0.7 s.
+
+Built (Claude's decision, two sliders instead of one in percent):
+- `topSpan` "Ankunft oben über", 0.70 to 1.60 s, default 0.70. The last arrival stays at 8.45 s, the first moves earlier. A rise lasts at least 0.35 s.
+- `topDwell` "Verweilen an der Decke", factor 0 to 4, default 1. At 0 a star falls the moment it arrives; at 4 a full bar gathers.
+- Everything after the rain (ring, wordmark, gleam, end) shifts by the change of the last landing. Shortest film 12.86 s (dwell 0), longest about 15.0 s (dwell 4). The values line ends with "Ende=".
+- The chart lines fade in earlier when the first arrival is earlier; the bells grow only after the lines are drawn.
+
+Limits: `topSpan` was first built up to 2.5 s. The reviewer rejected that: stars lay at the top before the line was drawn and the row was slanted while the camera still tilts (6.2 to 8.2 s). Hence the cap at 1.6 s. At 1.6 the lines still swing in slightly slanted between 6.25 and 7.0 s. More spread would need the camera tilt to move earlier.
