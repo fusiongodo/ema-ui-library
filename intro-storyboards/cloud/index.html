@@ -85,6 +85,12 @@ body{overflow-x:hidden}
 .pbar-rise{background:rgba(110,140,195,0.55)}
 .pbar-top{background:rgba(255,241,201,0.85)}
 .pbar-fall{background:rgba(150,178,225,0.75)}
+.pbar-fall2{background:rgba(150,178,225,0.375)}
+.plegend{margin-top:3px;font-size:10px;line-height:12px;color:#8C95A8;display:flex;flex-wrap:wrap;align-items:center;column-gap:6px;row-gap:2px}
+.plegend i{display:inline-block;vertical-align:middle;margin-right:4px}
+.plg-band{width:10px;height:8px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.28);border-radius:2px;box-sizing:border-box}
+.plg-head{width:1px;height:10px;background:rgba(255,255,255,0.7)}
+.phint{font-size:10px;color:var(--muted);line-height:1.3;margin-top:2px}
 .pband{position:absolute;top:-4px;bottom:0;background:rgba(255,255,255,0.10);border-radius:2px;pointer-events:none}
 .phead2{position:absolute;top:-4px;bottom:0;width:1px;background:rgba(255,255,255,0.7);pointer-events:none}
 .paxis{position:relative;height:14px;margin-left:var(--pl)}
@@ -1263,7 +1269,7 @@ var PKEY = 'cloud.tune.v1', pInputs = {}, pVals = {};
 function pDec(st){ var x = String(st), d = x.indexOf('.'); return d < 0 ? 0 : x.length - d - 1; }
 function pLine(){
   var parts = [];
-  PDEF.forEach(function(d){ if (P[d[0]] !== d[5]) parts.push(d[0] + '=' + P[d[0]]); });
+  PDEF.forEach(function(d){ if (P[d[0]] !== d[5]) parts.push(d[0] + '=' + String(+P[d[0]].toFixed(3))); });
   return (parts.length ? parts.join('; ') : 'alles Standard') + '; Ende=' + T_END.toFixed(2);
 }
 function pShow(){
@@ -1271,15 +1277,28 @@ function pShow(){
     var k = d[0], txt = P[k].toFixed(pDec(d[4]));
     if (k === 'riseAcc' && Math.abs(RC.accEff - P.riseAcc) > 0.005) txt += ' (\u2192' + RC.accEff.toFixed(2) + ')';
     if (k === 'riseVmax' && Math.abs(RC.vEff - P.riseVmax) > 0.005) txt += ' (\u2192' + RC.vEff.toFixed(2) + ')';
-    var effV = { topFirst: EFF.a0, topLast: EFF.a1, fallFirst: EFF.f0, fallLast: EFF.f1 }[k];
-    if (effV !== undefined && Math.abs(effV - P[k]) > 0.005) txt += ' (\u2192' + effV.toFixed(2) + ')';
-    if (k === 'topFirst' && TOP_CLAMPED > 0) txt += ' (' + TOP_CLAMPED + ' geklemmt)';
-    if (k === 'fallFirst' && NOWAIT > 0) txt += ' (' + NOWAIT + ' warten nicht)';
     if (pVals[k]) pVals[k].textContent = txt;
+    if (pHints[k]) pHintSet(pHints[k], pHintList(k));
     if (pInputs[k] && parseFloat(pInputs[k].value) !== P[k]) pInputs[k].value = String(P[k]);
   });
   var ln = document.getElementById('pLine'); if (ln) ln.textContent = pLine();
   planDraw();
+}
+// written-out notes under the timetable sliders (only when they apply; the value on the right keeps the set number)
+var pHints = {};
+function pHintList(k){
+  var h = [], effV = { topLast: EFF.a1, fallFirst: EFF.f0, fallLast: EFF.f1 }[k], dif = effV !== undefined && Math.abs(effV - P[k]) > 0.005;
+  if (k === 'topFirst' && TOP_CLAMPED > 0) h.push(TOP_CLAMPED === 1 ? '1 Stern kommt sp\u00e4ter an: ein Aufstieg dauert mindestens 0,35 s' : TOP_CLAMPED + ' Sterne kommen sp\u00e4ter an: ein Aufstieg dauert mindestens 0,35 s');
+  if (k === 'topLast' && dif) h.push('gilt als ' + effV.toFixed(2) + ': mindestens 0,2 s nach den Ersten');
+  if (k === 'fallFirst' && dif) h.push('gilt als ' + effV.toFixed(2) + ': kein Stern f\u00e4llt, bevor er oben ist');
+  if (k === 'fallFirst' && NOWAIT > 0) h.push(NOWAIT === 1 ? '1 Stern f\u00e4llt sofort bei seiner Ankunft' : NOWAIT + ' Sterne fallen sofort bei ihrer Ankunft');
+  if (k === 'fallLast' && dif) h.push('gilt als ' + effV.toFixed(2) + ': mindestens 0,2 s nach den Ersten und nicht vor der letzten Ankunft');
+  return h;
+}
+function pHintSet(box, list){
+  var key = list.join('|'); if (box.dataset.k === key) return; box.dataset.k = key;
+  box.textContent = ''; box.style.display = list.length ? '' : 'none';
+  list.forEach(function(t){ var d = document.createElement('div'); d.className = 'phint'; d.textContent = t; box.appendChild(d); });
 }
 // ---------------------------------------------------------------- timetable picture (HTML bars, below the timetable sliders)
 var planEl = null, planParts = {};
@@ -1294,20 +1313,27 @@ function planBuild(host){
     var lab = document.createElement('span'); lab.className = 'plab'; lab.textContent = r[0];
     var bar = document.createElement('span'); bar.className = 'pbar pbar-' + r[1];
     row.appendChild(lab); row.appendChild(bar); body.appendChild(row); planParts[r[1]] = bar;
+    if (r[1] === 'fall'){ var b2 = document.createElement('span'); b2.className = 'pbar pbar-fall2'; row.appendChild(b2); planParts.fall2 = b2; }
   });
   var band = document.createElement('span'); band.className = 'pband'; body.appendChild(band); planParts.band = band;
   var head = document.createElement('span'); head.className = 'phead2'; body.appendChild(head); planParts.head = head;
   var axis = document.createElement('div'); axis.className = 'paxis'; planParts.axis = axis;
-  planEl.appendChild(body); planEl.appendChild(axis);
+  var lg = document.createElement('div'); lg.className = 'plegend'; lg.id = 'planLegend';
+  [['plg-band', 'noch Ankommende und schon Fallende zugleich'], ['plg-head', 'jetzt im Film']].forEach(function(x, i){
+    if (i){ var dot = document.createElement('span'); dot.textContent = '\u00b7'; lg.appendChild(dot); }
+    var it = document.createElement('span'), sw = document.createElement('i'); sw.className = x[0];
+    it.appendChild(sw); it.appendChild(document.createTextNode(x[1])); lg.appendChild(it);
+  });
+  planEl.appendChild(body); planEl.appendChild(axis); planEl.appendChild(lg);
   var txt = document.createElement('div'); txt.className = 'ptext'; txt.id = 'planText'; planParts.text = txt;
   host.appendChild(planEl); host.appendChild(txt);
 }
 function planNum(x){ return x.toFixed(2).replace('.', ','); }
 function planDraw(){
   if (!planEl) return;
-  planPos(planParts.rise, PLAN.riseStart, PLAN.a1); planPos(planParts.top, PLAN.a0, PLAN.a1); planPos(planParts.fall, PLAN.f0, PLAN.tLand);
+  planPos(planParts.rise, PLAN.riseStart, PLAN.a1); planPos(planParts.top, PLAN.a0, PLAN.a1); planPos(planParts.fall, PLAN.f0, PLAN.f1); planPos(planParts.fall2, PLAN.f1, PLAN.tLand);
   if (PLAN.overlap > 0){ planParts.band.style.display = ''; planPos(planParts.band, PLAN.f0, PLAN.a1); } else planParts.band.style.display = 'none';
-  var tA = 5.0, tB = Math.max(11.0, PLAN.tLand + 0.2), k0 = Math.ceil(tA + 0.5), k1 = Math.floor(tB), st = (k1 - k0 + 1) > 6 ? 2 : 1;
+  var tA = 5.0, tB = Math.max(11.0, PLAN.tLand + 0.2), k0 = Math.ceil(tA), k1 = Math.floor(tB), st = (k1 - k0 + 1) > 7 ? 2 : 1;
   planParts.axis.textContent = '';
   for (var k = k0; k <= k1; k += st){ var m = document.createElement('span'); m.textContent = String(k); m.style.left = (planX(k) * 100).toFixed(3) + '%'; planParts.axis.appendChild(m); }
   planParts.text.textContent = PLAN.overlap > 0
@@ -1370,6 +1396,7 @@ function setParams(obj){
     rs.addEventListener('click', function(){ P[d[0]] = d[5]; pApply(); });
     row.appendChild(lab); row.appendChild(val); row.appendChild(rs); row.appendChild(inp); box.appendChild(row);
     pInputs[d[0]] = inp; pVals[d[0]] = val;
+    if (['topFirst', 'topLast', 'fallFirst', 'fallLast'].indexOf(d[0]) >= 0){ var hb = document.createElement('div'); hb.className = 'phints'; hb.style.display = 'none'; box.appendChild(hb); pHints[d[0]] = hb; }
   });
   if (secPlan) planBuild(secPlan);
   document.getElementById('pReset').addEventListener('click', function(){ PDEF.forEach(function(d){ P[d[0]] = d[5]; }); pApply(); });

@@ -1,6 +1,6 @@
 SCREENS.push({ id:"protocols/deviation-heard", area:"Protocols", status:"idea", title:"Deviation · filled in by voice",
   sheet:"half",
-  why:"Opened from the Naltrexon card in the listening layer (voice/drafts): the full overview of one deviation, as the manual way ('Different?' on a fold) would end. Skipped is what was heard, with the words; the rest is the plan as it is.",
+  why:"Opened from the Naltrexon card in the listening layer (voice/drafts): the full overview of one deviation, as the manual way ('Change' on a fold) would end. Skipped is what was heard, with the words; the rest is the plan as it is.",
   concept:[
     "<b>Same card as by hand:</b> the agent fills in what it heard and marks it; nothing else changes.",
     "<b>Save is the confirmation</b> (PRINCIPLES 5) and returns to the drafts with this one ticked (voice/drafts-2); ‹ goes back to them without saving.",
