@@ -397,3 +397,15 @@ Built (Claude's decisions):
 - Coupling stream start, last hit, rise start, first up and last up and moving them together keeps the rise duration (checked: 1.13 / 1.46 / 2.54 s before and after).
 
 Limits: earlier than this needs act one (star, cloud, giving) to be shortened. With `hitLast` at 5.50 a held giver keeps the effective last hit at 5.80.
+
+## Round 27: the timetable is a chain (21 Nov)
+
+Alex: "Der Beginn von etwas ist ein fester Zeitpunkt. Und der wird dann verschoben." If giving starts 2 s later, everything after it starts 2 s later. The camera move from one star to the turning cloud (0 to 3.3 s) is never changed. He also wants to set how many give, the cadence of single answers, and start, length and reach of the broadcast (rounds 28 and 29).
+
+Built (Claude's decisions):
+- Every timetable slider stores its distance to its predecessor and shows the resulting film time, e.g. "4.20 s (+0.90 nach Geben)". Chain: Geben beginnt (new, `giveStart`, up to 3 s later) → Strahlen nach außen ab → (Letzter Treffer, Aufstieg ab, Kamera kippt ab → Erste oben → (Letzte oben, Erste fallen → Letzte fallen)). Ring, wordmark and end follow the rain as before.
+- The coupling checkboxes of round 26 are gone; the chain replaces them.
+- The pause before giving: an inner clock for camera and depth eases to a halt and eases back in; the cloud's turn keeps running up to full speed on film time (63° in a 2 s pause), twinkle runs on. Step label "Die Wolke kreist".
+- The section "Fahrplan" is first in the panel, its picture directly under the heading.
+
+Known: with a long pause 2 to 4 of the 18 givers are outside the frame when they give (to be fixed when the choice of givers becomes dynamic). A short pause (0.5 s) shows a slight hesitation of the camera.

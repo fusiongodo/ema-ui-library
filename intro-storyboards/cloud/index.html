@@ -84,6 +84,9 @@ body{overflow-x:hidden}
 .pbar{position:absolute;top:0;height:10px;border-radius:2px}
 .pbar-rise{background:rgba(110,140,195,0.55)}
 .pbar-top{background:rgba(255,241,201,0.85)}
+.pbar-give{background:rgba(255,210,122,0.55)}
+.val small{font-size:10px;color:var(--muted);margin-left:5px}
+.pchain{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.35}
 .pbar-stream{background:rgba(226,196,120,0.45)}
 .pbar-cam{background:rgba(160,166,178,0.40)}
 .pck{grid-column:auto !important;width:14px !important;height:14px !important;margin:0 !important;flex:none;accent-color:var(--accent)}
@@ -214,7 +217,8 @@ function spinA(t){
   var U = SP1 - SP0, D = SPIN_T2 - SPIN_T1;
   var up = t <= SP0 ? 0 : t < SP1 ? U * ssI((t - SP0) / U) : U / 2 + (t - SP1);
   var dn = t <= SPIN_T1 ? 0 : t < SPIN_T2 ? D * ssI((t - SPIN_T1) / D) : D / 2 + (t - SPIN_T2);
-  return SPIN_DIR * (up - dn);
+  var a = SPIN_DIR * (up - dn);
+  return SPIN_X === 0 ? a : a + SPIN_X;   // SPIN_X: the extra turn while the giving waits (see warpC)
 }
 // depth of the cloud along the view axis: flat until 2.8, full by 5.3
 function depthS(t){ return eIO(seg(t, 2.8, 5.3)); }
@@ -247,8 +251,29 @@ function camAngles(t){
 }
 function camDepth(t){ return t < SW_T1 ? depthS(t) : depthS(t) * (1 - swU(t)); }   // = 1 - u once depthS is 1
 // timetable slider "Kamera kippt ab": shifts the switch and the spin-down together (durations kept)
-function hitLastEff(){ return P.hitLast === LH1_ ? LH1_ + (P.streamShift - 4.20) : P.hitLast; }
-function camSet(){ var c = P.camStart - 6.20; SW_T1 = 6.20 + SHIFT + c; SW_T2 = 8.2 + SHIFT + c; SPIN_T1 = 7.2 + SHIFT + c; SPIN_T2 = 8.9 + SHIFT + c; }
+// giving start: G = giveStart - 3.30. Camera, cloud and everything after the giving run on a clock that holds at 3.30
+// for G seconds (warpC); the cloud keeps turning at its rate of 3.30 meanwhile (SPIN_X); the giving itself runs on t - G.
+var GSH = 0, SPIN_X = 0, RATE33 = ss((3.30 - SP0) / (SP1 - SP0));
+// the inner clock brakes from 3.30 over B s (speed 1 -> 0, smoothstep), stands, and speeds up again over B s from 3.30 + G;
+// each ramp covers B/2, so it stands at 3.30 + B/2 and is exactly t - G again from 3.30 + G + B (B = min(1, G/2))
+function warpC(t){
+  if (GSH === 0 || t <= 3.30) return t;
+  var B = Math.min(1.0, GSH / 2), t1 = 3.30 + GSH;
+  if (t >= t1 + B) return t - GSH;
+  if (t < 3.30 + B){ var u = (t - 3.30) / B; return 3.30 + B * (u - (u*u*u - u*u*u*u / 2)); }
+  if (t < t1) return 3.30 + B / 2;
+  var w = (t - t1) / B; return 3.30 + B / 2 + B * (w*w*w - w*w*w*w / 2);
+}
+function TEF(){ return T_END + GSH; }
+function spinFilm(tf){
+  var U = SP1 - SP0, D = SPIN_T2 - SPIN_T1, td = tf - GSH;
+  var up = tf <= SP0 ? 0 : tf < SP1 ? U * ssI((tf - SP0) / U) : U / 2 + (tf - SP1);
+  var dn = td <= SPIN_T1 ? 0 : td < SPIN_T2 ? D * ssI((td - SPIN_T1) / D) : D / 2 + (td - SPIN_T2);
+  return SPIN_DIR * (up - dn);
+}   // film end (film time)
+var TT = {};                            // chain times on the inner clock (giving always at 3.30 there)
+function hitLastEff(){ return TT.hitLast; }
+function camSet(){ var c = TT.camStart - 6.20; SW_T1 = 6.20 + SHIFT + c; SW_T2 = 8.2 + SHIFT + c; SPIN_T1 = 7.2 + SHIFT + c; SPIN_T2 = 8.9 + SHIFT + c; }
 var tmp = [0,0,0], tmp2 = [0,0,0];
 function camTarget(t, out){
   cloudPos(0, spinA(t), depthS(t), out);
@@ -387,14 +412,16 @@ function sstep(x){ x = clamp01(x); return x*x*(3 - 2*x); }   // smoothstep: the 
 var PDEF = [
   ['riseAcc',   'Aufstieg: Beschleunigung',        0.5, 3.0, 0.1,  1.0],
   ['riseVmax',  'Aufstieg: H\u00f6chsttempo',          0.5, 3.0, 0.1,  1.0],
-  ['streamShift', 'Strahlen nach au\u00dfen ab (s)',  4.05, 4.20, 0.05, 4.20],   // film time of the first departure
-  ['hitLast',   'Letzter Treffer bei (s)',         5.80, 7.50, 0.05, 0],    // default: today's last hit, set below
-  ['riseFrom',  'Aufstieg ab (s)',                 4.1, 6.5, 0.01, 5.08],   // step 0.01: 5.08 is not on a 0.05 grid from 4.1
-  ['camStart',  'Kamera kippt ab (s)',             4.80, 6.20, 0.05, 6.20],
-  ['topFirst',  'Erste oben bei (s)',              5.45, 8.40, 0.05, 0],    // defaults: today's exact values, set below
-  ['topLast',   'Letzte oben bei (s)',             5.80, 9.50, 0.05, 0],
-  ['fallFirst', 'Erste fallen bei (s)',            5.45, 10.0, 0.05, 0],
-  ['fallLast',  'Letzte fallen bei (s)',           5.80, 11.0, 0.05, 0],
+  // the timetable chain: each slider sets the distance to its predecessor (defaults: today's exact times, set below)
+  ['giveStart', 'Geben beginnt',                   0,     3.00, 0.05, 0],
+  ['streamShift', 'Strahlen nach au\u00dfen ab',    0.75,  3.00, 0.05, 0],
+  ['hitLast',   'Letzter Treffer bei',             1.60,  4.50, 0.05, 0],
+  ['riseFrom',  'Aufstieg ab',                     -0.10, 2.30, 0.05, 0],
+  ['camStart',  'Kamera kippt ab',                 0.60,  4.00, 0.05, 0],
+  ['topFirst',  'Erste oben bei',                  0.65,  3.50, 0.05, 0],
+  ['topLast',   'Letzte oben bei',                 0.20,  3.00, 0.05, 0],
+  ['fallFirst', 'Erste fallen bei',                0,     3.00, 0.05, 0],
+  ['fallLast',  'Letzte fallen bei',               0.20,  3.50, 0.05, 0],
   ['raysOut',   'Sichtbare Strahlen nach au\u00dfen (%)', 10, 100, 5,  100],
   ['cSize',     'Zentrum: Gr\u00f6\u00dfe',               0.5, 2.0, 0.05, 1.0],
   ['cBright',   'Zentrum: Helligkeit',             0.5, 1.5, 0.05, 1.0],
@@ -645,7 +672,7 @@ var LF0_ = G0.T_FALL0, LV1_ = -1e9; SNAP.forEach(function(s){ LV1_ = Math.max(LV
 var LH1_ = -1e9; SNAP.forEach(function(s){ LH1_ = Math.max(LH1_, s.arr); });   // today's last hit (7.20)
 var LD1_ = -1e9; SNAP.forEach(function(s){ LD1_ = Math.max(LD1_, s.dep); });   // today's last departure (6.75)
 // centre end times: E = effective last departure - today's; E = 0 keeps today's constants exactly
-var CEN = { e: 0, g1: 6.50, d0: 6.75, d1: 7.35, f0: 7.20, f1: 7.70, squeezed: false, early: false };
+var CEN = { e: 0, g0: 5.60, from: [104, 1.15], g1: 6.50, d0: 6.75, d1: 7.35, f0: 7.20, f1: 7.70, squeezed: false, early: false };
 // centre glow before the stream phase (arrivals of the packages, growth to 104): size, brightness without pulses
 function cenBase(t){
   var gsz = 0, gb = 0, g;
@@ -660,21 +687,35 @@ function cenBase(t){
 // the same plus the growth on 5.60..g1 (as drawn just before the dimming starts)
 function cenAt(t){
   var c = cenBase(t);
-  if (t >= 5.60){ var gr = eIO(seg(t, 5.60, CEN.g1)); c = [lerp(104, 116, gr), lerp(1.15, 1.22, gr)]; }
+  if (t >= CEN.g0){ var gr = eIO(seg(t, CEN.g0, CEN.g1)); c = [lerp(CEN.from[0], 116, gr), lerp(CEN.from[1], 1.22, gr)]; }
   return c;
 }
 function cenSet(){
   var ld = -1e9; for (var j = 0; j < N; j++) ld = Math.max(ld, S[j].dep);
-  var E = ld - LD1_;
-  if (E === 0){ CEN = { e: 0, g1: 6.50, d0: 6.75, d1: 7.35, f0: 7.20, f1: 7.70, squeezed: false, early: false }; return; }
-  var d0 = 6.75 + E;
-  CEN = { e: E, g1: d0 < 6.50 && d0 >= 5.60 ? d0 : 6.50, d0: d0, d1: 7.35 + E, f0: 7.20 + E, f1: 7.70 + E, squeezed: d0 < 6.50 && d0 >= 5.60, early: d0 < 5.60 };
+  var E = ld - LD1_, Ss = TT.streamShift - 4.20;   // the growth 5.60..6.50 moves with the start of the stream
+  if (E === 0 && Ss === 0){ CEN = { e: 0, g0: 5.60, from: [104, 1.15], g1: 6.50, d0: 6.75, d1: 7.35, f0: 7.20, f1: 7.70, squeezed: false, early: false }; return; }
+  var d0 = 6.75 + E, g0 = 5.60 + Ss, g1 = 6.50 + Ss;
+  CEN = { e: E, g0: g0, from: Ss === 0 ? [104, 1.15] : cenBase(g0), g1: d0 < g1 && d0 >= g0 ? d0 : g1, d0: d0, d1: 7.35 + E, f0: 7.20 + E, f1: 7.70 + E,
+    squeezed: d0 < g1 && d0 >= g0, early: d0 < g0 };
 }
 // timetable sliders: defaults are today's exact first / last arrival and first / last leave
-PDEF.forEach(function(d){
-  var v = { hitLast: LH1_, topFirst: LT0_, topLast: LT1_, fallFirst: LF0_, fallLast: LV1_ }[d[0]];
-  if (v !== undefined){ d[5] = v; P[d[0]] = v; }
-});
+var TDEF = { streamShift: 4.20, hitLast: LH1_, riseFrom: 5.08, camStart: 6.20, topFirst: LT0_, topLast: LT1_, fallFirst: LF0_, fallLast: LV1_ };
+var CHAIN = [['giveStart', null], ['streamShift', 'giveStart'], ['hitLast', 'streamShift'], ['riseFrom', 'streamShift'], ['camStart', 'streamShift'],
+  ['topFirst', 'camStart'], ['topLast', 'topFirst'], ['fallFirst', 'topFirst'], ['fallLast', 'fallFirst']];
+var CPAR = {}, DDEF = { giveStart: 0 }, CIND = { giveStart: 0, streamShift: 0, hitLast: 10, riseFrom: 10, camStart: 10, topFirst: 20, topLast: 30, fallFirst: 30, fallLast: 30 };
+CHAIN.forEach(function(c){ CPAR[c[0]] = c[1]; if (c[1]) DDEF[c[0]] = TDEF[c[0]] - (c[1] === 'giveStart' ? 3.30 : TDEF[c[1]]); });
+PDEF.forEach(function(d){ if (d[0] in DDEF){ d[5] = DDEF[d[0]]; P[d[0]] = d[5]; } });
+// inner times from the distances; a default distance behind a default predecessor gives today's exact time
+function chainApply(){
+  GSH = P.giveStart;
+  CHAIN.forEach(function(c){
+    var k = c[0], p = c[1]; if (!p) return;
+    var tp = p === 'giveStart' ? 3.30 : TT[p], pdef = p === 'giveStart' || TT[p] === TDEF[p];
+    TT[k] = (pdef && P[k] === DDEF[k]) ? TDEF[k] : tp + P[k];
+  });
+}
+chainApply();
+function filmOf(k){ return k === 'giveStart' ? 3.30 + P.giveStart : TT[k] + GSH; }
 var TOP_CLAMPED = 0, NOWAIT = 0, HELD = 0, TOP_MIN_RISE = 0.35, EFF = { a0: LT0_, a1: LT1_, f0: LF0_, f1: LV1_ }, PLAN = {};
 function planCompute(){
   var ev = [], rs = 1e9, a0 = 1e9, a1 = -1e9, f1 = -1e9, d0 = 1e9, h0 = 1e9, h1 = -1e9, j, s;
@@ -683,8 +724,10 @@ function planCompute(){
   ev.sort(function(a, b){ return a[0] - b[0] || a[1] - b[1]; });   // a leave at the same moment counts first
   var n = 0, mx = 0; ev.forEach(function(e){ n += e[1]; if (n > mx) mx = n; });
   var rd = []; for (j = 0; j < N; j++) rd.push(S[j].lineT - S[j].rise); rd.sort(function(a, b){ return a - b; });
-  PLAN = { riseStart: rs, a0: a0, a1: a1, f0: T_FALL0, f1: f1, tLand: T_LAND, tEnd: T_END, overlap: a1 - T_FALL0, maxOnLine: mx,
-    streamDep0: d0, streamHit0: h0, streamArr1: h1, hit0: h0, hit1: h1, camT1: SW_T1, camT2: SW_T2, heldGivers: HELD,
+  var G = GSH;   // film times
+  PLAN = { give0: GIVE_T[0] + G, give1: GIVE_A[GIVE_N - 1] + G, riseStart: rs + G, a0: a0 + G, a1: a1 + G, f0: T_FALL0 + G, f1: f1 + G, tLand: T_LAND + G, tEnd: T_END + G,
+    overlap: a1 - T_FALL0, maxOnLine: mx,
+    streamDep0: d0 + G, streamHit0: h0 + G, streamArr1: h1 + G, hit0: h0 + G, hit1: h1 + G, camT1: SW_T1 + G, camT2: SW_T2 + G, heldGivers: HELD,
     riseDurMin: rd[0], riseDurMed: (rd[(N - 1) >> 1] + rd[N >> 1]) / 2, riseDurMax: rd[N - 1] };
 }
 planCompute();
@@ -699,10 +742,21 @@ function setLate(){
   STEPS.length -= 3;
   STEPS.push([Math.round(T_FALL0*10)/10,'Regen, zwei Glocken'], [Math.round(R0*10)/10,'Der Kreis'], [Math.round(WORD_T0*100)/100,'MEjority']);
 }
+// chapter names follow their events (film time)
+function stepsBuild(){
+  var rs = 1e9; for (var j = 0; j < N; j++) rs = Math.min(rs, S[j].rise);
+  var G = GSH; STEPS.length = 0;
+  STEPS.push([0.0, 'Ein Stern'], [1.5, 'Mehr und mehr']);
+  if (G >= 0.30) STEPS.push([3.30, 'Die Wolke kreist']);
+  STEPS.push([3.30 + G, 'Einige geben'], [TT.streamShift + G, 'Das Zentrum antwortet'],
+    [Math.round(rs * 10) / 10 + G, 'Getroffen, aufsteigen'], [Math.round(T_FALL0 * 10) / 10 + G, 'Regen, zwei Glocken'],
+    [Math.round(R0 * 10) / 10 + G, 'Der Kreis'], [Math.round(WORD_T0 * 100) / 100 + G, 'MEjority']);
+}
 function rebuild(){
   var j, s;
-  camSet();
-  if (P.streamShift === 4.20 && P.hitLast === LH1_ && P.riseFrom === 5.08 && P.topFirst === LT0_ && P.topLast === LT1_ && P.fallFirst === LF0_ && P.fallLast === LV1_){
+  chainApply(); camSet();
+  var isDef = true; for (var kd in TDEF) if (TT[kd] !== TDEF[kd]) isDef = false;
+  if (isDef){
     for (j = 0; j < N; j++) Object.assign(S[j], SNAP[j]);
     T_FALL0 = G0.T_FALL0; T_LAND = G0.T_LAND; BELL_T1 = G0.BELL_T1; BELL_T2 = G0.BELL_T2; TR0 = G0.TR0; TR_END = G0.TR_END;
     TR_CUT = G0.TR_CUT; TR_FADE = G0.TR_FADE; R0_OLD = G0.R0_OLD; R0 = G0.R0; WORD_T0 = G0.WORD_T0; WORD_T1 = G0.WORD_T1;
@@ -715,18 +769,18 @@ function rebuild(){
     // has reached the centre + 0.10 s: it keeps max(shifted, that bound)
     // the stream is spread anew between the first hit H0 (4.65 + shift) and the last hit H1: slot k hits at
     // H0 + (H1 - H0) (k/599)^0.45. H1 moves with the shift while hitLast is untouched, else hitLast holds.
-    var sh = P.streamShift - 4.20, H0 = STREAM_T0 + sh, H1 = hitLastEff();
+    var sh = TT.streamShift - 4.20, H0 = STREAM_T0 + sh, H1 = hitLastEff();
     for (j = 0; j < N; j++){
       s = S[j]; var q0 = SNAP[j], dp = H0 + (H1 - H0) * Math.pow(s.slot / (N - 1), STREAM_EXP) - STREAM_TRAVEL;
       if (s.give !== undefined){ var need = s.give + SPARK_DUR + 0.10; if (dp < need){ dp = need; HELD++; } }
       s.dep = dp; s.arr = dp + STREAM_TRAVEL; s.rayOn = q0.rayOn + (dp - q0.dep); s.glowT = s.arr;
     }
     // effective timetable: arrivals A0..A1 (at least 0.20 s), falls F0..F1 (not before A0, at least 0.20 s, not before A1 ends)
-    var A0 = P.topFirst < P.camStart + 0.65 - 1e-9 ? P.camStart + 0.65 : P.topFirst, A1 = Math.max(P.topLast, A0 + 0.20), F0 = Math.max(P.fallFirst, A0), F1 = Math.max(P.fallLast, F0 + 0.20, A1);
+    var A0 = TT.topFirst < TT.camStart + 0.65 - 1e-9 ? TT.camStart + 0.65 : TT.topFirst, A1 = Math.max(TT.topLast, A0 + 0.20), F0 = Math.max(TT.fallFirst, A0), F1 = Math.max(TT.fallLast, F0 + 0.20, A1);
     EFF = { a0: A0, a1: A1, f0: F0, f1: F1 };
     for (j = 0; j < N; j++){
       s = S[j]; var s0 = SNAP[j];
-      s.rise = (P.riseFrom === 5.08 && sh === 0 && P.hitLast === LH1_) ? s0.rise : (s.arr >= P.riseFrom ? s.arr + 0.12 : 5.20 + (P.riseFrom - 5.08) + 0.80 * hash01(j * 104729 + 7));
+      s.rise = (TT.riseFrom === 5.08 && sh === 0 && TT.hitLast === LH1_) ? s0.rise : (s.arr >= TT.riseFrom ? s.arr + 0.12 : 5.20 + (TT.riseFrom - 5.08) + 0.80 * hash01(j * 104729 + 7));
       var lt = A0 + (s0.lineT - LT0_) / (LT1_ - LT0_) * (A1 - A0);
       if (lt < s.rise + TOP_MIN_RISE){ lt = s.rise + TOP_MIN_RISE; TOP_CLAMPED++; }
       s.lineT = lt; s.riseDur = lt - s.rise;
@@ -751,12 +805,15 @@ function rebuild(){
     setLate();
     ringBuild();
   }
+  if (!isDef || GSH !== 0) stepsBuild();
   cenSet(); planCompute();
-  if (window.__cloud && window.__cloud.times) Object.assign(window.__cloud.times, { T_FALL0: T_FALL0, T_LAND: T_LAND, R0: R0,
-    R0_OLD: R0_OLD, T_END: T_END, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, RL: RL, TR0: TR0, TR_END: TR_END,
-    TR_FADE: TR_FADE, TR_CUT: TR_CUT, BELL_T1: BELL_T1, BELL_T2: BELL_T2, WORD_T0: WORD_T0, WORD_T1: WORD_T1, TOP_CLAMPED: TOP_CLAMPED, NOWAIT: NOWAIT, HELD: HELD, SW_T1: SW_T1, SW_T2: SW_T2, SPIN_T1: SPIN_T1, SPIN_T2: SPIN_T2, CH_T0: CH_T0, CH_T1: CH_T1 });
-  if (typeof scrub !== 'undefined' && scrub) scrub.max = String(T_END);
-  if (typeof cur !== 'undefined' && cur > T_END) cur = T_END;
+  var G = GSH;   // exported times are film times
+  if (window.__cloud && window.__cloud.times) Object.assign(window.__cloud.times, { T_FALL0: T_FALL0 + G, T_LAND: T_LAND + G, R0: R0 + G,
+    R0_OLD: R0_OLD + G, T_END: T_END + G, RUN_MIN: RUN.min / DEG, RUN_MAX: RUN.max / DEG, NSPI: NSPI, RL: RL + G, TR0: TR0 + G, TR_END: TR_END + G,
+    TR_FADE: TR_FADE + G, TR_CUT: TR_CUT + G, BELL_T1: BELL_T1 + G, BELL_T2: BELL_T2 + G, WORD_T0: WORD_T0 + G, WORD_T1: WORD_T1 + G, TOP_CLAMPED: TOP_CLAMPED, NOWAIT: NOWAIT, HELD: HELD,
+    SW_T1: SW_T1 + G, SW_T2: SW_T2 + G, SPIN_T1: SPIN_T1 + G, SPIN_T2: SPIN_T2 + G, CH_T0: CH_T0 + G, CH_T1: CH_T1 + G, G: G });
+  if (typeof scrub !== 'undefined' && scrub) scrub.max = String(TEF());
+  if (typeof cur !== 'undefined' && cur > TEF()) cur = TEF();
   if (typeof marksEl !== 'undefined' && marksEl) marksDraw();
 }
 function ringRad(t){ return RING_R * (1 + 0.015 * Math.sin(2*Math.PI*(t-R1)/3.6) * eIO(seg(t,R1,R1+0.8))); }
@@ -981,7 +1038,13 @@ function setCol(j, c){ pCol[j*3] = c[0]; pCol[j*3+1] = c[1]; pCol[j*3+2] = c[2];
 function mixCol(a, b, u, out){ out[0] = lerp(a[0],b[0],u); out[1] = lerp(a[1],b[1],u); out[2] = lerp(a[2],b[2],u); return out; }
 var cc = [0,0,0], cc2 = [0,0,0];
 
-function render(t){
+function render(tf){
+  // inner clock t (holds at 3.30 while the giving waits), giving clock tG = film time - G
+  var t = warpC(tf), tG = GSH === 0 ? tf : tf - GSH;
+  // the cloud's turn runs on film time: the spin-up (2.8..5.6) goes on through the pause, the spin-down stays tied to
+  // camStart (film time SPIN_T1 + G); SPIN_X makes spinA(inner t) return that angle for this frame
+  SPIN_X = 0;
+  if (GSH !== 0 && tf > 3.30) SPIN_X = spinFilm(tf) - spinA(t);
   // camera
   var dist = setCam(t, camera);
   pMat.uniforms.uRef.value = dist;
@@ -993,14 +1056,14 @@ function render(t){
     var s = S[i];
     starPos(i, t, sp);
     pPos[i*3] = sp[0]; pPos[i*3+1] = sp[1]; pPos[i*3+2] = sp[2];
-    var tw = 1 + 0.12 * Math.sin(2*Math.PI*t/s.twP + s.twPh);
+    var tw = 1 + 0.12 * Math.sin(2*Math.PI*tf/s.twP + s.twPh);   // twinkling runs on film time (also during the pause)
     var b, size = s.size, sq = 0;
     // visibility (steps 1-2)
     if (i === 0){
       // the hero: fades in calmly (0..0.5), breathes +-8 % (1.6 s) instead of twinkling until 3.2, stays a little
       // larger and brighter than the others until its own rise, then becomes one point among the others
       var hA = eIO(seg(t, 1.5, 3.2)), hR = eIO(seg(t, s.rise, s.rise + s.riseDur));
-      var breath = 1 + 0.08 * Math.sin(2*Math.PI*t/1.6);
+      var breath = 1 + 0.08 * Math.sin(2*Math.PI*tf/1.6);
       var mod = lerp(breath, tw, eIO(seg(t, 3.2, 4.2)));
       b = lerp(lerp(1.0, HERO_B, hA), s.bright, hR) * mod * eOut(seg(t, 0, 0.5));
       size *= lerp(lerp(4.5, 1.5, hA), 1, hR);
@@ -1009,7 +1072,7 @@ function render(t){
     }
     // giving dip
     if (s.give !== undefined){
-      var gd = seg(t, s.give, s.give + 0.3);
+      var gd = seg(tG, s.give, s.give + 0.3);
       if (gd > 0 && gd < 1) b *= 1 - 0.4 * Math.sin(Math.PI * gd);
     }
     // charged after its own signal arrives: glows up over 0.3 s and stays (warm, not white)
@@ -1064,15 +1127,15 @@ function render(t){
   for (var g = 0; g < NG; g++){
     var gi = givers[g], te = S[gi].give, j = I_MINI + g;
     var sx0 = pPos[gi*3], sy0 = pPos[gi*3+1], sz0 = pPos[gi*3+2];
-    var la = ss(seg(t, te - 0.15, te + 0.10)) * (1 - ss(seg(t, S[gi].arr, S[gi].arr + 0.4)));   // stays until the centre's package to it has arrived
+    var la = ss(seg(tG, te - 0.15, te + 0.10)) * (1 - ss(seg(t, S[gi].arr, S[gi].arr + 0.4)));   // stays until the centre's package to it has arrived
     if (la > 0) anyGive = true;
     gPos[g*6] = sx0; gPos[g*6+1] = sy0; gPos[g*6+2] = sz0; gPos[g*6+3] = 0; gPos[g*6+4] = 0; gPos[g*6+5] = 0;
     for (var q = 0; q < 3; q++){ gCol[g*6+q] = COL_WARM[q] * 0.16 * la; gCol[g*6+3+q] = COL_WARM[q] * 0.05 * la; }
     // the package: a small comet. Head (size 11, warm-charged) + TRAIL_K overlapping points at earlier path
     // positions (TRAIL_T s of travel), tapering in size and fading to 0 at the tail, plus a bright 1 px spine.
-    var A = (t >= te && t < te + SPARK_DUR) ? clamp01((t - te) / 0.08) * clamp01((te + SPARK_DUR - t) / 0.06) : 0;
+    var A = (tG >= te && tG < te + SPARK_DUR) ? clamp01((tG - te) / 0.08) * clamp01((te + SPARK_DUR - tG) / 0.06) : 0;
     for (var k = 0; k <= TRAIL_K; k++){
-      var jk = I_MINI + g*PK + k, uk = (t - k * TRAIL_T / TRAIL_K - te) / SPARK_DUR;
+      var jk = I_MINI + g*PK + k, uk = (tG - k * TRAIL_T / TRAIL_K - te) / SPARK_DUR;
       var vis = A > 0 && uk >= 0;
       var ek = vis ? 1 - ss(uk) : 0;
       pPos[jk*3] = sx0*ek; pPos[jk*3+1] = sy0*ek; pPos[jk*3+2] = sz0*ek; pSq[jk] = 0;
@@ -1100,14 +1163,14 @@ function render(t){
   var gp = 0;
   for (g = 0; g < NG; g++){
     var ta = GIVE_A[g];
-    if (t >= ta){ var wA = g === 0 ? ss(seg(t, ta, ta + 0.2)) : 1; gp += Math.exp(-(t - ta) / 0.14) * wA; }
+    if (tG >= ta){ var wA = g === 0 ? ss(seg(tG, ta, ta + 0.2)) : 1; gp += Math.exp(-(tG - ta) / 0.14) * wA; }
   }
-  var cb = cenBase(t), gsz = cb[0], gb = cb[1];
+  var cb = cenBase(tG), gsz = cb[0], gb = cb[1];
   var sw = clamp01((gsz - 44) / 56);              // halo in proportion, as before (0 at size 44, full at 100)
   // carries the stream: grows on 5.60..6.50 to 116, holds, dims with the last departures 6.75..7.35
   // the end follows the stream: dimming and fading move with the last departure (CEN.d0 = 6.75 today)
-  var gr = eIO(seg(t, 5.60, CEN.g1)), dm = eIO(seg(t, CEN.d0, CEN.d1));
-  if (t >= 5.60){ gsz = lerp(104, 116, gr); gb = lerp(1.15, 1.22, gr); }
+  var gr = eIO(seg(t, CEN.g0, CEN.g1)), dm = eIO(seg(t, CEN.d0, CEN.d1));
+  if (t >= CEN.g0){ gsz = lerp(CEN.from[0], 116, gr); gb = lerp(CEN.from[1], 1.22, gr); }
   if (t >= CEN.d0){
     // dimming that starts before the growth has ended starts from the size and brightness the centre has then
     var c0 = CEN.d0 < CEN.g1 ? cenAt(CEN.d0) : [116, 1.22];
@@ -1279,7 +1342,7 @@ function anchor(){ t0wall = performance.now(); curAnchor = cur; }
 var playBtn = document.getElementById('play'), playIcon = document.getElementById('playIcon'),
     scrub = document.getElementById('scrub'), timeEl = document.getElementById('time'),
     stepEl = document.getElementById('step'), again = document.getElementById('again');
-scrub.max = String(T_END);
+scrub.max = String(TEF());
 
 function ui(){
   scrub.value = cur.toFixed(2);
@@ -1290,19 +1353,19 @@ function ui(){
   stepEl.textContent = performance.now() < markMsgUntil ? markMsg : name;
   playIcon.setAttribute('d', playing ? 'M2 1h3v10H2zM7 1h3v10H7z' : 'M2 1l9 5-9 5z');
   playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Abspielen');
-  again.hidden = cur < T_END;
+  again.hidden = cur < TEF();
 }
 function frame(now){
   if (!playing) return;
-  cur = Math.min(T_END, curAnchor + Math.max(0, now - t0wall) / 1000 * speed);
+  cur = Math.min(TEF(), curAnchor + Math.max(0, now - t0wall) / 1000 * speed);
   render(cur);
-  if (cur >= T_END) playing = false;
+  if (cur >= TEF()) playing = false;
   ui();
   if (playing) raf = requestAnimationFrame(frame);
 }
 function play(from){
   if (from !== undefined) cur = from;
-  if (cur >= T_END) cur = 0;
+  if (cur >= TEF()) cur = 0;
   playing = true;
   anchor();
   cancelAnimationFrame(raf);
@@ -1311,7 +1374,7 @@ function play(from){
 }
 function pause(){ playing = false; cancelAnimationFrame(raf); ui(); }
 function seek(t){
-  cur = Math.max(0, Math.min(T_END, +t || 0));
+  cur = Math.max(0, Math.min(TEF(), +t || 0));
   if (playing) anchor();
   render(cur); ui();
 }
@@ -1325,16 +1388,24 @@ var PKEY = 'cloud.tune.v1', pInputs = {}, pVals = {};
 function pDec(st){ var x = String(st), d = x.indexOf('.'); return d < 0 ? 0 : x.length - d - 1; }
 function pLine(){
   var parts = [];
-  PDEF.forEach(function(d){ if (P[d[0]] !== d[5]) parts.push(d[0] + '=' + String(+P[d[0]].toFixed(2))); });
-  return (parts.length ? parts.join('; ') : 'alles Standard') + '; Ende=' + T_END.toFixed(2);
+  PDEF.forEach(function(d){
+    if (P[d[0]] === d[5]) return;
+    var v = d[0] in DDEF ? filmOf(d[0]) : P[d[0]], g = Math.abs(v * 20 - Math.round(v * 20)) < 1e-6;   // off the 0.05 grid: 3 places
+    parts.push(d[0] + '=' + String(+v.toFixed(d[0] in DDEF && !g ? 3 : 2)));
+  });
+  return (parts.length ? parts.join('; ') : 'alles Standard') + '; Ende=' + TEF().toFixed(2);
 }
 function pShow(){
   PDEF.forEach(function(d){
     var k = d[0], txt = P[k].toFixed(pDec(d[4]));
     if (k === 'riseAcc' && Math.abs(RC.accEff - P.riseAcc) > 0.005) txt += ' (\u2192' + RC.accEff.toFixed(2) + ')';
     if (k === 'riseVmax' && Math.abs(RC.vEff - P.riseVmax) > 0.005) txt += ' (\u2192' + RC.vEff.toFixed(2) + ')';
-    if (k === 'hitLast') txt = PLAN.hit1.toFixed(2);   // always the effective last hit
-    if (pVals[k]) pVals[k].textContent = txt;
+    if (k in DDEF && pVals[k]){
+      // film time large (hitLast: the effective last hit), the set distance small behind it
+      var ft = k === 'hitLast' ? PLAN.hit1 : filmOf(k), dv = P[k];
+      var ds = (dv < 0 ? '\u2212' : '+') + Math.abs(dv).toFixed(2);
+      pVals[k].innerHTML = ft.toFixed(2) + ' s<small>(' + ds + ' nach ' + CPNAME[k] + ')</small>';
+    } else if (pVals[k]) pVals[k].textContent = txt;
     if (pHints[k]) pHintSet(pHints[k], pHintList(k));
     if (pInputs[k] && parseFloat(pInputs[k].value) !== P[k]) pInputs[k].value = String(P[k]);
   });
@@ -1343,16 +1414,14 @@ function pShow(){
 }
 // written-out notes under the timetable sliders (only when they apply; the value on the right keeps the set number)
 var pHints = {};
+var CPNAME = { giveStart: 'der Kamerafahrt', streamShift: 'Geben', hitLast: 'Strahlen', riseFrom: 'Strahlen', camStart: 'Strahlen', topFirst: 'Kamera',
+  topLast: 'Erste oben', fallFirst: 'Erste oben', fallLast: 'Erste fallen' };
 function pHintList(k){
-  var h = [], effV = { topFirst: EFF.a0, topLast: EFF.a1, fallFirst: EFF.f0, fallLast: EFF.f1 }[k], dif = effV !== undefined && Math.abs(effV - P[k]) > 0.005;
+  var h = [], effV = { topFirst: EFF.a0, topLast: EFF.a1, fallFirst: EFF.f0, fallLast: EFF.f1 }[k], dif = effV !== undefined && Math.abs(effV - TT[k]) > 0.005;
+  if (effV !== undefined) effV += GSH;   // shown as film time
   if (k === 'streamShift' && HELD > 0) h.push(HELD === 1 ? '1 Geber startet sp\u00e4ter: erst kommt sein eigenes Paket an' : HELD + ' Geber starten sp\u00e4ter: erst kommt ihr eigenes Paket an');
-  if (k === GROUP_LAST.limit && coupleOn(k)){
-    var dl = PDEF.filter(function(q){ return q[0] === k; })[0];
-    var room = GROUP_LAST.dir < 0 ? P[k] - dl[2] : dl[3] - P[k];     // room left in the direction last tried
-    if (room < 0.05 - 1e-6) h.push('h\u00e4lt die gekoppelte Gruppe: kein ganzer Schritt mehr bis zum Ende seines Bereichs');
-  }
   if (k === 'riseFrom') h.push('Wirkt nur auf Sterne, die vor diesem Zeitpunkt getroffen werden. Alle anderen steigen 0,12 s nach ihrem Treffer.');
-  if (k === 'riseFrom' && P.riseFrom < PLAN.streamHit0) h.push('Vor dem ersten Treffer (' + PLAN.streamHit0.toFixed(2) + ' s) steigt kein Stern: fr\u00fcher geht nur mit fr\u00fcheren Strahlen');
+  if (k === 'riseFrom' && TT.riseFrom + GSH < PLAN.streamHit0) h.push('Vor dem ersten Treffer (' + PLAN.streamHit0.toFixed(2) + ' s) steigt kein Stern: fr\u00fcher geht nur mit fr\u00fcheren Strahlen');
   if (k === 'topFirst' && dif) h.push('gilt als ' + effV.toFixed(2) + ': fr\u00fchestens 0,65 s nach Beginn des Kamera-Kippens');
   if (k === 'topFirst' && TOP_CLAMPED > 0) h.push(TOP_CLAMPED === 1 ? '1 Stern kommt sp\u00e4ter an: ein Aufstieg dauert mindestens 0,35 s' : TOP_CLAMPED + ' Sterne kommen sp\u00e4ter an: ein Aufstieg dauert mindestens 0,35 s');
   if (k === 'topLast' && dif) h.push('gilt als ' + effV.toFixed(2) + ': mindestens 0,2 s nach den Ersten');
@@ -1368,14 +1437,14 @@ function pHintSet(box, list){
 }
 // ---------------------------------------------------------------- timetable picture (HTML bars, below the timetable sliders)
 var planEl = null, planParts = {};
-var PLAN_TA = 3.5;
+var PLAN_TA = 3.0;
 function planX(t){ var tA = PLAN_TA, tB = Math.max(11.0, PLAN.tLand + 0.2); return Math.max(0, Math.min(1, (t - tA) / (tB - tA))); }
 function planPos(el, t0, t1){ var x0 = planX(t0), x1 = planX(t1); el.style.left = 'calc(var(--pl) + (100% - var(--pl)) * ' + x0.toFixed(5) + ')';
   el.style.width = 'calc((100% - var(--pl)) * ' + Math.max(0, x1 - x0).toFixed(5) + ')'; }
 function planBuild(host){
   planEl = document.createElement('div'); planEl.className = 'plan'; planEl.id = 'plan';
   var body = document.createElement('div'); body.className = 'pbody';
-  [['steigen', 'rise'], ['Strahlen', 'stream'], ['Kamera', 'cam'], ['oben an', 'top'], ['fallen', 'fall']].forEach(function(r){
+  [['geben', 'give'], ['steigen', 'rise'], ['Strahlen', 'stream'], ['Kamera', 'cam'], ['oben an', 'top'], ['fallen', 'fall']].forEach(function(r){
     var row = document.createElement('div'); row.className = 'prow2';
     var lab = document.createElement('span'); lab.className = 'plab'; lab.textContent = r[0];
     var bar = document.createElement('span'); bar.className = 'pbar pbar-' + r[1];
@@ -1398,7 +1467,7 @@ function planBuild(host){
 function planNum(x){ return x.toFixed(2).replace('.', ','); }
 function planDraw(){
   if (!planEl) return;
-  planPos(planParts.stream, PLAN.streamDep0, PLAN.streamArr1); planPos(planParts.cam, PLAN.camT1, PLAN.camT2);
+  planPos(planParts.give, PLAN.give0, PLAN.give1); planPos(planParts.stream, PLAN.streamDep0, PLAN.streamArr1); planPos(planParts.cam, PLAN.camT1, PLAN.camT2);
   planPos(planParts.rise, PLAN.riseStart, PLAN.a1); planPos(planParts.top, PLAN.a0, PLAN.a1); planPos(planParts.fall, PLAN.f0, PLAN.f1); planPos(planParts.fall2, PLAN.f1, PLAN.tLand);
   if (PLAN.overlap > 0){ planParts.band.style.display = ''; planPos(planParts.band, PLAN.f0, PLAN.a1); } else planParts.band.style.display = 'none';
   var tA = PLAN_TA, tB = Math.max(11.0, PLAN.tLand + 0.2), k0 = Math.ceil(tA), k1 = Math.floor(tB), st = (k1 - k0 + 1) > 9 ? 2 : 1;
@@ -1414,57 +1483,49 @@ function planHead(){
   var tA = PLAN_TA, tB = Math.max(11.0, PLAN.tLand + 0.2), h = planParts.head;
   if (cur >= tA && cur <= tB){ h.style.display = ''; h.style.left = 'calc(var(--pl) + (100% - var(--pl)) * ' + planX(cur).toFixed(5) + ')'; } else h.style.display = 'none';
 }
-// coupling: ticked timetable sliders move together by the same delta (0.05 s steps); the group stops as a whole at the
-// first range end, the exact defaults keep their remainder (value = old value + delta)
-var PLANKEYS = ['streamShift', 'hitLast', 'riseFrom', 'camStart', 'topFirst', 'topLast', 'fallFirst', 'fallLast'], CKEY = 'cloud.couple.v1', COUPLE = {}, pChecks = {};
-try { (JSON.parse(localStorage.getItem(CKEY) || '[]') || []).forEach(function(k){ if (PLANKEYS.indexOf(k) >= 0) COUPLE[k] = true; }); } catch (e) {}
-function coupleSync(){
-  PLANKEYS.forEach(function(k){ if (pChecks[k]) pChecks[k].checked = !!COUPLE[k]; });
-  try { localStorage.setItem(CKEY, JSON.stringify(PLANKEYS.filter(function(k){ return COUPLE[k]; }))); } catch (e) {}
-  pShow();
-}
-function coupleOn(k){ return !!COUPLE[k] && PLANKEYS.filter(function(x){ return COUPLE[x]; }).length > 1; }
-var GROUP_LAST = { n: 0, limit: null };
-function groupMove(k, n){
-  var grp = PLANKEYS.filter(function(x){ return COUPLE[x]; }), lo = -1e9, hi = 1e9, lk = null, hk = null;
-  grp.forEach(function(x){ var d = PDEF.filter(function(q){ return q[0] === x; })[0];
-    var a = Math.ceil((d[2] - P[x]) * 20 - 1e-6), b = Math.floor((d[3] - P[x]) * 20 + 1e-6);
-    if (a > lo){ lo = a; lk = x; } if (b < hi){ hi = b; hk = x; } });
-  var n0 = n; n = Math.max(lo, Math.min(hi, n));
-  GROUP_LAST = { n: n, asked: n0, dir: n0 < 0 ? -1 : 1, limit: n0 < lo ? lk : n0 > hi ? hk : null };
-  if (n !== 0) grp.forEach(function(x){
-    var d = PDEF.filter(function(q){ return q[0] === x; })[0], v = P[x] + n / 20;
-    if (Math.abs(v - d[5]) < 1e-9) v = d[5];
-    else if (Math.abs(v * 100 - Math.round(v * 100)) < 1e-6) v = Math.round(v * 100) / 100;
-    P[x] = Math.min(d[3], Math.max(d[2], v));
-  });
-  pApply();
-}
 function pApply(){
   riseCurveSet(); rebuild(); capEnsure();
-  try { localStorage.setItem(PKEY, JSON.stringify(P)); } catch (e) {}
+  try { localStorage.setItem(PKEY, JSON.stringify(Object.assign({ _v: 27 }, P))); } catch (e) {}
   render(cur); ui(); pShow();
 }
-function setParams(obj){
+// timetable keys come as film times and are turned into distances in chain order (a key not given keeps its distance)
+function distSet(k, d){
+  var dl = PDEF.filter(function(q){ return q[0] === k; })[0];
+  if (Math.abs(d - DDEF[k]) < 1e-9) d = DDEF[k];
+  else if (Math.abs(d * 20 - Math.round(d * 20)) < 1e-6) d = Math.round(d * 20) / 20;
+  P[k] = Math.min(dl[3], Math.max(dl[2], d));
+}
+function paramsIn(obj){
   PDEF.forEach(function(d){
+    if (d[0] in DDEF) return;
     if (obj && Object.prototype.hasOwnProperty.call(obj, d[0])){
       var v = +obj[d[0]]; if (isFinite(v)) P[d[0]] = Math.min(d[3], Math.max(d[2], v));
     }
   });
-  pApply();
+  CHAIN.forEach(function(c){
+    var k = c[0]; if (!obj || !Object.prototype.hasOwnProperty.call(obj, k)) return;
+    var v = +obj[k]; if (!isFinite(v)) return;
+    chainApply();
+    var dd = v - (c[1] ? filmOf(c[1]) : 3.30);
+    if (Math.abs(dd - DDEF[k]) < 0.00051) dd = DDEF[k];                                     // a rounded default stays the exact default
+    else if (Math.abs(dd * 20 - Math.round(dd * 20)) < 0.0102) dd = Math.round(dd * 20) / 20;   // within the rounding of the line: grid
+    distSet(k, dd);
+  });
+  chainApply();
 }
+function setParams(obj){ paramsIn(obj); pApply(); }
 (function(){
   var prows = document.getElementById('prows'), box = null, secOf = {};
   // sections in film order (the copy line keeps the PDEF order)
   var PGROUPS = [
-    ['Pakete nach innen', 'ab 3,3 s im Film (Standard)', ['inThick', 'inLen']],
-    ['Zentrum', '3,8 bis 7,7 s im Film (Standard)', ['cSize', 'cBright', 'cPulse', 'cHalo', 'cHaloSize']],
-    ['Strahlen nach au\u00dfen', '4,2 bis 7,2 s im Film (Standard)', ['raysOut', 'outThick', 'outLen']],
-    ['Fahrplan: Aufstieg und Regen', '', ['streamShift', 'hitLast', 'riseFrom', 'camStart', 'topFirst', 'topLast', 'fallFirst', 'fallLast']],
+    ['Fahrplan', '', ['giveStart', 'streamShift', 'hitLast', 'riseFrom', 'camStart', 'topFirst', 'topLast', 'fallFirst', 'fallLast']],
+    ['Pakete nach innen', '', ['inThick', 'inLen']],
+    ['Zentrum', '', ['cSize', 'cBright', 'cPulse', 'cHalo', 'cHaloSize']],
+    ['Strahlen nach au\u00dfen', '', ['raysOut', 'outThick', 'outLen']],
     ['Aufstiegskurve', '', ['riseAcc', 'riseVmax'], 'Die Dauer des Aufstiegs steht im Fahrplan. Diese zwei Regler formen nur, wie ein Stern auf dem Weg beschleunigt.'],
-    ['Glocken', 'ab 9,4 s im Film (Standard)', ['bellGloss']]
+    ['Glocken', '', ['bellGloss']]
   ];
-  var secPlan = null;
+  var planHost = null;
   var PBYKEY = {}; PDEF.forEach(function(d){ PBYKEY[d[0]] = d; });
   var PORDER = [];
   PGROUPS.forEach(function(g){
@@ -1474,16 +1535,12 @@ function setParams(obj){
     var hm = document.createElement('span'); hm.className = 'ptime'; hm.textContent = g[1];
     hd.appendChild(ht); hd.appendChild(hm); sec.appendChild(hd); prows.appendChild(sec);
     if (g[3]){ var nt = document.createElement('div'); nt.className = 'pnote'; nt.textContent = g[3]; sec.appendChild(nt); }
-    if (g[2].indexOf('topFirst') >= 0){
-      var cl = document.createElement('div'); cl.className = 'pcouple';
-      var ct = document.createElement('span'); ct.textContent = 'Angekreuzte Regler wandern gemeinsam.';
-      var ca = document.createElement('button'); ca.className = 'ptbtn'; ca.id = 'pcAll'; ca.textContent = 'alle';
-      var cn = document.createElement('button'); cn.className = 'ptbtn'; cn.id = 'pcNone'; cn.textContent = 'keine';
-      ca.addEventListener('click', function(){ PLANKEYS.forEach(function(x){ COUPLE[x] = true; }); coupleSync(); });
-      cn.addEventListener('click', function(){ PLANKEYS.forEach(function(x){ COUPLE[x] = false; }); coupleSync(); });
-      cl.appendChild(ct); cl.appendChild(ca); cl.appendChild(cn); sec.appendChild(cl);
+    if (g[0] === 'Fahrplan'){
+      // the picture right under the heading, then the chain note, then the sliders
+      planHost = document.createElement('div'); sec.appendChild(planHost);
+      var cl = document.createElement('div'); cl.className = 'pchain';
+      cl.textContent = 'Jeder Beginn h\u00e4ngt an dem davor. Verschiebst du einen, wandert alles Sp\u00e4tere mit.'; sec.appendChild(cl);
     }
-    if (g[2].indexOf('topFirst') >= 0) secPlan = sec;
     g[2].forEach(function(k){ secOf[k] = sec; PORDER.push(PBYKEY[k]); });
   });
   PDEF.forEach(function(d){ if (!secOf[d[0]]){ secOf[d[0]] = prows; PORDER.push(d); } });   // safety: nothing gets lost
@@ -1495,28 +1552,15 @@ function setParams(obj){
     var inp = document.createElement('input'); inp.type = 'range'; inp.id = 'p_' + d[0];
     inp.min = String(d[2]); inp.max = String(d[3]); inp.step = String(d[4]); inp.value = String(d[5]);
     var rs = document.createElement('button'); rs.className = 'btn rs'; rs.textContent = '\u21ba'; rs.setAttribute('aria-label', d[1] + ' zur\u00fccksetzen');
-    inp.addEventListener('input', function(){
-      var raw = parseFloat(inp.value);
-      if (coupleOn(d[0])) groupMove(d[0], Math.round((raw - P[d[0]]) * 20));   // the group moves in 0.05 s steps
-      else { P[d[0]] = raw; pApply(); }
-    });
-    inp.addEventListener('keydown', function(e){
-      if (!coupleOn(d[0])) return;
-      var n = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
-      if (!n) return;
-      e.preventDefault(); groupMove(d[0], n);
-    });
+    inp.addEventListener('input', function(){ P[d[0]] = parseFloat(inp.value); pApply(); });
     rs.addEventListener('click', function(){ P[d[0]] = d[5]; pApply(); });
-    if (PLANKEYS.indexOf(d[0]) >= 0){
-      var ck = document.createElement('input'); ck.type = 'checkbox'; ck.className = 'pck'; ck.id = 'pc_' + d[0]; ck.title = 'koppeln'; ck.setAttribute('aria-label', 'koppeln');
-      ck.checked = !!COUPLE[d[0]]; ck.addEventListener('change', function(){ COUPLE[d[0]] = ck.checked; coupleSync(); });
-      var lw = document.createElement('span'); lw.className = 'plabw'; lw.appendChild(ck); lw.appendChild(lab); row.appendChild(lw); pChecks[d[0]] = ck;
-    } else row.appendChild(lab);
+    row.appendChild(lab);
+    if (d[0] in CIND && CIND[d[0]]) row.style.paddingLeft = CIND[d[0]] + 'px';   // who hangs on whom
     row.appendChild(val); row.appendChild(rs); row.appendChild(inp); box.appendChild(row);
     pInputs[d[0]] = inp; pVals[d[0]] = val;
-    if (PLANKEYS.indexOf(d[0]) >= 0){ var hb = document.createElement('div'); hb.className = 'phints'; hb.style.display = 'none'; box.appendChild(hb); pHints[d[0]] = hb; }
+    if (d[0] in DDEF){ var hb = document.createElement('div'); hb.className = 'phints'; hb.style.display = 'none'; if (CIND[d[0]]) hb.style.marginLeft = CIND[d[0]] + 'px'; box.appendChild(hb); pHints[d[0]] = hb; }
   });
-  if (secPlan) planBuild(secPlan);
+  if (planHost) planBuild(planHost);
   document.getElementById('pReset').addEventListener('click', function(){ PDEF.forEach(function(d){ P[d[0]] = d[5]; }); pApply(); });
   document.getElementById('pCopy').addEventListener('click', function(){
     var txt = pLine();
@@ -1524,21 +1568,31 @@ function setParams(obj){
   });
   var saved = null;
   try { saved = JSON.parse(localStorage.getItem(PKEY) || 'null'); } catch (e) { saved = null; }
+  try { localStorage.removeItem('cloud.couple.v1'); } catch (e) {}   // the coupling of round 26 is gone
   if (saved && typeof saved === 'object'){
-    PDEF.forEach(function(d){ var v = +saved[d[0]]; if (d[0] in saved && isFinite(v)) P[d[0]] = Math.min(d[3], Math.max(d[2], v)); });
-    // older versions stored topSpan / topDwell: topSpan becomes the first arrival, topDwell is dropped
-    var oSp = +saved.topSpan;
-    if (!('topFirst' in saved) && 'topSpan' in saved && isFinite(oSp) && oSp !== 0.7)
-      P.topFirst = Math.min(8.40, Math.max(6.85, LT1_ - oSp / 0.70 * (LT1_ - LT0_)));
+    if (saved._v === 27){
+      PDEF.forEach(function(d){ var v = +saved[d[0]]; if (d[0] in saved && isFinite(v)) P[d[0]] = Math.min(d[3], Math.max(d[2], v)); });
+      chainApply();
+    } else {
+      // older versions stored absolute times (giving at 3.30): every timetable time is kept, missing ones are the old defaults
+      var old = {}; for (var ko in saved) old[ko] = saved[ko];
+      var oSp = +saved.topSpan;   // even older: topSpan becomes the first arrival, topDwell is dropped
+      if (!('topFirst' in saved) && 'topSpan' in saved && isFinite(oSp) && oSp !== 0.7)
+        old.topFirst = Math.min(8.40, Math.max(6.85, LT1_ - oSp / 0.70 * (LT1_ - LT0_)));
+      for (var kt in TDEF) if (!(kt in old) || !isFinite(+old[kt])) old[kt] = TDEF[kt];
+      paramsIn(old);
+    }
     riseCurveSet(); rebuild(); capEnsure();
   }
   pShow();
 })();
-Object.defineProperty(window.__cloud, 'params', { get: function(){ var o = {}; for (var k in P) o[k] = P[k]; return o; } });
+Object.defineProperty(window.__cloud, 'params', { get: function(){ var o = {}; for (var k in P) o[k] = k in DDEF ? filmOf(k) : P[k]; return o; } });
+Object.defineProperty(window.__cloud, 'dist', { get: function(){ var o = {}; for (var k in DDEF) o[k] = P[k]; return o; } });
 window.__cloud.setParams = setParams;
-Object.defineProperty(window.__cloud, 'plan', { get: function(){ var o = {}; for (var k in PLAN) o[k] = PLAN[k]; o.eff = { a0: EFF.a0, a1: EFF.a1, f0: EFF.f0, f1: EFF.f1 }; o.clamped = TOP_CLAMPED; o.noWait = NOWAIT; return o; } });
+window.__cloud.setDist = function(o){ for (var k in o) if (k in DDEF) distSet(k, +o[k]); chainApply(); pApply(); };
+window.__cloud.spinNow = function(){ return spinA(warpC(cur)); };
+Object.defineProperty(window.__cloud, 'plan', { get: function(){ var o = {}; for (var k in PLAN) o[k] = PLAN[k]; o.eff = { a0: EFF.a0 + GSH, a1: EFF.a1 + GSH, f0: EFF.f0 + GSH, f1: EFF.f1 + GSH }; o.clamped = TOP_CLAMPED; o.noWait = NOWAIT; return o; } });
 Object.defineProperty(window.__cloud, 'cen', { get: function(){ return Object.assign({}, CEN); } });
-Object.defineProperty(window.__cloud, 'couple', { get: function(){ return { on: PLANKEYS.filter(function(k){ return COUPLE[k]; }), last: GROUP_LAST }; } });
 window.__cloud.riseP = riseP;
 window.__cloud.riseInfo = function(){ return { up: RC.up, v: RC.v, k: RC.k, accEff: RC.accEff, vEff: RC.vEff,
   clamped: !RC.def && (Math.abs(RC.accEff - P.riseAcc) > 0.005 || Math.abs(RC.vEff - P.riseVmax) > 0.005) }; };
@@ -1556,13 +1610,13 @@ again.addEventListener('click', function(){ play(0); });
 stage.addEventListener('click', function(){ play(0); });
 // marks 1..9 on the timeline: Shift + digit sets (or removes, within 0.02 s), digit jumps. Stored per viewer.
 var MKEY = 'cloud.marks.v1', marks = {}, marksEl = document.getElementById('marks');
-try { var mSaved = JSON.parse(localStorage.getItem(MKEY) || 'null'); if (mSaved && typeof mSaved === 'object') for (var mk0 in mSaved) if (/^[1-9]$/.test(mk0) && isFinite(+mSaved[mk0])) marks[mk0] = Math.max(0, Math.min(T_END, +mSaved[mk0])); } catch (er) {}
+try { var mSaved = JSON.parse(localStorage.getItem(MKEY) || 'null'); if (mSaved && typeof mSaved === 'object') for (var mk0 in mSaved) if (/^[1-9]$/.test(mk0) && isFinite(+mSaved[mk0])) marks[mk0] = Math.max(0, Math.min(TEF(), +mSaved[mk0])); } catch (er) {}
 function marksSave(){ try { localStorage.setItem(MKEY, JSON.stringify(marks)); } catch (er) {} }
 function marksDraw(){
   marksEl.textContent = '';
   Object.keys(marks).sort().forEach(function(k){
     var m = document.createElement('span'); m.className = 'mark'; m.textContent = k; m.dataset.t = String(marks[k]);
-    var fr = Math.min(marks[k], T_END) / T_END;   // marks behind a shorter film stay stored, shown at the end
+    var fr = Math.min(marks[k], TEF()) / TEF();   // marks behind a shorter film stay stored, shown at the end
     m.style.left = 'calc(var(--th) + (100% - 2 * var(--th)) * ' + fr.toFixed(5) + ')';
     marksEl.appendChild(m);
   });
@@ -1624,7 +1678,7 @@ var qt = new URLSearchParams(location.search).get('t');
 var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 resize();
 if (qt !== null && !isNaN(parseFloat(qt))) seek(parseFloat(qt));
-else if (reduce) seek(T_END);
+else if (reduce) seek(TEF());
 else play(0);
 })();
 </script>
