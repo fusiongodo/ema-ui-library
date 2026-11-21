@@ -122,10 +122,12 @@ section{scroll-margin-top:56px}
 .slider .was{font-size:11px;text-decoration:none;color:var(--muted)}
 .slider .tr{position:relative;height:26px;touch-action:pan-y;-webkit-user-select:none;user-select:none;outline:0}
 .slider .rail{position:absolute;left:10px;right:10px;top:50%;height:4px;margin-top:-2px;border-radius:2px;background:var(--grey)}
-.slider .fill{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:#cfcfcf}
-.slider .knob{position:absolute;top:50%;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.18)}
-.slider .last{position:absolute;top:-5px;width:2px;height:14px;margin-left:-1px;border-radius:1px;background:#b5b5b5;display:none}
+.slider .fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p,0) * 100%);border-radius:2px;background:#cfcfcf}
+.slider .knob{position:absolute;top:50%;left:calc(var(--p,0) * 100%);width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.18)}
+.slider .last{position:absolute;top:-5px;left:calc(var(--lp,0) * 100%);width:2px;height:14px;margin-left:-1px;border-radius:1px;background:#b5b5b5;display:none}
 .slider .ends{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+/* parts only the pill slider (Studio, Cozy: themes.css) draws: "/max" after the value, the step dots; .vx / .vn group the value line */
+.slider .vx,.slider .vn{display:contents} .slider .mx,.slider .dots{display:none}
 .slider.moved .v{color:var(--ink)} .slider.moved .v b{font-weight:700}
 .slider.moved .fill{background:var(--ink)} .slider.moved .last{display:block}
 /* an untouched slider steps back: its name and value slightly greyed too (≈ 4.7:1 on white); touched, both come forward */

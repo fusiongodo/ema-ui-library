@@ -210,6 +210,22 @@ REFERENCE = {
         "handle": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"}, # terracotta
         "tile_icon_width": 0.60,                 # whole magnifier width / tile width
     },
+    "word-game": {
+        "tile": "#F1E2B3",                       # butter yellow
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # letter tiles
+        "letters": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"},  # terracotta
+        "dots": {"mid": "#BDB4A8"},              # score dots, off by default (CLAY_WG_DOTS=1)
+        "tile_icon_width": 0.74,                 # group width / tile width (brief 0.60 read too small: short, wide group)
+    },
+    "arithmetic": {
+        "tile": "#A9C6E8",                       # soft blue
+        "cream": {"lit": "#F3EEE8", "mid": "#E3DED8", "shadow": "#C2BAB1"},  # plate
+        "coral": {"lit": "#F09A88", "mid": "#E98A78", "shadow": "#DB8270"},  # plus
+        "lilac": {"lit": "#CDBBDD", "mid": "#AE9DC2", "shadow": "#8C7DA3"},  # minus
+        "mint": {"lit": "#9ED6B4", "mid": "#7CC39A", "shadow": "#5E9F7B"},   # times
+        "terracotta": {"lit": "#DFC0AE", "mid": "#BA8E73", "shadow": "#9B6E57"},  # equals
+        "tile_icon_width": 0.56,                 # plate width / tile width
+    },
 }
 
 

@@ -200,15 +200,9 @@
 .frame[data-theme="cozy"] .stage :is(.btn,.circle,.chip,.pills span,.seg span,.sec .act,.side.g,.choice > div,.tile[data-go],.tile.cta,.fold,.list .item[data-go],.mic,.tabs > span,.tabs .fab,.draft,.field[data-go],.rv.cmp[data-go]):active{
   transform:scale(.96);transition-duration:.08s;transition-timing-function:ease-out}
 
-/* ---------- slider ---------- */
-.frame[data-theme="cozy"] .stage .slider{padding:14px var(--pad) 12px}
-.frame[data-theme="cozy"] .stage .slider .rail{height:8px;margin-top:-4px;border-radius:4px;background:var(--cz-light)}
-.frame[data-theme="cozy"] .stage .slider .fill{border-radius:4px;background:rgb(var(--cz-dark-rgb) / .22)}
-.frame[data-theme="cozy"] .stage .slider.moved .fill{background:var(--cz-dark)}
-.frame[data-theme="cozy"] .stage .slider .v b{font-weight:600}
-.frame[data-theme="cozy"] .stage .slider.moved .v b{color:var(--cz-dark)}
-.frame[data-theme="cozy"] .stage .slider .knob:after{box-shadow:0 0 0 1px rgb(var(--cz-dark-rgb) / .08),0 4px 12px rgb(var(--cz-dark-rgb) / .28)}
-.frame[data-theme="cozy"] .stage .slider .ends{font-weight:600}
+/* ---------- slider: the pill slider (lib/themes.css) on a white card, track = the area's light tone, fill = its dark tone ---------- */
+.frame[data-theme="cozy"] .stage .slider{--sl-fill:var(--cz-dark);--sl-fill-rgb:var(--cz-dark-rgb);--sl-track:var(--cz-light)}
+.frame[data-theme="cozy"] .stage .slider .vn{font-family:var(--round)}
 
 /* ---------- score curves (Today): line in the dark world colour, soft area, today's point emphasised ---------- */
 .frame[data-theme="cozy"] .stage .spark{padding:6px 0;align-items:center}

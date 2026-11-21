@@ -258,17 +258,9 @@
 .frame[data-theme="studio"] .stage .rv ~ .mic > .cz-g{width:36px;height:36px}
 .frame[data-theme="studio"] .stage .mic + .note[data-go]{color:var(--ink);font-weight:600}
 
-/* ---------- slider: grouped grey card, the area colour in the fill ---------- */
-.frame[data-theme="studio"] .stage .slider{padding:16px var(--pad) 12px;background:var(--st-card)}
+/* ---------- slider: the pill slider (lib/themes.css) on a grouped grey card, the area colour in the fill ---------- */
+.frame[data-theme="studio"] .stage .slider{--sl-fill:var(--st-fill);--sl-fill-rgb:var(--st-fill-rgb);--sl-track:#E8E7E3;background:var(--st-card)}
 .frame[data-theme="studio"] .stage .slider + .slider:before{background:rgba(20,20,22,.06)}
-.frame[data-theme="studio"] .stage .slider .st .l{font-weight:600}
-.frame[data-theme="studio"] .stage .slider .v b{font-weight:700;letter-spacing:-.02em}
-.frame[data-theme="studio"] .stage .slider .rail{height:6px;margin-top:-3px;border-radius:3px;background:#E2E1DD}
-.frame[data-theme="studio"] .stage .slider .fill{border-radius:3px;background:rgb(var(--st-fill-rgb) / .38)}
-.frame[data-theme="studio"] .stage .slider.moved .fill{background:var(--st-fill)}
-.frame[data-theme="studio"] .stage .slider .last{background:rgba(20,20,22,.35)}
-.frame[data-theme="studio"] .stage .slider .knob:after{box-shadow:0 0 0 .5px rgba(20,20,22,.06),0 3px 10px rgba(20,20,22,.16)}
-.frame[data-theme="studio"] .stage .slider .ends{color:var(--muted)}
 .frame[data-theme="studio"] .stage .slider .hq{color:var(--muted)}
 
 /* ---------- bars and score curves ---------- */
