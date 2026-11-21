@@ -19,15 +19,15 @@ import { STAT_EMBLEMS } from "../glyphs/stat-emblems.mjs";
 const LAB = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(LAB, "..", "lib", "clay-icons.js");
 
-/* largest size in Studio (px): 44 = card-head tile, 54 = choice tile ("One item"), 52 = detail head (health/steps) */
+/* largest size in Studio (px): 52 = card-head tile, 62 = choice tile ("One item"), 60 = Health measures (kept sharp at the detail head) */
 const CLAY = {
-  "protocol-pill": 54, "protocol-injection": 44, "log-scores": 44, "checkin-chat": 44, "wellbeing": 44,
-  "pain": 44, "sleep": 44, "steps": 52, "calendar": 44, "guide": 44,
-  "scores": 44, "dual-n-back": 44, "reaction": 44, "ask": 44,
-  "word-game": 44, "arithmetic": 44,
-  "morning": 44, "noon": 44, "evening": 44, "fatigue": 44, "thirst": 44,
-  "resting-heart": 52, "hrv": 52, "finding": 44, "flask": 44,
-  "protocols-folder": 44, "protocol-capsule": 44, "protocol-softgel": 44, "protocol-group": 44,
+  "protocol-pill": 62, "protocol-injection": 52, "log-scores": 52, "checkin-chat": 52, "wellbeing": 52,
+  "pain": 52, "sleep": 52, "steps": 60, "calendar": 52, "guide": 52,
+  "scores": 52, "dual-n-back": 52, "reaction": 52, "ask": 52,
+  "word-game": 52, "arithmetic": 52,
+  "morning": 52, "noon": 52, "evening": 52, "fatigue": 52, "thirst": 52,
+  "resting-heart": 60, "hrv": 60, "finding": 52, "flask": 52,
+  "protocols-folder": 52, "protocol-capsule": 52, "protocol-softgel": 52, "protocol-group": 52,
 };
 /* a render other than <id>-on-tile.png: the approved variant (B for the three times of day) */
 const FILE = { "morning": "morning-on-tile-b.png", "noon": "noon-on-tile-b.png", "evening": "evening-on-tile-b.png",

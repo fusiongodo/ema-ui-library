@@ -182,36 +182,36 @@
 /* ---------- icon tile: a pastel rounded square in the colour of its area, a light, soft, dimensional icon ----------
    The tile has a gentle top-left highlight and a soft lower edge; the icon's closed shapes (Cozy's soft fills) become
    white bodies, its lines take the deep area colour, and the whole icon floats on a small soft shadow. */
-.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot){flex:none;display:inline-grid;place-items:center;width:44px;height:44px;border:0;border-radius:16px;font-style:normal;
+.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot){flex:none;display:inline-grid;place-items:center;width:52px;height:52px;border:0;border-radius:19px;font-style:normal;
   background:radial-gradient(130% 110% at 28% 12%,var(--st-tile-hi) 0%,var(--st-tile) 52%,var(--st-tile-lo) 100%);
   box-shadow:inset 0 1px 1px rgba(255,255,255,.75),inset 0 -2px 4px rgb(var(--st-ink-rgb) / .08),0 1px 2px rgb(var(--st-ink-rgb) / .06);
   color:rgb(var(--st-ink-rgb) / .62)}
-.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot) svg{width:26px;height:26px;display:block;overflow:visible;
+.frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot) svg{width:31px;height:31px;display:block;overflow:visible;
   filter:drop-shadow(0 1.8px 1.6px rgb(var(--st-ink-rgb) / .26))}
 .frame[data-theme="studio"] .stage :is(.cz-ic,.tl.ic .tlr .dot) svg :is([fill-opacity],rect){fill:#fff;fill-opacity:1}
 .frame[data-theme="studio"] .stage .cz-ic-b{display:grid;margin-bottom:14px}
-.frame[data-theme="studio"] .stage .choice .cz-ic-b{width:54px;height:54px;border-radius:18px;margin-bottom:14px}
-.frame[data-theme="studio"] .stage .choice .cz-ic-b svg{width:31px;height:31px}
+.frame[data-theme="studio"] .stage .choice .cz-ic-b{width:62px;height:62px;border-radius:22px;margin-bottom:14px}
+.frame[data-theme="studio"] .stage .choice .cz-ic-b svg{width:36px;height:36px}
 /* clay tile (lib/clay-icons.js, cozy.js studio pass): the render brings its own tile and colours, kept as rendered (no gradient,
    no shadow); the Studio tile it replaces only gives size and corner radius, which mask it */
 .frame[data-theme="studio"] .stage .cz-ic.cz-clay{background:none;box-shadow:none;overflow:hidden}
 .frame[data-theme="studio"] .stage .cz-clay img{display:block;width:100%;height:100%;border-radius:inherit}
 /* statistical emblem on a pattern card (cozy.js studio pass, icon-lab/glyphs/stat-emblems.mjs): thin technical lines as in the
    sketch, in one of three styles, picked by data-emblem on the frame (Play bar "Emblems", lib/play.js; a when unset). The tile
-   carries all three SVGs and shows one. a: a small white tile (56, radius 14, 0.5 px border, no shadow, no gradient), the
-   drawing at 46 px with one pink accent. b: no tile, the drawing at 54 px, grey only. c: the white tile, grey only, the finding
-   filled solid. Every pattern card's icon column is 56 wide, so the text starts at the same x on all cards; a 44 tile
+   carries all three SVGs and shows one. a: a small white tile (64, radius 16, 0.5 px border, no shadow, no gradient), the
+   drawing at 53 px with one pink accent. b: no tile, the drawing at 62 px, grey only. c: the white tile, grey only, the finding
+   filled solid. Every pattern card's icon column is 64 wide, so the text starts at the same x on all cards; a 52 tile
    (evaluation, clay) sits centred in it */
-.frame[data-theme="studio"] .stage .pa:not(.big){grid-template-columns:56px minmax(0,1fr) 14px}
+.frame[data-theme="studio"] .stage .pa:not(.big){grid-template-columns:64px minmax(0,1fr) 14px}
 .frame[data-theme="studio"] .stage .pa > .pa-ic{justify-self:center}
-.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em{width:56px;height:56px;box-sizing:border-box;border-radius:14px;
+.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em{width:64px;height:64px;box-sizing:border-box;border-radius:16px;
   background:#fff;border:.5px solid #E2DFDA;box-shadow:none}   /* outranks the tile rule's :is() */
 .frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em{background:none;border-color:transparent}
-.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{display:none;width:46px;height:46px;filter:none}
+.frame[data-theme="studio"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{display:none;width:53px;height:53px;filter:none}
 .frame[data-theme="studio"]:not([data-emblem="b"],[data-emblem="c"]) .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="a"],
 .frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="b"],
 .frame[data-theme="studio"][data-emblem="c"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg[data-v="c"]{display:block}
-.frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{width:54px;height:54px}
+.frame[data-theme="studio"][data-emblem="b"] .stage .pa:not(.big) > .cz-ic.pa-ic.st-em > svg{width:62px;height:62px}
 /* data strip under a pattern's sentence (cozy.js studio pass, stat on the pattern): a hairline, then the effect size big with
    its label beside a small chart (150 × 44), then n and a three-step confidence meter, which replace the n line and the
    "likely" pill. Numbers and small labels in the rounded face with tabular figures, the labels small and uppercase.
@@ -259,11 +259,14 @@
 .frame[data-theme="studio"] .stage .st-bighead > .cz-ic-h{grid-area:ic}
 .frame[data-theme="studio"] .stage .st-bighead > b{grid-area:b;align-self:end}
 .frame[data-theme="studio"] .stage .st-bighead > .n{grid-area:n;align-self:start}
-/* All protocols rows (cozy.js studio pass): clay tile or empty slot, name, strip, chevron, the same columns in every row */
-.frame[data-theme="studio"] .stage .plr:has(> :is(.cz-clay,.cz-slot)){grid-template-columns:40px minmax(0,1fr) auto 12px;column-gap:12px}
-.frame[data-theme="studio"] .stage .plr > .cz-ic.cz-clay{width:40px;height:40px;border-radius:14px}
-.frame[data-theme="studio"] .stage .plr > .cz-slot{width:40px}
+/* All protocols rows (cozy.js studio pass): clay tile or empty slot, name, strip, chevron, the same columns in every row.
+   An item inside a group: a smaller tile (40), the row indented so that tile starts where the group's name starts (48 + 12) */
+.frame[data-theme="studio"] .stage .plr:has(> :is(.cz-clay,.cz-slot)){grid-template-columns:48px minmax(0,1fr) auto 12px;column-gap:12px}
+.frame[data-theme="studio"] .stage .plr > .cz-ic.cz-clay{width:48px;height:48px;border-radius:17px}
+.frame[data-theme="studio"] .stage .plr > .cz-slot{width:48px}
 .frame[data-theme="studio"] .stage .pk .plr:has(> .cz-clay){padding-left:0}   /* ended protocols: their tile in the tile column */
+.frame[data-theme="studio"] .stage .pk .plr:has(> .cz-ic-k){grid-template-columns:40px minmax(0,1fr) auto 12px;margin-left:60px;padding-left:0}   /* the separators indent with it */
+.frame[data-theme="studio"] .stage .plr > .cz-ic.cz-clay.cz-ic-k{width:40px;height:40px;border-radius:14px}
 .frame[data-theme="studio"] .stage .plr > .cz-clay.st-ended{opacity:.5}
 /* intake calendar head (cozy.js studio pass): calendar tile, "Intake", the span muted; the section heading it repeats hides */
 .frame[data-theme="studio"] .stage .st-calh{display:flex;align-items:center;gap:12px;margin:4px 0 12px}
@@ -273,8 +276,8 @@
 /* "View all trends" under the trends grid: a card row, the Insights square with its glyph, then the label */
 .frame[data-theme="studio"] .stage .st-trends{display:flex;align-items:center;gap:14px;padding:12px 20px 12px 12px;border-radius:24px;background:var(--st-card);
   color:#2E2C34;font-size:17px;font-weight:600;cursor:pointer}
-.frame[data-theme="studio"] .stage .st-sq{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:13px;background:var(--st-tile);color:#2E2C34;font-style:normal}
-.frame[data-theme="studio"] .stage .st-sq svg{display:block;width:24px;height:24px}
+.frame[data-theme="studio"] .stage .st-sq{flex:none;display:grid;place-items:center;width:56px;height:56px;border-radius:15px;background:var(--st-tile);color:#2E2C34;font-style:normal}
+.frame[data-theme="studio"] .stage .st-sq svg{display:block;width:28px;height:28px}
 .frame[data-theme="studio"] .stage .st-trends .r{margin-left:auto;color:var(--muted);font-weight:400}   /* the › of a list row (Benchmarks) */
 /* inline icon (replaces an emoji glyph in running text) */
 .frame[data-theme="studio"] .stage .cz-g{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;font-style:normal;color:var(--st-ink)}
@@ -291,7 +294,7 @@
 .frame[data-theme="studio"] .stage .cz-fold .ft .m:empty{display:none}
 .frame[data-theme="studio"] .stage .cz-fold .ft .pill{grid-area:a}
 .frame[data-theme="studio"] .stage .cz-fold .ft .cv{grid-area:cv;width:16px;text-align:center;color:var(--muted);font-weight:600}
-.frame[data-theme="studio"] .stage .cz-fold .item{margin-left:58px}
+.frame[data-theme="studio"] .stage .cz-fold .item{margin-left:66px}
 .frame[data-theme="studio"] .stage .cz-fold .item:first-of-type{border-top-color:transparent}
 .frame[data-theme="studio"] .stage .pill{background:var(--st-chip);color:var(--ink);font-weight:600}
 .frame[data-theme="studio"] .stage .fold .item[data-go]{justify-content:flex-start}
@@ -475,6 +478,8 @@
 .frame[data-theme="studio"] .stage .ds-n{color:var(--ink)}
 .frame[data-theme="studio"] .stage .tlr .dot{background:var(--th-bottom);border-color:rgba(20,20,22,.3)}
 .frame[data-theme="studio"] .stage .tlr .rail:after{border-left-color:rgba(20,20,22,.1)}
+.frame[data-theme="studio"] .stage .tl.ic .tlr{grid-template-columns:52px 1fr 16px}   /* a picture timeline: the column fits the 52 tile */
+.frame[data-theme="studio"] .stage .tl.ic .tlr .rail:after{top:56px}
 .frame[data-theme="studio"] .stage .tlr :is(.n,.s){color:var(--muted)}
 /* info icon and explanation cards (trial terms, guide) */
 .frame[data-theme="studio"] .stage .inf{color:var(--muted)}
@@ -525,8 +530,8 @@
 .frame[data-theme="studio"] .stage .rv-q .cz-g{width:15px;height:15px;margin-right:5px;vertical-align:-2px;color:#2F7F7C}   /* heard: a small teal mic */
 .frame[data-theme="studio"] .stage .rv-r.rv-unsure .rv-v{font-weight:600;color:var(--muted);background:#fff;border:1.5px dashed rgba(20,20,22,.22)}
 .frame[data-theme="studio"] .stage .rv .pills span{background:#fff}
-.frame[data-theme="studio"] .stage .rv-h > .cz-ic{width:42px;height:42px;border-radius:15px}
-.frame[data-theme="studio"] .stage .rv-h > .cz-ic svg{width:24px;height:24px}
+.frame[data-theme="studio"] .stage .rv-h > .cz-ic{width:48px;height:48px;border-radius:17px}
+.frame[data-theme="studio"] .stage .rv-h > .cz-ic svg{width:28px;height:28px}
 /* compact (listening layer): title + one line, the icon tile carries the area */
 .frame[data-theme="studio"] .stage .rv.cmp{padding:14px 16px;border-radius:24px}
 .frame[data-theme="studio"] .stage .rv.cmp .rv-h{padding:0}
