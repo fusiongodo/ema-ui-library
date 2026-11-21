@@ -325,6 +325,12 @@ When the icons are taken up again with Blender or another program (the clay look
 - **Alex on round 3:** flask and battery very good. He wondered whether all tiles should share one, more neutral colour, or a more minimal look, maybe as in Wire; not decided, to be compared side by side.
 
 **Open:**
+- **Protocol tablet: new orientation (Alex, 21 Nov 2026).** Keep the clay tablet exactly as in the reference, but lying flat and seen from slightly above, with the score line running at a slant, as in the rough sketch of 21 Nov.
+  - The sketch is the tablet tile in the capsule and group sketches.
+  - It is a decision; it needs no further discussion.
+- **Kinds of protocol, each with its own tile (Alex, 21 Nov 2026):** a medication is the tablet (Naltrexon), a supplement is a capsule (Taurine), an injection keeps the injection tile, and a group (Morning supplements) needs its own tile.
+  - For the capsule, the two-tone capsule and the amber softgel both please him.
+  - For the group, the dish, the stack and the bundle are rejected. The pill-box cell is close, but it still looks like a lunch box. Gather good examples online before drawing again.
 - Empty-state illustration, the companion, control glyphs.
 - Detail heads for resting heart rate and HRV once those screens exist.
 - The references are another app's artwork: never ship them, remove them before the repository becomes public.
